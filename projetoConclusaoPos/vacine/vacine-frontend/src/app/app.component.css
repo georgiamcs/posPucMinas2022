@@ -1,0 +1,21 @@
+
+app-cabecalho {
+  grid-area: cabecalho;
+}
+
+app-conteudo{
+  grid-area: principal;
+}
+
+app-menu {
+  grid-area: menulateral;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 2fr 10fr;
+  grid-template-areas:
+    "cabecalho principal"
+    "menulateral principal"
+}

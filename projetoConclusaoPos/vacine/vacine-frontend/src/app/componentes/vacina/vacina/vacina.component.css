@@ -1,0 +1,14 @@
+#cNome {
+  grid-area: nome;
+}
+
+#cProtecaoContra {
+  grid-area: protecao;
+}
+
+.crud-grid {
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "nome"
+  "protecao";
+}
