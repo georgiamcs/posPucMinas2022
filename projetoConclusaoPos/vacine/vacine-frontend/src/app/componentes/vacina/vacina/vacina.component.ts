@@ -8,7 +8,7 @@ import { ModoFormulario } from 'src/app/shared/enums/modo-formulario-enum';
 @Component({
   selector: 'app-vacina',
   templateUrl: './vacina.component.html',
-  styleUrls: ['./vacina.component.css'],
+  styleUrls: ['./vacina.component.scss'],
 })
 export class VacinaComponent {
   modoFormulario: ModoFormulario = ModoFormulario.INICIAL;
