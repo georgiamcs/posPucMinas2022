@@ -1,0 +1,69 @@
+<div class="tab-grid">
+  <h1>Cadastro de Vacinas</h1>
+  <div class="crud-grid">
+    <form>
+      <div>
+        <mat-form-field id="fNome" class="me-3">
+          <mat-label id="lbNome">Nome</mat-label>
+          <input id="inNome" name="nome" matInput type="text" [(ngModel)]="vacina.nome" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field id="fProtecaoContra" class="me-3">
+          <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
+          <input
+            id="inProtecaoContra"
+            name="protecaoContra"
+            matInput
+            type="text"
+            [(ngModel)]="vacina.protecaoContra"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field id="fComposicao" class="me-3">
+          <mat-label id="lbComposicao">Composição</mat-label>
+          <input
+            id="inComposicao"
+            name="composicao"
+            matInput
+            type="text"
+            [(ngModel)]="vacina.composicao"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-checkbox
+          id="fTemIdadeRecomendada"
+          name="temIdadeRecomendada"
+          checked="vacina.temIdadeRecomendada"
+          >Tem idade recomendada</mat-checkbox
+        >
+      </div>
+      <div>
+        <label id="lbTipoIdadeRecomedada">Tipo de idade de recomendada</label>
+        <mat-radio-group aria-labelledby="lbTipoIdadeRecomedada">
+          <mat-radio-button *ngFor="let tipo of tiposIdadeRecomendada">
+            {{ tipo.nome }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
+        <mat-form-field class="me-3">
+          <mat-label id="lbIdadeRecomendada">Idade recomendada</mat-label>
+          <input
+            id="inIdadeRecomendada"
+            name="idadeRecomendada"
+            matInput
+            type="number"
+             [(ngModel)]="vacina.vlIdadeRecomemendada"
+          />
+        </mat-form-field>
+      </div>
+      <div >
+        <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+        <button mat-raised-button (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
