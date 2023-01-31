@@ -16,20 +16,19 @@ import {
   styleUrls: ['./crud-vacina.component.scss'],
 })
 export class CrudVacinaComponent {
-  @Input() vacina: Vacina;
+  vacina: Vacina;
 
   modoFormulario: ModoFormulario = ModoFormulario.INICIAL;
   tiposIdadeRecomendada: DominioCodigoRotulo[];
 
   constructor() {
     this.vacina = new Vacina();
-
-    // this.vacina.nome = 'Novissima vacina';
-    // this.vacina.protecaoContra = 'Proteção contra da vacina';
-    // this.vacina.composicao = 'Composição da vacina';
-    // this.vacina.temIdadeRecomendada = false;
-    // this.vacina.tipoIdadeRecomendada = 'A';
-    // this.vacina.vlIdadeRecomemendada = 2;
+    this.vacina.nome = 'Novissima vacina';
+    this.vacina.protecaoContra = 'Proteção contra da vacina';
+    this.vacina.composicao = 'Composição da vacina';
+    this.vacina.temIdadeRecomendada = false;
+    this.vacina.tipoIdadeRecomendada = 'A';
+    this.vacina.vlIdadeRecomemendada = 2;
 
     this.tiposIdadeRecomendada = mapearDominio(DominioIdadeRecomendada);
   }

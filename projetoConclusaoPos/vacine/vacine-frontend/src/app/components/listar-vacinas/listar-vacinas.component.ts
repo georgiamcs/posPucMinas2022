@@ -8,15 +8,15 @@ import { Vacina } from 'src/app/shared/models/vacina.model';
 })
 export class ListarVacinasComponent {
   vacinas: Vacina[] = [
-    {
-      id: '1',
-      nome: 'teste',
-      composicao: 'nova composição',
-      protecaoContra: 'rubeola',
-      temIdadeRecomendada: true,
-      tipoIdadeRecomendada: 'A',
-      vlIdadeRecomemendada: 5,
-    },
+  //   {
+  //     id: '1',
+  //     nome: 'teste',
+  //     composicao: 'nova composição',
+  //     protecaoContra: 'rubeola',
+  //     temIdadeRecomendada: true,
+  //     tipoIdadeRecomendada: 'A',
+  //     vlIdadeRecomemendada: 5,
+  //   },
   ];
 
   displayedColumns: string[] = ['id', 'nome', 'vlIdadeRecomemendada', 'acoes'];

@@ -4,7 +4,7 @@
     Adicionar Vacina
   </button>
 </div>
-<table mat-table [dataSource]="vacinas">
+<table *ngIf="vacinas.length > 0, else semRegistros" mat-table [dataSource]="vacinas">
   <!-- Coluna ID -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -41,3 +41,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<ng-template #semRegistros>
+    <app-sem-registros></app-sem-registros>
+</ng-template>

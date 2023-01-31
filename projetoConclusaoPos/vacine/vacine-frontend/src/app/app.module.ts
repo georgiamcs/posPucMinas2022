@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ConteudoPrincipalComponent,
     CrudVacinaComponent,
     ListarVacinasComponent,
+    SemRegistrosComponent,
   ],
   imports: [
     BrowserModule,
