@@ -12,10 +12,10 @@ export class Vacina {
   protecaoContra: String;
   composicao: String;
   temIdadeRecomendada: Boolean;
-  tipoIdadeRecomendada: TipoIdadeRecomendada;
-  vlIdadeRecomemendada: Number;
-  dataInclusao: Date;
-  dataAlteracao: Date;
+  tipoIdadeRecomendada?: TipoIdadeRecomendada;
+  vlIdadeRecomemendada?: Number;
+  dataInclusao?: Date;
+  dataAlteracao?: Date;
 }
 /*
 */

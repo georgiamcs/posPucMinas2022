@@ -3,18 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+
+import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
+import { MenuComponent } from './pages/menu/menu.component';
+import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
+import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
+import { ListarVacinasComponent } from './components/listar-vacinas/listar-vacinas.component';
 
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-
-import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
-import { MenuComponent } from './pages/menu/menu.component';
-import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
-import { VacinaComponent } from './components/vacina/vacina.component';
-import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -22,18 +26,22 @@ import { FormsModule } from '@angular/forms';
     CabecalhoComponent,
     MenuComponent,
     ConteudoPrincipalComponent,
-    VacinaComponent,
+    CrudVacinaComponent,
+    ListarVacinasComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatCheckboxModule,
     MatRadioModule,
     MatButtonModule,
-    FormsModule
+    MatTableModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

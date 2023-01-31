@@ -1,0 +1,43 @@
+<h1>Vacinas</h1>
+<div>
+  <button routerLink="/crud-vacina" mat-raised-button color="primary">
+    Adicionar Vacina
+  </button>
+</div>
+<table mat-table [dataSource]="vacinas">
+  <!-- Coluna ID -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let registro">{{ registro.id }}</td>
+  </ng-container>
+
+  <!-- Coluna Nome -->
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef>Nome</th>
+    <td mat-cell *matCellDef="let registro">{{ registro.nome }}</td>
+  </ng-container>
+
+  <!-- Coluna Idade Recomendada -->
+  <ng-container matColumnDef="vlIdadeRecomemendada">
+    <th mat-header-cell *matHeaderCellDef>Idade Recomendada</th>
+    <td mat-cell *matCellDef="let registro">
+      {{ registro.vlIdadeRecomemendada }}
+    </td>
+  </ng-container>
+
+  <!-- Coluna Ações -->
+  <ng-container matColumnDef="acoes">
+    <th mat-header-cell *matHeaderCellDef>Ações</th>
+    <td mat-cell *matCellDef="let registro">
+      <button mat-icon-button routerLink="/crud-vacina" matTooltip="Editar">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button routerLink="/crud-vacina" matTooltip="Excluir">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

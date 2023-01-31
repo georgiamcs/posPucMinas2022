@@ -1,4 +1,3 @@
-import { VacinaComponent } from './../../components/vacina/vacina.component';
 import { Component } from '@angular/core';
 
 @Component({
