@@ -20,6 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.compo
     MatTableModule,
     MatIconModule,
     MatTooltipModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

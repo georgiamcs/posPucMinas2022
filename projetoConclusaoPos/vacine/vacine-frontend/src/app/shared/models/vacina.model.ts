@@ -7,15 +7,15 @@ export const DominioIdadeRecomendada: TipoMapa<TipoIdadeRecomendada> = {
 };
 
 export class Vacina {
-  id?: String;
-  nome: String;
-  protecaoContra: String;
-  composicao: String;
-  temIdadeRecomendada: Boolean;
-  tipoIdadeRecomendada?: TipoIdadeRecomendada;
-  vlIdadeRecomemendada?: Number;
-  dataInclusao?: Date;
-  dataAlteracao?: Date;
+  _id?: String;
+  tx_nome: String;
+  tx_protecao_contra: String;
+  tx_composicao: String;
+  in_idade_recomendada: Boolean;
+  tp_idade_recomendada?: TipoIdadeRecomendada;
+  nr_idade_recomendada?: Number;
+  dt_inclusao?: Date;
+  dt_alteracao?: Date;
 }
 /*
 */

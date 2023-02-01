@@ -5,7 +5,7 @@
       <div>
         <mat-form-field id="fNome" class="me-3">
           <mat-label id="lbNome">Nome</mat-label>
-          <input id="inNome" name="nome" matInput type="text" [(ngModel)]="vacina.nome" />
+          <input id="inNome" name="nome" matInput type="text" [(ngModel)]="vacina.tx_nome" />
         </mat-form-field>
       </div>
       <div>
@@ -16,7 +16,7 @@
             name="protecaoContra"
             matInput
             type="text"
-            [(ngModel)]="vacina.protecaoContra"
+            [(ngModel)]="vacina.tx_protecao_contra"
           />
         </mat-form-field>
       </div>
@@ -28,7 +28,7 @@
             name="composicao"
             matInput
             type="text"
-            [(ngModel)]="vacina.composicao"
+            [(ngModel)]="vacina.tx_composicao"
           />
         </mat-form-field>
       </div>
@@ -37,6 +37,7 @@
           id="fTemIdadeRecomendada"
           name="temIdadeRecomendada"
           checked="vacina.temIdadeRecomendada"
+          [(ngModel)]="vacina.in_idade_recomendada"
           >Tem idade recomendada</mat-checkbox
         >
       </div>
@@ -56,13 +57,13 @@
             name="idadeRecomendada"
             matInput
             type="number"
-             [(ngModel)]="vacina.vlIdadeRecomemendada"
+             [(ngModel)]="vacina.nr_idade_recomendada"
           />
         </mat-form-field>
       </div>
       <div >
         <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
-        <button mat-raised-button routerLink="/listar-vacina">Cancelar</button>
+        <button mat-raised-button (click)="cancelar()">Cancelar</button>
       </div>
     </form>
   </div>

@@ -1,3 +1,4 @@
+import { VacinaService } from './../../services/vacina/vacina.service';
 import { Component } from '@angular/core';
 import { Vacina } from 'src/app/shared/models/vacina.model';
 
@@ -7,18 +8,16 @@ import { Vacina } from 'src/app/shared/models/vacina.model';
   styleUrls: ['./listar-vacinas.component.scss'],
 })
 export class ListarVacinasComponent {
-  vacinas: Vacina[] = [
-  //   {
-  //     id: '1',
-  //     nome: 'teste',
-  //     composicao: 'nova composição',
-  //     protecaoContra: 'rubeola',
-  //     temIdadeRecomendada: true,
-  //     tipoIdadeRecomendada: 'A',
-  //     vlIdadeRecomemendada: 5,
-  //   },
-  ];
+  vacinas: Vacina[] = [];
 
-  displayedColumns: string[] = ['id', 'nome', 'vlIdadeRecomemendada', 'acoes'];
+  displayedColumns: string[] = ['nome', 'protecaoContra', 'vlIdadeRecomemendada', 'acoes'];
 
+  constructor(private vacinaService: VacinaService) {}
+
+  ngOnInit(): void {
+    this.vacinaService.listar().subscribe((listaVacinas) => {
+      this.vacinas = listaVacinas;
+      console.log('listaVacinas:', listaVacinas);
+    });
+  }
 }

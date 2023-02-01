@@ -1,3 +1,4 @@
+import { VacinaService } from './../../../services/vacina/vacina.service';
 import { Component, Input } from '@angular/core';
 
 import {
@@ -9,6 +10,7 @@ import {
   mapearDominio,
   DominioCodigoRotulo,
 } from 'src/app/shared/models/dominio-codigo-rotulo.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crud-vacina',
@@ -21,19 +23,19 @@ export class CrudVacinaComponent {
   modoFormulario: ModoFormulario = ModoFormulario.INICIAL;
   tiposIdadeRecomendada: DominioCodigoRotulo[];
 
-  constructor() {
+  constructor(private vacinaService: VacinaService, private router: Router) {
     this.vacina = new Vacina();
-    this.vacina.nome = 'Novissima vacina';
-    this.vacina.protecaoContra = 'Proteção contra da vacina';
-    this.vacina.composicao = 'Composição da vacina';
-    this.vacina.temIdadeRecomendada = false;
-    this.vacina.tipoIdadeRecomendada = 'A';
-    this.vacina.vlIdadeRecomemendada = 2;
 
     this.tiposIdadeRecomendada = mapearDominio(DominioIdadeRecomendada);
   }
 
   salvar() {
-    alert('salvo com sucesso!');
+    this.vacinaService
+      .incluir(this.vacina)
+      .subscribe(() => this.router.navigate(['/listar-vacina']));
+  }
+
+  cancelar() {
+    this.router.navigate(['/listar-vacina']);
   }
 }
