@@ -20,7 +20,13 @@ export class VacinaService {
     return this.http.post<Vacina>(this.API, vacina);
   }
 
-  excluir(vacina: Vacina): Observable<Vacina> {
-    return this.http.delete<Vacina>(this.API + '' + vacina._id);
+  excluir(id: String): Observable<Vacina> {
+    const url = `${this.API}${id}`;
+    return this.http.delete<Vacina>(url);
+  }
+
+  procurarPorId(id: String): Observable<Vacina> {
+    const url = `${this.API}${id}`;
+    return this.http.get<Vacina>(url);
   }
 }

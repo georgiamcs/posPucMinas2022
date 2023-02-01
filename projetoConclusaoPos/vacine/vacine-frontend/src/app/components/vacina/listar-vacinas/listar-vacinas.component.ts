@@ -1,4 +1,4 @@
-import { VacinaService } from './../../services/vacina/vacina.service';
+import { VacinaService } from '../../../services/vacina/vacina.service';
 import { Component } from '@angular/core';
 import { Vacina } from 'src/app/shared/models/vacina.model';
 

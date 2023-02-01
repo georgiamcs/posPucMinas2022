@@ -9,7 +9,7 @@ import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
-import { ListarVacinasComponent } from './components/listar-vacinas/listar-vacinas.component';
+import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
 
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
