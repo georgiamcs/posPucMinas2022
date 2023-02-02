@@ -21,6 +21,7 @@ import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.compo
     MatIconModule,
     MatTooltipModule,
     HttpClientModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
