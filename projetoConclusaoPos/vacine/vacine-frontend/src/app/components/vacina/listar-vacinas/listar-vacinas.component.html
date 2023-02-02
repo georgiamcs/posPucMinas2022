@@ -45,11 +45,3 @@
 <ng-template #semRegistros>
     <app-sem-registros></app-sem-registros>
 </ng-template>
-<app-dialogo-confirmacao
-  #confirmModal
-  tituloModal="Confirmação de exclusão"
-  pergunta="Confirma a exclusão do registro?"
-  (confirmar)="confirmaExclusao($event)"
-  (rejeitar)="rejeitaExclusao()"
->
-</app-dialogo-confirmacao>
