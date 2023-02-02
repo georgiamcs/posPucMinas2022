@@ -1,0 +1,8 @@
+<h4 mat-dialog-title class="bg-primary">{{ data.tituloModal }}</h4>
+<div mat-dialog-content>
+  <p>{{ data.pergunta }}</p>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onRejeitar()" cdkFocusInitial>{{ data.rotuloRejeitar }}</button>
+  <button mat-button [mat-dialog-close]=data.rotuloAceitar>{{ data.rotuloAceitar }}</button>
+</div>

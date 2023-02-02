@@ -14,6 +14,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from '@angular/material/dialog';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
 import { MenuComponent } from './pages/menu/menu.component';
@@ -21,7 +27,7 @@ import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DialogoConfirmacaoComponent } from './components/lib/dialogo-confirmacao/dialogo-confirmacao.component';
 
 
 @NgModule({
@@ -33,6 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CrudVacinaComponent,
     ListarVacinasComponent,
     SemRegistrosComponent,
+    DialogoConfirmacaoComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,8 +56,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTooltipModule,
     HttpClientModule,
     NgbModule,
+    MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
