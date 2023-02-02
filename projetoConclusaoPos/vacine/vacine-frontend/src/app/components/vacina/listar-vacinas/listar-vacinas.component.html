@@ -33,7 +33,7 @@
       <button mat-icon-button routerLink="/crud-vacina" matTooltip="Editar">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button routerLink="/crud-vacina" matTooltip="Excluir">
+      <button mat-icon-button (click)="excluirVacina(registro)" matTooltip="Excluir">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -45,3 +45,11 @@
 <ng-template #semRegistros>
     <app-sem-registros></app-sem-registros>
 </ng-template>
+<app-dialogo-confirmacao
+  #confirmModal
+  tituloModal="Confirmação de exclusão"
+  pergunta="Confirma a exclusão do registro?"
+  (confirmar)="confirmaExclusao($event)"
+  (rejeitar)="rejeitaExclusao()"
+>
+</app-dialogo-confirmacao>

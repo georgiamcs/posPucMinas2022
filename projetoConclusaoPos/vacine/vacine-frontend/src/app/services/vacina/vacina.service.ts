@@ -7,7 +7,7 @@ import { Vacina } from '../../shared/models/vacina.model';
 @Injectable({
   providedIn: 'root',
 })
-export class VacinaService {
+export class VacinaService { //TODO tratar excecoes do http (ex: backend fora, retorno com erro)
   private readonly API = 'http://localhost:3005/vacinas/';
 
   constructor(private http: HttpClient) {}

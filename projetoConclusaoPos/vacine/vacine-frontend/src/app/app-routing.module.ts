@@ -1,4 +1,4 @@
-import { ListarVacinasComponent } from './components/listar-vacinas/listar-vacinas.component';
+import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
