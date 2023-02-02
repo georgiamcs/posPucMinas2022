@@ -2,10 +2,20 @@ import { ListarVacinasComponent } from './components/vacina/listar-vacinas/lista
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TipoRota } from './shared/enums/tipo-rota.enum';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'listar-vacina', pathMatch:'full'},
+  { path: '', redirectTo: 'listar-vacina', pathMatch: 'full' },
   { path: 'crud-vacina', component: CrudVacinaComponent },
+  { path: 'crud-vacina/:id', component: CrudVacinaComponent },
+  {
+    path: `crud-vacina/${TipoRota.ALTERACAO}/:id`,
+    component: CrudVacinaComponent,
+  },
+  {
+    path: `crud-vacina/${TipoRota.EXCLUSAO}/:id`,
+    component: CrudVacinaComponent,
+  },
   { path: 'listar-vacina', component: ListarVacinasComponent },
 ];
 

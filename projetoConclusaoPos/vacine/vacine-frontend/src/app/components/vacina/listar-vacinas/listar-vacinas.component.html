@@ -30,10 +30,13 @@
   <ng-container matColumnDef="acoes">
     <th mat-header-cell *matHeaderCellDef>Ações</th>
     <td mat-cell *matCellDef="let registro">
-      <button mat-icon-button routerLink="/crud-vacina" matTooltip="Editar">
+      <button mat-icon-button [routerLink]="['/crud-vacina/' + registro._id]" matTooltip="Visualizar">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button mat-icon-button [routerLink]="['/crud-vacina/editar/' + registro._id]" matTooltip="Editar">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button (click)="confirmarExclusaoVacina(registro)" matTooltip="Excluir">
+      <button mat-icon-button [routerLink]="['/crud-vacina/excluir/' + registro._id]" matTooltip="Excluir">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

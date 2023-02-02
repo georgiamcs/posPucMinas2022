@@ -25,6 +25,11 @@ export class VacinaService { //TODO tratar excecoes do http (ex: backend fora, r
     return this.http.delete<Vacina>(url);
   }
 
+  alterar(vacina: Vacina): Observable<Vacina> {
+    const url = `${this.API}${vacina._id}`;
+    return this.http.put<Vacina>(url, vacina);
+  }
+
   procurarPorId(id: string): Observable<Vacina> {
     const url = `${this.API}${id}`;
     return this.http.get<Vacina>(url);

@@ -1,6 +1,6 @@
 export enum ModoFormulario {
-  INICIAL = 0,
-  VISUALIZACAO = 1,
-  INCLUSAO = 2,
-  ALTERACAO = 3
+  INCLUSAO = 0,
+  ALTERACAO = 1,
+  CONSULTA = 2,
+  EXCLUSAO = 3,
 }
