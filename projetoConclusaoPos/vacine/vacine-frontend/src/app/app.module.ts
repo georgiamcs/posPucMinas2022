@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
@@ -50,6 +52,7 @@ import { DialogoConfirmacaoComponent } from './components/lib/dialogo-confirmaca
     MatIconModule,
     MatTooltipModule,
     HttpClientModule,
+    TooltipModule.forRoot(),
     ModalModule.forRoot(),
   ],
   providers: [],
