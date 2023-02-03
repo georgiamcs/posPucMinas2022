@@ -43,11 +43,20 @@
       </div>
       <div>
         <label id="lbTipoIdadeRecomedada">Tipo de idade de recomendada</label>
-        <mat-radio-group aria-labelledby="lbTipoIdadeRecomedada">
-          <mat-radio-button *ngFor="let tipo of tiposIdadeRecomendada">
+        <mat-radio-group aria-labelledby="lbTipoIdadeRecomedada" [(ngModel)]="vacina.tp_idade_recomendada">
+          <!-- <mat-radio-button *ngFor="let tipo of tiposIdadeRecomendada" [value]="tipo.codigo">
             {{ tipo.nome }}
+          </mat-radio-button> -->
+           <mat-radio-button value="A">
+            Anos
+          </mat-radio-button>
+           <mat-radio-button value="M">
+            Meses
           </mat-radio-button>
         </mat-radio-group>
+<br>
+Tipo idade recomendada {{vacina.tp_idade_recomendada}}
+<br>
       </div>
       <div>
         <mat-form-field class="me-3">

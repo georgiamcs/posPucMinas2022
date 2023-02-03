@@ -13,7 +13,12 @@ import {
   DominioIdadeRecomendada,
   Vacina,
 } from '../../../shared/models/vacina.model';
-import { ModoFormulario } from 'src/app/shared/enums/modo-formulario-enum';
+import {
+  definirModoFormulario,
+  definirLabelBotaoAcaoModoFormulario,
+  definirLabelBotaoFecharModoFormulario,
+  ModoFormulario,
+} from 'src/app/shared/enums/modo-formulario-enum';
 import {
   mapearDominio,
   DominioCodigoRotulo,
@@ -26,7 +31,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./crud-vacina.component.scss'],
 })
 export class CrudVacinaComponent implements OnInit {
-  modoFormulario: ModoFormulario;
+  modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;
   vacina: Vacina;
   idVacina: string | null;
   lbBotaoSalvar: string | null;
@@ -46,40 +51,13 @@ export class CrudVacinaComponent implements OnInit {
     this.vacina = new Vacina();
     this.tiposIdadeRecomendada = mapearDominio(DominioIdadeRecomendada);
     this.idVacina = this.activatedRoute.snapshot.paramMap.get('id');
-    this.definirModoFormulario();
-    this.definirLabelsBotoes();
-  }
-
-  private definirModoFormulario() {
-    if (!this.idVacina) {
-      this.modoFormulario = ModoFormulario.INCLUSAO;
-    } else {
-      this.modoFormulario =
-        this.router.url.indexOf(TipoRota.ALTERACAO) > 0
-          ? ModoFormulario.ALTERACAO
-          : this.router.url.indexOf(TipoRota.EXCLUSAO) > 0
-          ? ModoFormulario.EXCLUSAO
-          : ModoFormulario.CONSULTA;
-    }
-  }
-
-  private definirLabelsBotoes() {
-    this.lbBotaoFechar = 'Cancelar';
-
-    switch (this.modoFormulario) {
-      case ModoFormulario.INCLUSAO:
-        this.lbBotaoSalvar = 'Incluir';
-        break;
-      case ModoFormulario.ALTERACAO:
-        this.lbBotaoSalvar = 'Alterar';
-        break;
-      case ModoFormulario.EXCLUSAO:
-        this.lbBotaoSalvar = 'Excluir';
-        break;
-      case ModoFormulario.CONSULTA:
-        this.lbBotaoFechar = 'Fechar';
-        break;
-    }
+    this.modoFormulario = definirModoFormulario(this.idVacina, this.router.url);
+    this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
+      this.modoFormulario
+    );
+    this.lbBotaoFechar = definirLabelBotaoFecharModoFormulario(
+      this.modoFormulario
+    );
   }
 
   ngOnInit(): void {
