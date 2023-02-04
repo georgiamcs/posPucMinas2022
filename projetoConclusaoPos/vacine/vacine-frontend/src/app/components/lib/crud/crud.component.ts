@@ -11,13 +11,14 @@ import {
   definirModoFormulario,
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario-enum';
+import { CrudModel } from 'src/app/shared/models/crud.model';
 
 @Component({
   selector: 'app-crud',
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<Type> {
+export class CrudComponent<Type extends CrudModel> {
   protected ROTULO_BOTAO_ACEITAR = 'Sim';
   protected ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -31,7 +32,7 @@ export class CrudComponent<Type> {
 
   constructor() {}
 
-  preencherAtributosGenericosCrud(
+  protected preencherAtributosGenericosCrud(
     router: Router,
     activatedRoute: ActivatedRoute
   ) {
