@@ -28,6 +28,7 @@ import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina
 import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
 import { DialogoConfirmacaoComponent } from './components/lib/dialogo-confirmacao/dialogo-confirmacao.component';
+import { CrudComponent } from './components/lib/crud/crud.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { DialogoConfirmacaoComponent } from './components/lib/dialogo-confirmaca
     ListarVacinasComponent,
     SemRegistrosComponent,
     DialogoConfirmacaoComponent,
+    CrudComponent,
   ],
   imports: [
     BrowserModule,

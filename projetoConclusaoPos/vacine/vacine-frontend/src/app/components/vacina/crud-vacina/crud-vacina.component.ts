@@ -1,3 +1,4 @@
+import { CrudComponent } from './../../lib/crud/crud.component';
 //TODO: Validar campos obrigatorios
 //TODO: Verificar porque nao esta funcionando qnd nao marca idade recomendada
 //TODO: Verificar porque nao esta funcionando qnd marca idade anos
@@ -29,36 +30,26 @@ import {
   templateUrl: './crud-vacina.component.html',
   styleUrls: ['./crud-vacina.component.scss'],
 })
-export class CrudVacinaComponent implements OnInit {
-  form: FormGroup;
-  modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;
-  lbBotaoSalvar: string | null;
-  lbBotaoFechar: string | null;
-
-  idVacina: string | null;
-
-  private ROTULO_BOTAO_ACEITAR = 'Sim';
-  private ROTULO_BOTAO_REJEITAR = 'Não';
+export class CrudVacinaComponent
+  extends CrudComponent<Vacina>
+  implements OnInit
+{
+  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-vacina';
+  private NOME_ENTIDADE = 'vacina';
 
   constructor(
     private vacinaService: VacinaService,
+    private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
     public dialogoConf: MatDialog
   ) {
-    this.idVacina = this.activatedRoute.snapshot.paramMap.get('id');
-    this.modoFormulario = definirModoFormulario(this.idVacina, this.router.url);
-    this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
-      this.modoFormulario
-    );
-    this.lbBotaoFechar = definirLabelBotaoFecharModoFormulario(
-      this.modoFormulario
-    );
+    super();
+    this.preencherAtributosGenericosCrud(this.router, this.activatedRoute);
   }
 
   private preencherFormulario(vacina: Vacina): void {
-    this.form.patchValue(vacina);
+    this.preencherFormComRegistroId(vacina);
     this.verificarIdadeRecomendada();
   }
 
@@ -82,9 +73,9 @@ export class CrudVacinaComponent implements OnInit {
 
   private carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
-      if (this.idVacina) {
+      if (this.id) {
         this.vacinaService
-          .procurarPorId(this.idVacina)
+          .procurarPorId(this.id)
           .subscribe((vacinaBusca) => this.preencherFormulario(vacinaBusca));
       }
     }
@@ -115,23 +106,6 @@ export class CrudVacinaComponent implements OnInit {
     });
   }
 
-  private somenteLeitura(): boolean {
-    return (
-      this.modoFormulario == ModoFormulario.CONSULTA ||
-      this.modoFormulario == ModoFormulario.EXCLUSAO
-    );
-  }
-
-  public temBotaoAcao(): boolean {
-    return this.modoFormulario != ModoFormulario.CONSULTA;
-  }
-
-  private atualizarValidadores(formControl: AbstractControl, validators: ValidatorFn | ValidatorFn[] | null): void {
-    formControl?.setValidators(validators);
-    formControl?.updateValueAndValidity();
-
-  }
-
   public verificarIdadeRecomendada() {
     const temIdadeRecomendada = this.form.get('in_idade_recomendada')?.value;
     const controlTpIdade = this.form.get('tp_idade_recomendada');
@@ -153,7 +127,10 @@ export class CrudVacinaComponent implements OnInit {
   }
 
   private carregarVacinas() {
-    this.router.navigate(['/listar-vacina']);
+    this.carregarListaRegistros(
+      this.router,
+      this.CAMINHO_RELAT_LISTA_REGISTROS
+    );
   }
 
   private confirmarExclusaoVacina(vacina: Vacina) {
@@ -195,6 +172,6 @@ export class CrudVacinaComponent implements OnInit {
   }
 
   public fechar() {
-    this.router.navigate(['/listar-vacina']);
+    this.doActionFechar(this.router, this.CAMINHO_RELAT_LISTA_REGISTROS);
   }
 }
