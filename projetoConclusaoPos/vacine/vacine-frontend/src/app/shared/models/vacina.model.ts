@@ -1,10 +1,4 @@
-import { TipoMapa } from "./dominio-codigo-rotulo.model";
-
 export type TipoIdadeRecomendada = 'A' | 'M';
-export const DominioIdadeRecomendada: TipoMapa<TipoIdadeRecomendada> = {
-  'A': 'Anos',
-  'M': 'Meses'
-};
 
 export class Vacina {
   _id?: string | null = null;

@@ -2,29 +2,21 @@
 //TODO: Verificar porque nao esta funcionando qnd nao marca idade recomendada
 //TODO: Verificar porque nao esta funcionando qnd marca idade anos
 //TODO: Desabilitar tipo e idade recomendada se nao tem idade recomendada
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { TipoRota } from './../../../shared/enums/tipo-rota.enum';
 import { VacinaService } from './../../../services/vacina/vacina.service';
 import { DialogoConfirmacaoComponent } from './../../lib/dialogo-confirmacao/dialogo-confirmacao.component';
 
-import {
-  DominioIdadeRecomendada,
-  Vacina,
-} from '../../../shared/models/vacina.model';
+import { Vacina } from '../../../shared/models/vacina.model';
 import {
   definirModoFormulario,
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario-enum';
-import {
-  mapearDominio,
-  DominioCodigoRotulo,
-} from 'src/app/shared/models/dominio-codigo-rotulo.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-vacina',
@@ -37,10 +29,7 @@ export class CrudVacinaComponent implements OnInit {
   lbBotaoSalvar: string | null;
   lbBotaoFechar: string | null;
 
-  // vacina: Vacina;
   idVacina: string | null;
-
-  tiposIdadeRecomendada: DominioCodigoRotulo[];
 
   private ROTULO_BOTAO_ACEITAR = 'Sim';
   private ROTULO_BOTAO_REJEITAR = 'Não';
@@ -52,8 +41,6 @@ export class CrudVacinaComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialogoConf: MatDialog
   ) {
-    //this.vacina = new Vacina();
-    this.tiposIdadeRecomendada = mapearDominio(DominioIdadeRecomendada);
     this.idVacina = this.activatedRoute.snapshot.paramMap.get('id');
     this.modoFormulario = definirModoFormulario(this.idVacina, this.router.url);
     this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
@@ -66,16 +53,23 @@ export class CrudVacinaComponent implements OnInit {
 
   private preencherFormulario(vacina: Vacina): void {
     this.form.patchValue(vacina);
+    this.verificarIdadeRecomendada();
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       _id: [null],
-      tx_nome: [null],
-      tx_protecao_contra: [null],
-      tx_composicao: [null],
-      in_idade_recomendada: [true],
-      tp_idade_recomendada: ['A'],
+      tx_nome: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ]),
+      ],
+      tx_protecao_contra: [null, [Validators.required]],
+      tx_composicao: [null, [Validators.required]],
+      in_idade_recomendada: [true, [Validators.required]],
+      tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],
     });
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
@@ -114,7 +108,27 @@ export class CrudVacinaComponent implements OnInit {
   }
 
   temBotaoAcao(): boolean {
-    return (this.modoFormulario != ModoFormulario.CONSULTA);
+    return this.modoFormulario != ModoFormulario.CONSULTA;
+  }
+
+  verificarIdadeRecomendada() {
+    const temIdadeRecomendada = this.form.get('in_idade_recomendada')?.value;
+
+    if (!temIdadeRecomendada) {
+      this.form.get('tipo_idade_recomendada')?.setValue(null);
+      this.form.get('nr_idade_recomendada')?.setValue(null);
+    } else if (temIdadeRecomendada) {
+      this.form
+        .get('tipo_idade_recomendada')
+        ?.setValidators([Validators.required]);
+      this.form
+        .get('nr_idade_recomendada')
+        ?.setValidators([Validators.required]);
+    } else {
+      this.form.get('in_idade_recomendada')?.setValue(false);
+      this.form.get('tipo_idade_recomendada')?.setValue(null);
+      this.form.get('nr_idade_recomendada')?.setValue(null);
+    }
   }
 
   private carregarVacinas() {
@@ -139,19 +153,22 @@ export class CrudVacinaComponent implements OnInit {
   }
 
   public salvar() {
-    console.log('this.form.value', this.form.value);
-    switch (this.modoFormulario) {
-      case ModoFormulario.INCLUSAO:
-        this.incluirVacina();
-        break;
-      case ModoFormulario.ALTERACAO:
-        this.alterarVacina();
-        break;
-      case ModoFormulario.EXCLUSAO:
-        this.confirmarExclusaoVacina(this.form.value);
-        break;
-      default:
-        throw new Error('Modo do formulário não definido');
+    if (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO) {
+      switch (this.modoFormulario) {
+        case ModoFormulario.INCLUSAO:
+          this.incluirVacina();
+          break;
+        case ModoFormulario.ALTERACAO:
+          this.alterarVacina();
+          break;
+        case ModoFormulario.EXCLUSAO:
+          this.confirmarExclusaoVacina(this.form.value);
+          break;
+        default:
+          throw new Error('Modo do formulário não definido');
+      }
+    } else {
+      alert('Formulário inválido');
     }
   }
 

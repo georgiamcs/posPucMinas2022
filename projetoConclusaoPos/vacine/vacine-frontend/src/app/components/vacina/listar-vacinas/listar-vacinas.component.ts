@@ -1,4 +1,3 @@
-//TODO: Verificar porque nao esta funcionando mostrar o tipo da idade recomendada na listagem
 //TODO: Verificar como usar no routerLink o tipo da rota = usar funcao no ts para retornar?
 import { Component } from '@angular/core';
 
