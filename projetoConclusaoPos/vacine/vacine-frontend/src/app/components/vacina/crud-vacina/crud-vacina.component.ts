@@ -4,7 +4,13 @@
 //TODO: Desabilitar tipo e idade recomendada se nao tem idade recomendada
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { VacinaService } from './../../../services/vacina/vacina.service';
@@ -56,7 +62,7 @@ export class CrudVacinaComponent implements OnInit {
     this.verificarIdadeRecomendada();
   }
 
-  ngOnInit(): void {
+  private buildForm() {
     this.form = this.formBuilder.group({
       _id: [null],
       tx_nome: [
@@ -72,6 +78,9 @@ export class CrudVacinaComponent implements OnInit {
       tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],
     });
+  }
+
+  private carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.idVacina) {
         this.vacinaService
@@ -79,7 +88,13 @@ export class CrudVacinaComponent implements OnInit {
           .subscribe((vacinaBusca) => this.preencherFormulario(vacinaBusca));
       }
     }
+  }
+
+  ngOnInit(): void {
+    this.buildForm();
+    this.carregarDadosId();
     this.somenteLeitura() ? this.form.disable() : this.form.enable();
+    this.verificarIdadeRecomendada();
   }
 
   private incluirVacina() {
@@ -100,35 +115,41 @@ export class CrudVacinaComponent implements OnInit {
     });
   }
 
-  somenteLeitura(): boolean {
+  private somenteLeitura(): boolean {
     return (
       this.modoFormulario == ModoFormulario.CONSULTA ||
       this.modoFormulario == ModoFormulario.EXCLUSAO
     );
   }
 
-  temBotaoAcao(): boolean {
+  public temBotaoAcao(): boolean {
     return this.modoFormulario != ModoFormulario.CONSULTA;
   }
 
-  verificarIdadeRecomendada() {
-    const temIdadeRecomendada = this.form.get('in_idade_recomendada')?.value;
+  private atualizarValidadores(formControl: AbstractControl, validators: ValidatorFn | ValidatorFn[] | null): void {
+    formControl?.setValidators(validators);
+    formControl?.updateValueAndValidity();
 
-    if (!temIdadeRecomendada) {
-      this.form.get('tipo_idade_recomendada')?.setValue(null);
-      this.form.get('nr_idade_recomendada')?.setValue(null);
-    } else if (temIdadeRecomendada) {
-      this.form
-        .get('tipo_idade_recomendada')
-        ?.setValidators([Validators.required]);
-      this.form
-        .get('nr_idade_recomendada')
-        ?.setValidators([Validators.required]);
+  }
+
+  public verificarIdadeRecomendada() {
+    const temIdadeRecomendada = this.form.get('in_idade_recomendada')?.value;
+    const controlTpIdade = this.form.get('tp_idade_recomendada');
+    const controlNrIdade = this.form.get('nr_idade_recomendada');
+
+    if (!temIdadeRecomendada || temIdadeRecomendada == undefined) {
+      controlTpIdade?.setValue(!temIdadeRecomendada ? null : false);
+      controlNrIdade?.setValue(null);
+      this.atualizarValidadores(controlTpIdade!, null);
+      this.atualizarValidadores(controlNrIdade!, null);
+      controlTpIdade?.setValidators(null);
+      controlNrIdade?.setValidators(null);
     } else {
-      this.form.get('in_idade_recomendada')?.setValue(false);
-      this.form.get('tipo_idade_recomendada')?.setValue(null);
-      this.form.get('nr_idade_recomendada')?.setValue(null);
+      controlTpIdade?.setValidators([Validators.required]);
+      controlNrIdade?.setValidators([Validators.required]);
     }
+
+    console.log('this.form em verificarIdadeRecomendada', this.form);
   }
 
   private carregarVacinas() {
@@ -168,11 +189,12 @@ export class CrudVacinaComponent implements OnInit {
           throw new Error('Modo do formulário não definido');
       }
     } else {
-      alert('Formulário inválido');
+      console.log('this.form)', this.form);
+      alert('Formulário com preenchimento inválido.');
     }
   }
 
-  fechar() {
+  public fechar() {
     this.router.navigate(['/listar-vacina']);
   }
 }

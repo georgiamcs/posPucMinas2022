@@ -46,7 +46,7 @@
           (change)="verificarIdadeRecomendada()"
           >Tem idade recomendada
         </mat-checkbox>
-        <div class="msg_err_checkbox" *ngIf="form.get('tx_composicao')?.errors">
+        <div class="msg_err_checkbox" *ngIf="form.get('in_idade_recomendada')?.errors">
           Campo obrigatório
         </div>
       </div>
@@ -72,6 +72,9 @@
           <mat-radio-button value="A"> Anos </mat-radio-button>
           <mat-radio-button value="M"> Meses </mat-radio-button>
         </mat-radio-group>
+        <div class="msg_err" *ngIf="form.get('tp_idade_recomendada')?.errors">
+          Campo obrigatório
+        </div>
       </div>
       <div>
         <button
