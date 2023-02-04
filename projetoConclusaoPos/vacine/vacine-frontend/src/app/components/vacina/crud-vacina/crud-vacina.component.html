@@ -1,11 +1,11 @@
 <div class="tab-grid">
   <h1>Cadastro de Vacinas</h1>
   <div class="crud-grid">
-    <form>
+    <form [formGroup]="form">
       <div>
         <mat-form-field id="fNome" class="me-3">
           <mat-label id="lbNome">Nome</mat-label>
-          <input id="inNome" name="nome" matInput type="text" [(ngModel)]="vacina.tx_nome" />
+          <input id="inNome" formControlName="tx_nome" matInput type="text" />
         </mat-form-field>
       </div>
       <div>
@@ -13,10 +13,9 @@
           <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
           <input
             id="inProtecaoContra"
-            name="protecaoContra"
+            formControlName="tx_protecao_contra"
             matInput
             type="text"
-            [(ngModel)]="vacina.tx_protecao_contra"
           />
         </mat-form-field>
       </div>
@@ -25,25 +24,23 @@
           <mat-label id="lbComposicao">Composição</mat-label>
           <input
             id="inComposicao"
-            name="composicao"
+            formControlName="tx_composicao"
             matInput
             type="text"
-            [(ngModel)]="vacina.tx_composicao"
           />
         </mat-form-field>
       </div>
       <div>
         <mat-checkbox
           id="fTemIdadeRecomendada"
-          name="temIdadeRecomendada"
+          formControlName="in_idade_recomendada"
           checked="vacina.temIdadeRecomendada"
-          [(ngModel)]="vacina.in_idade_recomendada"
           >Tem idade recomendada</mat-checkbox
         >
       </div>
       <div>
-        <label id="lbTipoIdadeRecomedada">Tipo de idade de recomendada</label>
-        <mat-radio-group aria-labelledby="lbTipoIdadeRecomedada" [(ngModel)]="vacina.tp_idade_recomendada">
+        <label id="lbTipoIdadeRecomedada" >Tipo de idade de recomendada</label>
+        <mat-radio-group aria-labelledby="lbTipoIdadeRecomedada" formControlName="tp_idade_recomendada">
           <!-- <mat-radio-button *ngFor="let tipo of tiposIdadeRecomendada" [value]="tipo.codigo">
             {{ tipo.nome }}
           </mat-radio-button> -->
@@ -54,24 +51,20 @@
             Meses
           </mat-radio-button>
         </mat-radio-group>
-<br>
-Tipo idade recomendada {{vacina.tp_idade_recomendada}}
-<br>
       </div>
       <div>
         <mat-form-field class="me-3">
           <mat-label id="lbIdadeRecomendada">Idade recomendada</mat-label>
           <input
             id="inIdadeRecomendada"
-            name="idadeRecomendada"
+            formControlName="nr_idade_recomendada"
             matInput
             type="number"
-             [(ngModel)]="vacina.nr_idade_recomendada"
           />
         </mat-form-field>
       </div>
       <div >
-        <button *ngIf="!somenteLeitura()" mat-raised-button color="primary" (click)="salvar()">{{lbBotaoSalvar}}</button>
+        <button *ngIf="temBotaoAcao()" mat-raised-button color="primary" (click)="salvar()">{{lbBotaoSalvar}}</button>
         <button mat-raised-button (click)="fechar()">{{lbBotaoFechar}}</button>
       </div>
     </form>

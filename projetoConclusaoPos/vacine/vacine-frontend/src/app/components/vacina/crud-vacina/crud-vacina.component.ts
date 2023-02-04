@@ -24,6 +24,7 @@ import {
   DominioCodigoRotulo,
 } from 'src/app/shared/models/dominio-codigo-rotulo.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-vacina',
@@ -31,11 +32,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./crud-vacina.component.scss'],
 })
 export class CrudVacinaComponent implements OnInit {
+  form: FormGroup;
   modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;
-  vacina: Vacina;
-  idVacina: string | null;
   lbBotaoSalvar: string | null;
   lbBotaoFechar: string | null;
+
+  // vacina: Vacina;
+  idVacina: string | null;
 
   tiposIdadeRecomendada: DominioCodigoRotulo[];
 
@@ -46,9 +49,10 @@ export class CrudVacinaComponent implements OnInit {
     private vacinaService: VacinaService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
     public dialogoConf: MatDialog
   ) {
-    this.vacina = new Vacina();
+    //this.vacina = new Vacina();
     this.tiposIdadeRecomendada = mapearDominio(DominioIdadeRecomendada);
     this.idVacina = this.activatedRoute.snapshot.paramMap.get('id');
     this.modoFormulario = definirModoFormulario(this.idVacina, this.router.url);
@@ -60,25 +64,39 @@ export class CrudVacinaComponent implements OnInit {
     );
   }
 
+  private preencherFormulario(vacina: Vacina): void {
+    this.form.patchValue(vacina);
+  }
+
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      _id: [null],
+      tx_nome: [null],
+      tx_protecao_contra: [null],
+      tx_composicao: [null],
+      in_idade_recomendada: [true],
+      tp_idade_recomendada: ['A'],
+      nr_idade_recomendada: [null],
+    });
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.idVacina) {
         this.vacinaService
           .procurarPorId(this.idVacina)
-          .subscribe((vacinaBusca) => (this.vacina = vacinaBusca));
+          .subscribe((vacinaBusca) => this.preencherFormulario(vacinaBusca));
       }
     }
+    this.somenteLeitura() ? this.form.disable() : this.form.enable();
   }
 
   private incluirVacina() {
     this.vacinaService
-      .incluir(this.vacina)
+      .incluir(this.form.value)
       .subscribe(() => this.carregarVacinas());
   }
 
   private alterarVacina() {
     this.vacinaService
-      .alterar(this.vacina)
+      .alterar(this.form.value)
       .subscribe(() => this.carregarVacinas());
   }
 
@@ -89,7 +107,14 @@ export class CrudVacinaComponent implements OnInit {
   }
 
   somenteLeitura(): boolean {
-    return this.modoFormulario == ModoFormulario.CONSULTA;
+    return (
+      this.modoFormulario == ModoFormulario.CONSULTA ||
+      this.modoFormulario == ModoFormulario.EXCLUSAO
+    );
+  }
+
+  temBotaoAcao(): boolean {
+    return (this.modoFormulario != ModoFormulario.CONSULTA);
   }
 
   private carregarVacinas() {
@@ -114,6 +139,7 @@ export class CrudVacinaComponent implements OnInit {
   }
 
   public salvar() {
+    console.log('this.form.value', this.form.value);
     switch (this.modoFormulario) {
       case ModoFormulario.INCLUSAO:
         this.incluirVacina();
@@ -122,7 +148,7 @@ export class CrudVacinaComponent implements OnInit {
         this.alterarVacina();
         break;
       case ModoFormulario.EXCLUSAO:
-        this.confirmarExclusaoVacina(this.vacina);
+        this.confirmarExclusaoVacina(this.form.value);
         break;
       default:
         throw new Error('Modo do formulário não definido');
