@@ -172,6 +172,6 @@ export class CrudVacinaComponent
   }
 
   public fechar() {
-    this.doActionFechar(this.router, this.CAMINHO_RELAT_LISTA_REGISTROS);
+    this.executarAcaoFechar(this.router, this.CAMINHO_RELAT_LISTA_REGISTROS);
   }
 }

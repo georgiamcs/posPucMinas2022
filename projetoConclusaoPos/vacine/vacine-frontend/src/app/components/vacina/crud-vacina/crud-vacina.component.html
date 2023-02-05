@@ -7,7 +7,7 @@
           <mat-label id="lbNome">Nome</mat-label>
           <input id="inNome" formControlName="tx_nome" matInput type="text" />
         </mat-form-field>
-        <div class="msg_err" *ngIf="form.get('tx_nome')?.errors">
+        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome')">
           Campo obrigatório
         </div>
       </div>
@@ -21,7 +21,7 @@
             type="text"
           />
         </mat-form-field>
-        <div class="msg_err" *ngIf="form.get('tx_protecao_contra')?.errors">
+        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_protecao_contra') && recuperarErroCampoForm('tx_protecao_contra')">
           Campo obrigatório
         </div>
       </div>
@@ -35,7 +35,7 @@
             type="text"
           />
         </mat-form-field>
-        <div class="msg_err" *ngIf="form.get('tx_composicao')?.errors">
+        <div class="msg_err"  *ngIf="campoFormFoiEditado('tx_composicao') && recuperarErroCampoForm('tx_composicao')">
           Campo obrigatório
         </div>
       </div>
@@ -46,7 +46,7 @@
           (change)="verificarIdadeRecomendada()"
           >Tem idade recomendada
         </mat-checkbox>
-        <div class="msg_err_checkbox" *ngIf="form.get('in_idade_recomendada')?.errors">
+        <div class="msg_err_checkbox" *ngIf="campoFormFoiEditado('in_idade_recomendada') && recuperarErroCampoForm('in_idade_recomendada')">
           Campo obrigatório
         </div>
       </div>
@@ -61,7 +61,7 @@
             type="number"
           />
         </mat-form-field>
-        <div class="msg_err" *ngIf="form.get('nr_idade_recomendada')?.errors">
+        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada')">
           Campo obrigatório
         </div>
         <label id="lbTipoIdadeRecomedada"></label>
@@ -72,7 +72,7 @@
           <mat-radio-button value="A"> Anos </mat-radio-button>
           <mat-radio-button value="M"> Meses </mat-radio-button>
         </mat-radio-group>
-        <div class="msg_err" *ngIf="form.get('tp_idade_recomendada')?.errors">
+        <div class="msg_err" *ngIf="campoFormFoiEditado('tp_idade_recomendada') && recuperarErroCampoForm('tp_idade_recomendada')">
           Campo obrigatório
         </div>
       </div>
@@ -82,6 +82,7 @@
           mat-raised-button
           color="primary"
           (click)="salvar()"
+          [disabled]="!form.valid"
         >
           {{ lbBotaoSalvar }}
         </button>

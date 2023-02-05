@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormGroup,
+  ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +13,7 @@ import {
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario-enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
+import { converterUndefinedEmNulo, converterUndefinedNuloEmFalse } from 'src/app/shared/utils/util';
 
 @Component({
   selector: 'app-crud',
@@ -73,7 +75,19 @@ export class CrudComponent<Type extends CrudModel> {
     router.navigate([caminhoRelativo]);
   }
 
-  public doActionFechar(router: Router,caminhoRelativo: string) {
+  protected executarAcaoFechar(router: Router, caminhoRelativo: string) {
     router.navigate([caminhoRelativo]);
+  }
+
+  protected campoFormFoiEditado(formControlName: string): boolean {
+    return converterUndefinedNuloEmFalse(this.form.get(formControlName)?.touched);
+  }
+
+  protected recuperarValorCampoForm(formControlName: string): any {
+    return this.form.get(formControlName)?.value;
+  }
+
+  protected recuperarErroCampoForm(formControlName: string): ValidationErrors | null{
+    return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
   }
 }
