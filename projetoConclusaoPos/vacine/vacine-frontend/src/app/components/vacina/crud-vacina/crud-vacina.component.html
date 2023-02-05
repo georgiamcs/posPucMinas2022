@@ -7,8 +7,14 @@
           <mat-label id="lbNome">Nome</mat-label>
           <input id="inNome" formControlName="tx_nome" matInput type="text" />
         </mat-form-field>
-        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome')">
+        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome', 'required')">
           Campo obrigatório
+        </div>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome', 'minlength')">
+          Tamanho mínimo do campo é de 3 caracteres.
+        </div>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome', 'maxlength')">
+          Tamanho máximo do campo é de 100 caracteres.
         </div>
       </div>
       <div>
@@ -61,8 +67,14 @@
             type="number"
           />
         </mat-form-field>
-        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada')">
+        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada', 'required')">
           Campo obrigatório
+        </div>
+        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada', 'min')">
+          Valor mínimo do campo é 0
+        </div>
+        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada', 'max')">
+          Valor máximo do campo é 120
         </div>
         <label id="lbTipoIdadeRecomedada"></label>
         <mat-radio-group

@@ -4,7 +4,7 @@ module.exports = class VacinaService {
   static async getAllVacinas() {
     try {
       const todasVacinas = await vacinaModel.find();
-      // ver possibilidade de criar interface para retornar tipo de dado diferente do retornado pelo BD
+      // TODO: ver possibilidade de criar interface para retornar tipo de dado diferente do retornado pelo BD
       return todasVacinas;
     } catch (error) {
       const msgErro = `Erro ao recuperar todas as vacinas: ${error.message}`;

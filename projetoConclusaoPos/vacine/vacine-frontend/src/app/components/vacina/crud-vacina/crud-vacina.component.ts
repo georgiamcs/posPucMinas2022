@@ -61,10 +61,24 @@ export class CrudVacinaComponent
         Validators.compose([
           Validators.required,
           Validators.pattern(/(.|\s)*\S(.|\s)*/),
+          Validators.minLength(3),
+          Validators.maxLength(100),
         ]),
       ],
-      tx_protecao_contra: [null, [Validators.required]],
-      tx_composicao: [null, [Validators.required]],
+      tx_protecao_contra: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ]),
+      ],
+      tx_composicao: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/(.|\s)*\S(.|\s)*/),
+        ]),
+      ],
       in_idade_recomendada: [true, [Validators.required]],
       tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],
@@ -120,7 +134,13 @@ export class CrudVacinaComponent
       controlNrIdade?.setValidators(null);
     } else {
       controlTpIdade?.setValidators([Validators.required]);
-      controlNrIdade?.setValidators([Validators.required]);
+      controlNrIdade?.setValidators(
+        Validators.compose([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(120),
+        ])
+      );
     }
 
     console.log('this.form em verificarIdadeRecomendada', this.form);

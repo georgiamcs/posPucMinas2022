@@ -87,7 +87,12 @@ export class CrudComponent<Type extends CrudModel> {
     return this.form.get(formControlName)?.value;
   }
 
-  protected recuperarErroCampoForm(formControlName: string): ValidationErrors | null{
-    return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
+  protected recuperarErroCampoForm(formControlName: string, nomeErroValidador?: string): ValidationErrors | null{
+    if (nomeErroValidador) {
+        return converterUndefinedEmNulo(
+          this.form.get(formControlName)?.errors?.[nomeErroValidador]
+        );
+    } else
+      return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
   }
 }
