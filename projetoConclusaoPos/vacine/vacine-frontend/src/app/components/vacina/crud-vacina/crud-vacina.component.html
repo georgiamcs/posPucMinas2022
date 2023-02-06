@@ -77,10 +77,7 @@
           Valor máximo do campo é 120
         </div>
         <label id="lbTipoIdadeRecomedada"></label>
-        <mat-radio-group
-          aria-labelledby="lbTipoIdadeRecomedada"
-          formControlName="tp_idade_recomendada"
-        >
+        <mat-radio-group formControlName="tp_idade_recomendada">
           <mat-radio-button value="A"> Anos </mat-radio-button>
           <mat-radio-button value="M"> Meses </mat-radio-button>
         </mat-radio-group>
@@ -94,7 +91,7 @@
           mat-raised-button
           color="primary"
           (click)="salvar()"
-          [disabled]="!form.valid"
+          [disabled]="!habilitarBotaoAcao()"
         >
           {{ lbBotaoSalvar }}
         </button>

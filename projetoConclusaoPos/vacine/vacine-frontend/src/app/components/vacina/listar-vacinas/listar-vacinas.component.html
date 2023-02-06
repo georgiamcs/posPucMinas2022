@@ -1,11 +1,11 @@
 <h1>Vacinas</h1>
+<app-mensagem-feedback [mensagens]="mensagens"></app-mensagem-feedback>
 <div>
   <button routerLink="/crud-vacina" mat-raised-button color="primary">
     Adicionar Vacina
   </button>
 </div>
-<table *ngIf="vacinas.length > 0, else semRegistros" mat-table [dataSource]="vacinas">
-
+<table *ngIf="registros.length > 0, else semRegistros" mat-table [dataSource]="registros">
   <!-- Coluna Nome -->
   <ng-container matColumnDef="nome">
     <th mat-header-cell *matHeaderCellDef>Nome</th>
@@ -42,8 +42,8 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="colunasExibidas"></tr>
+  <tr mat-row *matRowDef="let row; columns: colunasExibidas"></tr>
 </table>
 <ng-template #semRegistros>
     <app-sem-registros></app-sem-registros>

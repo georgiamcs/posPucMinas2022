@@ -1,3 +1,4 @@
+import { MensagemFeedback } from './../../../shared/classes/mensagem-feedback';
 import { Component } from '@angular/core';
 import {
   AbstractControl,
@@ -11,7 +12,7 @@ import {
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
   ModoFormulario,
-} from 'src/app/shared/enums/modo-formulario-enum';
+} from 'src/app/shared/enums/modo-formulario.enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
 import { converterUndefinedEmNulo, converterUndefinedNuloEmFalse } from 'src/app/shared/utils/util';
 
@@ -71,8 +72,15 @@ export class CrudComponent<Type extends CrudModel> {
     formControl?.updateValueAndValidity();
   }
 
-  protected carregarListaRegistros(router: Router, caminhoRelativo: string) {
-    router.navigate([caminhoRelativo]);
+  protected carregarListaRegistros(
+    router: Router,
+    caminhoRelativo: string,
+    dadosEnviadosParaRota: MensagemFeedback
+  ) {
+    //router.navigate([caminhoRelativo], dadosEnviadosParaRota);
+    const state = { state: { alerta: { tipo: dadosEnviadosParaRota.tipo, texto: dadosEnviadosParaRota.texto } } };
+    //const state = {state: {alerta: {tipo: 'success', texto: `Produto salvo com sucesso!`} }}
+    router.navigate([caminhoRelativo], state);
   }
 
   protected executarAcaoFechar(router: Router, caminhoRelativo: string) {
@@ -80,19 +88,28 @@ export class CrudComponent<Type extends CrudModel> {
   }
 
   protected campoFormFoiEditado(formControlName: string): boolean {
-    return converterUndefinedNuloEmFalse(this.form.get(formControlName)?.touched);
+    return converterUndefinedNuloEmFalse(
+      this.form.get(formControlName)?.touched
+    );
   }
 
   protected recuperarValorCampoForm(formControlName: string): any {
     return this.form.get(formControlName)?.value;
   }
 
-  protected recuperarErroCampoForm(formControlName: string, nomeErroValidador?: string): ValidationErrors | null{
+  protected recuperarErroCampoForm(
+    formControlName: string,
+    nomeErroValidador?: string
+  ): ValidationErrors | null {
     if (nomeErroValidador) {
-        return converterUndefinedEmNulo(
-          this.form.get(formControlName)?.errors?.[nomeErroValidador]
-        );
+      return converterUndefinedEmNulo(
+        this.form.get(formControlName)?.errors?.[nomeErroValidador]
+      );
     } else
       return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
+  }
+
+  protected habilitarBotaoAcao(): boolean {
+    return (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO);
   }
 }

@@ -1,29 +1,16 @@
-import { CrudComponent } from './../../lib/crud/crud.component';
-//TODO: Validar campos obrigatorios
-//TODO: Verificar porque nao esta funcionando qnd nao marca idade recomendada
-//TODO: Verificar porque nao esta funcionando qnd marca idade anos
-//TODO: Desabilitar tipo e idade recomendada se nao tem idade recomendada
+//TODO: Verificar css qnd nao escolhe idade e tipo idade pq esta quebrando
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
+import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
+import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
+import { CrudComponent } from './../../lib/crud/crud.component';
 import { VacinaService } from './../../../services/vacina/vacina.service';
 import { DialogoConfirmacaoComponent } from './../../lib/dialogo-confirmacao/dialogo-confirmacao.component';
-
 import { Vacina } from '../../../shared/models/vacina.model';
-import {
-  definirModoFormulario,
-  definirLabelBotaoAcaoModoFormulario,
-  definirLabelBotaoFecharModoFormulario,
-  ModoFormulario,
-} from 'src/app/shared/enums/modo-formulario-enum';
+import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 
 @Component({
   selector: 'app-crud-vacina',
@@ -35,7 +22,6 @@ export class CrudVacinaComponent
   implements OnInit
 {
   private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-vacina';
-  private NOME_ENTIDADE = 'vacina';
 
   constructor(
     private vacinaService: VacinaService,
@@ -103,20 +89,41 @@ export class CrudVacinaComponent
   }
 
   private incluirVacina() {
+    const msgFeedback: MensagemFeedback = new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      `Vacina "${this.recuperarValorCampoForm(
+        'tx_nome'
+      )}" foi incluída com sucesso!`
+    );
+
     this.vacinaService
       .incluir(this.form.value)
-      .subscribe(() => this.carregarVacinas());
+      .subscribe(() => this.carregarVacinas(msgFeedback));
   }
 
   private alterarVacina() {
+    const msgFeedback: MensagemFeedback = new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      `Vacina "${this.recuperarValorCampoForm(
+        'tx_nome'
+      )}" foi alterada com sucesso!`
+    );
+
     this.vacinaService
       .alterar(this.form.value)
-      .subscribe(() => this.carregarVacinas());
+      .subscribe(() => this.carregarVacinas(msgFeedback));
   }
 
   private excluirVacina(idVacina: string) {
+    const msgFeedback: MensagemFeedback = new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      `Vacina "${this.recuperarValorCampoForm(
+        'tx_nome'
+      )}" foi excluída com sucesso!`
+    );
+
     this.vacinaService.excluir(idVacina).subscribe(() => {
-      this.carregarVacinas();
+      this.carregarVacinas(msgFeedback);
     });
   }
 
@@ -146,10 +153,11 @@ export class CrudVacinaComponent
     console.log('this.form em verificarIdadeRecomendada', this.form);
   }
 
-  private carregarVacinas() {
+  private carregarVacinas(dadosEnviadosParaRota: MensagemFeedback) {
     this.carregarListaRegistros(
       this.router,
-      this.CAMINHO_RELAT_LISTA_REGISTROS
+      this.CAMINHO_RELAT_LISTA_REGISTROS,
+      dadosEnviadosParaRota
     );
   }
 

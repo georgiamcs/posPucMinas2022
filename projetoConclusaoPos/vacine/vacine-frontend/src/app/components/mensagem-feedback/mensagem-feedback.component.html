@@ -1,0 +1,5 @@
+<div *ngIf="mensagens && mensagens!.length > 0">
+    <p *ngFor="let msg of mensagens">
+        <ngb-alert [type]="msg.tipo" (closed)="fechar(msg)">{{ msg.texto }}</ngb-alert>
+    </p>
+</div>
