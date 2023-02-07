@@ -13,7 +13,7 @@ module.exports = class VacinaService {
     }
   }
 
-  static async getVacinabyId(idVacina) {
+  static async getVacinaById(idVacina) {
     try {
       const vacina = await vacinaModel.findById(idVacina);
 

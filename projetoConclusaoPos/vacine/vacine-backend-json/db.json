@@ -1,7 +1,6 @@
 {
   "vacinas": [
     {
-      "id": "A1",
       "_id": "A1",
       "tx_nome": "BCG",
       "tx_protecao_contra": "tuberculose",
@@ -11,7 +10,6 @@
       "nr_idade_recomendada": 0
     },
     {
-      "id": "A3",
       "_id": "A3",
       "tx_nome": "ab",
       "tx_protecao_contra": "vb",
@@ -21,7 +19,6 @@
       "in_idade_recomendada": true
     },
     {
-      "id": "A4",
       "_id": "A4",
       "tx_nome": "asad",
       "tx_protecao_contra": "ddf",
@@ -31,7 +28,6 @@
       "nr_idade_recomendada": 9
     },
     {
-      "id": "A5",
       "_id": "A5",
       "tx_nome": "FBFDNESFBD",
       "tx_protecao_contra": "ZXCBVCZXBX",
@@ -40,7 +36,6 @@
       "nr_idade_recomendada": 5
     },
     {
-      "id": "A6",
       "_id": "A6",
       "tx_nome": "Sem idade recomendada",
       "tx_protecao_contra": "fdfd",

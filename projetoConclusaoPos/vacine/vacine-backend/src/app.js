@@ -12,10 +12,12 @@ app.use(
   })
 );
 
-const indexRoute  = require("./routers/indexRouter");
-const indexVacina = require("./routers/vacinaRouter");
+const indexRoute  = require("./routers/IndexRouter");
+const indexVacina = require("./routers/VacinaRouter");
+const indexFornecedor = require("./routers/FornecedorRouter");
 
 app.use("/", indexRoute);
 app.use("/vacinas", indexVacina);
+app.use("/fornecedores", indexFornecedor);
 
 module.exports = app;
