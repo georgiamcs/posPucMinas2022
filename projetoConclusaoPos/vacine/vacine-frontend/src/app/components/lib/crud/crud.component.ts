@@ -14,7 +14,11 @@ import {
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
-import { converterUndefinedEmNulo, converterUndefinedNuloEmFalse } from 'src/app/shared/utils/util';
+import {
+  converterUndefinedEmNulo,
+  converterUndefinedNuloEmFalse,
+} from 'src/app/shared/utils/util';
+import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 
 @Component({
   selector: 'vacine-crud',
@@ -33,7 +37,43 @@ export class CrudComponent<T extends CrudModel> {
   protected id: string | null;
   protected registro: T;
 
+  private _nomeEntidade: string;
+  private _pluralEntidade: string;
+  private _artigoEntidade: string;
+  private _nomeCampoFormIdentificaEntidade: string;
+
   constructor() {}
+
+  protected get nomeEntidade(): string {
+    return this._nomeEntidade;
+  }
+
+  protected set nomeEntidade(v: string) {
+    this._nomeEntidade = v;
+  }
+
+  protected get pluralEntidade(): string {
+    return this._pluralEntidade;
+  }
+
+  protected set pluralEntidade(v: string) {
+    this._pluralEntidade = v;
+  }
+
+  protected get artigoEntidade(): string {
+    return this._artigoEntidade;
+  }
+
+  protected set artigoEntidade(v: string) {
+    this._artigoEntidade = v;
+  }
+
+  public get nomeCampoFormIdentificaEntidade(): string {
+    return this._nomeCampoFormIdentificaEntidade;
+  }
+  public set nomeCampoFormIdentificaEntidade(v: string) {
+    this._nomeCampoFormIdentificaEntidade = v;
+  }
 
   protected preencherAtributosGenericosCrud(
     router: Router,
@@ -75,11 +115,16 @@ export class CrudComponent<T extends CrudModel> {
   protected carregarListaRegistros(
     router: Router,
     caminhoRelativo: string,
-    dadosEnviadosParaRota: MensagemFeedback
+    msgFeedback: MensagemFeedback
   ) {
-    //router.navigate([caminhoRelativo], dadosEnviadosParaRota);
-    const state = { state: { alerta: { tipo: dadosEnviadosParaRota.tipo, texto: dadosEnviadosParaRota.texto } } };
-    //const state = {state: {alerta: {tipo: 'success', texto: `Produto salvo com sucesso!`} }}
+    const state = {
+      state: {
+        alerta: {
+          tipo: msgFeedback.tipo,
+          texto: msgFeedback.texto,
+        },
+      },
+    };
     router.navigate([caminhoRelativo], state);
   }
 
@@ -110,6 +155,60 @@ export class CrudComponent<T extends CrudModel> {
   }
 
   protected habilitarBotaoAcao(): boolean {
-    return (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO);
+    return this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO;
+  }
+
+  protected getCaminhoRelativoListaRegistros(): string {
+    return `/listar-${this.pluralEntidade}`;
+  }
+
+  protected getMsgFeedBackIncluidoSucesso(
+    nomeCampoForm: string
+  ): MensagemFeedback {
+    return new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      `${this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)}
+                  "${this.recuperarValorCampoForm(nomeCampoForm)}"
+                  foi incluíd${this.artigoEntidade} com sucesso!`
+    );
+  }
+
+  protected getMsgFeedBackAlteradoSucesso(
+    nomeCampoForm: string
+  ): MensagemFeedback {
+    return new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      `${this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)}
+                  "${this.recuperarValorCampoForm(nomeCampoForm)}"
+                  foi alterad${this.artigoEntidade} com sucesso!`
+    );
+  }
+
+  protected getMsgFeedBackExcluidoSucesso(
+    nomeCampoForm: string
+  ): MensagemFeedback {
+    return new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      `${this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)}
+                  "${this.recuperarValorCampoForm(nomeCampoForm)}"
+                  foi excluíd${this.artigoEntidade} com sucesso!`
+    );
+  }
+
+  protected getDataConfirmaExclusaoModal(nomeCampoForm: string): any {
+    return {
+      data: {
+        tituloModal: `Exclusão de ${
+          this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)
+        }`,
+        pergunta: `Confirma a exclusão d${this.artigoEntidade} ${
+          this.nomeEntidade
+        }
+                   "${this.recuperarValorCampoForm(nomeCampoForm)}"?`,
+        rotuloAceitar: this.ROTULO_BOTAO_ACEITAR,
+        rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
+      },
+    };
   }
 }
+

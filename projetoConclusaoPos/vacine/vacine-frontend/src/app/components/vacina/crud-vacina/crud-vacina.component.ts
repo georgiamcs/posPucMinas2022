@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
 import { CrudComponent } from './../../lib/crud/crud.component';
 import { VacinaService } from './../../../services/vacina/vacina.service';
@@ -22,8 +21,6 @@ export class CrudVacinaComponent
   extends CrudComponent<Vacina>
   implements OnInit
 {
-  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-vacinas';
-
   constructor(
     private service: VacinaService,
     private formBuilder: FormBuilder,
@@ -32,7 +29,15 @@ export class CrudVacinaComponent
     public  dialogoConf: MatDialog
   ) {
     super();
+    this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud(this.router, this.activatedRoute);
+  }
+
+  private definirIdentificadoresEntidade() {
+    this.nomeEntidade = 'vacina';
+    this.pluralEntidade = 'vacinas';
+    this.artigoEntidade = 'a';
+    this.nomeCampoFormIdentificaEntidade = 'tx_nome';
   }
 
   private preencherFormulario(registro: Vacina): void {
@@ -77,39 +82,27 @@ export class CrudVacinaComponent
   }
 
   private incluirRegistro() {
-    const msgFeedback: MensagemFeedback = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      `Vacina "${this.recuperarValorCampoForm(
-        'tx_nome'
-      )}" foi incluída com sucesso!`
+    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
+      this.nomeCampoFormIdentificaEntidade
     );
-
     this.service
       .incluir(this.form.value)
       .subscribe(() => this.carregarRegistros(msgFeedback));
   }
 
   private alterarRegistro() {
-    const msgFeedback: MensagemFeedback = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      `Vacina "${this.recuperarValorCampoForm(
-        'tx_nome'
-      )}" foi alterada com sucesso!`
+    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
+      this.nomeCampoFormIdentificaEntidade
     );
-
     this.service
       .alterar(this.form.value)
       .subscribe(() => this.carregarRegistros(msgFeedback));
   }
 
   private excluirRegistro(id: string) {
-    const msgFeedback: MensagemFeedback = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      `Vacina "${this.recuperarValorCampoForm(
-        'tx_nome'
-      )}" foi excluída com sucesso!`
+    const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
+      this.nomeCampoFormIdentificaEntidade
     );
-
     this.service.excluir(id).subscribe(() => {
       this.carregarRegistros(msgFeedback);
     });
@@ -137,27 +130,21 @@ export class CrudVacinaComponent
         ])
       );
     }
-
-    console.log('this.form em verificarIdadeRecomendada', this.form);
   }
 
   private carregarRegistros(msgFeedback: MensagemFeedback) {
     this.carregarListaRegistros(
       this.router,
-      this.CAMINHO_RELAT_LISTA_REGISTROS,
+      this.getCaminhoRelativoListaRegistros(),
       msgFeedback
     );
   }
 
   private confirmarExclusaoRegistro(registro: Vacina) {
-    const modalRef = this.dialogoConf.open(DialogoConfirmacaoComponent, {
-      data: {
-        tituloModal: 'Exclusão de Vacina',
-        pergunta: `Confirma a exclusão da vacina "'${registro.tx_nome}'"?`,
-        rotuloAceitar: this.ROTULO_BOTAO_ACEITAR,
-        rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
-      },
-    });
+    const modalRef = this.dialogoConf.open(
+      DialogoConfirmacaoComponent,
+      this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
+    );
 
     modalRef.afterClosed().subscribe((result) => {
       if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
@@ -188,6 +175,9 @@ export class CrudVacinaComponent
   }
 
   public fechar() {
-    this.executarAcaoFechar(this.router, this.CAMINHO_RELAT_LISTA_REGISTROS);
+    this.executarAcaoFechar(
+      this.router,
+      this.getCaminhoRelativoListaRegistros()
+    );
   }
 }

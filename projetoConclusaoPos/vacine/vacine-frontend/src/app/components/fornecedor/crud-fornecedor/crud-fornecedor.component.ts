@@ -15,12 +15,17 @@ import { DialogoConfirmacaoComponent } from '../../lib/dialogo-confirmacao/dialo
 @Component({
   selector: 'vacine-crud-fornecedor',
   templateUrl: './crud-fornecedor.component.html',
-  styleUrls: ['./crud-fornecedor.component.scss']
+  styleUrls: ['./crud-fornecedor.component.scss'],
 })
-export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
+export class CrudFornecedorComponent
+  extends CrudComponent<Fornecedor>
   implements OnInit
 {
-  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-fornecedores';
+  private definirIdentificadoresEntidade() {
+    this.nomeEntidade   = 'fornecedor';
+    this.pluralEntidade = 'fornecedores';
+    this.artigoEntidade = 'o';
+  }
 
   constructor(
     private service: FornecedorService,
@@ -30,6 +35,7 @@ export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
     public  dialogoConf: MatDialog
   ) {
     super();
+    this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud(this.router, this.activatedRoute);
   }
 
@@ -59,9 +65,9 @@ export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
       email: [null, validadoresRequeridoSemEspacos()],
       endereco: this.formBuilder.group({
         logradouro: [null, validadoresRequeridoSemEspacos()],
-        numero: [ null, validadoresRequeridoSemEspacos()],
+        numero: [null, validadoresRequeridoSemEspacos()],
         complemento: [null],
-        cep: [ null, validadoresRequeridoSemEspacos()],
+        cep: [null, validadoresRequeridoSemEspacos()],
       }),
       telefone_fixo: [
         null,
@@ -82,9 +88,6 @@ export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
     });
   }
 
-  tel_celular?: string;
-  tel_fixo?: string;
-
   private carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.id) {
@@ -102,39 +105,21 @@ export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
   }
 
   private incluirRegistro() {
-    const msgFeedback: MensagemFeedback = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      `Fornecedor "${this.recuperarValorCampoForm(
-        'nome'
-      )}" foi incluído com sucesso!`
-    );
-
+    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(this.nomeCampoFormIdentificaEntidade);
     this.service
       .incluir(this.form.value)
       .subscribe(() => this.carregarRegistros(msgFeedback));
   }
 
   private alterarRegistro() {
-    const msgFeedback: MensagemFeedback = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      `Fornecedor "${this.recuperarValorCampoForm(
-        'nome'
-      )}" foi alterado com sucesso!`
-    );
-
+    const msgFeedback = this.getMsgFeedBackAlteradoSucesso(this.nomeCampoFormIdentificaEntidade);
     this.service
       .alterar(this.form.value)
       .subscribe(() => this.carregarRegistros(msgFeedback));
   }
 
   private excluirRegistro(id: string) {
-    const msgFeedback: MensagemFeedback = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      `Fornecedor "${this.recuperarValorCampoForm(
-        'tx_nome'
-      )}" foi excluído com sucesso!`
-    );
-
+    const msgFeedback = this.getMsgFeedBackExcluidoSucesso(this.nomeCampoFormIdentificaEntidade);
     this.service.excluir(id).subscribe(() => {
       this.carregarRegistros(msgFeedback);
     });
@@ -143,20 +128,16 @@ export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
   private carregarRegistros(msgFeedback: MensagemFeedback) {
     this.carregarListaRegistros(
       this.router,
-      this.CAMINHO_RELAT_LISTA_REGISTROS,
+      this.getCaminhoRelativoListaRegistros(),
       msgFeedback
     );
   }
 
   private confirmarExclusaoRegistro(registro: Fornecedor) {
-    const modalRef = this.dialogoConf.open(DialogoConfirmacaoComponent, {
-      data: {
-        tituloModal: 'Exclusão de Vacina',
-        pergunta: `Confirma a exclusão da vacina "'${registro.nome}'"?`,
-        rotuloAceitar: this.ROTULO_BOTAO_ACEITAR,
-        rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
-      },
-    });
+    const modalRef = this.dialogoConf.open(
+      DialogoConfirmacaoComponent,
+      this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
+    );
 
     modalRef.afterClosed().subscribe((result) => {
       if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
@@ -187,6 +168,6 @@ export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
   }
 
   public fechar() {
-    this.executarAcaoFechar(this.router, this.CAMINHO_RELAT_LISTA_REGISTROS);
+    this.executarAcaoFechar(this.router, this.getCaminhoRelativoListaRegistros());
   }
 }
