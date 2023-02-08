@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 
 import { Vacina } from 'src/app/shared/models/vacina.model';
 import { VacinaService } from '../../../services/vacina/vacina.service';
-import { ListarRegistrosComponent } from '../../lib/listar-registros/listar-registros.component';
+import { ListarRegistrosComponent } from '../../../shared/components/listar-registros/listar-registros.component';
 
 @Component({
   selector: 'vacine-listar-vacinas',

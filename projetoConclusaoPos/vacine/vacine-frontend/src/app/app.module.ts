@@ -27,10 +27,10 @@ import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
-import { DialogoConfirmacaoComponent } from './components/lib/dialogo-confirmacao/dialogo-confirmacao.component';
-import { CrudComponent } from './components/lib/crud/crud.component';
-import { MensagemFeedbackComponent } from './components/lib/mensagem-feedback/mensagem-feedback.component';
-import { ListarRegistrosComponent } from './components/lib/listar-registros/listar-registros.component';
+import { DialogoConfirmacaoComponent } from './shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
+import { CrudComponent } from './shared/components/crud/crud.component';
+import { MensagemFeedbackComponent } from './shared/components/mensagem-feedback/mensagem-feedback.component';
+import { ListarRegistrosComponent } from './shared/components/listar-registros/listar-registros.component';
 import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';

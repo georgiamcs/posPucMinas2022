@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/environment';
 
+import { environment } from 'src/app/environment';
+import { ServiceCrud } from 'src/app/shared/interfaces/crud.service.interface';
 import { Fornecedor } from 'src/app/shared/models/fornecedor.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FornecedorService {
+export class FornecedorService implements ServiceCrud {
   private API_URL_COMPLETA = environment.API_URL + 'fornecedores/';
 
   constructor(private http: HttpClient) {}

@@ -2,7 +2,7 @@ import { FornecedorService } from './../../../services/fornecedor/fornecedor.ser
 import { Component } from '@angular/core';
 
 import { Fornecedor } from './../../../shared/models/fornecedor.model';
-import { ListarRegistrosComponent } from '../../lib/listar-registros/listar-registros.component';
+import { ListarRegistrosComponent } from '../../../shared/components/listar-registros/listar-registros.component';
 import { Router } from '@angular/router';
 
 

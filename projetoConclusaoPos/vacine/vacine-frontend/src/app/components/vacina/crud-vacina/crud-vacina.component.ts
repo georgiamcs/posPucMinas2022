@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
-import { CrudComponent } from './../../lib/crud/crud.component';
+import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
+import { CrudComponent } from '../../../shared/components/crud/crud.component';
 import { VacinaService } from './../../../services/vacina/vacina.service';
-import { DialogoConfirmacaoComponent } from './../../lib/dialogo-confirmacao/dialogo-confirmacao.component';
+import { DialogoConfirmacaoComponent } from '../../../shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { Vacina } from '../../../shared/models/vacina.model';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
@@ -91,7 +91,7 @@ export class CrudVacinaComponent
   }
 
   private alterarRegistro() {
-    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
+    const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
     this.service

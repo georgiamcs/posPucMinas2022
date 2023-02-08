@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Fornecedor } from './../../../shared/models/fornecedor.model';
-import { CrudComponent } from '../../lib/crud/crud.component';
+import { CrudComponent } from '../../../shared/components/crud/crud.component';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
-import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback';
+import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { DialogoConfirmacaoComponent } from '../../lib/dialogo-confirmacao/dialogo-confirmacao.component';
+import { DialogoConfirmacaoComponent } from '../../../shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
   selector: 'vacine-crud-fornecedor',

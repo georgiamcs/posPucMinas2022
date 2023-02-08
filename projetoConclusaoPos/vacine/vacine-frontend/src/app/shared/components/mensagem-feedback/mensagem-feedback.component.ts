@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
+import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
 
 @Component({
   selector: 'vacine-mensagem-feedback',

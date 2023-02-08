@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
+import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
 import { CrudModel } from 'src/app/shared/models/crud.model';
 import { Router } from '@angular/router';
 

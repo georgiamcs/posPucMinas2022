@@ -1,3 +1,4 @@
+import { ServiceCrud } from './../../shared/interfaces/crud.service.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,7 +9,7 @@ import { environment } from 'src/app/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class VacinaService {
+export class VacinaService implements ServiceCrud {
   //TODO tratar excecoes do http (ex: backend fora, retorno com erro)
 
   constructor(private http: HttpClient) {}
