@@ -1,1 +1,51 @@
-<p>crud-fornecedor works!</p>
+<div class="tab-grid">
+  <h1>Cadastro de Fornecedores</h1>
+  <div class="crud-grid">
+    <form [formGroup]="form">
+      <div>
+        <mat-form-field id="fCnpj" class="me-3">
+          <mat-label id="lbCnpj">Cnpj</mat-label>
+          <input id="inCnpj" formControlName="cnpj" matInput type="text" />
+        </mat-form-field>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('cnpj') && recuperarErroCampoForm('cnpj', 'required')">
+          Campo obrigatório
+        </div>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('cnpj') && recuperarErroCampoForm('cnpj', 'minlength')">
+          Tamanho mínimo do campo é de 14 caracteres.
+        </div>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('cnpj') && recuperarErroCampoForm('cnpj', 'maxlength')">
+          Tamanho máximo do campo é de 14 caracteres.
+        </div>
+      </div>
+      <div>
+        <mat-form-field id="fNome" class="me-3">
+          <mat-label id="lbNome">Nome</mat-label>
+          <input id="inNome" formControlName="nome" matInput type="text" />
+        </mat-form-field>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('nome') && recuperarErroCampoForm('nome', 'required')">
+          Campo obrigatório
+        </div>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('nome') && recuperarErroCampoForm('nome', 'minlength')">
+          Tamanho mínimo do campo é de 3 caracteres.
+        </div>
+        <div class="msg_err" *ngIf="campoFormFoiEditado('nome') && recuperarErroCampoForm('nome', 'maxlength')">
+          Tamanho máximo do campo é de 100 caracteres.
+        </div>
+      </div>
+      <div>
+        <button
+          *ngIf="temBotaoAcao()"
+          mat-raised-button
+          color="primary"
+          (click)="salvar()"
+          [disabled]="!habilitarBotaoAcao()"
+        >
+          {{ lbBotaoSalvar }}
+        </button>
+        <button mat-raised-button (click)="fechar()">
+          {{ lbBotaoFechar }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

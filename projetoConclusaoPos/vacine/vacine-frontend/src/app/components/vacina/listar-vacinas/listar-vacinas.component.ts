@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
 //TODO: Verificar como usar no routerLink o tipo da rota = usar funcao no ts para retornar?
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 import { Vacina } from 'src/app/shared/models/vacina.model';
@@ -12,11 +12,7 @@ import { ListarRegistrosComponent } from '../../../shared/components/listar-regi
   styleUrls: ['./listar-vacinas.component.scss'],
 })
 export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
-
-  constructor(
-    private router: Router,
-    private vacinaService: VacinaService) {
-
+  constructor(private _router: Router, private _service: VacinaService) {
     super();
     this.colunasExibidas = [
       'nome',
@@ -24,16 +20,13 @@ export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
       'vlIdadeRecomemendada',
       'acoes',
     ];
-    this.carregarMensagensAoIniciar(this.router);
+    this.definirAtributosInjetores();
+    this.carregarMensagensAoIniciar();
   }
 
-  ngOnInit(): void {
-    this.carregarVacinas();
+  private definirAtributosInjetores() {
+    this.service = this._service;
+    this.router = this._router;
   }
 
-  carregarVacinas() {
-    this.vacinaService.listar().subscribe((listaVacinas) => {
-      this.registros = listaVacinas;
-    });
-  }
 }

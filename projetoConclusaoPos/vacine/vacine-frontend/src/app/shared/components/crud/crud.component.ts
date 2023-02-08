@@ -1,7 +1,9 @@
+import { ServiceCrud } from './../../interfaces/crud.service.interface';
 import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
+  FormBuilder,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
@@ -19,13 +21,15 @@ import {
   converterUndefinedNuloEmFalse,
 } from 'src/app/shared/utils/util';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
   selector: 'vacine-crud',
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<T extends CrudModel> {
+export class CrudComponent<T extends CrudModel> implements OnInit{
   protected ROTULO_BOTAO_ACEITAR = 'Sim';
   protected ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -37,12 +41,26 @@ export class CrudComponent<T extends CrudModel> {
   protected id: string | null;
   protected registro: T;
 
+  protected service: ServiceCrud<T>;
+  protected formBuilder: FormBuilder;
+  protected router: Router;
+  protected activatedRoute: ActivatedRoute;
+  protected dialogoConf: MatDialog;
+
   private _nomeEntidade: string;
   private _pluralEntidade: string;
   private _artigoEntidade: string;
   private _nomeCampoFormIdentificaEntidade: string;
 
   constructor() {}
+
+  ngOnInit(): void {
+    this.buildForm();
+    this.carregarDadosId();
+    this.somenteLeitura() ? this.form.disable() : this.form.enable();
+  }
+
+  protected buildForm() {}
 
   protected get nomeEntidade(): string {
     return this._nomeEntidade;
@@ -75,12 +93,94 @@ export class CrudComponent<T extends CrudModel> {
     this._nomeCampoFormIdentificaEntidade = v;
   }
 
-  protected preencherAtributosGenericosCrud(
-    router: Router,
-    activatedRoute: ActivatedRoute
-  ) {
-    this.id = activatedRoute.snapshot.paramMap.get('id');
-    this.modoFormulario = definirModoFormulario(this.id, router.url);
+  protected carregarDadosId() {
+    if (this.modoFormulario != ModoFormulario.INCLUSAO) {
+      if (this.id) {
+        this.service
+          .procurarPorId(this.id)
+          .subscribe((regBusca) => this.preencherFormComRegistroId(regBusca));
+      }
+    }
+  }
+
+  protected carregarRegistros(msgFeedback: MensagemFeedback) {
+    this.carregarListaRegistros(
+      this.getCaminhoRelativoListaRegistros(),
+      msgFeedback
+    );
+  }
+
+  protected incluirRegistro() {
+    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
+      this.nomeCampoFormIdentificaEntidade
+    );
+    this.service
+      .incluir(this.form.value)
+      .subscribe(() => this.carregarRegistros(msgFeedback));
+  }
+
+  protected alterarRegistro() {
+    const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
+      this.nomeCampoFormIdentificaEntidade
+    );
+    this.service
+      .alterar(this.form.value)
+      .subscribe(() => this.carregarRegistros(msgFeedback));
+  }
+
+  protected excluirRegistro(id: string) {
+    const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
+      this.nomeCampoFormIdentificaEntidade
+    );
+    this.service.excluir(id).subscribe(() => {
+      this.carregarRegistros(msgFeedback);
+    });
+  }
+
+  protected confirmarExclusaoRegistro(registro: CrudModel) {
+    const modalRef = this.dialogoConf.open(
+      DialogoConfirmacaoComponent,
+      this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
+    );
+
+    modalRef.afterClosed().subscribe((result) => {
+      if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
+        this.excluirRegistro(registro._id);
+      }
+    });
+  }
+
+  protected salvar() {
+    if (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO) {
+      switch (this.modoFormulario) {
+        case ModoFormulario.INCLUSAO:
+          this.incluirRegistro();
+          break;
+        case ModoFormulario.ALTERACAO:
+          this.alterarRegistro();
+          break;
+        case ModoFormulario.EXCLUSAO:
+          this.confirmarExclusaoRegistro(this.form.value);
+          break;
+        default:
+          throw new Error('Modo do formulário não definido');
+      }
+    } else {
+      console.log('this.form)', this.form);
+      alert('Formulário com preenchimento inválido.');
+    }
+  }
+
+  protected fechar() {
+    this.executarAcaoFechar(
+      this.router,
+      this.getCaminhoRelativoListaRegistros()
+    );
+  }
+
+  protected preencherAtributosGenericosCrud() {
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.modoFormulario = definirModoFormulario(this.id, this.router.url);
     this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
       this.modoFormulario
     );
@@ -89,7 +189,7 @@ export class CrudComponent<T extends CrudModel> {
     );
   }
 
-  protected preencherFormComRegistroId(registro: T): void {
+  protected preencherFormComRegistroId(registro: any): void {
     this.form.patchValue(registro);
   }
 
@@ -113,7 +213,6 @@ export class CrudComponent<T extends CrudModel> {
   }
 
   protected carregarListaRegistros(
-    router: Router,
     caminhoRelativo: string,
     msgFeedback: MensagemFeedback
   ) {
@@ -125,7 +224,7 @@ export class CrudComponent<T extends CrudModel> {
         },
       },
     };
-    router.navigate([caminhoRelativo], state);
+    this.router.navigate([caminhoRelativo], state);
   }
 
   protected executarAcaoFechar(router: Router, caminhoRelativo: string) {

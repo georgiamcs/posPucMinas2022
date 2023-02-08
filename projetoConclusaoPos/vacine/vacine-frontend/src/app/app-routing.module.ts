@@ -5,6 +5,7 @@ import { ListarVacinasComponent } from './components/vacina/listar-vacinas/lista
 import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
+import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'listar-vacinas', pathMatch: 'full' },
@@ -17,6 +18,16 @@ const routes: Routes = [
   {
     path: `crud-vacina/${TipoRota.EXCLUSAO}/:id`,
     component: CrudVacinaComponent,
+  },
+  { path: 'crud-fornecedor', component: CrudFornecedorComponent },
+  { path: 'crud-fornecedor/:id', component: CrudFornecedorComponent },
+  {
+    path: `crud-fornecedor/${TipoRota.ALTERACAO}/:id`,
+    component: CrudFornecedorComponent,
+  },
+  {
+    path: `crud-fornecedor/${TipoRota.EXCLUSAO}/:id`,
+    component: CrudFornecedorComponent,
   },
   { path: 'listar-vacinas', component: ListarVacinasComponent },
   { path: 'listar-fornecedores', component: ListarFornecedoresComponent },

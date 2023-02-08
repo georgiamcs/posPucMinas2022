@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 import { CrudModel } from '../models/crud.model';
 
-export interface ServiceCrud {
+export interface ServiceCrud<T extends CrudModel> {
 
-  listar(): Observable<CrudModel[]>;
-  incluir(registro: CrudModel): Observable<CrudModel>;
-  excluir(id: string): Observable<CrudModel>;
-  alterar(registro: CrudModel): Observable<CrudModel>;
-  procurarPorId(id: string): Observable<CrudModel>;
+  listar(): Observable<T[]>;
+  incluir(registro: T): Observable<T>;
+  excluir(id: string): Observable<T>;
+  alterar(registro: T): Observable<T>;
+  procurarPorId(id: string): Observable<T>;
 }

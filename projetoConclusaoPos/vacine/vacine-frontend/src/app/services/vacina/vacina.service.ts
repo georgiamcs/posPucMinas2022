@@ -9,7 +9,7 @@ import { environment } from 'src/app/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class VacinaService implements ServiceCrud {
+export class VacinaService implements ServiceCrud<Vacina> {
   //TODO tratar excecoes do http (ex: backend fora, retorno com erro)
 
   constructor(private http: HttpClient) {}

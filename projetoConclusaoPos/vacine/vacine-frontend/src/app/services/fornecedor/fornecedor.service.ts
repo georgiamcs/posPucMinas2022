@@ -9,7 +9,7 @@ import { Fornecedor } from 'src/app/shared/models/fornecedor.model';
 @Injectable({
   providedIn: 'root',
 })
-export class FornecedorService implements ServiceCrud {
+export class FornecedorService implements ServiceCrud<Fornecedor> {
   private API_URL_COMPLETA = environment.API_URL + 'fornecedores/';
 
   constructor(private http: HttpClient) {}

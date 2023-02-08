@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./listar-fornecedores.component.scss'],
 })
 export class ListarFornecedoresComponent extends ListarRegistrosComponent<Fornecedor> {
-  constructor(private router: Router, private service: FornecedorService) {
+  constructor(private _router: Router, private _service: FornecedorService) {
     super();
     this.colunasExibidas = [
       'nome',
@@ -22,16 +22,13 @@ export class ListarFornecedoresComponent extends ListarRegistrosComponent<Fornec
       'tel_fixo',
       'acoes',
     ];
-    this.carregarMensagensAoIniciar(this.router);
+    this.definirAtributosInjetores();
+    this.carregarMensagensAoIniciar();
   }
 
-  ngOnInit(): void {
-    this.carregarFornecedores();
+  private definirAtributosInjetores() {
+    this.service = this._service;
+    this.router = this._router;
   }
 
-  carregarFornecedores() {
-    this.service.listar().subscribe((listaFornecedores) => {
-      this.registros = listaFornecedores;
-    });
-  }
 }

@@ -4,12 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
 import { CrudComponent } from '../../../shared/components/crud/crud.component';
 import { VacinaService } from './../../../services/vacina/vacina.service';
-import { DialogoConfirmacaoComponent } from '../../../shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { Vacina } from '../../../shared/models/vacina.model';
-import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
 
 @Component({
@@ -22,15 +19,25 @@ export class CrudVacinaComponent
   implements OnInit
 {
   constructor(
-    private service: VacinaService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    public  dialogoConf: MatDialog
+    private _service: VacinaService,
+    private _formBuilder: FormBuilder,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _dialogoConf: MatDialog
   ) {
     super();
+
+    this.definirAtributosInjetores();
     this.definirIdentificadoresEntidade();
-    this.preencherAtributosGenericosCrud(this.router, this.activatedRoute);
+    this.preencherAtributosGenericosCrud();
+  }
+
+  private definirAtributosInjetores() {
+    this.service = this._service;
+    this.formBuilder = this._formBuilder;
+    this.router = this._router;
+    this.activatedRoute = this._activatedRoute;
+    this.dialogoConf = this._dialogoConf;
   }
 
   private definirIdentificadoresEntidade() {
@@ -40,12 +47,7 @@ export class CrudVacinaComponent
     this.nomeCampoFormIdentificaEntidade = 'tx_nome';
   }
 
-  private preencherFormulario(registro: Vacina): void {
-    this.preencherFormComRegistroId(registro);
-    this.verificarIdadeRecomendada();
-  }
-
-  private buildForm() {
+  protected override buildForm() {
     this.form = this.formBuilder.group({
       _id: [null],
       tx_nome: [
@@ -64,48 +66,14 @@ export class CrudVacinaComponent
     });
   }
 
-  private carregarDadosId() {
-    if (this.modoFormulario != ModoFormulario.INCLUSAO) {
-      if (this.id) {
-        this.service
-          .procurarPorId(this.id)
-          .subscribe((regBusca) => this.preencherFormulario(regBusca));
-      }
-    }
-  }
-
-  ngOnInit(): void {
-    this.buildForm();
-    this.carregarDadosId();
-    this.somenteLeitura() ? this.form.disable() : this.form.enable();
+  protected override preencherFormComRegistroId(registro: any): void {
+    this.form.patchValue(registro);
     this.verificarIdadeRecomendada();
   }
 
-  private incluirRegistro() {
-    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
-      this.nomeCampoFormIdentificaEntidade
-    );
-    this.service
-      .incluir(this.form.value)
-      .subscribe(() => this.carregarRegistros(msgFeedback));
-  }
-
-  private alterarRegistro() {
-    const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
-      this.nomeCampoFormIdentificaEntidade
-    );
-    this.service
-      .alterar(this.form.value)
-      .subscribe(() => this.carregarRegistros(msgFeedback));
-  }
-
-  private excluirRegistro(id: string) {
-    const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
-      this.nomeCampoFormIdentificaEntidade
-    );
-    this.service.excluir(id).subscribe(() => {
-      this.carregarRegistros(msgFeedback);
-    });
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.verificarIdadeRecomendada();
   }
 
   public verificarIdadeRecomendada() {
@@ -130,54 +98,5 @@ export class CrudVacinaComponent
         ])
       );
     }
-  }
-
-  private carregarRegistros(msgFeedback: MensagemFeedback) {
-    this.carregarListaRegistros(
-      this.router,
-      this.getCaminhoRelativoListaRegistros(),
-      msgFeedback
-    );
-  }
-
-  private confirmarExclusaoRegistro(registro: Vacina) {
-    const modalRef = this.dialogoConf.open(
-      DialogoConfirmacaoComponent,
-      this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
-    );
-
-    modalRef.afterClosed().subscribe((result) => {
-      if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
-        this.excluirRegistro(registro._id);
-      }
-    });
-  }
-
-  public salvar() {
-    if (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO) {
-      switch (this.modoFormulario) {
-        case ModoFormulario.INCLUSAO:
-          this.incluirRegistro();
-          break;
-        case ModoFormulario.ALTERACAO:
-          this.alterarRegistro();
-          break;
-        case ModoFormulario.EXCLUSAO:
-          this.confirmarExclusaoRegistro(this.form.value);
-          break;
-        default:
-          throw new Error('Modo do formulário não definido');
-      }
-    } else {
-      console.log('this.form)', this.form);
-      alert('Formulário com preenchimento inválido.');
-    }
-  }
-
-  public fechar() {
-    this.executarAcaoFechar(
-      this.router,
-      this.getCaminhoRelativoListaRegistros()
-    );
   }
 }
