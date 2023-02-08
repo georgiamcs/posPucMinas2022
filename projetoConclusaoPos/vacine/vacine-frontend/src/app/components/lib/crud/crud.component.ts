@@ -17,11 +17,11 @@ import { CrudModel } from 'src/app/shared/models/crud.model';
 import { converterUndefinedEmNulo, converterUndefinedNuloEmFalse } from 'src/app/shared/utils/util';
 
 @Component({
-  selector: 'app-crud',
+  selector: 'vacine-crud',
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<Type extends CrudModel> {
+export class CrudComponent<T extends CrudModel> {
   protected ROTULO_BOTAO_ACEITAR = 'Sim';
   protected ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -31,7 +31,7 @@ export class CrudComponent<Type extends CrudModel> {
   protected lbBotaoFechar: string | null;
 
   protected id: string | null;
-  protected registro: Type;
+  protected registro: T;
 
   constructor() {}
 
@@ -49,7 +49,7 @@ export class CrudComponent<Type extends CrudModel> {
     );
   }
 
-  protected preencherFormComRegistroId(registro: any): void {
+  protected preencherFormComRegistroId(registro: T): void {
     this.form.patchValue(registro);
   }
 

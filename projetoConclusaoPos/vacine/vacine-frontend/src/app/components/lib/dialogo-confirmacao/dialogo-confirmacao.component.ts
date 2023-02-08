@@ -9,7 +9,7 @@ export interface ParametrosDialogoConfirmacao {
 }
 
 @Component({
-  selector: 'app-dialogo-confirmacao',
+  selector: 'vacine-dialogo-confirmacao',
   templateUrl: './dialogo-confirmacao.component.html',
   styleUrls: ['./dialogo-confirmacao.component.scss'],
 })

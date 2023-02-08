@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
 
 @Component({
-  selector: 'app-mensagem-feedback',
+  selector: 'vacine-mensagem-feedback',
   templateUrl: './mensagem-feedback.component.html',
   styleUrls: ['./mensagem-feedback.component.scss'],
 })

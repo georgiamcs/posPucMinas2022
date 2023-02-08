@@ -1,31 +1,29 @@
-//TODO: Verificar css qnd nao escolhe idade e tipo idade pq esta quebrando
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 
-import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
-import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
-import { CrudComponent } from './../../lib/crud/crud.component';
-import { VacinaService } from './../../../services/vacina/vacina.service';
-import { DialogoConfirmacaoComponent } from './../../lib/dialogo-confirmacao/dialogo-confirmacao.component';
-import { Vacina } from '../../../shared/models/vacina.model';
-import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
+import { Fornecedor } from './../../../shared/models/fornecedor.model';
+import { CrudComponent } from '../../lib/crud/crud.component';
+import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
+import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback';
+import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
+import { DialogoConfirmacaoComponent } from '../../lib/dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
-  selector: 'vacine-crud-vacina',
-  templateUrl: './crud-vacina.component.html',
-  styleUrls: ['./crud-vacina.component.scss'],
+  selector: 'vacine-crud-fornecedor',
+  templateUrl: './crud-fornecedor.component.html',
+  styleUrls: ['./crud-fornecedor.component.scss']
 })
-export class CrudVacinaComponent
-  extends CrudComponent<Vacina>
+export class CrudFornecedorComponent extends CrudComponent<Fornecedor>
   implements OnInit
 {
-  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-vacinas';
+  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-fornecedores';
 
   constructor(
-    private service: VacinaService,
+    private service: FornecedorService,
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -35,15 +33,22 @@ export class CrudVacinaComponent
     this.preencherAtributosGenericosCrud(this.router, this.activatedRoute);
   }
 
-  private preencherFormulario(registro: Vacina): void {
+  private preencherFormulario(registro: Fornecedor): void {
     this.preencherFormComRegistroId(registro);
-    this.verificarIdadeRecomendada();
   }
 
   private buildForm() {
     this.form = this.formBuilder.group({
       _id: [null],
-      tx_nome: [
+      cnpj: [
+        null,
+        Validators.compose([
+          validadoresRequeridoSemEspacos(),
+          Validators.minLength(14),
+          Validators.maxLength(14),
+        ]),
+      ],
+      nome: [
         null,
         Validators.compose([
           validadoresRequeridoSemEspacos(),
@@ -51,13 +56,34 @@ export class CrudVacinaComponent
           Validators.maxLength(100),
         ]),
       ],
-      tx_protecao_contra: [null, validadoresRequeridoSemEspacos()],
-      tx_composicao: [null, validadoresRequeridoSemEspacos()],
-      in_idade_recomendada: [true, [Validators.required]],
-      tp_idade_recomendada: [null],
-      nr_idade_recomendada: [null],
+      email: [null, validadoresRequeridoSemEspacos()],
+      endereco: this.formBuilder.group({
+        logradouro: [null, validadoresRequeridoSemEspacos()],
+        numero: [ null, validadoresRequeridoSemEspacos()],
+        complemento: [null],
+        cep: [ null, validadoresRequeridoSemEspacos()],
+      }),
+      telefone_fixo: [
+        null,
+        Validators.compose([
+          validadoresRequeridoSemEspacos(),
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ]),
+      ],
+      telefone_celular: [
+        null,
+        Validators.compose([
+          validadoresRequeridoSemEspacos(),
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ]),
+      ],
     });
   }
+
+  tel_celular?: string;
+  tel_fixo?: string;
 
   private carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
@@ -73,15 +99,14 @@ export class CrudVacinaComponent
     this.buildForm();
     this.carregarDadosId();
     this.somenteLeitura() ? this.form.disable() : this.form.enable();
-    this.verificarIdadeRecomendada();
   }
 
   private incluirRegistro() {
     const msgFeedback: MensagemFeedback = new MensagemFeedback(
       TipoMensagemFeedback.SUCESSO,
-      `Vacina "${this.recuperarValorCampoForm(
-        'tx_nome'
-      )}" foi incluída com sucesso!`
+      `Fornecedor "${this.recuperarValorCampoForm(
+        'nome'
+      )}" foi incluído com sucesso!`
     );
 
     this.service
@@ -92,9 +117,9 @@ export class CrudVacinaComponent
   private alterarRegistro() {
     const msgFeedback: MensagemFeedback = new MensagemFeedback(
       TipoMensagemFeedback.SUCESSO,
-      `Vacina "${this.recuperarValorCampoForm(
-        'tx_nome'
-      )}" foi alterada com sucesso!`
+      `Fornecedor "${this.recuperarValorCampoForm(
+        'nome'
+      )}" foi alterado com sucesso!`
     );
 
     this.service
@@ -105,40 +130,14 @@ export class CrudVacinaComponent
   private excluirRegistro(id: string) {
     const msgFeedback: MensagemFeedback = new MensagemFeedback(
       TipoMensagemFeedback.SUCESSO,
-      `Vacina "${this.recuperarValorCampoForm(
+      `Fornecedor "${this.recuperarValorCampoForm(
         'tx_nome'
-      )}" foi excluída com sucesso!`
+      )}" foi excluído com sucesso!`
     );
 
     this.service.excluir(id).subscribe(() => {
       this.carregarRegistros(msgFeedback);
     });
-  }
-
-  public verificarIdadeRecomendada() {
-    const temIdadeRecomendada = this.form.get('in_idade_recomendada')?.value;
-    const controlTpIdade = this.form.get('tp_idade_recomendada');
-    const controlNrIdade = this.form.get('nr_idade_recomendada');
-
-    if (!temIdadeRecomendada || temIdadeRecomendada == undefined) {
-      controlTpIdade?.setValue(!temIdadeRecomendada ? null : false);
-      controlNrIdade?.setValue(null);
-      this.atualizarValidadores(controlTpIdade!, null);
-      this.atualizarValidadores(controlNrIdade!, null);
-      controlTpIdade?.setValidators(null);
-      controlNrIdade?.setValidators(null);
-    } else {
-      controlTpIdade?.setValidators([Validators.required]);
-      controlNrIdade?.setValidators(
-        Validators.compose([
-          Validators.required,
-          Validators.min(0),
-          Validators.max(120),
-        ])
-      );
-    }
-
-    console.log('this.form em verificarIdadeRecomendada', this.form);
   }
 
   private carregarRegistros(msgFeedback: MensagemFeedback) {
@@ -149,11 +148,11 @@ export class CrudVacinaComponent
     );
   }
 
-  private confirmarExclusaoRegistro(registro: Vacina) {
+  private confirmarExclusaoRegistro(registro: Fornecedor) {
     const modalRef = this.dialogoConf.open(DialogoConfirmacaoComponent, {
       data: {
         tituloModal: 'Exclusão de Vacina',
-        pergunta: `Confirma a exclusão da vacina "'${registro.tx_nome}'"?`,
+        pergunta: `Confirma a exclusão da vacina "'${registro.nome}'"?`,
         rotuloAceitar: this.ROTULO_BOTAO_ACEITAR,
         rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
       },

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-listar-fornecedores',
+  selector: 'vacine-listar-fornecedores',
   templateUrl: './listar-fornecedores.component.html',
   styleUrls: ['./listar-fornecedores.component.scss'],
 })

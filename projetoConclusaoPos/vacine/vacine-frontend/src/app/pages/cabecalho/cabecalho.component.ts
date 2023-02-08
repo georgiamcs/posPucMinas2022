@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-cabecalho',
+  selector: 'vacine-cabecalho',
   templateUrl: './cabecalho.component.html',
   styleUrls: ['./cabecalho.component.scss']
 })

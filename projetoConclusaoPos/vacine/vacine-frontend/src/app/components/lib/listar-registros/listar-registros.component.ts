@@ -5,7 +5,7 @@ import { CrudModel } from 'src/app/shared/models/crud.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-listar-registros',
+  selector: 'vacine-listar-registros',
   templateUrl: './listar-registros.component.html',
   styleUrls: ['./listar-registros.component.scss'],
 })

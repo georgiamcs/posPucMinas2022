@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-conteudo-principal',
+  selector: 'vacine-conteudo-principal',
   templateUrl: './conteudo-principal.component.html',
   styleUrls: ['./conteudo-principal.component.scss']
 })

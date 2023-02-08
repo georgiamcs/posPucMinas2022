@@ -34,6 +34,7 @@ import { ListarRegistrosComponent } from './components/lib/listar-registros/list
 import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
+import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
     ListarFornecedoresComponent,
     CnpjPipe,
     TelefonePipe,
+    CrudFornecedorComponent,
   ],
   imports: [
     BrowserModule,

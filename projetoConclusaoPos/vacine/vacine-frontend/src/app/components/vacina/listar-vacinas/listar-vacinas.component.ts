@@ -7,7 +7,7 @@ import { VacinaService } from '../../../services/vacina/vacina.service';
 import { ListarRegistrosComponent } from '../../lib/listar-registros/listar-registros.component';
 
 @Component({
-  selector: 'app-listar-vacinas',
+  selector: 'vacine-listar-vacinas',
   templateUrl: './listar-vacinas.component.html',
   styleUrls: ['./listar-vacinas.component.scss'],
 })
