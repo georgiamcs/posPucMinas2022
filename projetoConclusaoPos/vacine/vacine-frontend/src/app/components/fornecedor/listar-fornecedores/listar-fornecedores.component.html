@@ -1,0 +1,66 @@
+<h1>Fornecedores</h1>
+<app-mensagem-feedback [mensagens]="mensagens"></app-mensagem-feedback>
+<div>
+  <button routerLink="/crud-vacina" mat-raised-button color="primary">
+    Adicionar Fornecedor
+  </button>
+</div>
+<table *ngIf="registros.length > 0, else semRegistros" mat-table [dataSource]="registros">
+  <!-- Coluna Nome -->
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef>Nome</th>
+    <td mat-cell *matCellDef="let registro">{{ registro.nome }}</td>
+  </ng-container>
+
+  <!-- Coluna CNPJ -->
+  <ng-container matColumnDef="cnpj">
+    <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+    <td mat-cell *matCellDef="let registro">{{ registro.cnpj | cnpj }}  </td>
+  </ng-container>
+
+  <!-- Email -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let registro">
+      {{ registro.email }}
+    </td>
+  </ng-container>
+
+  <!-- Telefone Celular  -->
+  <ng-container matColumnDef="tel_celular">
+    <th mat-header-cell *matHeaderCellDef>Telefone Celular</th>
+    <td mat-cell *matCellDef="let registro">
+      {{ registro.tel_celular | telefone }}
+    </td>
+  </ng-container>
+
+  <!-- Telefone Fixo  -->
+  <ng-container matColumnDef="tel_fixo">
+    <th mat-header-cell *matHeaderCellDef>Telefone Fixo</th>
+    <td mat-cell *matCellDef="let registro">
+      {{ registro.tel_fixo | telefone }}
+    </td>
+  </ng-container>
+
+  <!-- Coluna Ações -->
+  <ng-container matColumnDef="acoes">
+    <th mat-header-cell *matHeaderCellDef>Ações</th>
+    <td mat-cell *matCellDef="let registro">
+      <button mat-icon-button [routerLink]="['/crud-fornecedor/' + registro._id]" matTooltip="Visualizar">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button mat-icon-button [routerLink]="['/crud-fornecedor/editar/' + registro._id]" matTooltip="Editar">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button [routerLink]="['/crud-fornecedor/excluir/' + registro._id]" matTooltip="Excluir">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="colunasExibidas"></tr>
+  <tr mat-row *matRowDef="let row; columns: colunasExibidas"></tr>
+</table>
+<ng-template #semRegistros>
+    <app-sem-registros></app-sem-registros>
+</ng-template>

@@ -16,7 +16,7 @@ exports.get = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const vacina = await VacinaService.getVacinabyId(id);
+    const vacina = await VacinaService.getVacinaById(id);
     res.json(vacina);
   } catch (error) {
     res.status(500).json({ error: error.message });

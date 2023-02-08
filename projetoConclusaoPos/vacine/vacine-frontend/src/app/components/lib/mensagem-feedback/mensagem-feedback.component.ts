@@ -1,5 +1,6 @@
-import { MensagemFeedback } from '../../shared/classes/mensagem-feedback';
 import { Component, Input } from '@angular/core';
+
+import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback';
 
 @Component({
   selector: 'app-mensagem-feedback',

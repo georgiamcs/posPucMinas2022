@@ -29,8 +29,11 @@ import { ListarVacinasComponent } from './components/vacina/listar-vacinas/lista
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
 import { DialogoConfirmacaoComponent } from './components/lib/dialogo-confirmacao/dialogo-confirmacao.component';
 import { CrudComponent } from './components/lib/crud/crud.component';
-import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
+import { MensagemFeedbackComponent } from './components/lib/mensagem-feedback/mensagem-feedback.component';
 import { ListarRegistrosComponent } from './components/lib/listar-registros/listar-registros.component';
+import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
+import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
+import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 
 
 @NgModule({
@@ -46,6 +49,9 @@ import { ListarRegistrosComponent } from './components/lib/listar-registros/list
     CrudComponent,
     MensagemFeedbackComponent,
     ListarRegistrosComponent,
+    ListarFornecedoresComponent,
+    CnpjPipe,
+    TelefonePipe,
   ],
   imports: [
     BrowserModule,

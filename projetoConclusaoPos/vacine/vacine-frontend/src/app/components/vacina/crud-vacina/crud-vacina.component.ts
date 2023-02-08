@@ -21,7 +21,7 @@ export class CrudVacinaComponent
   extends CrudComponent<Vacina>
   implements OnInit
 {
-  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-vacina';
+  private CAMINHO_RELAT_LISTA_REGISTROS = '/listar-vacinas';
 
   constructor(
     private vacinaService: VacinaService,

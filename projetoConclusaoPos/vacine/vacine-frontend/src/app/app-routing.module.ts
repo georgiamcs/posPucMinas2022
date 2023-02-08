@@ -1,11 +1,13 @@
-import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
-import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
+import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
+import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'listar-vacina', pathMatch: 'full' },
+  { path: '', redirectTo: 'listar-vacinas', pathMatch: 'full' },
   { path: 'crud-vacina', component: CrudVacinaComponent },
   { path: 'crud-vacina/:id', component: CrudVacinaComponent },
   {
@@ -16,11 +18,12 @@ const routes: Routes = [
     path: `crud-vacina/${TipoRota.EXCLUSAO}/:id`,
     component: CrudVacinaComponent,
   },
-  { path: 'listar-vacina', component: ListarVacinasComponent },
+  { path: 'listar-vacinas', component: ListarVacinasComponent },
+  { path: 'listar-fornecedores', component: ListarFornecedoresComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

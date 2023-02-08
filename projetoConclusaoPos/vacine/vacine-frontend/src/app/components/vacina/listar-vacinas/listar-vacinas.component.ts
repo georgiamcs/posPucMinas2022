@@ -12,19 +12,18 @@ import { ListarRegistrosComponent } from '../../lib/listar-registros/listar-regi
   styleUrls: ['./listar-vacinas.component.scss'],
 })
 export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
+
   constructor(
     private router: Router,
     private vacinaService: VacinaService) {
 
     super();
-
     this.colunasExibidas = [
       'nome',
       'protecaoContra',
       'vlIdadeRecomemendada',
       'acoes',
     ];
-
     this.carregarMensagensAoIniciar(this.router);
   }
 

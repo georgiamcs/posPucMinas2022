@@ -8,30 +8,33 @@ import { environment } from 'src/app/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class VacinaService { //TODO tratar excecoes do http (ex: backend fora, retorno com erro)
+export class VacinaService {
+  //TODO tratar excecoes do http (ex: backend fora, retorno com erro)
 
   constructor(private http: HttpClient) {}
 
+  private API_URL_COMPLETA = environment.API_URL + 'vacinas/';
+
   listar(): Observable<Vacina[]> {
-    return this.http.get<Vacina[]>(environment.API_URL);
+    return this.http.get<Vacina[]>(this.API_URL_COMPLETA);
   }
 
   incluir(vacina: Vacina): Observable<Vacina> {
-    return this.http.post<Vacina>(environment.API_URL, vacina);
+    return this.http.post<Vacina>(this.API_URL_COMPLETA, vacina);
   }
 
   excluir(id: string): Observable<Vacina> {
-    const url = `${environment.API_URL}${id}`;
+    const url = `${this.API_URL_COMPLETA}${id}`;
     return this.http.delete<Vacina>(url);
   }
 
   alterar(vacina: Vacina): Observable<Vacina> {
-    const url = `${environment.API_URL}${vacina._id}`;
+    const url = `${this.API_URL_COMPLETA}${vacina._id}`;
     return this.http.put<Vacina>(url, vacina);
   }
 
   procurarPorId(id: string): Observable<Vacina> {
-    const url = `${environment.API_URL}${id}`;
+    const url = `${this.API_URL_COMPLETA}${id}`;
     return this.http.get<Vacina>(url);
   }
 }
