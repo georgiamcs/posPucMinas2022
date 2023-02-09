@@ -26,8 +26,8 @@ import { MensagemErroInputComponent } from '../mensagem-erro-input/mensagem-erro
   styleUrls: ['./crud.component.scss'],
 })
 export class CrudComponent<T extends CrudModel> implements OnInit{
-  protected ROTULO_BOTAO_ACEITAR = 'Sim';
-  protected ROTULO_BOTAO_REJEITAR = 'Não';
+  protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
+  protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
   protected form: FormGroup;
   protected modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;

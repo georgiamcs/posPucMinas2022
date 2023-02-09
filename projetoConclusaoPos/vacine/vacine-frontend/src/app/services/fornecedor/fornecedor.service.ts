@@ -10,7 +10,7 @@ import { Fornecedor } from 'src/app/shared/models/fornecedor.model';
   providedIn: 'root',
 })
 export class FornecedorService implements ServiceCrud<Fornecedor> {
-  private API_URL_COMPLETA = environment.API_URL + 'fornecedores/';
+  private readonly API_URL_COMPLETA = environment.API_URL + 'fornecedores/';
 
   constructor(private http: HttpClient) {}
 

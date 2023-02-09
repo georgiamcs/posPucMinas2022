@@ -14,7 +14,7 @@ export class VacinaService implements ServiceCrud<Vacina> {
 
   constructor(private http: HttpClient) {}
 
-  private API_URL_COMPLETA = environment.API_URL + 'vacinas/';
+  private readonly API_URL_COMPLETA = environment.API_URL + 'vacinas/';
 
   listar(): Observable<Vacina[]> {
     return this.http.get<Vacina[]>(this.API_URL_COMPLETA);

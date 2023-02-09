@@ -1,3 +1,4 @@
+// TODO: verificar se registro com mesmo nome ja existe antes de incluir
 const vacinaModel = require("../models/VacinaModel")
 
 module.exports = class VacinaService {

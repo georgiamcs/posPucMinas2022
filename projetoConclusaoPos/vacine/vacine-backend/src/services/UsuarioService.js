@@ -1,82 +1,88 @@
 // TODO: verificar se registro com mesmo nome ja existe antes de incluir
-const FornecedorModel = require("../models/FornecedorModel");
+const UsuarioModel = require("../models/UsuarioModel");
 
-module.exports = class FornecedorService {
-  static async getAllFornecedores() {
+module.exports = class UsuarioService {
+  static async getAllUsuarios() {
     try {
-      const todosRegistros = await FornecedorModel.find();
+      const todosRegistros = await UsuarioModel.find();
 
       return todosRegistros;
     } catch (error) {
-      const msgErro = `Erro ao recuperar todos os fornecedores: ${error.message}`;
+      const msgErro = `Erro ao recuperar todos os Usuários: ${error.message}`;
       console.error(msgErro);
       throw new Error(msgErro);
     }
   }
 
-  static async getFornecedorById(id) {
+  static async getUsuarioById(id) {
     try {
-      const registro = await FornecedorModel.findById(id);
+      const registro = await UsuarioModel.findById(id);
 
       return registro;
     } catch (error) {
-      const msgErro = `Fornecedor com Id ${id} não encontrado ${error.message}`;
+      const msgErro = `Usuario com Id ${id} não encontrado ${error.message}`;
       console.log(msgErro);
       throw new Error(msgErro);
     }
   }
 
-  static async addFornecedor(pNovoRegistro) {
+  static async addUsuario(pNovoRegistro) {
     try {
       const novoRegistro = {
+        tipo: pNovoRegistro.tipo,
         nome: pNovoRegistro.nome,
         email: pNovoRegistro.email,
-        cnpj: pNovoRegistro.cnpj,
+        cpf: pNovoRegistro.cpf,
         endereco: pNovoRegistro.endereco,
         tel_celular: pNovoRegistro.tel_celular,
         tel_fixo: pNovoRegistro.tel_fixo,
+        senha: pNovoRegistro.senha,
+        perfis: pNovoRegistro.perfis,
       };
-      const response = await new FornecedorModel(novoRegistro).save();
+      const response = await new UsuarioModel(novoRegistro).save();
       return response;
     } catch (error) {
-      const msgErro = `Erro ao adicionar novo fornecedor ${pNovoRegistro.nome}: ${error.message}`;
+      const msgErro = `Erro ao adicionar novo usuário ${pNovoRegistro.nome}: ${error.message}`;
       console.log(msgErro);
       throw new Error(msgErro);
     }
   }
 
-  static async updateFornecedor(id, pRegistroAlterado) {
+  static async updateUsuario(id, pRegistroAlterado) {
     try {
-      const updateResponse = await FornecedorModel.updateOne(
+      const updateResponse = await UsuarioModel.updateOne(
         { _id: id },
         {
+          tipo: pRegistroAlterado.tipo,
           nome: pRegistroAlterado.nome,
           email: pRegistroAlterado.email,
-          cnpj: pRegistroAlterado.cnpj,
+          cpf: pRegistroAlterado.cpf,
           endereco: pRegistroAlterado.endereco,
           tel_celular: pRegistroAlterado.tel_celular,
           tel_fixo: pRegistroAlterado.tel_fixo,
+          senha: pRegistroAlterado.senha,
+          perfis: pRegistroAlterado.perfis,
           dt_alteracao: Date.now(),
         }
       );
 
       return updateResponse;
     } catch (error) {
-      const msgErro = `Fornecedor com Id ${id} não pode ser atualizado: ${error.message}`;
+      const msgErro = `Usuário com Id ${id} não pode ser atualizado: ${error.message}`;
       console.log(msgErro);
       throw new Error(msgErro);
     }
   }
 
-  static async deleteFornecedor(id) {
+  static async deleteUsuario(id) {
     try {
-      const deletedResponse = await FornecedorModel.findOneAndDelete({
+      const deletedResponse = await UsuarioModel.findOneAndDelete({
         _id: id,
       });
 
       return deletedResponse;
     } catch (error) {
-      const msgErro = `Fornecedor com Id ${id} não pode ser excluído: ${error.message}`;
+      const msgErro = `Usuário com Id ${id} não pode ser excluído: ${error.message}`;
       console.log(msgErro);
       throw new Error(msgErro);
     }
