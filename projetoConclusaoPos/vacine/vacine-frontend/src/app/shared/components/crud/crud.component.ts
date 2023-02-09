@@ -5,7 +5,6 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,13 +15,10 @@ import {
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
-import {
-  converterUndefinedEmNulo,
-  converterUndefinedNuloEmFalse,
-} from 'src/app/shared/utils/util';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
+import { MensagemErroInputComponent } from '../mensagem-erro-input/mensagem-erro-input.component';
 
 @Component({
   selector: 'vacine-crud',
@@ -231,26 +227,9 @@ export class CrudComponent<T extends CrudModel> implements OnInit{
     router.navigate([caminhoRelativo]);
   }
 
-  protected campoFormFoiEditado(formControlName: string): boolean {
-    return converterUndefinedNuloEmFalse(
-      this.form.get(formControlName)?.touched
-    );
-  }
 
   protected recuperarValorCampoForm(formControlName: string): any {
     return this.form.get(formControlName)?.value;
-  }
-
-  protected recuperarErroCampoForm(
-    formControlName: string,
-    nomeErroValidador?: string
-  ): ValidationErrors | null {
-    if (nomeErroValidador) {
-      return converterUndefinedEmNulo(
-        this.form.get(formControlName)?.errors?.[nomeErroValidador]
-      );
-    } else
-      return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
   }
 
   protected habilitarBotaoAcao(): boolean {

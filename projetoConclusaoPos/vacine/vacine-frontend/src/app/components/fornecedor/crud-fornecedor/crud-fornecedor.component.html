@@ -16,33 +16,24 @@
               mask="00.000.000/0000-99"
             />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('cnpj') &&
-              recuperarErroCampoForm('cnpj', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('cnpj') &&
-              recuperarErroCampoForm('cnpj', 'minlength')
-            "
-          >
-            Tamanho mínimo do campo é de 14 caracteres.
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('cnpj') &&
-              recuperarErroCampoForm('cnpj', 'maxlength')
-            "
-          >
-            Tamanho máximo do campo é de 14 caracteres.
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="cnpj"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="cnpj"
+            validacao="minlength"
+            msgerro="Tamanho mínimo do campo é de 14 caracteres"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="cnpj"
+            validacao="maxlength"
+            msgerro="Tamanho máximo do campo é de 14 caracteres"
+          ></vacine-msg-erro-input>
         </div>
 
         <div class="campoNome">
@@ -50,33 +41,24 @@
             <mat-label id="lbNome">Nome</mat-label>
             <input id="inNome" formControlName="nome" matInput type="text" />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('nome') &&
-              recuperarErroCampoForm('nome', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('nome') &&
-              recuperarErroCampoForm('nome', 'minlength')
-            "
-          >
-            Tamanho mínimo do campo é de 3 caracteres.
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('nome') &&
-              recuperarErroCampoForm('nome', 'maxlength')
-            "
-          >
-            Tamanho máximo do campo é de 100 caracteres.
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="nome"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="nome"
+            validacao="minlength"
+            msgerro="Tamanho mínimo do campo é de 3 caracteres"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="nome"
+            validacao="maxlength"
+            msgerro="Tamanho máximo do campo é de 100 caracteres"
+          ></vacine-msg-erro-input>
         </div>
 
         <div class="campoEmail">
@@ -84,22 +66,18 @@
             <mat-label id="lbEmail">Email</mat-label>
             <input id="inEmail" formControlName="email" matInput type="email" />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('email') &&
-              recuperarErroCampoForm('email', 'required')
-            ">
-            Campo obrigatório
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('email') &&
-              recuperarErroCampoForm('email', 'email')
-            ">
-            Email inválido
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="email"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="email"
+            validacao="email"
+            msgerro="Email inválido"
+          ></vacine-msg-erro-input>
         </div>
 
         <div class="campoTelCel">
@@ -114,15 +92,12 @@
               mask="(00) 00000-0000"
             />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tel_celular') &&
-              recuperarErroCampoForm('tel_celular', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tel_celular"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
         </div>
 
         <div class="campoTelFixo">
@@ -137,15 +112,12 @@
               mask="(00) 0000-0000"
             />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tel_fixo') &&
-              recuperarErroCampoForm('tel_fixo', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tel_fixo"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
         </div>
 
         <div class="campoEndereco" formGroupName="endereco">
@@ -161,17 +133,13 @@
                   type="text"
                 />
               </mat-form-field>
-              <div
-                class="msg_err"
-                *ngIf="
-                  campoFormFoiEditado('logradouro') &&
-                  recuperarErroCampoForm('logradouro', 'required')
-                "
-              >
-                Campo obrigatório
-              </div>
+              <vacine-msg-erro-input
+                [form]="form"
+                campo="logradouro"
+                validacao="required"
+                msgerro="Campo obrigatório"
+              ></vacine-msg-erro-input>
             </div>
-
             <div class="campoNumero">
               <mat-form-field id="fNumero">
                 <mat-label id="lbNumero">Numero</mat-label>
@@ -182,15 +150,12 @@
                   type="text"
                 />
               </mat-form-field>
-              <div
-                class="msg_err"
-                *ngIf="
-                  campoFormFoiEditado('numero') &&
-                  recuperarErroCampoForm('numero', 'required')
-                "
-              >
-                Campo obrigatório
-              </div>
+              <vacine-msg-erro-input
+                [form]="form"
+                campo="numero"
+                validacao="required"
+                msgerro="Campo obrigatório"
+              ></vacine-msg-erro-input>
             </div>
 
             <div class="campoComplemento">
@@ -203,15 +168,12 @@
                   type="text"
                 />
               </mat-form-field>
-              <div
-                class="msg_err"
-                *ngIf="
-                  campoFormFoiEditado('complemento') &&
-                  recuperarErroCampoForm('complemento', 'required')
-                "
-              >
-                Campo obrigatório
-              </div>
+              <vacine-msg-erro-input
+                [form]="form"
+                campo="complemento"
+                validacao="required"
+                msgerro="Campo obrigatório"
+              ></vacine-msg-erro-input>
             </div>
 
             <div class="campoCep">
@@ -219,15 +181,12 @@
                 <mat-label id="lbCep">Cep</mat-label>
                 <input id="inCep" formControlName="cep" matInput type="text" />
               </mat-form-field>
-              <div
-                class="msg_err"
-                *ngIf="
-                  campoFormFoiEditado('cep') &&
-                  recuperarErroCampoForm('cep', 'required')
-                "
-              >
-                Campo obrigatório
-              </div>
+              <vacine-msg-erro-input
+                [form]="form"
+                campo="cep"
+                validacao="required"
+                msgerro="Campo obrigatório"
+              ></vacine-msg-erro-input>
             </div>
           </fieldset>
         </div>

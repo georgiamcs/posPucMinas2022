@@ -42,6 +42,7 @@ import { ListarFornecedoresComponent } from './components/fornecedor/listar-forn
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
+import { MensagemErroInputComponent } from './shared/components/mensagem-erro-input/mensagem-erro-input.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor
     CnpjPipe,
     TelefonePipe,
     CrudFornecedorComponent,
+    MensagemErroInputComponent,
   ],
   imports: [
     BrowserModule,

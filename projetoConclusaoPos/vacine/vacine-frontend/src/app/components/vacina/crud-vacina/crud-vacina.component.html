@@ -10,33 +10,24 @@
             <mat-label id="lbNome">Nome</mat-label>
             <input id="inNome" formControlName="tx_nome" matInput type="text" />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tx_nome') &&
-              recuperarErroCampoForm('tx_nome', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tx_nome') &&
-              recuperarErroCampoForm('tx_nome', 'minlength')
-            "
-          >
-            Tamanho mínimo do campo é de 3 caracteres.
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tx_nome') &&
-              recuperarErroCampoForm('tx_nome', 'maxlength')
-            "
-          >
-            Tamanho máximo do campo é de 100 caracteres.
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tx_nome"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tx_nome"
+            validacao="minlength"
+            msgerro="Tamanho mínimo do campo é de 3 caracteres"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tx_nome"
+            validacao="maxlength"
+            msgerro="Tamanho máximo do campo é de 100 caracteres"
+          ></vacine-msg-erro-input>
         </div>
         <div>
           <mat-form-field id="fProtecaoContra" class="me-3">
@@ -48,15 +39,12 @@
               type="text"
             />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tx_protecao_contra') &&
-              recuperarErroCampoForm('tx_protecao_contra')
-            "
-          >
-            Campo obrigatório
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tx_protecao_contra"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
         </div>
         <div>
           <mat-form-field id="fComposicao" class="me-3">
@@ -68,15 +56,12 @@
               type="text"
             />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tx_composicao') &&
-              recuperarErroCampoForm('tx_composicao')
-            "
-          >
-            Campo obrigatório
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tx_composicao"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
         </div>
         <div>
           <mat-checkbox
@@ -85,18 +70,15 @@
             (change)="verificarIdadeRecomendada()"
             >Tem idade recomendada
           </mat-checkbox>
-          <div
-            class="msg_err_checkbox"
-            *ngIf="
-              campoFormFoiEditado('in_idade_recomendada') &&
-              recuperarErroCampoForm('in_idade_recomendada')
-            "
-          >
-            Campo obrigatório
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="in_idade_recomendada"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
         </div>
 
-        <div *ngIf="form.get('in_idade_recomendada')?.value">
+        <div *ngIf="recuperarValorCampoForm('in_idade_recomendada')">
           <mat-form-field class="me-3">
             <mat-label id="lbIdadeRecomendada">Idade recomendada</mat-label>
             <input
@@ -106,47 +88,35 @@
               type="number"
             />
           </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('nr_idade_recomendada') &&
-              recuperarErroCampoForm('nr_idade_recomendada', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('nr_idade_recomendada') &&
-              recuperarErroCampoForm('nr_idade_recomendada', 'min')
-            "
-          >
-            Valor mínimo do campo é 0
-          </div>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('nr_idade_recomendada') &&
-              recuperarErroCampoForm('nr_idade_recomendada', 'max')
-            "
-          >
-            Valor máximo do campo é 120
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="nr_idade_recomendada"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="nr_idade_recomendada"
+            validacao="min"
+            msgerro="Valor mínimo do campo é 0"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="nr_idade_recomendada"
+            validacao="max"
+            msgerro="Valor máximo do campo é 120"
+          ></vacine-msg-erro-input>
           <label id="lbTipoIdadeRecomedada"></label>
           <mat-radio-group formControlName="tp_idade_recomendada">
             <mat-radio-button value="A"> Anos </mat-radio-button>
             <mat-radio-button value="M"> Meses </mat-radio-button>
           </mat-radio-group>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('tp_idade_recomendada') &&
-              recuperarErroCampoForm('tp_idade_recomendada')
-            "
-          >
-            Campo obrigatório
-          </div>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tp_idade_recomendada"
+            validacao="required"
+            msgerro="Campo obrigatório"
+          ></vacine-msg-erro-input>
         </div>
         <div>
           <button
