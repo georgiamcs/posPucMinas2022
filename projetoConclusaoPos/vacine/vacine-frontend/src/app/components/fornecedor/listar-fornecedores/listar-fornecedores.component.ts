@@ -19,7 +19,6 @@ export class ListarFornecedoresComponent extends ListarRegistrosComponent<Fornec
       'cnpj',
       'email',
       'tel_celular',
-      'tel_fixo',
       'acoes',
     ];
     this.definirAtributosInjetores();

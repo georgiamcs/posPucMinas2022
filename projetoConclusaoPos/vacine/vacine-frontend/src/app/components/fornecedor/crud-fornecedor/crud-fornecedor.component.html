@@ -1,232 +1,251 @@
 <div class="container">
-  <h1 class="titulo">Cadastro de Fornecedores</h1>
-  <div class="crud-grid">
-    <form [formGroup]="form">
-      <div class="campoCnpj">
-        <mat-form-field id="fCnpj">
-          <mat-label id="lbCnpj">Cnpj</mat-label>
-          <input id="inCnpj" formControlName="cnpj" matInput type="text" />
-        </mat-form-field>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('cnpj') &&
-            recuperarErroCampoForm('cnpj', 'required')
-          "
-        >
-          Campo obrigatório
-        </div>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('cnpj') &&
-            recuperarErroCampoForm('cnpj', 'minlength')
-          "
-        >
-          Tamanho mínimo do campo é de 14 caracteres.
-        </div>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('cnpj') &&
-            recuperarErroCampoForm('cnpj', 'maxlength')
-          "
-        >
-          Tamanho máximo do campo é de 14 caracteres.
-        </div>
-      </div>
-
-      <div class="campoNome">
-        <mat-form-field id="fNome">
-          <mat-label id="lbNome">Nome</mat-label>
-          <input id="inNome" formControlName="nome" matInput type="text" />
-        </mat-form-field>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('nome') &&
-            recuperarErroCampoForm('nome', 'required')
-          "
-        >
-          Campo obrigatório
-        </div>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('nome') &&
-            recuperarErroCampoForm('nome', 'minlength')
-          "
-        >
-          Tamanho mínimo do campo é de 3 caracteres.
-        </div>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('nome') &&
-            recuperarErroCampoForm('nome', 'maxlength')
-          "
-        >
-          Tamanho máximo do campo é de 100 caracteres.
-        </div>
-      </div>
-
-      <div class="campoEmail">
-        <mat-form-field id="fEmail">
-          <mat-label id="lbEmail">Email</mat-label>
-          <input id="inEmail" formControlName="email" matInput type="email" />
-        </mat-form-field>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('email') &&
-            recuperarErroCampoForm('email', 'required')
-          "
-        >
-          Campo obrigatório
-        </div>
-      </div>
-
-      <div class="campoTelCel">
-        <mat-form-field id="fTelefoneCelular">
-          <mat-label id="lbTelefoneCelular">Telefone Celular</mat-label>
-          <input
-            id="inTelefoneCelular"
-            formControlName="telefone_celular"
-            matInput
-            type="text"
-          />
-        </mat-form-field>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('telefone_celular') &&
-            recuperarErroCampoForm('telefone_celular', 'required')
-          "
-        >
-          Campo obrigatório
-        </div>
-      </div>
-
-      <div class="campoTelFixo">
-        <mat-form-field id="fTelefoneFixo">
-          <mat-label id="lbTelefoneFixo">Telefone Fixo</mat-label>
-          <input
-            id="inTelefoneFixo"
-            formControlName="telefone_fixo"
-            matInput
-            type="text"
-          />
-        </mat-form-field>
-        <div
-          class="msg_err"
-          *ngIf="
-            campoFormFoiEditado('telefone_fixo') &&
-            recuperarErroCampoForm('telefone_fixo', 'required')
-          "
-        >
-          Campo obrigatório
-        </div>
-      </div>
-
-      <div class="campoEndereco" formGroupName="endereco">
-        <div class="campoLogradouro">
-          <mat-form-field id="fLogradouro">
-            <mat-label id="lbLogradouro">Logradouro</mat-label>
+  <fieldset class="border rounded p-2 mb-3">
+    <legend class="float-none w-auto h3">
+      &nbsp;Cadastro de Fornecedores&nbsp;
+    </legend>
+    <div class="crud-grid">
+      <form [formGroup]="form">
+        <div class="campoCnpj">
+          <mat-form-field id="fCnpj">
+            <mat-label id="lbCnpj">Cnpj</mat-label>
             <input
-              id="inLogradouro"
-              formControlName="logradouro"
+              id="inCnpj"
+              formControlName="cnpj"
               matInput
               type="text"
+              mask="00.000.000/0000-99"
             />
           </mat-form-field>
           <div
             class="msg_err"
             *ngIf="
-              campoFormFoiEditado('logradouro') &&
-              recuperarErroCampoForm('logradouro', 'required')
+              campoFormFoiEditado('cnpj') &&
+              recuperarErroCampoForm('cnpj', 'required')
+            "
+          >
+            Campo obrigatório
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('cnpj') &&
+              recuperarErroCampoForm('cnpj', 'minlength')
+            "
+          >
+            Tamanho mínimo do campo é de 14 caracteres.
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('cnpj') &&
+              recuperarErroCampoForm('cnpj', 'maxlength')
+            "
+          >
+            Tamanho máximo do campo é de 14 caracteres.
+          </div>
+        </div>
+
+        <div class="campoNome">
+          <mat-form-field id="fNome">
+            <mat-label id="lbNome">Nome</mat-label>
+            <input id="inNome" formControlName="nome" matInput type="text" />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('nome') &&
+              recuperarErroCampoForm('nome', 'required')
+            "
+          >
+            Campo obrigatório
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('nome') &&
+              recuperarErroCampoForm('nome', 'minlength')
+            "
+          >
+            Tamanho mínimo do campo é de 3 caracteres.
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('nome') &&
+              recuperarErroCampoForm('nome', 'maxlength')
+            "
+          >
+            Tamanho máximo do campo é de 100 caracteres.
+          </div>
+        </div>
+
+        <div class="campoEmail">
+          <mat-form-field id="fEmail">
+            <mat-label id="lbEmail">Email</mat-label>
+            <input id="inEmail" formControlName="email" matInput type="email" />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('email') &&
+              recuperarErroCampoForm('email', 'required')
+            ">
+            Campo obrigatório
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('email') &&
+              recuperarErroCampoForm('email', 'email')
+            ">
+            Email inválido
+          </div>
+        </div>
+
+        <div class="campoTelCel">
+          <mat-form-field id="fTelefoneCelular">
+            <mat-label id="lbTelefoneCelular">Telefone Celular</mat-label>
+            <input
+              id="inTelefoneCelular"
+              formControlName="tel_celular"
+              matInput
+              type="text"
+              mask="customPatterns"
+              mask="(00) 00000-0000"
+            />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tel_celular') &&
+              recuperarErroCampoForm('tel_celular', 'required')
             "
           >
             Campo obrigatório
           </div>
         </div>
 
-        <div class="campoNumero">
-          <mat-form-field id="fNumero">
-            <mat-label id="lbNumero">Numero</mat-label>
+        <div class="campoTelFixo">
+          <mat-form-field id="fTelefoneFixo">
+            <mat-label id="lbTelefoneFixo">Telefone Fixo</mat-label>
             <input
-              id="inNumero"
-              formControlName="numero"
+              id="inTelefoneFixo"
+              formControlName="tel_fixo"
               matInput
               type="text"
+              mask="customPatterns"
+              mask="(00) 0000-0000"
             />
           </mat-form-field>
           <div
             class="msg_err"
             *ngIf="
-              campoFormFoiEditado('numero') &&
-              recuperarErroCampoForm('numero', 'required')
+              campoFormFoiEditado('tel_fixo') &&
+              recuperarErroCampoForm('tel_fixo', 'required')
             "
           >
             Campo obrigatório
           </div>
         </div>
 
-        <div class="campoComplemento">
-          <mat-form-field id="fComplemento">
-            <mat-label id="lbComplemento">Complemento</mat-label>
-            <input
-              id="inComplemento"
-              formControlName="complemento"
-              matInput
-              type="text"
-            />
-          </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('complemento') &&
-              recuperarErroCampoForm('complemento', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
-        </div>
+        <div class="campoEndereco" formGroupName="endereco">
+          <fieldset class="border rounded p-2 mb-3">
+            <legend class="float-none w-auto h6">&nbsp;Endereço&nbsp;</legend>
+            <div class="campoLogradouro">
+              <mat-form-field id="fLogradouro">
+                <mat-label id="lbLogradouro">Logradouro</mat-label>
+                <input
+                  id="inLogradouro"
+                  formControlName="logradouro"
+                  matInput
+                  type="text"
+                />
+              </mat-form-field>
+              <div
+                class="msg_err"
+                *ngIf="
+                  campoFormFoiEditado('logradouro') &&
+                  recuperarErroCampoForm('logradouro', 'required')
+                "
+              >
+                Campo obrigatório
+              </div>
+            </div>
 
-        <div class="campoCep">
-          <mat-form-field id="fCep">
-            <mat-label id="lbCep">Cep</mat-label>
-            <input
-              id="inCep"
-              formControlName="cep"
-              matInput
-              type="text"
-            />
-          </mat-form-field>
-          <div
-            class="msg_err"
-            *ngIf="
-              campoFormFoiEditado('cep') &&
-              recuperarErroCampoForm('cep', 'required')
-            "
-          >
-            Campo obrigatório
-          </div>
+            <div class="campoNumero">
+              <mat-form-field id="fNumero">
+                <mat-label id="lbNumero">Numero</mat-label>
+                <input
+                  id="inNumero"
+                  formControlName="numero"
+                  matInput
+                  type="text"
+                />
+              </mat-form-field>
+              <div
+                class="msg_err"
+                *ngIf="
+                  campoFormFoiEditado('numero') &&
+                  recuperarErroCampoForm('numero', 'required')
+                "
+              >
+                Campo obrigatório
+              </div>
+            </div>
+
+            <div class="campoComplemento">
+              <mat-form-field id="fComplemento">
+                <mat-label id="lbComplemento">Complemento</mat-label>
+                <input
+                  id="inComplemento"
+                  formControlName="complemento"
+                  matInput
+                  type="text"
+                />
+              </mat-form-field>
+              <div
+                class="msg_err"
+                *ngIf="
+                  campoFormFoiEditado('complemento') &&
+                  recuperarErroCampoForm('complemento', 'required')
+                "
+              >
+                Campo obrigatório
+              </div>
+            </div>
+
+            <div class="campoCep">
+              <mat-form-field id="fCep">
+                <mat-label id="lbCep">Cep</mat-label>
+                <input id="inCep" formControlName="cep" matInput type="text" />
+              </mat-form-field>
+              <div
+                class="msg_err"
+                *ngIf="
+                  campoFormFoiEditado('cep') &&
+                  recuperarErroCampoForm('cep', 'required')
+                "
+              >
+                Campo obrigatório
+              </div>
+            </div>
+          </fieldset>
         </div>
-      </div>
-    </form>
-  </div>
-  <div class="botoes-crud">
-    <button
-      *ngIf="temBotaoAcao()"
-      mat-raised-button
-      color="primary"
-      (click)="salvar()"
-      [disabled]="!habilitarBotaoAcao()"
-    >
-      {{ lbBotaoSalvar }}
-    </button>
-    <button mat-raised-button (click)="fechar()">
-      {{ lbBotaoFechar }}
-    </button>
-  </div>
+      </form>
+    </div>
+    <div class="botoes-crud">
+      <button
+        *ngIf="temBotaoAcao()"
+        mat-raised-button
+        color="primary"
+        (click)="salvar()"
+        [disabled]="!habilitarBotaoAcao()"
+      >
+        {{ lbBotaoSalvar }}
+      </button>
+      <button mat-raised-button (click)="fechar()">
+        {{ lbBotaoFechar }}
+      </button>
+    </div>
+  </fieldset>
 </div>

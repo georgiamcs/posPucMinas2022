@@ -15,13 +15,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-
 import {
   MatDialogModule,
   MAT_DIALOG_DEFAULT_OPTIONS,
 } from '@angular/material/dialog';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import {
+  NgxMaskDirective,
+  NgxMaskPipe,
+  provideNgxMask,
+} from 'ngx-mask';
 
 import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
 import { MenuComponent } from './pages/menu/menu.component';
@@ -74,10 +79,13 @@ import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor
     HttpClientModule,
     NgbModule,
     MatDialogModule,
-    MatDividerModule
+    MatDividerModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    provideNgxMask(),
   ],
   bootstrap: [AppComponent],
 })

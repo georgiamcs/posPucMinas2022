@@ -63,14 +63,14 @@ export class CrudFornecedorComponent
           Validators.maxLength(100),
         ]),
       ],
-      email: [null, validadoresRequeridoSemEspacos()],
+      email: [null, Validators.compose([validadoresRequeridoSemEspacos(), Validators.email])],
       endereco: this.formBuilder.group({
         logradouro: [null, validadoresRequeridoSemEspacos()],
         numero: [null, validadoresRequeridoSemEspacos()],
         complemento: [null],
         cep: [null, validadoresRequeridoSemEspacos()],
       }),
-      telefone_fixo: [
+      tel_fixo: [
         null,
         Validators.compose([
           validadoresRequeridoSemEspacos(),
@@ -78,7 +78,7 @@ export class CrudFornecedorComponent
           Validators.maxLength(10),
         ]),
       ],
-      telefone_celular: [
+      tel_celular: [
         null,
         Validators.compose([
           validadoresRequeridoSemEspacos(),

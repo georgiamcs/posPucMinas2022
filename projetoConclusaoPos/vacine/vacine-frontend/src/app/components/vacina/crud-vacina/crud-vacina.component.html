@@ -1,104 +1,168 @@
 <div class="tab-grid">
-  <h1>Cadastro de Vacinas</h1>
-  <div class="crud-grid">
-    <form [formGroup]="form">
-      <div>
-        <mat-form-field id="fNome" class="me-3">
-          <mat-label id="lbNome">Nome</mat-label>
-          <input id="inNome" formControlName="tx_nome" matInput type="text" />
-        </mat-form-field>
-        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome', 'required')">
-          Campo obrigatório
+  <fieldset class="border rounded p-2 mb-3">
+    <legend class="float-none w-auto h3">
+      &nbsp;Cadastro de Vacinas&nbsp;
+    </legend>
+    <div class="crud-grid">
+      <form [formGroup]="form">
+        <div>
+          <mat-form-field id="fNome" class="me-3">
+            <mat-label id="lbNome">Nome</mat-label>
+            <input id="inNome" formControlName="tx_nome" matInput type="text" />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tx_nome') &&
+              recuperarErroCampoForm('tx_nome', 'required')
+            "
+          >
+            Campo obrigatório
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tx_nome') &&
+              recuperarErroCampoForm('tx_nome', 'minlength')
+            "
+          >
+            Tamanho mínimo do campo é de 3 caracteres.
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tx_nome') &&
+              recuperarErroCampoForm('tx_nome', 'maxlength')
+            "
+          >
+            Tamanho máximo do campo é de 100 caracteres.
+          </div>
         </div>
-        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome', 'minlength')">
-          Tamanho mínimo do campo é de 3 caracteres.
+        <div>
+          <mat-form-field id="fProtecaoContra" class="me-3">
+            <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
+            <input
+              id="inProtecaoContra"
+              formControlName="tx_protecao_contra"
+              matInput
+              type="text"
+            />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tx_protecao_contra') &&
+              recuperarErroCampoForm('tx_protecao_contra')
+            "
+          >
+            Campo obrigatório
+          </div>
         </div>
-        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_nome') && recuperarErroCampoForm('tx_nome', 'maxlength')">
-          Tamanho máximo do campo é de 100 caracteres.
+        <div>
+          <mat-form-field id="fComposicao" class="me-3">
+            <mat-label id="lbComposicao">Composição</mat-label>
+            <input
+              id="inComposicao"
+              formControlName="tx_composicao"
+              matInput
+              type="text"
+            />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tx_composicao') &&
+              recuperarErroCampoForm('tx_composicao')
+            "
+          >
+            Campo obrigatório
+          </div>
         </div>
-      </div>
-      <div>
-        <mat-form-field id="fProtecaoContra" class="me-3">
-          <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
-          <input
-            id="inProtecaoContra"
-            formControlName="tx_protecao_contra"
-            matInput
-            type="text"
-          />
-        </mat-form-field>
-        <div class="msg_err" *ngIf="campoFormFoiEditado('tx_protecao_contra') && recuperarErroCampoForm('tx_protecao_contra')">
-          Campo obrigatório
+        <div>
+          <mat-checkbox
+            id="fTemIdadeRecomendada"
+            formControlName="in_idade_recomendada"
+            (change)="verificarIdadeRecomendada()"
+            >Tem idade recomendada
+          </mat-checkbox>
+          <div
+            class="msg_err_checkbox"
+            *ngIf="
+              campoFormFoiEditado('in_idade_recomendada') &&
+              recuperarErroCampoForm('in_idade_recomendada')
+            "
+          >
+            Campo obrigatório
+          </div>
         </div>
-      </div>
-      <div>
-        <mat-form-field id="fComposicao" class="me-3">
-          <mat-label id="lbComposicao">Composição</mat-label>
-          <input
-            id="inComposicao"
-            formControlName="tx_composicao"
-            matInput
-            type="text"
-          />
-        </mat-form-field>
-        <div class="msg_err"  *ngIf="campoFormFoiEditado('tx_composicao') && recuperarErroCampoForm('tx_composicao')">
-          Campo obrigatório
-        </div>
-      </div>
-      <div>
-        <mat-checkbox
-          id="fTemIdadeRecomendada"
-          formControlName="in_idade_recomendada"
-          (change)="verificarIdadeRecomendada()"
-          >Tem idade recomendada
-        </mat-checkbox>
-        <div class="msg_err_checkbox" *ngIf="campoFormFoiEditado('in_idade_recomendada') && recuperarErroCampoForm('in_idade_recomendada')">
-          Campo obrigatório
-        </div>
-      </div>
 
-      <div *ngIf="form.get('in_idade_recomendada')?.value">
-        <mat-form-field class="me-3">
-          <mat-label id="lbIdadeRecomendada">Idade recomendada</mat-label>
-          <input
-            id="inIdadeRecomendada"
-            formControlName="nr_idade_recomendada"
-            matInput
-            type="number"
-          />
-        </mat-form-field>
-        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada', 'required')">
-          Campo obrigatório
+        <div *ngIf="form.get('in_idade_recomendada')?.value">
+          <mat-form-field class="me-3">
+            <mat-label id="lbIdadeRecomendada">Idade recomendada</mat-label>
+            <input
+              id="inIdadeRecomendada"
+              formControlName="nr_idade_recomendada"
+              matInput
+              type="number"
+            />
+          </mat-form-field>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('nr_idade_recomendada') &&
+              recuperarErroCampoForm('nr_idade_recomendada', 'required')
+            "
+          >
+            Campo obrigatório
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('nr_idade_recomendada') &&
+              recuperarErroCampoForm('nr_idade_recomendada', 'min')
+            "
+          >
+            Valor mínimo do campo é 0
+          </div>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('nr_idade_recomendada') &&
+              recuperarErroCampoForm('nr_idade_recomendada', 'max')
+            "
+          >
+            Valor máximo do campo é 120
+          </div>
+          <label id="lbTipoIdadeRecomedada"></label>
+          <mat-radio-group formControlName="tp_idade_recomendada">
+            <mat-radio-button value="A"> Anos </mat-radio-button>
+            <mat-radio-button value="M"> Meses </mat-radio-button>
+          </mat-radio-group>
+          <div
+            class="msg_err"
+            *ngIf="
+              campoFormFoiEditado('tp_idade_recomendada') &&
+              recuperarErroCampoForm('tp_idade_recomendada')
+            "
+          >
+            Campo obrigatório
+          </div>
         </div>
-        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada', 'min')">
-          Valor mínimo do campo é 0
+        <div>
+          <button
+            *ngIf="temBotaoAcao()"
+            mat-raised-button
+            color="primary"
+            (click)="salvar()"
+            [disabled]="!habilitarBotaoAcao()"
+          >
+            {{ lbBotaoSalvar }}
+          </button>
+          <button mat-raised-button (click)="fechar()">
+            {{ lbBotaoFechar }}
+          </button>
         </div>
-        <div class="msg_err"*ngIf="campoFormFoiEditado('nr_idade_recomendada') && recuperarErroCampoForm('nr_idade_recomendada', 'max')">
-          Valor máximo do campo é 120
-        </div>
-        <label id="lbTipoIdadeRecomedada"></label>
-        <mat-radio-group formControlName="tp_idade_recomendada">
-          <mat-radio-button value="A"> Anos </mat-radio-button>
-          <mat-radio-button value="M"> Meses </mat-radio-button>
-        </mat-radio-group>
-        <div class="msg_err" *ngIf="campoFormFoiEditado('tp_idade_recomendada') && recuperarErroCampoForm('tp_idade_recomendada')">
-          Campo obrigatório
-        </div>
-      </div>
-      <div>
-        <button
-          *ngIf="temBotaoAcao()"
-          mat-raised-button
-          color="primary"
-          (click)="salvar()"
-          [disabled]="!habilitarBotaoAcao()"
-        >
-          {{ lbBotaoSalvar }}
-        </button>
-        <button mat-raised-button (click)="fechar()">
-          {{ lbBotaoFechar }}
-        </button>
-      </div>
-    </form>
-  </div>
+      </form>
+    </div>
+  </fieldset>
 </div>

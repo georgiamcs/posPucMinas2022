@@ -1,4 +1,5 @@
 //TODO: Verificar como usar no routerLink o tipo da rota = usar funcao no ts para retornar?
+//TODO: Verfificar se tem como colocar mensagens diferentes qnd backend fora e qnd nao tem registros. Atualmente, nos dois casos aparece sem registros
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
