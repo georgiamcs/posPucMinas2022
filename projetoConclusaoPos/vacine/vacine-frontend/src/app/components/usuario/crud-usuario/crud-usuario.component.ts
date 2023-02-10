@@ -1,4 +1,4 @@
-import { LISTA_TIPOS_USUARIOS } from './../../../shared/enums/tipo-usuario.enum';
+import { LISTA_TIPOS_USUARIOS, TipoUsuario } from './../../../shared/enums/tipo-usuario.enum';
 import { LISTA_PERFIS } from './../../../shared/enums/tipo-perfil.enum';
 import { CrudComponent } from './../../../shared/components/crud/crud.component';
 import { Component, forwardRef } from '@angular/core';
@@ -7,7 +7,8 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { AbstractControl, AbstractControlOptions, FormBuilder, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { converterUndefinedNuloEmFalse, validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { ListaSelectComItens } from 'src/app/shared/interfaces/lista-select-com-itens.interface';
 
 @Component({
   selector: 'vacine-crud-usuario',
@@ -129,5 +130,16 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
       c.get('confSenha')?.setErrors(null);
       return null;
     }
+  }
+
+  protected marcarPerfisDefaultTipoUsuario():void {
+      const tpUser = this.recuperarValorCampoForm('tipo');
+      const obj = this.tiposUsuarios.find(o => o.valor ==  tpUser);
+      let perfisDefault;
+
+      if (obj!= null || obj != undefined) {
+        perfisDefault = obj.itens;
+      }
+      this.definirValorCampoForm('perfis', perfisDefault);
   }
 }

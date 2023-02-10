@@ -25,7 +25,7 @@ import { MensagemErroInputComponent } from '../mensagem-erro-input/mensagem-erro
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<T extends CrudModel> implements OnInit{
+export class CrudComponent<T extends CrudModel> implements OnInit {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -234,9 +234,12 @@ export class CrudComponent<T extends CrudModel> implements OnInit{
     router.navigate([caminhoRelativo]);
   }
 
-
   protected recuperarValorCampoForm(formControlName: string): any {
     return this.form.get(formControlName)?.value;
+  }
+
+  protected definirValorCampoForm(formControlName: string, valor: any): any {
+    return this.form.get(formControlName)?.setValue(valor);
   }
 
   protected habilitarBotaoAcao(): boolean {

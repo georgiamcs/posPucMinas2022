@@ -10,7 +10,7 @@
         <div class="campoTipo">
           <mat-form-field appearance="fill">
             <mat-label>Tipo de Usuário</mat-label>
-            <mat-select formControlName="tipo">
+            <mat-select formControlName="tipo" (selectionChange) ="marcarPerfisDefaultTipoUsuario()">
               <mat-option *ngFor="let tipo of tiposUsuarios" [value]="tipo.valor">
                 {{ tipo.valorExibicao }}
               </mat-option>
