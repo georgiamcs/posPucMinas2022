@@ -1,17 +1,17 @@
 import { CrudService } from './../../shared/services/crud-service.service';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { Vacina } from '../../shared/models/vacina.model';
+import { Usuario } from 'src/app/shared/models/usuario.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class VacinaService extends CrudService<Vacina> {
+export class UsuarioService extends CrudService<Usuario> {
 
   constructor(private _http: HttpClient) {
     super();
     this.http = _http;
-    this.apiUrlRelativa = 'vacinas'
+    this.apiUrlRelativa = 'usuarios';
   }
 }

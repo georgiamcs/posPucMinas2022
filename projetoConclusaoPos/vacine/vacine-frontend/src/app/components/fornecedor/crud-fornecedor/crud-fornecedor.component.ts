@@ -63,17 +63,29 @@ export class CrudFornecedorComponent
           Validators.maxLength(100),
         ]),
       ],
-      email: [null, Validators.compose([validadoresRequeridoSemEspacos(), Validators.email])],
+      email: [
+        null,
+        Validators.compose([
+          validadoresRequeridoSemEspacos(),
+          Validators.email,
+        ]),
+      ],
       endereco: this.formBuilder.group({
         logradouro: [null, validadoresRequeridoSemEspacos()],
         numero: [null, validadoresRequeridoSemEspacos()],
         complemento: [null],
-        cep: [null, validadoresRequeridoSemEspacos()],
+        cep: [
+          null,
+          Validators.compose([
+            validadoresRequeridoSemEspacos(),
+            Validators.minLength(8),
+            Validators.maxLength(8),
+          ]),
+        ],
       }),
       tel_fixo: [
         null,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
           Validators.minLength(10),
           Validators.maxLength(10),
         ]),

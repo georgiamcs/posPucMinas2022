@@ -34,7 +34,7 @@ const FornecedorSchema = Schema({
   },
   tel_celular: {
     type: String,
-    required: false,
+    required: true,
   },
   tel_fixo: {
     type: String,

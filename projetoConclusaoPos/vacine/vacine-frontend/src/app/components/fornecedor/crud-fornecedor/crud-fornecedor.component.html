@@ -1,3 +1,4 @@
+<!-- TODO: verificar porque nao esta aparecendo mensagem de validacao no cep e no logradouro -->
 <div class="container">
   <fieldset class="border rounded p-2 mb-3">
     <legend class="float-none w-auto h3">
@@ -19,20 +20,12 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="cnpj"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
             campo="cnpj"
-            validacao="minlength"
-            msgerro="Tamanho mínimo do campo é de 14 caracteres"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="cnpj"
-            validacao="maxlength"
-            msgerro="Tamanho máximo do campo é de 14 caracteres"
+            validacao="formato"
           ></vacine-msg-erro-input>
         </div>
 
@@ -44,20 +37,13 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="nome"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
             campo="nome"
-            validacao="minlength"
-            msgerro="Tamanho mínimo do campo é de 3 caracteres"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nome"
-            validacao="maxlength"
-            msgerro="Tamanho máximo do campo é de 100 caracteres"
+            validacao="formato"
+            msgerro="Tamanho mínimo de 3 caracteres e máximo de 100 caracteres"
           ></vacine-msg-erro-input>
         </div>
 
@@ -69,14 +55,12 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="email"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
             campo="email"
             validacao="email"
-            msgerro="Email inválido"
           ></vacine-msg-erro-input>
         </div>
 
@@ -88,15 +72,18 @@
               formControlName="tel_celular"
               matInput
               type="text"
-              mask="customPatterns"
               mask="(00) 00000-0000"
             />
           </mat-form-field>
           <vacine-msg-erro-input
             [form]="form"
             campo="tel_celular"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="tel_celular"
+            validacao="formato"
           ></vacine-msg-erro-input>
         </div>
 
@@ -108,88 +95,91 @@
               formControlName="tel_fixo"
               matInput
               type="text"
-              mask="customPatterns"
               mask="(00) 0000-0000"
             />
           </mat-form-field>
           <vacine-msg-erro-input
             [form]="form"
             campo="tel_fixo"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="formato"
           ></vacine-msg-erro-input>
         </div>
 
-        <div class="campoEndereco" formGroupName="endereco">
-          <fieldset class="border rounded p-2 mb-3">
-            <legend class="float-none w-auto h6">&nbsp;Endereço&nbsp;</legend>
-            <div class="campoLogradouro">
-              <mat-form-field id="fLogradouro">
-                <mat-label id="lbLogradouro">Logradouro</mat-label>
-                <input
-                  id="inLogradouro"
-                  formControlName="logradouro"
-                  matInput
-                  type="text"
-                />
-              </mat-form-field>
-              <vacine-msg-erro-input
-                [form]="form"
-                campo="logradouro"
-                validacao="required"
-                msgerro="Campo obrigatório"
-              ></vacine-msg-erro-input>
-            </div>
-            <div class="campoNumero">
-              <mat-form-field id="fNumero">
-                <mat-label id="lbNumero">Numero</mat-label>
-                <input
-                  id="inNumero"
-                  formControlName="numero"
-                  matInput
-                  type="text"
-                />
-              </mat-form-field>
-              <vacine-msg-erro-input
-                [form]="form"
-                campo="numero"
-                validacao="required"
-                msgerro="Campo obrigatório"
-              ></vacine-msg-erro-input>
-            </div>
+        <fieldset class="border rounded p-2 mb-3" formGroupName="endereco">
+          <legend class="float-none w-auto h6">&nbsp;Endereço&nbsp;</legend>
+          <div class="campoLogradouro">
+            <mat-form-field id="fLogradouro">
+              <mat-label id="lbLogradouro">Logradouro</mat-label>
+              <input
+                id="inLogradouro"
+                formControlName="logradouro"
+                matInput
+                type="text"
+              />
+            </mat-form-field>
+            <vacine-msg-erro-input
+              [form]="form"
+              campo="logradouro"
+              validacao="obrigatorio"
+            ></vacine-msg-erro-input>
+          </div>
+          <div class="campoNumero">
+            <mat-form-field id="fNumero">
+              <mat-label id="lbNumero">Numero</mat-label>
+              <input
+                id="inNumero"
+                formControlName="numero"
+                matInput
+                type="text"
+              />
+            </mat-form-field>
+            <vacine-msg-erro-input
+              [form]="form"
+              campo="numero"
+              validacao="obrigatorio"
+            ></vacine-msg-erro-input>
+          </div>
 
-            <div class="campoComplemento">
-              <mat-form-field id="fComplemento">
-                <mat-label id="lbComplemento">Complemento</mat-label>
-                <input
-                  id="inComplemento"
-                  formControlName="complemento"
-                  matInput
-                  type="text"
-                />
-              </mat-form-field>
-              <vacine-msg-erro-input
-                [form]="form"
-                campo="complemento"
-                validacao="required"
-                msgerro="Campo obrigatório"
-              ></vacine-msg-erro-input>
-            </div>
+          <div class="campoComplemento">
+            <mat-form-field id="fComplemento">
+              <mat-label id="lbComplemento">Complemento</mat-label>
+              <input
+                id="inComplemento"
+                formControlName="complemento"
+                matInput
+                type="text"
+              />
+            </mat-form-field>
+            <vacine-msg-erro-input
+              [form]="form"
+              campo="complemento"
+              validacao="obrigatorio"
+            ></vacine-msg-erro-input>
+          </div>
 
-            <div class="campoCep">
-              <mat-form-field id="fCep">
-                <mat-label id="lbCep">Cep</mat-label>
-                <input id="inCep" formControlName="cep" matInput type="text" />
-              </mat-form-field>
-              <vacine-msg-erro-input
-                [form]="form"
-                campo="cep"
-                validacao="required"
-                msgerro="Campo obrigatório"
-              ></vacine-msg-erro-input>
-            </div>
-          </fieldset>
-        </div>
+          <div class="campoCep">
+            <mat-form-field id="fCep">
+              <mat-label id="lbCep">Cep</mat-label>
+              <input
+                id="inCep"
+                formControlName="cep"
+                matInput
+                type="text"
+                mask="00000-000"
+              />
+            </mat-form-field>
+            <vacine-msg-erro-input
+              [form]="form"
+              campo="cep"
+              validacao="obrigatorio"
+            ></vacine-msg-erro-input>
+            <vacine-msg-erro-input
+              [form]="form"
+              campo="cep"
+              validacao="formato"
+            ></vacine-msg-erro-input>
+          </div>
+        </fieldset>
       </form>
     </div>
     <div class="botoes-crud">

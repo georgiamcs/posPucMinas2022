@@ -1,9 +1,9 @@
-import { ServiceCrud } from './../../interfaces/crud.service.interface';
 import { Component, OnInit } from '@angular/core';
 
 import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
 import { CrudModel } from 'src/app/shared/models/crud.model';
 import { Router } from '@angular/router';
+import { CrudService } from '../../services/crud-service.service';
 
 @Component({
   selector: 'vacine-listar-registros',
@@ -17,7 +17,7 @@ export class ListarRegistrosComponent<T extends CrudModel> implements OnInit {
   mensagens: MensagemFeedback[] = [];
 
   protected router: Router;
-  protected service: ServiceCrud<T>;
+  protected service: CrudService<T>;
 
   constructor() {
 

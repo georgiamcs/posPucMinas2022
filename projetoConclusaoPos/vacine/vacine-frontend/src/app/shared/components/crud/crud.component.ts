@@ -1,5 +1,4 @@
-import { ServiceCrud } from './../../interfaces/crud.service.interface';
-import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
+import { CrudService } from './../../services/crud-service.service';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -18,6 +17,7 @@ import { CrudModel } from 'src/app/shared/models/crud.model';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
+import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
 import { MensagemErroInputComponent } from '../mensagem-erro-input/mensagem-erro-input.component';
 
 @Component({
@@ -37,7 +37,7 @@ export class CrudComponent<T extends CrudModel> implements OnInit{
   protected id: string | null;
   protected registro: T;
 
-  protected service: ServiceCrud<T>;
+  protected service: CrudService<T>;
   protected formBuilder: FormBuilder;
   protected router: Router;
   protected activatedRoute: ActivatedRoute;

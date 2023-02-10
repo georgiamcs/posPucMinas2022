@@ -14,7 +14,7 @@ export class MensagemErroInputComponent {
   @Input() form: FormGroup;
   @Input() campo?: string;
   @Input() validacao: string;
-  @Input() msgerro: string;
+  @Input() msgerro?: string;
 
   private campoFormFoiEditado(formControlName: string): boolean {
     return converterUndefinedNuloEmFalse(
@@ -35,13 +35,58 @@ export class MensagemErroInputComponent {
   }
 
   protected exibeMensagemErro(): boolean {
+    let exibe = false;
+
     if (this.campo) {
-      return (
-        this.campoFormFoiEditado(this.campo) &&
-        this.recuperarErroCampoForm(this.campo, this.validacao) != null
-      );
-    } else {
-      return false;
+      switch (this.validacao) {
+        case 'obrigatorio':
+          exibe =
+            this.campoFormFoiEditado(this.campo) &&
+            (this.recuperarErroCampoForm(this.campo, 'required') != null ||
+              this.recuperarErroCampoForm(this.campo, 'pattern') != null);
+          break;
+
+        case 'formato':
+          exibe =
+            this.campoFormFoiEditado(this.campo) &&
+            (this.recuperarErroCampoForm(this.campo, 'minlength') != null ||
+              this.recuperarErroCampoForm(this.campo, 'maxlength') != null ||
+              this.recuperarErroCampoForm(this.campo, 'pattern') != null ||
+              this.recuperarErroCampoForm(this.campo, 'mask') != null);
+          break;
+
+        default:
+          exibe =
+            this.campoFormFoiEditado(this.campo) &&
+            this.recuperarErroCampoForm(this.campo, this.validacao) != null;
+          break;
+      }
     }
+
+    if (exibe && !this.msgerro) {
+      switch (this.validacao) {
+        case 'obrigatorio':
+          this.msgerro = 'Campo obrigatório';
+          break;
+
+        case 'required':
+          this.msgerro = 'Campo obrigatório';
+          break;
+
+        case 'formato':
+          this.msgerro = 'Formato inválido';
+          break;
+
+        case 'email':
+          this.msgerro = 'Email inválido';
+          break;
+
+        default:
+          this.msgerro = 'Preenchimento inválido';
+          break;
+      }
+    }
+
+    return exibe;
   }
 }
