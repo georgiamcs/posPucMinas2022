@@ -12,7 +12,7 @@ import {
 })
 export class MensagemErroInputComponent {
   @Input() form: FormGroup;
-  @Input() campo?: string;
+  @Input() campo: string;
   @Input() validacao: string;
   @Input() msgerro?: string;
 
@@ -37,27 +37,31 @@ export class MensagemErroInputComponent {
   protected exibeMensagemErro(): boolean {
     let exibe = false;
 
-    if (this.campo) {
+    if (this.campo && this.campoFormFoiEditado(this.campo)) {
+
       switch (this.validacao) {
         case 'obrigatorio':
           exibe =
-            this.campoFormFoiEditado(this.campo) &&
             (this.recuperarErroCampoForm(this.campo, 'required') != null ||
               this.recuperarErroCampoForm(this.campo, 'pattern') != null);
           break;
 
         case 'formato':
           exibe =
-            this.campoFormFoiEditado(this.campo) &&
             (this.recuperarErroCampoForm(this.campo, 'minlength') != null ||
               this.recuperarErroCampoForm(this.campo, 'maxlength') != null ||
               this.recuperarErroCampoForm(this.campo, 'pattern') != null ||
               this.recuperarErroCampoForm(this.campo, 'mask') != null);
           break;
 
+        case 'limite':
+          exibe =
+            (this.recuperarErroCampoForm(this.campo, 'min') != null ||
+              this.recuperarErroCampoForm(this.campo, 'max') != null);
+          break;
+
         default:
           exibe =
-            this.campoFormFoiEditado(this.campo) &&
             this.recuperarErroCampoForm(this.campo, this.validacao) != null;
           break;
       }
@@ -75,6 +79,10 @@ export class MensagemErroInputComponent {
 
         case 'formato':
           this.msgerro = 'Formato inválido';
+          break;
+
+        case 'limite':
+          this.msgerro = 'Valor fora do lmite do campo';
           break;
 
         case 'email':

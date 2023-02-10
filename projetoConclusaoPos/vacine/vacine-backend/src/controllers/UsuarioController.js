@@ -2,6 +2,7 @@ const UsuarioService = require("../services/UsuarioService");
 
 function createUsuario(req) {
   let usuario = {};
+  usuario.tipo = req.body.tipo;  
   usuario.nome = req.body.nome;
   usuario.email = req.body.email;
   usuario.cpf = req.body.cnpj;

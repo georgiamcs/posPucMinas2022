@@ -6,12 +6,12 @@ export class Usuario extends CrudModel {
   tipo: TipoUsuario;
   nome: string;
   email: string;
-  cpf: string;
-  endereco: {
-    logradouro: string;
-    numero: string;
+  cpf?: string;
+  endereco?: {
+    logradouro?: string;
+    numero?: string;
     complemento?: string;
-    cep: string;
+    cep?: string;
   };
   tel_celular?: string;
   tel_fixo?: string;

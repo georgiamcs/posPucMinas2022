@@ -94,7 +94,7 @@ export class CrudVacinaComponent
         Validators.compose([
           Validators.required,
           Validators.min(0),
-          Validators.max(120),
+          Validators.max(130),
         ])
       );
     }

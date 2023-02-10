@@ -13,20 +13,13 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="tx_nome"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
             campo="tx_nome"
-            validacao="minlength"
-            msgerro="Tamanho mínimo do campo é de 3 caracteres"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="tx_nome"
-            validacao="maxlength"
-            msgerro="Tamanho máximo do campo é de 100 caracteres"
+            validacao="formato"
+            msgerro="Tamanho mínimo do campo é de 3 caracteres e máximo de 100"
           ></vacine-msg-erro-input>
         </div>
         <div>
@@ -42,8 +35,7 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="tx_protecao_contra"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
         </div>
         <div>
@@ -59,8 +51,7 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="tx_composicao"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
         </div>
         <div>
@@ -73,8 +64,7 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="in_idade_recomendada"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
         </div>
 
@@ -91,20 +81,13 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="nr_idade_recomendada"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
             campo="nr_idade_recomendada"
-            validacao="min"
-            msgerro="Valor mínimo do campo é 0"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nr_idade_recomendada"
-            validacao="max"
-            msgerro="Valor máximo do campo é 120"
+            validacao="limite"
+            msgerro="Valor mínimo do campo é 0 e o máximo é 130"
           ></vacine-msg-erro-input>
           <label id="lbTipoIdadeRecomedada"></label>
           <mat-radio-group formControlName="tp_idade_recomendada">
@@ -114,8 +97,7 @@
           <vacine-msg-erro-input
             [form]="form"
             campo="tp_idade_recomendada"
-            validacao="required"
-            msgerro="Campo obrigatório"
+            validacao="obrigatorio"
           ></vacine-msg-erro-input>
         </div>
         <div>

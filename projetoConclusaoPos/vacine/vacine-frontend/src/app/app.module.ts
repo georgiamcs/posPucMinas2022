@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 import {
   MatDialogModule,
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -43,6 +45,9 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
 import { MensagemErroInputComponent } from './shared/components/mensagem-erro-input/mensagem-erro-input.component';
+import { ListarUsuariosComponent } from './components/usuario/listar-usuarios/listar-usuarios.component';
+import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
+import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usuario.component';
 
 
 @NgModule({
@@ -63,6 +68,9 @@ import { MensagemErroInputComponent } from './shared/components/mensagem-erro-in
     TelefonePipe,
     CrudFornecedorComponent,
     MensagemErroInputComponent,
+    ListarUsuariosComponent,
+    CpfPipe,
+    CrudUsuarioComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +79,7 @@ import { MensagemErroInputComponent } from './shared/components/mensagem-erro-in
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatListModule,
     MatFormFieldModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -82,6 +91,7 @@ import { MensagemErroInputComponent } from './shared/components/mensagem-erro-in
     NgbModule,
     MatDialogModule,
     MatDividerModule,
+    MatSelectModule,
     NgxMaskDirective,
     NgxMaskPipe,
   ],
@@ -90,5 +100,6 @@ import { MensagemErroInputComponent } from './shared/components/mensagem-erro-in
     provideNgxMask(),
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

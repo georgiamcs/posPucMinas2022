@@ -16,16 +16,16 @@ const UsuarioSchema = Schema({
   },
   cpf: {
     type: String,
-    required: true,
+    required: false,
   },
   endereco: {
     logradouro: {
       type: String,
-      required: true,
+      required: false,
     },
     numero: {
       type: String,
-      required: true,
+      required: false,
     },
     complemento: {
       type: String,
@@ -33,7 +33,7 @@ const UsuarioSchema = Schema({
     },
     cep: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   tel_celular: {

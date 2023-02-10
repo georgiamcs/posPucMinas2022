@@ -53,6 +53,10 @@ export class CrudComponent<T extends CrudModel> implements OnInit{
   ngOnInit(): void {
     this.buildForm();
     this.carregarDadosId();
+    this.definirHabilitacaoFormulario();
+  }
+
+  private definirHabilitacaoFormulario() {
     this.somenteLeitura() ? this.form.disable() : this.form.enable();
   }
 
@@ -147,6 +151,9 @@ export class CrudComponent<T extends CrudModel> implements OnInit{
   }
 
   protected salvar() {
+    this.form.updateValueAndValidity();
+    this.form.markAsTouched();
+
     if (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO) {
       switch (this.modoFormulario) {
         case ModoFormulario.INCLUSAO:

@@ -1,5 +1,6 @@
 // TODO: verificar se registro com mesmo nome ja existe antes de incluir
 const UsuarioModel = require("../models/UsuarioModel");
+const { AutorizacaoService } = require("../services/AutorizacaoService");
 
 module.exports = class UsuarioService {
   static async getAllUsuarios() {
@@ -36,7 +37,7 @@ module.exports = class UsuarioService {
         endereco: pNovoRegistro.endereco,
         tel_celular: pNovoRegistro.tel_celular,
         tel_fixo: pNovoRegistro.tel_fixo,
-        senha: pNovoRegistro.senha,
+        senha: AutorizacaoService.criptografar(pNovoRegistro.senha),
         perfis: pNovoRegistro.perfis,
       };
       const response = await new UsuarioModel(novoRegistro).save();
@@ -60,7 +61,7 @@ module.exports = class UsuarioService {
           endereco: pRegistroAlterado.endereco,
           tel_celular: pRegistroAlterado.tel_celular,
           tel_fixo: pRegistroAlterado.tel_fixo,
-          senha: pRegistroAlterado.senha,
+          senha: AutorizacaoService.criptografar(pRegistroAlterado.senha),
           perfis: pRegistroAlterado.perfis,
           dt_alteracao: Date.now(),
         }

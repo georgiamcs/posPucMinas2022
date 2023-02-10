@@ -2,31 +2,20 @@
 <div class="container">
   <fieldset class="border rounded p-2 mb-3">
     <legend class="float-none w-auto h3">
-      &nbsp;Cadastro de Fornecedor&nbsp;
+      &nbsp;Cadastro de Usuário&nbsp;
     </legend>
     <div class="crud-grid">
       <form [formGroup]="form">
-        <div class="campoCnpj">
-          <mat-form-field id="fCnpj">
-            <mat-label id="lbCnpj">Cnpj</mat-label>
-            <input
-              id="inCnpj"
-              formControlName="cnpj"
-              matInput
-              type="text"
-              mask="00.000.000/0000-99"
-            />
+
+        <div class="campoTipo">
+          <mat-form-field appearance="fill">
+            <mat-label>Tipo de Usuário</mat-label>
+            <mat-select formControlName="tipo">
+              <mat-option *ngFor="let tipo of tiposUsuarios" [value]="tipo.valor">
+                {{ tipo.valorExibicao }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="cnpj"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="cnpj"
-            validacao="formato"
-          ></vacine-msg-erro-input>
         </div>
 
         <div class="campoNome">
@@ -47,6 +36,24 @@
           ></vacine-msg-erro-input>
         </div>
 
+        <div class="campoCpf">
+          <mat-form-field id="fCpf">
+            <mat-label id="lbCpf">CPF</mat-label>
+            <input
+              id="inCpf"
+              formControlName="cpf"
+              matInput
+              type="text"
+              mask="000.000.000-99"
+            />
+          </mat-form-field>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="cpf"
+            validacao="formato"
+          ></vacine-msg-erro-input>
+        </div>
+
         <div class="campoEmail">
           <mat-form-field id="fEmail">
             <mat-label id="lbEmail">Email</mat-label>
@@ -64,6 +71,58 @@
           ></vacine-msg-erro-input>
         </div>
 
+        <div class="campoSenha" *ngIf="!somenteLeitura()">
+          <mat-form-field id="fSenha">
+            <mat-label id="lbSenha">Senha</mat-label>
+            <input
+              id="inSenha"
+              formControlName="senha"
+              matInput
+              type="password"
+            />
+          </mat-form-field>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="senha"
+            validacao="obrigatorio"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="senha"
+            validacao="formato"
+            msgerro="Tamanho mínimo de 5 caracteres e máximo de 20 caracteres"
+          ></vacine-msg-erro-input>
+        </div>
+
+        <div class="campoConfSenha" *ngIf="!somenteLeitura()">
+          <mat-form-field id="fConfSenha">
+            <mat-label id="lbConfSenha">Confirmação de Senha</mat-label>
+            <input
+              id="inConfSenha"
+              formControlName="confSenha"
+              matInput
+              type="password"
+            />
+          </mat-form-field>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="confSenha"
+            validacao="obrigatorio"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="confSenha"
+            validacao="formato"
+            msgerro="Tamanho mínimo de 5 caracteres e máximo de 20 caracteres"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="confSenha"
+            validacao="confirmasenha"
+            msgerro="Senha diferente da confirmação"
+          ></vacine-msg-erro-input>
+        </div>
+
         <div class="campoTelCel">
           <mat-form-field id="fTelefoneCelular">
             <mat-label id="lbTelefoneCelular">Telefone Celular</mat-label>
@@ -75,11 +134,6 @@
               mask="(00) 00000-0000"
             />
           </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="tel_celular"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
             campo="tel_celular"
@@ -105,6 +159,25 @@
           ></vacine-msg-erro-input>
         </div>
 
+        <fieldset class="border rounded p-2 mb-3">
+          <legend class="float-none w-auto h6">
+            &nbsp;Perfis do Usuário&nbsp;
+          </legend>
+          <mat-selection-list formControlName="perfis" color="primary">
+            <mat-list-option
+              *ngFor="let perfil of perfisEscolher"
+              [value]="perfil.valor"
+            >
+              {{ perfil.valorExibicao | titlecase }}
+            </mat-list-option>
+          </mat-selection-list>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="perfis"
+            validacao="obrigatorio"
+          ></vacine-msg-erro-input>
+        </fieldset>
+
         <fieldset class="border rounded p-2 mb-3" formGroupName="endereco">
           <legend class="float-none w-auto h6">&nbsp;Endereço&nbsp;</legend>
           <div class="campoLogradouro">
@@ -117,11 +190,6 @@
                 type="text"
               />
             </mat-form-field>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="logradouro"
-              validacao="obrigatorio"
-            ></vacine-msg-erro-input>
           </div>
           <div class="campoNumero">
             <mat-form-field id="fNumero">
@@ -133,11 +201,6 @@
                 type="text"
               />
             </mat-form-field>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="numero"
-              validacao="obrigatorio"
-            ></vacine-msg-erro-input>
           </div>
 
           <div class="campoComplemento">
@@ -163,11 +226,6 @@
                 mask="00000-000"
               />
             </mat-form-field>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="cep"
-              validacao="obrigatorio"
-            ></vacine-msg-erro-input>
             <vacine-msg-erro-input
               [form]="form"
               campo="cep"

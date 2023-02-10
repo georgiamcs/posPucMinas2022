@@ -6,9 +6,14 @@ import { ListarFornecedoresComponent } from './components/fornecedor/listar-forn
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
 import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
+import { ListarUsuariosComponent } from './components/usuario/listar-usuarios/listar-usuarios.component';
+import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usuario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'listar-vacinas', pathMatch: 'full' },
+
+  // VACINAS
+  { path: 'listar-vacinas', component: ListarVacinasComponent },
   { path: 'crud-vacina', component: CrudVacinaComponent },
   { path: 'crud-vacina/:id', component: CrudVacinaComponent },
   {
@@ -19,6 +24,9 @@ const routes: Routes = [
     path: `crud-vacina/${TipoRota.EXCLUSAO}/:id`,
     component: CrudVacinaComponent,
   },
+
+  // FORNECEDORES
+  { path: 'listar-fornecedores', component: ListarFornecedoresComponent },
   { path: 'crud-fornecedor', component: CrudFornecedorComponent },
   { path: 'crud-fornecedor/:id', component: CrudFornecedorComponent },
   {
@@ -29,8 +37,19 @@ const routes: Routes = [
     path: `crud-fornecedor/${TipoRota.EXCLUSAO}/:id`,
     component: CrudFornecedorComponent,
   },
-  { path: 'listar-vacinas', component: ListarVacinasComponent },
-  { path: 'listar-fornecedores', component: ListarFornecedoresComponent },
+
+  // USUARIOS
+  { path: 'listar-usuarios', component: ListarUsuariosComponent },
+  { path: 'crud-usuario', component: CrudUsuarioComponent },
+  { path: 'crud-usuario/:id', component: CrudUsuarioComponent },
+  {
+    path: `crud-usuario/${TipoRota.ALTERACAO}/:id`,
+    component: CrudUsuarioComponent,
+  },
+  {
+    path: `crud-usuario/${TipoRota.EXCLUSAO}/:id`,
+    component: CrudUsuarioComponent,
+  },
 ];
 
 @NgModule({
