@@ -88,4 +88,8 @@ module.exports = class UsuarioService {
       throw new Error(msgErro);
     }
   }
+
+  static async findOne(query) {
+    return await UsuarioModel.findOne(query);
+  }
 };

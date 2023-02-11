@@ -1,5 +1,5 @@
 const app = require("./app");
-const db = require("./models/mongoosedb");
+const db = require("./setup/mongoosedb");
 
 db.init();
 

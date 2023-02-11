@@ -1,41 +1,20 @@
 const SHAJS = require("sha.js");
 
-
-const ROLES = Object.freeze({
-  ADMIN: "ADMINISTRADOR",
-  VENDEDOR: "VENDEDOR",
-  ESTOQUE: "ESTOQUE",
-  CLIENTE: "CLIENTE",
-  MASTER: "MASTER",
-});
-
 class AutorizacaoService {
-  static validarRoles = (req, roles) => {
+
+  static checarPerfis = (req, perfis) => {
     
     let usuario = req.user;
     let retorno = false;
 
-    console.log("validarRoles", usuario);
-    if (roles && roles.length > 0) {
-      if (usuario && usuario.roles) {
-        for (let i in roles) {
-          retorno = retorno || usuario.roles.indexOf(roles[i]) > -1;
+    if (perfis && perfis.length > 0) {
+      if (usuario && usuario.perfis) {
+        for (let i in perfis) {
+          retorno = retorno || (usuario.perfis.indexOf(perfis[i]) >= 0);
         }
       }
     }
-
     return retorno;
-  };
-
-  static isMesmoUsuario = (req, id) => {
-    let usuario = req.user;
-
-    return id == usuario._id;
-  };
-
-  static isNovoUsuarioCliente = (body) => {
-    let roles = body.roles;
-    return roles && roles.length == 1 && roles.indexOf(ROLES.CLIENTE) > -1;
   };
 
   static criptografar = (dado) => {
@@ -44,6 +23,5 @@ class AutorizacaoService {
 }
 
 module.exports = {
-  AutorizacaoService: AutorizacaoService,
-  ROLES: ROLES,
+  AutorizacaoService: AutorizacaoService
 };

@@ -1,4 +1,12 @@
 const FornecedorService = require("../services/FornecedorService");
+const cnst = require("../constantes");
+const { PERFIS } = require("../services/AutorizacaoService");
+
+const perfisRequeridos = [
+  cnst.PERFIS.ADMINISTRADOR,
+  cnst.PERFIS.CADASTRADOR_COMPRA,
+  cnst.PERFIS.CADASTRADOR_FORNECEDOR,
+];
 
 function createFornecedor(req) {
   let fornecedor = {};
@@ -12,67 +20,110 @@ function createFornecedor(req) {
 }
 
 exports.get = async (req, res) => {
-  const id = req.params.id;
+  if (AutorizacaoService.checarPerfis(req, perfisRequeridos)) {
+    const id = req.params.id;
 
-  try {
-    const fornecedor = await FornecedorService.getFornecedorById(id);
-    res.json(fornecedor);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    try {
+      const fornecedor = await FornecedorService.getFornecedorById(id);
+      res.json(fornecedor);
+    } catch (error) {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+        .json({ error: error.message });
+    }
+  } else {
+    res
+      .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+      .json({ error: "Acesso negado" });
   }
-}
+};
 
 exports.getAll = async (req, res) => {
-  const fornecedores = await FornecedorService.getAllFornecedores();
+  if (AutorizacaoService.checarPerfis(req, perfisRequeridos)) {
+    const fornecedores = await FornecedorService.getAllFornecedores();
 
-  try {
-    if (!fornecedores) {
-      return res.status(404).json("Não existem fornecedores cadastrados!");
+    try {
+      if (!fornecedores) {
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json("Não existem fornecedores cadastrados!");
+      }
+
+      res.json(fornecedores);
+    } catch (err) {
+      return res
+        .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+        .json({ error: err.message });
     }
-
-    res.json(fornecedores);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }  
+  } else {
+    res
+      .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+      .json({ error: "Acesso negado" });
+  }
 };
 
 exports.add = async (req, res) => {
-  try {
-    const fornecedorAdicionado = await FornecedorService.addFornecedor(req.body);
-    res.status(201).json(fornecedorAdicionado);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  if (AutorizacaoService.checarPerfis(req, perfisRequeridos)) {
+    try {
+      const fornecedorAdicionado = await FornecedorService.addFornecedor(
+        req.body
+      );
+      res.status(201).json(fornecedorAdicionado);
+    } catch (error) {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+        .json({ error: error.message });
+    }
+  } else {
+    res
+      .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+      .json({ error: "Acesso negado" });
   }
 };
 
 exports.update = async (req, res) => {
-  let id = req.params.id;
+  if (AutorizacaoService.checarPerfis(req, perfisRequeridos)) {
+    let id = req.params.id;
 
-  try {
-    
-    fornecedorAlterado = createFornecedor(req);
-    const fornecedorAtualizado = await FornecedorService.updateFornecedor(
-      id,
-      fornecedorAlterado
-    );
+    try {
+      fornecedorAlterado = createFornecedor(req);
+      const fornecedorAtualizado = await FornecedorService.updateFornecedor(
+        id,
+        fornecedorAlterado
+      );
 
-    if (fornecedorAtualizado.nModified === 0) {
-      return res.status(404).json({});
+      if (fornecedorAtualizado.nModified === 0) {
+        return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({});
+      }
+
+      res.json(fornecedorAtualizado);
+    } catch (error) {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+        .json({ error: error.message });
     }
-
-    res.json(fornecedorAtualizado);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } else {
+    res
+      .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+      .json({ error: "Acesso negado" });
   }
 };
 
 exports.delete = async (req, res) => {
-  let id = req.params.id;
+  if (AutorizacaoService.checarPerfis(req, perfisRequeridos)) {
+    let id = req.params.id;
 
-  try {
-    const deleteResponse = await FornecedorService.deleteFornecedor(id);
-    res.json(deleteResponse);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    try {
+      const deleteResponse = await FornecedorService.deleteFornecedor(id);
+      res.json(deleteResponse);
+    } catch (error) {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+        .json({ error: error.message });
+    }
+  } else {
+    res
+      .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+      .json({ error: "Acesso negado" });
   }
 };
