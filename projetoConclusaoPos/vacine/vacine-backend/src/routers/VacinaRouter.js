@@ -1,10 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/vacinaController");
+const passport = require("passport");
+const VacinaController = require("../controllers/crud/VacinaController");
 
-router.get("/", controller.getAll);
-router.get("/:id", controller.get);
-router.post("/", controller.add);
-router.put("/:id", controller.update);
-router.delete("/:id", controller.delete);
+const autentRota = passport.authenticate("jwt", { session: false });
+const controller = new VacinaController();
+
+fnGetAll = controller.getAll;
+fnGetById = controller.getById;
+fnAdd = controller.add;
+fnUpdate = controller.update;
+fnDelete = controller.delete;
+
+router.get("/", autentRota, fnGetAll);
+router.get("/:id", autentRota, fnGetById);
+router.post("/", autentRota, fnAdd);
+router.put("/:id", autentRota, fnUpdate);
+router.delete("/:id", autentRota, fnDelete);
+
 module.exports = router;

@@ -1,16 +1,15 @@
 const SHAJS = require("sha.js");
 
 class AutorizacaoService {
-
+  
   static checarPerfis = (req, perfis) => {
-    
     let usuario = req.user;
     let retorno = false;
 
     if (perfis && perfis.length > 0) {
       if (usuario && usuario.perfis) {
         for (let i in perfis) {
-          retorno = retorno || (usuario.perfis.indexOf(perfis[i]) >= 0);
+          retorno = retorno || usuario.perfis.indexOf(perfis[i]) >= 0;
         }
       }
     }

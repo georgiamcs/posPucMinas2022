@@ -1,15 +1,12 @@
-const constantes = require("../constantes");
+const cnst = require("../constantes");
 const config = require("../setup/config");
 const jwt = require("jsonwebtoken");
+const { AutorizacaoService } = require("../services/AutorizacaoService");
+const UsuarioModel = require("../models/UsuarioModel");
+const UsuarioService = require("../services/GenericCrudService");
 
 // const { OAuth2Client } = require("google-auth-library");
 // const client = new OAuth2Client(Config.GOOGLE_CLIENT_ID);
-
-const UsuarioService = require("../services/UsuarioService");
-const {
-  AutorizacaoService,
-  PERFIS,
-} = require("../services/AutorizacaoService");
 
 function gerarToken(login) {
   return jwt.sign({ email: login }, config.PASSPORT.SECRET, {
@@ -20,7 +17,7 @@ function gerarToken(login) {
 exports.login = async (req, res) => {
   try {
     let { email, senha } = req.body;
-    const usuario = await UsuarioService.findOne({ email: email });
+    const usuario = await UsuarioService.findOne(UsuarioModel, { email: email });
 
     if (
       senha &&
@@ -33,12 +30,16 @@ exports.login = async (req, res) => {
       let retorno = { usuario: usuario.toObject() };
       retorno.token = token;
       delete retorno.usuario.senha;
-      res.status(constantes.HTTP_OK).json(retorno);
+      res.status(cnst.RETORNO_HTTP.HTTP_OK).json(retorno);
     } else {
-      res.status(constantes.HTTP_NOT_FOUND).json({ error: "Usuario não encontrado." });
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+        .json({ error: "Usuario não encontrado." });
     }
   } catch (error) {
-    res.status(constantes.HTTP_INTERNAL_SERVER_ERRO).json({ error: error.message });
+    res
+      .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+      .json({ error: error.message });
   }
 };
 
