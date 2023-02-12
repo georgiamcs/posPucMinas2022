@@ -3,9 +3,11 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
+  RouterStateSnapshot
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { gerarStateAlertaRota } from 'src/app/shared/utils/util';
+import { MensagemFeedback } from '../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../shared/enums/tipo-mensagem-feedback.enum';
 import { ControleAcessoService } from './../services/autenticacao/controle-acesso/controle-acesso.service';
 
@@ -23,24 +25,23 @@ export class AuthenticatedGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
     if (!this.servicoAcesso.isLogado()) {
-      this.router.navigate(['login'], {
-        state: {
-          alerta: {
-            tipo: TipoMensagemFeedback.ERRO,
-            texto: 'Usuário não está logado. Efetue o login!',
-          },
-        },
-      });
+      this.router.navigate(
+        ['login'],
+        gerarStateAlertaRota(
+          new MensagemFeedback(
+            TipoMensagemFeedback.ERRO,
+            'Usuário não está logado. Efetue o login!'
+          )
+        )
+      );
       return false;
     } else if (!this.servicoAcesso.verificaExistePerfil(route.data['perfis'])) {
-      this.router.navigate(['home'], {
-        state: {
-          alerta: {
-            tipo: TipoMensagemFeedback.ERRO,
-            texto: 'Acesso negado.',
-          },
-        },
-      });
+      this.router.navigate(
+        ['home'],
+        gerarStateAlertaRota(
+          new MensagemFeedback(TipoMensagemFeedback.ERRO, 'Acesso negado')
+        )
+      );
       return false;
     }
     return true;

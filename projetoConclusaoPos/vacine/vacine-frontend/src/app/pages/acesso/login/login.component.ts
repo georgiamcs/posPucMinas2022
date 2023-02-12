@@ -1,11 +1,12 @@
 //TODO: LOGIN GOOGLE
 //import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { GenericFormComponent } from 'src/app/components/generic-form/generic-form.component';
+import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
+import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { ControleAcessoService } from '../../../services/autenticacao/controle-acesso/controle-acesso.service';
 import { LoginUsuario } from '../../../shared/interfaces/login-usuario.interface';
@@ -15,10 +16,7 @@ import { LoginUsuario } from '../../../shared/interfaces/login-usuario.interface
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent
-  extends GenericFormComponent
-  implements OnInit, OnDestroy
-{
+export class LoginComponent extends GenericPageComponent {
   constructor(
     private formBuilder: FormBuilder,
     private serviceAcesso: ControleAcessoService,
@@ -31,7 +29,8 @@ export class LoginComponent
   form!: FormGroup;
   logado: boolean = false;
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    super.ngOnInit();
     this.buildForm();
     // TODO: LOGIN GOOGLE
     // this.socialAuthService.authState.subscribe((user) => {
@@ -54,8 +53,7 @@ export class LoginComponent
     this.logarJwt(login);
   }
 
-  protected override buildForm() {
-    super.buildForm();
+  protected buildForm() {
     this.form = this.formBuilder.group({
       email: [{ value: '', disabled: this.readOnly() }, Validators.required],
       senha: [{ value: '', disabled: this.readOnly() }, Validators.required],
@@ -86,17 +84,27 @@ export class LoginComponent
     this.subscription = this.serviceAcesso.loginJwt(loginUsuario).subscribe({
       next: (result) => {
         this.serviceAcesso.setTokenUsuario(result);
-        this.mensagens = [];
+        this.deleteAllMensagem();
         this.router.navigate(['/home']);
       },
       error: (err) => {
         this.logandoFormulario(false);
-        this.mensagens.push(
-          new MensagemFeedback(TipoMensagemFeedback.ERRO, `${err.error?.error}`)
-        );
-        throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
+        this.tratarErroLogin(err);
       },
     });
+  }
+
+  private tratarErroLogin(error: any) {
+    if (error.status === RetornoHttp.HTTP_NOT_ACCEPTED) {
+      this.addMensagem(
+        new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          'Usuário ou senha inválidos.'
+        )
+      );
+    } else {
+      this.tratarErro(`Erro ao efetuar login: ${error.message}`);
+    }
   }
 
   readOnly() {

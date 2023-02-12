@@ -1,6 +1,6 @@
-<h1>Fornecedores</h1>
 <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-<div>
+<h1>Fornecedores</h1>
+<div *ngIf="carregado">
   <button routerLink="/fornecedor" mat-raised-button color="primary">
     Adicionar Fornecedor
   </button>
@@ -62,5 +62,5 @@
   <tr mat-row *matRowDef="let row; columns: colunasExibidas"></tr>
 </table>
 <ng-template #semRegistros>
-    <vacine-sem-registros></vacine-sem-registros>
+    <vacine-sem-registros *ngIf="carregado"></vacine-sem-registros>
 </ng-template>

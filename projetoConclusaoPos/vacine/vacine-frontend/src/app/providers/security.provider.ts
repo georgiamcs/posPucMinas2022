@@ -15,20 +15,20 @@ export class SecurityProvider {
   }
 
   armazenaUsuario(u: Usuario) {
-    window.localStorage.setItem(this.KEY_USER, JSON.stringify(u));
+    window.sessionStorage.setItem(this.KEY_USER, JSON.stringify(u));
   }
 
   armazenaTokenUsuario(tokenPayload: TokenPayload) {
-    window.localStorage.setItem(this.KEY_TOKEN, tokenPayload.token);
+    window.sessionStorage.setItem(this.KEY_TOKEN, tokenPayload.token);
     this.armazenaUsuario(tokenPayload.usuario);
   }
 
   getToken() {
-    return window.localStorage.getItem(this.KEY_TOKEN);
+    return window.sessionStorage.getItem(this.KEY_TOKEN);
   }
 
   getUsuario() {
-    let usuario = window.localStorage.getItem(this.KEY_USER);
+    let usuario = window.sessionStorage.getItem(this.KEY_USER);
     if (usuario) {
       return JSON.parse(usuario);
     } else {
@@ -37,7 +37,7 @@ export class SecurityProvider {
   }
 
   removeTokenUsuario() {
-    window.localStorage.removeItem(this.KEY_TOKEN);
-    window.localStorage.removeItem(this.KEY_USER);
+    window.sessionStorage.removeItem(this.KEY_TOKEN);
+    window.sessionStorage.removeItem(this.KEY_USER);
   }
 }

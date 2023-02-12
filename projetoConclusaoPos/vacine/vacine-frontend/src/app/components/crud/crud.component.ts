@@ -17,8 +17,9 @@ import {
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
 import { CrudService } from 'src/app/shared/services/crud-service.service';
+import { gerarStateAlertaRota } from 'src/app/shared/utils/util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
-import { GenericFormComponent } from '../generic-form/generic-form.component';
+import { GenericPageComponent } from '../generic-page/generic-page.component';
 
 @Component({
   selector: 'vacine-crud',
@@ -26,8 +27,7 @@ import { GenericFormComponent } from '../generic-form/generic-form.component';
   styleUrls: ['./crud.component.scss'],
 })
 export class CrudComponent<T extends CrudModel>
-  extends GenericFormComponent
-  implements OnInit, OnDestroy
+  extends GenericPageComponent
 {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
@@ -54,7 +54,12 @@ export class CrudComponent<T extends CrudModel>
     super();
   }
 
-  ngOnInit(): void {
+  protected buildForm() {
+
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
     this.buildForm();
     this.carregarDadosId();
     this.definirHabilitacaoFormulario();
@@ -231,14 +236,8 @@ export class CrudComponent<T extends CrudModel>
     caminhoRelativo: string,
     msgFeedback: MensagemFeedback
   ) {
-    const state = {
-      state: {
-        alerta: {
-          tipo: msgFeedback.tipo,
-          texto: msgFeedback.texto,
-        },
-      },
-    };
+    const state = gerarStateAlertaRota(msgFeedback);
+
     this.router.navigate([caminhoRelativo], state);
   }
 

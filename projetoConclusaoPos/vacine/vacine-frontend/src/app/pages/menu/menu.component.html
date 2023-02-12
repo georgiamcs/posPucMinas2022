@@ -35,7 +35,17 @@
         </a>
       </li>
 
-      <li>
+      <li *ngIf = "!servicoAcesso.isLogado()">
+        <a
+          routerLink="/login" routerLinkActive="active"
+          class="list-group-item list-group-item-action py-2 ripple"
+          aria-current="true"
+        >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Login</span>
+        </a>
+      </li>
+
+      <li *ngIf = "servicoAcesso.isLogado()">
         <a
           routerLink="/logout" routerLinkActive="active"
           class="list-group-item list-group-item-action py-2 ripple"

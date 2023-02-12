@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
       res.status(cnst.RETORNO_HTTP.HTTP_OK).json(retorno);
     } else {
       res
-        .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+        .status(cnst.RETORNO_HTTP.HTTP_NOT_ACCEPTED)
         .json({ error: "Usuário ou senha inválidos" });
     }
   } catch (error) {

@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -14,6 +14,8 @@ import { RetornoHttp } from './../shared/enums/retorno-http.enum';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { gerarStateAlertaRota } from '../shared/utils/util';
+import { MensagemFeedback } from '../shared/classes/mensagem-feedback.class';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -35,34 +37,39 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     }
     return next.handle(requisicao).pipe(
       catchError((error) => {
-        if (
-          error instanceof HttpErrorResponse &&
-          !req.url.includes('api/login')
-        ) {
-          if (error.status === RetornoHttp.HTTP_UNAUTHORIZED) {
-            this.securityProvider.removeTokenUsuario();
-            this.router.navigate(['/login'], {
-              state: {
-                alerta: {
-                  tipo: TipoMensagemFeedback.ERRO,
-                  texto: 'Usuário não está logado. Efetue o login!',
-                },
-              },
-            });
-            throw new Error('Precisa autenticar');
-          } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
-            this.router.navigate(['/home'], {
-              state: {
-                alerta: {
-                  tipo: TipoMensagemFeedback.ERRO,
-                  texto: 'Usuário não possui permissão!',
-                },
-              },
-            });
-            throw new Error('Sem permissão');
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === RetornoHttp.HTTP_UNKNOW) {
+            console.log('erro http', error);
+            return throwError(
+              () => new Error(`Erro de conexão com o servidor ${error.url}`)
+            );
+          } else if (!req.url.includes('api/login')) {
+            if (error.status === RetornoHttp.HTTP_UNAUTHORIZED) {
+              this.securityProvider.removeTokenUsuario();
+              this.router.navigate(
+                ['/login'],
+                gerarStateAlertaRota(
+                  new MensagemFeedback(
+                    TipoMensagemFeedback.ERRO,
+                    'Usuário não está logado. Efetue o login!'
+                  )
+                )
+              );
+              throw new Error('Precisa autenticar');
+            } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
+              this.router.navigate(
+                ['/home'],
+                gerarStateAlertaRota(
+                  new MensagemFeedback(
+                    TipoMensagemFeedback.ERRO,
+                    'Usuário não está logado. Efetue o login!'
+                  )
+                )
+              );
+              throw new Error('Sem permissão');
+            }
           }
         }
-
         return throwError(() => error);
       })
     );

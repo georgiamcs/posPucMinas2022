@@ -1,3 +1,4 @@
+import { ErroComponent } from './pages/erro/erro.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Tema } from './shared/enums/tema.enum';
@@ -22,11 +23,13 @@ const routes: Routes = [
 
   // ACESSO
   { path: 'login', component: LoginComponent },
+  { path: 'erroLogin', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   {
     path: 'registrar',
     component: CrudUsuarioComponent,
   },
+  { path: 'erro', component: ErroComponent },
 
   // VACINAS
   {

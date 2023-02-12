@@ -29,7 +29,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 import { CrudComponent } from './components/crud/crud.component';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
-import { GenericFormComponent } from './components/generic-form/generic-form.component';
+import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { ListarRegistrosComponent } from './components/listar-registros/listar-registros.component';
 import { MensagemErroInputComponent } from './components/mensagem-erro-input/mensagem-erro-input.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
@@ -50,6 +50,7 @@ import { SecurityProvider } from './providers/security.provider';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
+import { ErroComponent } from './pages/erro/erro.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
     HomeComponent,
     LoginComponent,
     LogoutComponent,
-    GenericFormComponent,
+    GenericPageComponent,
+    ErroComponent,
   ],
   imports: [
     BrowserModule,
