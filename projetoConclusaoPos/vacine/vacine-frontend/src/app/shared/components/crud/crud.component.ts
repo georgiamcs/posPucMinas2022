@@ -106,7 +106,7 @@ export class CrudComponent<T extends CrudModel> implements OnInit, OnDestroy {
   protected carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.id) {
-        this.subscription = this.subscription = this.service
+        this.subscription = this.service
           .procurarPorId(this.id)
           .subscribe({
             next: (regBusca) => this.preencherFormComRegistroId(regBusca),
@@ -269,7 +269,7 @@ export class CrudComponent<T extends CrudModel> implements OnInit, OnDestroy {
   }
 
   protected getCaminhoRelativoListaRegistros(): string {
-    return `/listar-${this.pluralEntidade}`;
+    return `${this.pluralEntidade}`;
   }
 
   protected getMsgFeedBackIncluidoSucesso(

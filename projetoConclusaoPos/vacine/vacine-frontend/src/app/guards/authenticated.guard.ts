@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate, Router,
-  RouterStateSnapshot
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TipoMensagemFeedback } from '../shared/enums/tipo-mensagem-feedback.enum';
 import { ControleAcessoService } from './../services/autenticacao/controle-acesso/controle-acesso.service';
 
 @Injectable({
@@ -24,15 +26,20 @@ export class AuthenticatedGuard implements CanActivate {
       this.router.navigate(['login'], {
         state: {
           alerta: {
-            tipo: 'danger',
-            mensagem: `Usuário não está logado. Efetue o login!`,
+            tipo: TipoMensagemFeedback.ERRO,
+            texto: 'Usuário não está logado. Efetue o login!',
           },
         },
       });
       return false;
     } else if (!this.servicoAcesso.verificaExistePerfil(route.data['perfis'])) {
       this.router.navigate(['home'], {
-        state: { alerta: { tipo: 'danger', mensagem: 'Acesso negado.' } },
+        state: {
+          alerta: {
+            tipo: TipoMensagemFeedback.ERRO,
+            texto: 'Acesso negado.',
+          },
+        },
       });
       return false;
     }

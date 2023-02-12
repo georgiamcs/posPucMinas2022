@@ -1,3 +1,4 @@
+import { Tema } from './tema.enum';
 import { ListaSelect } from '../interfaces/lista-select.interface';
 
 export enum TipoPerfil {
@@ -5,7 +6,7 @@ export enum TipoPerfil {
   CLIENTE = 'CLIENTE',
   CADASTRADOR_COMPRA = 'CAD-COMPRA',
   CADASTRADOR_FORNECEDOR = 'CAD-FORNECEDOR',
-  CADASTRADOR_USUARIO = 'CAD-USUÁRIO',
+  CADASTRADOR_USUARIO = 'CAD-USUARIO',
   CADASTRADOR_VACINA = 'CAD-VACINA',
   CADASTRADOR_VACINACAO = 'CAD-VACINACAO',
 }
@@ -34,3 +35,27 @@ export const LISTA_PERFIS: ListaSelect[] = [
   },
   { valor: TipoPerfil.CLIENTE, valorExibicao: 'Cliente' },
 ];
+
+
+export function getListaPerfilPorTema(tema: Tema) {
+
+  switch (tema) {
+    case Tema.COMPRA:
+      return [TipoPerfil.ADMINISTRADOR, TipoPerfil.CADASTRADOR_COMPRA];
+
+    case Tema.FORNECEDOR:
+      return [TipoPerfil.ADMINISTRADOR, TipoPerfil.CADASTRADOR_FORNECEDOR];
+
+    case Tema.VACINA:
+      return [TipoPerfil.ADMINISTRADOR, TipoPerfil.CADASTRADOR_VACINA];
+
+    case Tema.VACINACAO:
+      return [TipoPerfil.ADMINISTRADOR, TipoPerfil.CADASTRADOR_VACINACAO];
+
+    case Tema.USUARIO:
+      return [TipoPerfil.ADMINISTRADOR, TipoPerfil.CADASTRADOR_USUARIO];
+
+    default:
+      return [];
+  }
+}

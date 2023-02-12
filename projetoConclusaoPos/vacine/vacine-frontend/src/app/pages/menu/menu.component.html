@@ -1,32 +1,35 @@
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
   <div class="position-sticky">
     <ul>
-      <li>
-        <a routerLink="/listar-usuarios" class="list-group-item list-group-item-action py-2 ripple">
+      <li *ngIf = "servicoAcesso.isCadastradorUsuario()">
+        <a routerLink="/usuarios" class="list-group-item list-group-item-action py-2 ripple">
           <i class="fas fa-users fa-fw me-3"></i><span>Usuários</span>
         </a>
       </li>
 
-      <li>
-        <a routerLink="/listar-fornecedores"  class="list-group-item list-group-item-action py-2 ripple">
+      <li *ngIf = "servicoAcesso.isCadastradorFornecedor()">
+        <a routerLink="/fornecedores"  class="list-group-item list-group-item-action py-2 ripple">
           <i class="fas fa-building fa-fw me-3"></i><span>Fornecedores</span>
         </a>
       </li>
-      <li>
+
+      <li *ngIf = "servicoAcesso.isCadastradorVacina()">
         <a
-          routerLink="/listar-vacinas" routerLinkActive="active"
+          routerLink="/vacinas" routerLinkActive="active"
           class="list-group-item list-group-item-action py-2 ripple"
           aria-current="true"
         >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Vacinas</span>
         </a>
       </li>
-      <li>
+
+      <li *ngIf = "servicoAcesso.isCadastradorVacinacao()">
         <a href="#" class="list-group-item list-group-item-action py-2 ripple">
           <i class="fas fa-money-bill fa-fw me-3"></i><span>Vacinação</span>
         </a>
       </li>
-      <li>
+
+      <li *ngIf = "servicoAcesso.isAdmin()">
         <a href="#" class="list-group-item list-group-item-action py-2 ripple">
           <i class="fas fa-chart-line fa-fw me-3"></i><span>Relatórios</span>
         </a>

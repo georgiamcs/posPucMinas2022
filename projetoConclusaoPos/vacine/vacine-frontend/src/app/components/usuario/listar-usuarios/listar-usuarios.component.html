@@ -1,7 +1,7 @@
 <h1>Usuários</h1>
 <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
 <div>
-  <button routerLink="/crud-usuario" mat-raised-button color="primary">
+  <button routerLink="/usuario" mat-raised-button color="primary">
     Adicionar Usuário
   </button>
 </div>
@@ -46,13 +46,13 @@
   <ng-container matColumnDef="acoes">
     <th mat-header-cell *matHeaderCellDef>Ações</th>
     <td mat-cell *matCellDef="let registro">
-      <button mat-icon-button [routerLink]="['/crud-usuario/' + registro._id]" matTooltip="Visualizar">
+      <button mat-icon-button [routerLink]="['/usuario/' + registro._id]" matTooltip="Visualizar">
         <mat-icon>visibility</mat-icon>
       </button>
-      <button mat-icon-button [routerLink]="['/crud-usuario/editar/' + registro._id]" matTooltip="Editar">
+      <button mat-icon-button [routerLink]="['/usuario/editar/' + registro._id]" matTooltip="Editar">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button [routerLink]="['/crud-usuario/excluir/' + registro._id]" matTooltip="Excluir">
+      <button mat-icon-button [routerLink]="['/usuario/excluir/' + registro._id]" matTooltip="Excluir">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

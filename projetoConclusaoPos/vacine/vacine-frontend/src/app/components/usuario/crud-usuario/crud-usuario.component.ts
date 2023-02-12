@@ -1,3 +1,4 @@
+//TODO: nao aparecer a senha e confirmacao qnd editar
 import { LISTA_TIPOS_USUARIOS, TipoUsuario } from './../../../shared/enums/tipo-usuario.enum';
 import { LISTA_PERFIS } from './../../../shared/enums/tipo-perfil.enum';
 import { CrudComponent } from './../../../shared/components/crud/crud.component';

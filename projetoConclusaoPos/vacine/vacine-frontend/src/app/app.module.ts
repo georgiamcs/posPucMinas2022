@@ -1,3 +1,4 @@
+import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -49,6 +50,9 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { SecurityProvider } from './providers/security.provider';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './components/acesso/login/login.component';
+import { LogoutComponent } from './components/acesso/logout/logout.component';
 
 
 @NgModule({
@@ -72,6 +76,9 @@ import { SecurityProvider } from './providers/security.provider';
     ListarUsuariosComponent,
     CpfPipe,
     CrudUsuarioComponent,
+    HomeComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +107,7 @@ import { SecurityProvider } from './providers/security.provider';
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     provideNgxMask(),
     SecurityProvider,
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

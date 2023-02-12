@@ -2,32 +2,31 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TokenPayload } from 'src/app/shared/interfaces/token-payload.interface';
 import { SecurityProvider } from './../../../providers/security.provider';
-import { TipoPerfil } from './../../../shared/enums/tipo-perfil.enum';
+import { getListaPerfilPorTema, TipoPerfil } from './../../../shared/enums/tipo-perfil.enum';
+import { LoginUsuario } from './../../../shared/interfaces/login-usuario.interface';
 
 import { tap } from 'rxjs';
 import { environment } from 'src/app/environment';
 import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Tema } from 'src/app/shared/enums/tema.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ControleAcessoService {
-  private readonly API_AUTENTICACAO = `${environment.API_URL_BASE}/login/`;
+  private readonly API_AUTENTICACAO = `${environment.API_URL_BASE}login/`;
 
   constructor(private http: HttpClient, private security: SecurityProvider) {}
 
   //TODO: alterar implementacao para quem chamar essa rotina recuperar o observable e tratar, armazendando token no next, tratando erro e fazendo subscricao e unsuscrube
-  loginJwt(usuario: Usuario) {
-    return this.http
-      .post<TokenPayload>(this.API_AUTENTICACAO + 'jwt', usuario)
-      .pipe(
-        tap((res) => {
-          this.security.armazenaTokenUsuario(res);
-          return res;
-        })
-      );
+  loginJwt(loginUsuario: LoginUsuario) {
+    return this.http.post<TokenPayload>(
+      this.API_AUTENTICACAO + 'jwt',
+      loginUsuario
+    );
   }
 
+  // TODO: LOGIN GOOGLE
   // loginGoogle(usuario: SocialUser) {
   //   return this.http
   //     .post<UsuarioToken>(this.API_AUTENTICACAO + 'loginGoogle', usuario)
@@ -55,6 +54,10 @@ export class ControleAcessoService {
     this.security.armazenaUsuario(usuario);
   }
 
+  setTokenUsuario(tokenPayload: TokenPayload) {
+    this.security.armazenaTokenUsuario(tokenPayload);
+  }
+
   verificaExistePerfil(listaPerfil: TipoPerfil[]): boolean {
     let retorno = false;
 
@@ -79,38 +82,24 @@ export class ControleAcessoService {
   }
 
   isCadastradorVacina(): boolean {
-    return (
-      this.isAdmin() ||
-      this.verificaExistePerfil([TipoPerfil.CADASTRADOR_VACINA])
-    );
+    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.VACINA));
   }
 
   isCadastradorVacinacao(): boolean {
-    return (
-      this.isAdmin() ||
-      this.verificaExistePerfil([TipoPerfil.CADASTRADOR_VACINACAO])
-    );
+    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.VACINACAO));
   }
 
   isCadastradorUsuario(): boolean {
-    return (
-      this.isAdmin() ||
-      this.verificaExistePerfil([TipoPerfil.CADASTRADOR_USUARIO])
-    );
+    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.USUARIO));
+
   }
 
   isCadastradorCompra(): boolean {
-    return (
-      this.isAdmin() ||
-      this.verificaExistePerfil([TipoPerfil.CADASTRADOR_COMPRA])
-    );
+    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.COMPRA));
   }
 
   isCadastradorFornecedor(): boolean {
-    return (
-      this.isAdmin() ||
-      this.verificaExistePerfil([TipoPerfil.CADASTRADOR_FORNECEDOR])
-    );
+    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.FORNECEDOR));
   }
 
   isCliente(): boolean {
