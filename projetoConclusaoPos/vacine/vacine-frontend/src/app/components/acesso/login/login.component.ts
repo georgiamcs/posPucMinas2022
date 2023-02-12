@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 //TODO: LOGIN GOOGLE
 //import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
@@ -15,8 +15,7 @@ import { LoginUsuario } from './../../../shared/interfaces/login-usuario.interfa
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   protected mensagens: MensagemFeedback[] = [];
@@ -31,12 +30,12 @@ export class LoginComponent implements OnInit {
       this.mensagens.push(alerta);
     }
   }
-  form!: FormGroup;
 
+  form!: FormGroup;
   logado: boolean = false;
 
   ngOnInit(): void {
-    this.criarFormulario();
+    this.buildForm();
     // TODO: LOGIN GOOGLE
     // this.socialAuthService.authState.subscribe((user) => {
     //   if (user && !this.logando) {
@@ -45,6 +44,10 @@ export class LoginComponent implements OnInit {
     //     this.logarGoogle(user);
     //   }
     // });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   login(): void {
@@ -58,7 +61,7 @@ export class LoginComponent implements OnInit {
     this.logarJwt(login);
   }
 
-  private criarFormulario() {
+  private buildForm() {
     this.form = this.formBuilder.group({
       email: [{ value: '', disabled: this.readOnly() }, Validators.required],
       senha: [{ value: '', disabled: this.readOnly() }, Validators.required],
@@ -86,25 +89,20 @@ export class LoginComponent implements OnInit {
   // }
 
   private logarJwt(loginUsuario: LoginUsuario) {
-    this.subscription = this.serviceAcesso
-      .loginJwt(loginUsuario)
-      .subscribe({
-        next: (result) => {
-          this.serviceAcesso.setTokenUsuario(result);
-          this.mensagens = [];
-          this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          this.logandoFormulario(false);
-          this.mensagens.push(
-            new MensagemFeedback(
-              TipoMensagemFeedback.ERRO,
-              `${err.error?.error}`
-            )
-          );
-          throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
-        }
-      });
+    this.subscription = this.serviceAcesso.loginJwt(loginUsuario).subscribe({
+      next: (result) => {
+        this.serviceAcesso.setTokenUsuario(result);
+        this.mensagens = [];
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.logandoFormulario(false);
+        this.mensagens.push(
+          new MensagemFeedback(TipoMensagemFeedback.ERRO, `${err.error?.error}`)
+        );
+        throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
+      },
+    });
   }
 
   readOnly() {
