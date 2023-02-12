@@ -1,31 +1,33 @@
-import { CrudService } from './../../services/crud-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   ValidatorFn,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
-import { CrudModel } from 'src/app/shared/models/crud.model';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
+import { CrudModel } from 'src/app/shared/models/crud.model';
 import { MensagemFeedback } from '../../classes/mensagem-feedback.class';
-import { MensagemErroInputComponent } from '../mensagem-erro-input/mensagem-erro-input.component';
+import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
+import { CrudService } from './../../services/crud-service.service';
 
 @Component({
   selector: 'vacine-crud',
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<T extends CrudModel> implements OnInit {
+export class CrudComponent<T extends CrudModel> implements OnInit, OnDestroy {
+  protected subscription: Subscription;
+
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -54,6 +56,10 @@ export class CrudComponent<T extends CrudModel> implements OnInit {
     this.buildForm();
     this.carregarDadosId();
     this.definirHabilitacaoFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private definirHabilitacaoFormulario() {
@@ -93,12 +99,19 @@ export class CrudComponent<T extends CrudModel> implements OnInit {
     this._nomeCampoFormIdentificaEntidade = v;
   }
 
+  private tratarErro(erro: string) {
+    alert(erro); // TODO: subsutuir para usar componente de mensagem de feedback na tela
+  }
+
   protected carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.id) {
-        this.service
+        this.subscription = this.subscription = this.service
           .procurarPorId(this.id)
-          .subscribe((regBusca) => this.preencherFormComRegistroId(regBusca));
+          .subscribe({
+            next: (regBusca) => this.preencherFormComRegistroId(regBusca),
+            error: (erro) => this.tratarErro(`Erro ao carregar dados: ${erro}`),
+          });
       }
     }
   }
@@ -114,26 +127,29 @@ export class CrudComponent<T extends CrudModel> implements OnInit {
     const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
-    this.service
-      .incluir(this.form.value)
-      .subscribe(() => this.carregarRegistros(msgFeedback));
+    this.subscription = this.service.incluir(this.form.value).subscribe({
+      next: () => this.carregarRegistros(msgFeedback),
+      error: (erro) => this.tratarErro(`Erro ao incluir registro: ${erro}`),
+    });
   }
 
   protected alterarRegistro() {
     const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
-    this.service
-      .alterar(this.form.value)
-      .subscribe(() => this.carregarRegistros(msgFeedback));
+    this.subscription = this.service.alterar(this.form.value).subscribe({
+      next: () => this.carregarRegistros(msgFeedback),
+      error: (erro) => this.tratarErro(`Erro ao alterar registro: ${erro}`),
+    });
   }
 
   protected excluirRegistro(id: string) {
     const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
-    this.service.excluir(id).subscribe(() => {
-      this.carregarRegistros(msgFeedback);
+    this.subscription = this.service.excluir(id).subscribe({
+      next: () => this.carregarRegistros(msgFeedback),
+      error: (erro) => this.tratarErro(`Erro ao excluir registro: ${erro}`),
     });
   }
 
@@ -143,10 +159,16 @@ export class CrudComponent<T extends CrudModel> implements OnInit {
       this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
     );
 
-    modalRef.afterClosed().subscribe((result) => {
-      if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
-        this.excluirRegistro(registro._id);
-      }
+    this.subscription = modalRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
+          this.excluirRegistro(registro._id);
+        }
+      },
+      error: (erro) =>
+        this.tratarErro(
+          `Erro ao fechar janela de confirmação de exclusão: ${erro}`
+        ),
     });
   }
 
@@ -299,4 +321,3 @@ export class CrudComponent<T extends CrudModel> implements OnInit {
     };
   }
 }
-

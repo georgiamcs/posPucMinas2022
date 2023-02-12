@@ -2,7 +2,6 @@ import { ListaSelect } from '../interfaces/lista-select.interface';
 
 export enum TipoPerfil {
   ADMINISTRADOR = 'ADMIN',
-  SECRETARIA = 'SECRET',
   CLIENTE = 'CLIENTE',
   CADASTRADOR_COMPRA = 'CAD-COMPRA',
   CADASTRADOR_FORNECEDOR = 'CAD-FORNECEDOR',
@@ -34,5 +33,4 @@ export const LISTA_PERFIS: ListaSelect[] = [
     valorExibicao: 'Cadastrador de Vacinação',
   },
   { valor: TipoPerfil.CLIENTE, valorExibicao: 'Cliente' },
-  { valor: TipoPerfil.SECRETARIA, valorExibicao: 'Secretária' },
 ];

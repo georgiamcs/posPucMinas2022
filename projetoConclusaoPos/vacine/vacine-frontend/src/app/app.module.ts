@@ -1,53 +1,54 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS,
+  MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   NgxMaskDirective,
   NgxMaskPipe,
-  provideNgxMask,
+  provideNgxMask
 } from 'ngx-mask';
 
-import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
-import { MenuComponent } from './pages/menu/menu.component';
-import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
+import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
+import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
+import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usuario.component';
+import { ListarUsuariosComponent } from './components/usuario/listar-usuarios/listar-usuarios.component';
 import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
 import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
+import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
+import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
+import { MenuComponent } from './pages/menu/menu.component';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
-import { DialogoConfirmacaoComponent } from './shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { CrudComponent } from './shared/components/crud/crud.component';
-import { MensagemFeedbackComponent } from './shared/components/mensagem-feedback/mensagem-feedback.component';
+import { DialogoConfirmacaoComponent } from './shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { ListarRegistrosComponent } from './shared/components/listar-registros/listar-registros.component';
-import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
-import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
-import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
-import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
 import { MensagemErroInputComponent } from './shared/components/mensagem-erro-input/mensagem-erro-input.component';
-import { ListarUsuariosComponent } from './components/usuario/listar-usuarios/listar-usuarios.component';
+import { MensagemFeedbackComponent } from './shared/components/mensagem-feedback/mensagem-feedback.component';
+import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
-import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usuario.component';
+import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
+import { SecurityProvider } from './providers/security.provider';
 
 
 @NgModule({
@@ -98,6 +99,7 @@ import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usu
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     provideNgxMask(),
+    SecurityProvider,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

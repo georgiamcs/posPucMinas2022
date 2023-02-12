@@ -7,8 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { AbstractControl, AbstractControlOptions, FormBuilder, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
-import { converterUndefinedNuloEmFalse, validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
-import { ListaSelectComItens } from 'src/app/shared/interfaces/lista-select-com-itens.interface';
+import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
 
 @Component({
   selector: 'vacine-crud-usuario',

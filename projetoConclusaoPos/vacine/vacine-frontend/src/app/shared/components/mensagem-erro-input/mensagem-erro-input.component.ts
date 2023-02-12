@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, ValidationErrors } from '@angular/forms';
 import {
-  converterUndefinedEmNulo,
-  converterUndefinedNuloEmFalse,
+  converterUndefinedEmNulo
 } from '../../utils/util';
 
 @Component({
@@ -17,9 +16,7 @@ export class MensagemErroInputComponent {
   @Input() msgerro?: string;
 
   private campoFormFoiEditado(formControlName: string): boolean {
-    return converterUndefinedNuloEmFalse(
-      this.form.get(formControlName)?.touched
-    );
+    return !!(this.form.get(formControlName)?.touched);
   }
 
   private recuperarErroCampoForm(

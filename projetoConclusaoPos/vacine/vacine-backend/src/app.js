@@ -21,16 +21,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // API Route
-const indexRouter      = require("./routers/IndexRouter");
 const loginRouter      = require("./routers/AutenticacaoRouter");
 const vacinaRouter     = require("./routers/VacinaRouter");
 const fornecedorRouter = require("./routers/FornecedorRouter");
 const usuarioRouter    = require("./routers/UsuarioRouter");
 
-app.use("/", indexRouter);
-app.use("/login", loginRouter);
-app.use("/vacinas", vacinaRouter);
-app.use("/fornecedores", fornecedorRouter);
-app.use("/usuarios", usuarioRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/vacinas", vacinaRouter);
+app.use("/api/fornecedores", fornecedorRouter);
+app.use("/api/usuarios", usuarioRouter);
 
 module.exports = app;

@@ -1,5 +1,4 @@
 import { ListaSelectComItens } from '../interfaces/lista-select-com-itens.interface';
-import { ListaSelect } from '../interfaces/lista-select.interface';
 import { TipoPerfil } from './tipo-perfil.enum';
 
 export enum TipoUsuario {
@@ -19,7 +18,11 @@ export const LISTA_TIPOS_USUARIOS: ListaSelectComItens[] = [
   {
     valor: TipoUsuario.ANALISTA_COMPRAS,
     valorExibicao: 'Analista de Compras',
-    itens: [TipoPerfil.CADASTRADOR_COMPRA, TipoPerfil.CADASTRADOR_FORNECEDOR, TipoPerfil.CADASTRADOR_VACINA],
+    itens: [
+      TipoPerfil.CADASTRADOR_COMPRA,
+      TipoPerfil.CADASTRADOR_FORNECEDOR,
+      TipoPerfil.CADASTRADOR_VACINA,
+    ],
   },
   {
     valor: TipoUsuario.CLIENTE,
@@ -29,11 +32,15 @@ export const LISTA_TIPOS_USUARIOS: ListaSelectComItens[] = [
   {
     valor: TipoUsuario.TECNICO_ENFERMAGEM,
     valorExibicao: 'Técnico de Enfermagem',
-    itens: [TipoPerfil.CADASTRADOR_VACINACAO, TipoPerfil.SECRETARIA],
+    itens: [
+      TipoPerfil.CADASTRADOR_VACINACAO,
+      TipoPerfil.CADASTRADOR_USUARIO,
+      TipoPerfil.CADASTRADOR_VACINA,
+    ],
   },
   {
     valor: TipoUsuario.SECRETARIA,
     valorExibicao: 'Secretária',
-    itens: [TipoPerfil.CADASTRADOR_VACINACAO, TipoPerfil.SECRETARIA],
+    itens: [TipoPerfil.CADASTRADOR_VACINACAO, TipoPerfil.CADASTRADOR_USUARIO],
   },
 ];

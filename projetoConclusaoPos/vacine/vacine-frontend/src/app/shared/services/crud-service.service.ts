@@ -20,7 +20,7 @@ export class CrudService<T extends CrudModel> {
 
   set apiUrlRelativa(v: string) {
     this._apiUrlRelativa = v;
-    this.apiUrlCompleta = `${environment.API_URL}${this._apiUrlRelativa}/`;
+    this.apiUrlCompleta = `${environment.API_URL_BASE}${this._apiUrlRelativa}/`;
   }
 
   listar(): Observable<T[]> {
