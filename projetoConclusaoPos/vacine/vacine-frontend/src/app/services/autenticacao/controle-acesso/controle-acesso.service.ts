@@ -17,7 +17,6 @@ export class ControleAcessoService {
 
   constructor(private http: HttpClient, private security: SecurityProvider) {}
 
-  //TODO: alterar implementacao para quem chamar essa rotina recuperar o observable e tratar, armazendando token no next, tratando erro e fazendo subscricao e unsuscrube
   loginJwt(loginUsuario: LoginUsuario) {
     return this.http.post<TokenPayload>(
       this.API_AUTENTICACAO + 'jwt',

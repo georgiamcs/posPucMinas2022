@@ -1,4 +1,3 @@
-//TODO: VERIFICAR A POSSIBILIDADE DE TRANSFORMAR EM CLASSE ESTATICA COM OS ITENS EXPORTADOS NO ARQUIVO
 import { Tema } from '../enums/tema.enum';
 import { ListaSelect } from '../interfaces/lista-select.interface';
 

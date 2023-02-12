@@ -1,4 +1,3 @@
-import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -25,35 +25,31 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import {
-  NgxMaskDirective,
-  NgxMaskPipe,
-  provideNgxMask
-} from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
-import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
-import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
-import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usuario.component';
-import { ListarUsuariosComponent } from './components/usuario/listar-usuarios/listar-usuarios.component';
-import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
-import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
+import { CrudComponent } from './components/crud/crud.component';
+import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
+import { GenericFormComponent } from './components/generic-form/generic-form.component';
+import { ListarRegistrosComponent } from './components/listar-registros/listar-registros.component';
+import { MensagemErroInputComponent } from './components/mensagem-erro-input/mensagem-erro-input.component';
+import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
+import { LoginComponent } from './pages/acesso/login/login.component';
+import { LogoutComponent } from './pages/acesso/logout/logout.component';
 import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
 import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
+import { CrudFornecedorComponent } from './pages/entidades/fornecedor/crud-fornecedor/crud-fornecedor.component';
+import { ListarFornecedoresComponent } from './pages/entidades/fornecedor/listar-fornecedores/listar-fornecedores.component';
+import { CrudUsuarioComponent } from './pages/entidades/usuario/crud-usuario/crud-usuario.component';
+import { ListarUsuariosComponent } from './pages/entidades/usuario/listar-usuarios/listar-usuarios.component';
+import { CrudVacinaComponent } from './pages/entidades/vacina/crud-vacina/crud-vacina.component';
+import { ListarVacinasComponent } from './pages/entidades/vacina/listar-vacinas/listar-vacinas.component';
+import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { SemRegistrosComponent } from './pages/sem-registros/sem-registros.component';
-import { CrudComponent } from './shared/components/crud/crud.component';
-import { DialogoConfirmacaoComponent } from './shared/components/dialogo-confirmacao/dialogo-confirmacao.component';
-import { ListarRegistrosComponent } from './shared/components/listar-registros/listar-registros.component';
-import { MensagemErroInputComponent } from './shared/components/mensagem-erro-input/mensagem-erro-input.component';
-import { MensagemFeedbackComponent } from './shared/components/mensagem-feedback/mensagem-feedback.component';
+import { SecurityProvider } from './providers/security.provider';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
-import { SecurityProvider } from './providers/security.provider';
-import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './components/acesso/login/login.component';
-import { LogoutComponent } from './components/acesso/logout/logout.component';
-
 
 @NgModule({
   declarations: [
@@ -79,6 +75,7 @@ import { LogoutComponent } from './components/acesso/logout/logout.component';
     HomeComponent,
     LoginComponent,
     LogoutComponent,
+    GenericFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,7 +104,7 @@ import { LogoutComponent } from './components/acesso/logout/logout.component';
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     provideNgxMask(),
     SecurityProvider,
-    httpInterceptorProviders
+    httpInterceptorProviders,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

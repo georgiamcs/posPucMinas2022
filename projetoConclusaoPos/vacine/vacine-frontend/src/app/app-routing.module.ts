@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Tema } from './shared/enums/tema.enum';
 
-import { LoginComponent } from './components/acesso/login/login.component';
-import { LogoutComponent } from './components/acesso/logout/logout.component';
-import { CrudFornecedorComponent } from './components/fornecedor/crud-fornecedor/crud-fornecedor.component';
-import { ListarFornecedoresComponent } from './components/fornecedor/listar-fornecedores/listar-fornecedores.component';
-import { CrudUsuarioComponent } from './components/usuario/crud-usuario/crud-usuario.component';
-import { ListarUsuariosComponent } from './components/usuario/listar-usuarios/listar-usuarios.component';
-import { CrudVacinaComponent } from './components/vacina/crud-vacina/crud-vacina.component';
-import { ListarVacinasComponent } from './components/vacina/listar-vacinas/listar-vacinas.component';
+import { LoginComponent } from './pages/acesso/login/login.component';
+import { LogoutComponent } from './pages/acesso/logout/logout.component';
+import { CrudFornecedorComponent } from './pages/entidades/fornecedor/crud-fornecedor/crud-fornecedor.component';
+import { ListarFornecedoresComponent } from './pages/entidades/fornecedor/listar-fornecedores/listar-fornecedores.component';
+import { CrudUsuarioComponent } from './pages/entidades/usuario/crud-usuario/crud-usuario.component';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { Acesso } from './shared/classes/acesso.class';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
+import { ListarUsuariosComponent } from './pages/entidades/usuario/listar-usuarios/listar-usuarios.component';
+import { CrudVacinaComponent } from './pages/entidades/vacina/crud-vacina/crud-vacina.component';
+import { ListarVacinasComponent } from './pages/entidades/vacina/listar-vacinas/listar-vacinas.component';
 
 const routes: Routes = [
   //HOME
