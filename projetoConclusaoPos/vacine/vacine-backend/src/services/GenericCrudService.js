@@ -7,7 +7,6 @@ class GenericCrudService {
       return todosRegistros;
     } catch (error) {
       const msgErro = `Erro ao recuperar todos os registros: ${error.message}`;
-      console.error(msgErro);
       throw new Error(msgErro);
     }
   }
@@ -19,7 +18,6 @@ class GenericCrudService {
       return registro;
     } catch (error) {
       const msgErro = `Registro com Id ${id} não encontrado ${error.message}`;
-      console.log(msgErro);
       throw new Error(msgErro);
     }
   }
@@ -31,7 +29,6 @@ class GenericCrudService {
       return response;
     } catch (error) {
       const msgErro = `Erro ao adicionar novo registro ${pNovoRegistro.nome}: ${error.message}`;
-      console.log(msgErro);
       throw new Error(msgErro);
     }
   }
@@ -49,7 +46,6 @@ class GenericCrudService {
       return updateResponse;
     } catch (error) {
       const msgErro = `Registro com Id ${id} não pode ser atualizado: ${error.message}`;
-      console.log(msgErro);
       throw new Error(msgErro);
     }
   }
@@ -63,7 +59,6 @@ class GenericCrudService {
       return deletedResponse;
     } catch (error) {
       const msgErro = `Registro com Id ${id} não pode ser excluído: ${error.message}`;
-      console.log(msgErro);
       throw new Error(msgErro);
     }
   }

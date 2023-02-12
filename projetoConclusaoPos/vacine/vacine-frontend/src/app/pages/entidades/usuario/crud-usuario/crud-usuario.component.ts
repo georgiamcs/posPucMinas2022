@@ -1,3 +1,4 @@
+//TODO: na edicao, nao mostrar senha e confirmar senha, fazer funcionalidade de troca de senha
 import { Component } from '@angular/core';
 import {
   AbstractControl,

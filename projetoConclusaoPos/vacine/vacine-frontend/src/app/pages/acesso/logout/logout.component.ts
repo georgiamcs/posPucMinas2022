@@ -1,8 +1,7 @@
-
-// TODO: LOGIN GOOGLE
-//import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { ControleAcessoService } from '../../../services/autenticacao/controle-acesso/controle-acesso.service';
 
 @Component({
@@ -10,26 +9,31 @@ import { ControleAcessoService } from '../../../services/autenticacao/controle-a
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.scss'],
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent extends GenericPageComponent implements OnInit {
   constructor(
-    // private socialAuthService: SocialAuthService, // TODO: LOGIN GOOGLE
+    private serviceAutRedeSocial: SocialAuthService,
     private serviceAcesso: ControleAcessoService,
-    private router: Router
-  ) {}
+    private _router: Router
+  ) {
+    super();
+    this.router = _router;
+  }
 
   logadoGoogle = false;
 
-  ngOnInit(): void {
-    // TODO: LOGIN GOOGLE
-    // this.socialAuthService.authState.subscribe((user) => {
-    //   this.logadoGoogle = user != null;
-    // });
-    // if (this.logadoGoogle) {
-    //   this.socialAuthService.signOut();
-    // }
+  override ngOnInit(): void {
+    super.ngOnInit();
+
+    this.subscription = this.serviceAutRedeSocial.authState.subscribe({
+      next: (user) => (this.logadoGoogle = user != null),
+      error: (e) => this.tratarErro(e),
+    });
+
+    if (this.logadoGoogle) {
+      this.serviceAutRedeSocial.signOut();
+    }
 
     this.serviceAcesso.logout();
-
     this.router.navigate(['/home']);
   }
 }

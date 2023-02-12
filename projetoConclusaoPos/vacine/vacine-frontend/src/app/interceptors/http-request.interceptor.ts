@@ -39,7 +39,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === RetornoHttp.HTTP_UNKNOW) {
-            console.log('erro http', error);
             return throwError(
               () => new Error(`Erro de conexão com o servidor ${error.url}`)
             );

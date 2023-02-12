@@ -1,5 +1,4 @@
-//TODO: LOGIN GOOGLE
-//import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +19,8 @@ export class LoginComponent extends GenericPageComponent {
   constructor(
     private formBuilder: FormBuilder,
     private serviceAcesso: ControleAcessoService,
-    private _router: Router
+    private _router: Router,
+    private serviceAutRedeSocial: SocialAuthService
   ) {
     super();
     this.router = this._router;
@@ -32,14 +32,15 @@ export class LoginComponent extends GenericPageComponent {
   override ngOnInit(): void {
     super.ngOnInit();
     this.buildForm();
-    // TODO: LOGIN GOOGLE
-    // this.socialAuthService.authState.subscribe((user) => {
-    //   if (user && !this.logando) {
-    //     console.log('login google');
-    //     this.logandoFormulario(true);
-    //     this.logarGoogle(user);
-    //   }
-    // });
+
+    this.subscription = this.serviceAutRedeSocial.authState.subscribe(
+      (user) => {
+        if (user && !this.logado) {
+          this.logandoFormulario(true);
+          this.logarGoogle(user);
+        }
+      }
+    );
   }
 
   login(): void {
@@ -60,28 +61,22 @@ export class LoginComponent extends GenericPageComponent {
     });
   }
 
-  // TODO: LOGIN GOOGLE
-  // private logarGoogle(usuario: SocialUser) {
-  //   this.jwtAuthService
-  //     .loginGoogle(usuario)
-  //     .pipe(
-  //       catchError((err) => {
-  //         this.logandoFormulario(false);
-  //         this.alertas.push({
-  //           tipo: 'danger',
-  //           mensagem: `${err.error?.error}`,
-  //         });
-  //         throw 'Erro ao efetuar login. Detalhes: ' + err.error?.error;
-  //       })
-  //     )
-  //     .subscribe(() => {
-  //       this.alertas = [];
-  //       this.router.navigate(['/home']);
-  //     });
-  // }
-
   private logarJwt(loginUsuario: LoginUsuario) {
     this.subscription = this.serviceAcesso.loginJwt(loginUsuario).subscribe({
+      next: (result) => {
+        this.serviceAcesso.setTokenUsuario(result);
+        this.deleteAllMensagem();
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.logandoFormulario(false);
+        this.tratarErroLogin(err);
+      },
+    });
+  }
+
+  private logarGoogle(usuario: SocialUser) {
+    this.subscription = this.serviceAcesso.loginGoogle(usuario).subscribe({
       next: (result) => {
         this.serviceAcesso.setTokenUsuario(result);
         this.deleteAllMensagem();

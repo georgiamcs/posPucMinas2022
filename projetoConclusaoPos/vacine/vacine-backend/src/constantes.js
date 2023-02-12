@@ -7,8 +7,15 @@ const RETORNO_HTTP = Object.freeze({
   HTTP_INTERNAL_SERVER_ERRO: 500, // O servidor encontrou uma situação com a qual não sabe lidar.
 }); 
 
+const TIPO_USUARIO = Object.freeze({
+  ADMINISTRADOR: "A",
+  ANALISTA_COMPRAS: "L",
+  CLIENTE: "C",
+  SECRETARIA: "S",
+  TECNICO_ENFERMAGEM: "T",
+}); 
 
 module.exports = {
-  RETORNO_HTTP
+  RETORNO_HTTP, TIPO_USUARIO
 };
 

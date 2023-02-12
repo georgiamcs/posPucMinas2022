@@ -4,7 +4,6 @@ const controller = require("../controllers/AutenticacaoController");
 
 //login
 router.post("/jwt", controller.login);
-
-//router.post("/loginGoogle", AutorizacaoController.loginGoogle);
+router.post("/google", controller.loginGoogle);
 
 module.exports = router;

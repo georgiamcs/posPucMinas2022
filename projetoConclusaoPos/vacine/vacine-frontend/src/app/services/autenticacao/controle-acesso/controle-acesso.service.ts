@@ -1,3 +1,4 @@
+import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -24,17 +25,12 @@ export class ControleAcessoService {
     );
   }
 
-  // TODO: LOGIN GOOGLE
-  // loginGoogle(usuario: SocialUser) {
-  //   return this.http
-  //     .post<UsuarioToken>(this.API_AUTENTICACAO + 'loginGoogle', usuario)
-  //     .pipe(
-  //       tap((res) => {
-  //         this.security.setToken(res);
-  //         return res;
-  //       })
-  //     );
-  // }
+  loginGoogle(usuario: SocialUser) {
+    return this.http.post<TokenPayload>(
+      this.API_AUTENTICACAO + 'google',
+      usuario
+    );
+  }
 
   logout() {
     this.security.removeTokenUsuario();

@@ -58,11 +58,9 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected getStateRota(nomeState: string) {
     let msg;
-
     if (!!this.router) {
       msg = this.router.getCurrentNavigation()?.extras.state?.[nomeState];
     }
-
     return msg;
   }
 }

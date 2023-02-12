@@ -186,7 +186,7 @@ export class CrudComponent<T extends CrudModel>
           throw new Error('Modo do formulário não definido');
       }
     } else {
-      console.log('this.form)', this.form);
+      console.error('this.form)', this.form);
       alert('Formulário com preenchimento inválido.');
     }
   }
