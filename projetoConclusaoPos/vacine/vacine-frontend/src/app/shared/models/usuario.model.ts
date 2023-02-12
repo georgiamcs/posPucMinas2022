@@ -1,4 +1,4 @@
-import { TipoPerfil } from './../enums/tipo-perfil.enum';
+import { TipoPerfil } from '../classes/acesso.class';
 import { TipoUsuario } from './../enums/tipo-usuario.enum';
 import { CrudModel } from './crud.model';
 

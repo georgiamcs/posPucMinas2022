@@ -1,23 +1,29 @@
 //TODO: nao aparecer a senha e confirmacao qnd editar
-import { LISTA_TIPOS_USUARIOS, TipoUsuario } from './../../../shared/enums/tipo-usuario.enum';
-import { LISTA_PERFIS } from './../../../shared/enums/tipo-perfil.enum';
-import { CrudComponent } from './../../../shared/components/crud/crud.component';
-import { Component, forwardRef } from '@angular/core';
-import { Usuario } from 'src/app/shared/models/usuario.model';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
-import { AbstractControl, AbstractControlOptions, FormBuilder, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  AbstractControl,
+  AbstractControlOptions,
+  FormBuilder,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { Usuario } from 'src/app/shared/models/usuario.model';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { Acesso } from '../../../shared/classes/acesso.class';
+import { CrudComponent } from './../../../shared/components/crud/crud.component';
+import { TIPOS_USUARIOS } from './../../../shared/enums/tipo-usuario.enum';
 
 @Component({
   selector: 'vacine-crud-usuario',
   templateUrl: './crud-usuario.component.html',
-  styleUrls: ['./crud-usuario.component.scss']
+  styleUrls: ['./crud-usuario.component.scss'],
 })
 export class CrudUsuarioComponent extends CrudComponent<Usuario> {
-  protected perfisEscolher = LISTA_PERFIS;
-  protected tiposUsuarios = LISTA_TIPOS_USUARIOS;
+  protected perfisEscolher = Acesso.PERFIS;
+  protected tiposUsuarios = TIPOS_USUARIOS;
 
   constructor(
     private _service: UsuarioService,
@@ -132,14 +138,14 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     }
   }
 
-  protected marcarPerfisDefaultTipoUsuario():void {
-      const tpUser = this.recuperarValorCampoForm('tipo');
-      const obj = this.tiposUsuarios.find(o => o.valor ==  tpUser);
-      let perfisDefault;
+  protected marcarPerfisDefaultTipoUsuario(): void {
+    const tpUser = this.recuperarValorCampoForm('tipo');
+    const obj = this.tiposUsuarios.find((o) => o.valor == tpUser);
+    let perfisDefault;
 
-      if (obj!= null || obj != undefined) {
-        perfisDefault = obj.itens;
-      }
-      this.definirValorCampoForm('perfis', perfisDefault);
+    if (obj != null || obj != undefined) {
+      perfisDefault = obj.itens;
+    }
+    this.definirValorCampoForm('perfis', perfisDefault);
   }
 }

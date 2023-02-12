@@ -1,5 +1,5 @@
+import { TipoPerfil } from '../classes/acesso.class';
 import { ListaSelectComItens } from '../interfaces/lista-select-com-itens.interface';
-import { TipoPerfil } from './tipo-perfil.enum';
 
 export enum TipoUsuario {
   ADMINISTRADOR = 'A',
@@ -9,7 +9,7 @@ export enum TipoUsuario {
   TECNICO_ENFERMAGEM = 'T',
 }
 
-export const LISTA_TIPOS_USUARIOS: ListaSelectComItens[] = [
+export const TIPOS_USUARIOS: ListaSelectComItens[] = [
   {
     valor: TipoUsuario.ADMINISTRADOR,
     valorExibicao: 'Administrador',

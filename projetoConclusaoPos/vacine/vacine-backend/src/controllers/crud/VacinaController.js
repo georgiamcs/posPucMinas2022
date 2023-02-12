@@ -1,7 +1,7 @@
 const GenericCrudController = require("./GenericCrudController");
 const VacinaService = require("../../services/GenericCrudService");
 const VacinaModel = require("../../models/VacinaModel");
-const cnst = require("../../constantes");
+const Acesso = require("../../classes/AcessoClass");
 
 function createVacina(obj) {
   let vacina = {};
@@ -14,15 +14,10 @@ function createVacina(obj) {
 
   return vacina;
 }
-
-const perfisRequeridosVacina = [
-  cnst.PERFIS.ADMINISTRADOR,
-  cnst.PERFIS.CADASTRADOR_COMPRA,
-  cnst.PERFIS.CADASTRADOR_VACINA,
-];
-
 class VacinaController extends GenericCrudController {
   constructor() {
+    const perfisRequeridosVacina = Acesso.getPerfisPorTema(Acesso.TEMA.VACINA);
+
     super(VacinaService, VacinaModel, perfisRequeridosVacina, createVacina);
   }
 }

@@ -34,7 +34,7 @@ exports.login = async (req, res) => {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-        .json({ error: "Usuario não encontrado." });
+        .json({ error: "Usuário ou senha inválidos" });
     }
   } catch (error) {
     res

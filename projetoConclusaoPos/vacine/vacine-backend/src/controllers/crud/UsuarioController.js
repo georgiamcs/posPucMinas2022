@@ -2,7 +2,7 @@ const { AutorizacaoService } = require("../../services/AutorizacaoService");
 const GenericCrudController = require("./GenericCrudController");
 const UsuarioService = require("../../services/GenericCrudService");
 const UsuarioModel = require("../../models/UsuarioModel");
-const cnst = require("../../constantes");
+const Acesso = require("../../classes/AcessoClass");
 
 function createUsuario(obj) {
   let usuario = {};
@@ -18,13 +18,12 @@ function createUsuario(obj) {
   return usuario;
 }
 
-const perfisRequeridosUsuario = [
-  cnst.PERFIS.ADMINISTRADOR,
-  cnst.PERFIS.SECRETARIA,
-];
-
 class UsuarioController extends GenericCrudController {
   constructor() {
+    const perfisRequeridosUsuario = Acesso.getPerfisPorTema(
+      Acesso.TEMA.USUARIO
+    );
+
     super(UsuarioService, UsuarioModel, perfisRequeridosUsuario, createUsuario);
   }
 }

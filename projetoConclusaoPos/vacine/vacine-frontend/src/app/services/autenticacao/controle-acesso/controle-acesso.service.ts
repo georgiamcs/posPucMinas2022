@@ -1,14 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TokenPayload } from 'src/app/shared/interfaces/token-payload.interface';
-import { SecurityProvider } from './../../../providers/security.provider';
-import { getListaPerfilPorTema, TipoPerfil } from './../../../shared/enums/tipo-perfil.enum';
-import { LoginUsuario } from './../../../shared/interfaces/login-usuario.interface';
 
-import { tap } from 'rxjs';
 import { environment } from 'src/app/environment';
-import { Usuario } from 'src/app/shared/models/usuario.model';
 import { Tema } from 'src/app/shared/enums/tema.enum';
+import { TokenPayload } from 'src/app/shared/interfaces/token-payload.interface';
+import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Acesso, TipoPerfil } from '../../../shared/classes/acesso.class';
+import { SecurityProvider } from './../../../providers/security.provider';
+import { LoginUsuario } from './../../../shared/interfaces/login-usuario.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -82,24 +81,29 @@ export class ControleAcessoService {
   }
 
   isCadastradorVacina(): boolean {
-    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.VACINA));
+    return this.verificaExistePerfil(Acesso.getListaPerfilPorTema(Tema.VACINA));
   }
 
   isCadastradorVacinacao(): boolean {
-    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.VACINACAO));
+    return this.verificaExistePerfil(
+      Acesso.getListaPerfilPorTema(Tema.VACINACAO)
+    );
   }
 
   isCadastradorUsuario(): boolean {
-    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.USUARIO));
-
+    return this.verificaExistePerfil(
+      Acesso.getListaPerfilPorTema(Tema.USUARIO)
+    );
   }
 
   isCadastradorCompra(): boolean {
-    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.COMPRA));
+    return this.verificaExistePerfil(Acesso.getListaPerfilPorTema(Tema.COMPRA));
   }
 
   isCadastradorFornecedor(): boolean {
-    return this.verificaExistePerfil(getListaPerfilPorTema(Tema.FORNECEDOR));
+    return this.verificaExistePerfil(
+      Acesso.getListaPerfilPorTema(Tema.FORNECEDOR)
+    );
   }
 
   isCliente(): boolean {

@@ -6,19 +6,8 @@ const RETORNO_HTTP = Object.freeze({
   HTTP_INTERNAL_SERVER_ERRO: 500, // O servidor encontrou uma situação com a qual não sabe lidar.
 }); 
 
-const PERFIS = Object.freeze({
-  ADMINISTRADOR: "ADMIN",
-  SECRETARIA: "SECRET",
-  CLIENTE: "CLIENTE",
-  CADASTRADOR_COMPRA: "CAD-COMPRA",
-  CADASTRADOR_FORNECEDOR: "CAD-FORNECEDOR",
-  CADASTRADOR_USUARIO: "CAD-USUARIO",
-  CADASTRADOR_VACINA: "CAD-VACINA",
-  CADASTRADOR_VACINACAO: "CAD-VACINACAO",
-});
 
 module.exports = {
-  PERFIS,
   RETORNO_HTTP
 };
 
