@@ -1,66 +1,88 @@
-<vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-<h1>Usuários</h1>
-<div *ngIf="carregado">
-  <button routerLink="/usuario" mat-raised-button color="primary">
-    Adicionar Usuário
-  </button>
+<div class="container">
+  <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
+  <h1>Usuários</h1>
+  <div *ngIf="carregado">
+    <div *ngIf="registros.length > 0; else semRegistros">
+      <button routerLink="/usuario" mat-raised-button color="primary">
+        Adicionar Usuário
+      </button>
+      <table mat-table [dataSource]="registros">
+        <!-- Coluna Nome -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let registro">{{ registro.nome }}</td>
+        </ng-container>
+
+        <!-- Coluna CPF -->
+        <ng-container matColumnDef="cpf">
+          <th mat-header-cell *matHeaderCellDef>CPF</th>
+          <td mat-cell *matCellDef="let registro">{{ registro.cpf | cpf }}</td>
+        </ng-container>
+
+        <!-- Email -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let registro">
+            {{ registro.email }}
+          </td>
+        </ng-container>
+
+        <!-- Telefone Celular  -->
+        <ng-container matColumnDef="tel_celular">
+          <th mat-header-cell *matHeaderCellDef>Telefone Celular</th>
+          <td mat-cell *matCellDef="let registro">
+            {{ registro.tel_celular | telefone }}
+          </td>
+        </ng-container>
+
+        <!-- Telefone Fixo  -->
+        <ng-container matColumnDef="tel_fixo">
+          <th mat-header-cell *matHeaderCellDef>Telefone Fixo</th>
+          <td mat-cell *matCellDef="let registro">
+            {{ registro.tel_fixo | telefone }}
+          </td>
+        </ng-container>
+
+        <!-- Coluna Ações -->
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let registro">
+            <button
+              mat-icon-button
+              [routerLink]="['/usuario/' + registro._id]"
+              matTooltip="Visualizar"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              [routerLink]="['/usuario/editar/' + registro._id]"
+              matTooltip="Editar"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              [routerLink]="['/usuario/excluir/' + registro._id]"
+              matTooltip="Excluir"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunasExibidas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunasExibidas"></tr>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #semRegistros>
+    <div>
+      <vacine-sem-registros></vacine-sem-registros>
+      <button routerLink="/usuario" mat-raised-button color="primary">
+        Adicionar Usuário
+      </button>
+    </div>
+  </ng-template>
 </div>
-<table *ngIf="registros.length > 0, else semRegistros" mat-table [dataSource]="registros">
-  <!-- Coluna Nome -->
-  <ng-container matColumnDef="nome">
-    <th mat-header-cell *matHeaderCellDef>Nome</th>
-    <td mat-cell *matCellDef="let registro">{{ registro.nome }}</td>
-  </ng-container>
-
-  <!-- Coluna CPF -->
-  <ng-container matColumnDef="cpf">
-    <th mat-header-cell *matHeaderCellDef>CPF</th>
-    <td mat-cell *matCellDef="let registro">{{ registro.cpf | cpf }}  </td>
-  </ng-container>
-
-  <!-- Email -->
-  <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef>Email</th>
-    <td mat-cell *matCellDef="let registro">
-      {{ registro.email }}
-    </td>
-  </ng-container>
-
-  <!-- Telefone Celular  -->
-  <ng-container matColumnDef="tel_celular">
-    <th mat-header-cell *matHeaderCellDef>Telefone Celular</th>
-    <td mat-cell *matCellDef="let registro">
-      {{ registro.tel_celular | telefone }}
-    </td>
-  </ng-container>
-
-  <!-- Telefone Fixo  -->
-  <ng-container matColumnDef="tel_fixo">
-    <th mat-header-cell *matHeaderCellDef>Telefone Fixo</th>
-    <td mat-cell *matCellDef="let registro">
-      {{ registro.tel_fixo | telefone }}
-    </td>
-  </ng-container>
-
-  <!-- Coluna Ações -->
-  <ng-container matColumnDef="acoes">
-    <th mat-header-cell *matHeaderCellDef>Ações</th>
-    <td mat-cell *matCellDef="let registro">
-      <button mat-icon-button [routerLink]="['/usuario/' + registro._id]" matTooltip="Visualizar">
-        <mat-icon>visibility</mat-icon>
-      </button>
-      <button mat-icon-button [routerLink]="['/usuario/editar/' + registro._id]" matTooltip="Editar">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button [routerLink]="['/usuario/excluir/' + registro._id]" matTooltip="Excluir">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="colunasExibidas"></tr>
-  <tr mat-row *matRowDef="let row; columns: colunasExibidas"></tr>
-</table>
-<ng-template #semRegistros>
-    <vacine-sem-registros *ngIf="carregado"></vacine-sem-registros>
-</ng-template>
