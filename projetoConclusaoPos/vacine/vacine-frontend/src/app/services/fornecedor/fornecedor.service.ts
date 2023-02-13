@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Fornecedor } from 'src/app/shared/models/fornecedor.model';
-import { CrudService } from 'src/app/shared/services/crud-service.service';
+import { CrudService } from 'src/app/shared/services/crud/crud.service';
 
 @Injectable({
   providedIn: 'root',

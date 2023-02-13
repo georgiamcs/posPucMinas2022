@@ -19,7 +19,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    this.carregarMensagensAoIniciar;
+    this.carregarMensagensAoIniciar();
   }
 
   ngOnDestroy(): void {
@@ -28,8 +28,8 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected tratarErro(erro: string) {
-    if (!!this.router) {
+  protected tratarErro(erro: string, irParaPaginaErro = true) {
+    if (!!this.router && irParaPaginaErro) {
       const state = gerarStateAlertaRota(
         new MensagemFeedback(TipoMensagemFeedback.ERRO, erro)
       );

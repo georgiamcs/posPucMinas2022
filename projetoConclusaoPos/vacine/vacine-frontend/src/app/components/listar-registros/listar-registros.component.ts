@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
 import { CrudModel } from 'src/app/shared/models/crud.model';
-import { CrudService } from 'src/app/shared/services/crud-service.service';
+import { CrudService } from 'src/app/shared/services/crud/crud.service';
 
 @Component({
   selector: 'vacine-listar-registros',

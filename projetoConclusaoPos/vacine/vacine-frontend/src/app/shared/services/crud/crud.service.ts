@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/app/environment';
-import { CrudModel } from '../models/crud.model';
+import { CrudModel } from '../../models/crud.model';
 
 @Injectable({
   providedIn: 'root',

@@ -58,6 +58,7 @@ import { SecurityProvider } from './providers/security.provider';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
+import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
     LogoutComponent,
     GenericPageComponent,
     ErroComponent,
+    TrocarSenhaComponent,
   ],
   imports: [
     BrowserModule,

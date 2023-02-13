@@ -16,18 +16,19 @@ import { LoginUsuario } from '../../../shared/interfaces/login-usuario.interface
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends GenericPageComponent {
+
+  form!: FormGroup;
+  logado: boolean = false;
+
   constructor(
+    private _router: Router,
     private formBuilder: FormBuilder,
     private serviceAcesso: ControleAcessoService,
-    private _router: Router,
     private serviceAutRedeSocial: SocialAuthService
   ) {
     super();
     this.router = this._router;
   }
-
-  form!: FormGroup;
-  logado: boolean = false;
 
   override ngOnInit(): void {
     super.ngOnInit();

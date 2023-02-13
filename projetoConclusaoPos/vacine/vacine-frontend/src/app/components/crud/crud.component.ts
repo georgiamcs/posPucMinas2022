@@ -16,7 +16,7 @@ import {
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
-import { CrudService } from 'src/app/shared/services/crud-service.service';
+import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { gerarStateAlertaRota } from 'src/app/shared/utils/util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
