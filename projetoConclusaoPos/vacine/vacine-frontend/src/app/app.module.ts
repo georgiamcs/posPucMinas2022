@@ -31,7 +31,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 import {
   GoogleLoginProvider,
-  SocialAuthServiceConfig
+  SocialAuthServiceConfig,
+  SocialLoginModule
 } from '@abacritt/angularx-social-login';
 import { CrudComponent } from './components/crud/crud.component';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
@@ -108,6 +109,7 @@ import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
     MatSelectModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    SocialLoginModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
