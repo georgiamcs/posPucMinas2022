@@ -1,7 +1,7 @@
 const GenericCrudController = require("./GenericCrudController");
 const VacinaService = require("../../services/GenericCrudService");
 const VacinaModel = require("../../models/VacinaModel");
-const Acesso = require("../../classes/AcessoClass");
+const Acesso = require("../../setup/acesso");
 
 function createVacina(obj) {
   let vacina = {};

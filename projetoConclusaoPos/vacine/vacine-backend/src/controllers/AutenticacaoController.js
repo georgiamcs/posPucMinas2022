@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { AutorizacaoService } = require("../services/AutorizacaoService");
 const UsuarioModel = require("../models/UsuarioModel");
 const UsuarioService = require("../services/GenericCrudService");
-const Acesso = require("../classes/AcessoClass");
+const Acesso = require("../setup/acesso");
 
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(config.GOOGLE_CLIENT_ID);

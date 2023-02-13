@@ -34,6 +34,9 @@ class Acesso {
       case this.TEMA.USUARIO:
         return [this.PERFIL.ADMINISTRADOR, this.PERFIL.CADASTRADOR_USUARIO];
 
+      case this.TEMA.CLIENTE:
+        return [this.PERFIL.ADMINISTRADOR, this.PERFIL.CADASTRADOR_USUARIO, this.PERFIL.CLIENTE];
+
       default:
         return [];
     }

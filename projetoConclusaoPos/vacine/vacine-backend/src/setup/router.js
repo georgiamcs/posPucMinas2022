@@ -6,6 +6,7 @@ module.exports = {
     const createCrudRouter = require("../routers/GenericCrudRouter");
 
     const loginRouter = require("../routers/AutenticacaoRouter");
+    const clienteRouter = require("../routers/ClienteRouter");
     const vacinaRouter = createCrudRouter(VacinaController, true);
     const fornecedorRouter = createCrudRouter(FornecedorController, true);
     const usuarioRouter = createCrudRouter(UsuarioController, true);
@@ -14,5 +15,6 @@ module.exports = {
     app.use("/api/vacinas", vacinaRouter);
     app.use("/api/fornecedores", fornecedorRouter);
     app.use("/api/usuarios", usuarioRouter);
+    app.use("/api/cliente", clienteRouter);    
   },
 };

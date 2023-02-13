@@ -1,7 +1,7 @@
 const GenericCrudController = require("./GenericCrudController");
 const FornecedorService = require("../../services/GenericCrudService");
 const FornecedorModel = require("../../models/FornecedorModel");
-const Acesso = require("../../classes/AcessoClass");
+const Acesso = require("../../setup/acesso");
 
 function createFornecedor(obj) {
   let fornecedor = {};
