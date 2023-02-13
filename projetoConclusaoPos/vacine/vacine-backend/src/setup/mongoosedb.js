@@ -15,7 +15,7 @@ module.exports = {
           useUnifiedTopology: true,
         }
       )
-      .then((res) => console.log('>> Conexão com BD realizada com sucesso!'))
-      .catch((err) => console.log(`## Erro ao conectar ao BD: ${err}`));
+      .then((res) => console.error('>> Conexão com BD realizada com sucesso!'))
+      .catch((err) => console.error(`## Erro ao conectar ao BD: ${err}`));
   },
 };    

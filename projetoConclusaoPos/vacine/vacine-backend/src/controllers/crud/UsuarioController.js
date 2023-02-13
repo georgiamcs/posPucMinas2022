@@ -64,6 +64,7 @@ class UsuarioController extends GenericCrudController {
   };
 
   trocarsenha = async (req, res) => {
+    console.debug('entrou no trocar senha');
     if (AutorizacaoService.checarPerfis(req, Acesso.getPerfisPorTema(Acesso.TEMA.CLIENTE))) {
       let id = req.params.id;
 
