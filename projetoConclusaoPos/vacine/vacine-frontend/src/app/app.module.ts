@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
 
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
@@ -28,7 +29,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
-import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  SocialAuthServiceConfig
+} from '@abacritt/angularx-social-login';
 import { CrudComponent } from './components/crud/crud.component';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
@@ -97,6 +101,7 @@ import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
     MatIconModule,
     MatTooltipModule,
     HttpClientModule,
+    MatProgressBarModule,
     NgbModule,
     MatDialogModule,
     MatDividerModule,
