@@ -92,7 +92,7 @@ export class ControleAcessoService {
   }
 
   isCadastradorCompra(): boolean {
-    return this.verificaExistePerfil(Acesso.getListaPerfilPorTema(Tema.COMPRA));
+    return this.verificaExistePerfil(Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA));
   }
 
   isCadastradorFornecedor(): boolean {

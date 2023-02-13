@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CompraVacinaSchema = Schema({
-  id_fornecedor: {
+  fornecedor_id: {
     type: String,
     required: true,
   },
-  nome_fornecedor: {
+  fornecedor_nome: {
     type: String,
     required: true,
   },
-  cnpj_fornecedor: {
+  fornecedor_cnpj: {
     type: String,
     required: true,
   },
@@ -34,6 +34,14 @@ const CompraVacinaSchema = Schema({
   itens_compra: [
     {
       id_vacina: {
+        type: String,
+        required: true,
+      },
+      nome_vacina: {
+        type: String,
+        required: true,
+      },
+      protecao_contra_vacina: {
         type: String,
         required: true,
       },

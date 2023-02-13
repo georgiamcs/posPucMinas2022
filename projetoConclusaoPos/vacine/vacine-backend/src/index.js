@@ -1,9 +1,14 @@
 const app = require("./app");
-const db = require("./setup/mongoosedb");
+const setup = require("./setup/setup");
+const router = require("./setup/router");
+const bd = require("./setup/bd");
+const myenvironment = require("./setup/environment");
 
-db.init();
+setup.init(app);
+router.init(app);
+bd.init();
 
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || myenvironment.PORTA_API;
 app.listen(port, function () {
   console.log(`>> API disponível na porta ${port}`);
 });

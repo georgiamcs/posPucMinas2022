@@ -10,7 +10,7 @@ class Acesso {
   });
 
   static TEMA = Object.freeze({
-    COMPRA: 1,
+    COMPRA_VACINA: 1,
     FORNECEDOR: 2,
     USUARIO: 3,
     VACINA: 4,
@@ -19,7 +19,7 @@ class Acesso {
 
   static getPerfisPorTema(tema) {
     switch (tema) {
-      case this.TEMA.COMPRA:
+      case this.TEMA.COMPRA_VACINA:
         return [this.PERFIL.ADMINISTRADOR, this.PERFIL.CADASTRADOR_COMPRA];
 
       case this.TEMA.FORNECEDOR:

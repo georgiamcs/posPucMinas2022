@@ -39,7 +39,7 @@ export class Acesso {
 
   static getListaPerfilPorTema(tema: Tema) {
     switch (tema) {
-      case Tema.COMPRA:
+      case Tema.COMPRA_VACINA:
         return [TipoPerfil.ADMINISTRADOR, TipoPerfil.CADASTRADOR_COMPRA];
 
       case Tema.FORNECEDOR:

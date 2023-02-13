@@ -1,5 +1,5 @@
 export enum Tema {
-  COMPRA = 1,
+  COMPRA_VACINA = 1,
   FORNECEDOR = 2,
   USUARIO = 3,
   VACINA = 4,
