@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
+import { SecurityProvider } from 'src/app/providers/security.provider';
 import {
-  converterUndefinedEmNulo,
-  validadoresRequeridoSemEspacos
+  converterUndefinedEmNulo, gerarStateAlertaRota, validadoresRequeridoSemEspacos
 } from 'src/app/shared/utils/util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { GenericPageComponent } from './../../../../components/generic-page/generic-page.component';
@@ -26,12 +31,14 @@ export class TrocarSenhaComponent extends GenericPageComponent {
   protected form!: FormGroup;
   private registro: UsuarioTrocaSenha;
   private id?: string;
+  protected nomeUsuario?: string;
 
   constructor(
     private _router: Router,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceCliente: ClienteService,
+    private securityProvider: SecurityProvider,
     public dialogoConf: MatDialog
   ) {
     super();
@@ -39,6 +46,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
     this.id = converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );
+    this.nomeUsuario = securityProvider.getUsuario()?.nome;
   }
 
   override ngOnInit(): void {
@@ -82,7 +90,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
       const dataModal = {
         data: {
           tituloModal: 'Alteração de senha',
-          pergunta: 'Após a alteração da senha, será necessário sair da aplicação e fazer login novamente. Confirma a alteração da senha?',
+          pergunta: 'Confirma a alteração da senha?',
           rotuloAceitar: this.ROTULO_BOTAO_ACEITAR,
           rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
         },
@@ -108,15 +116,20 @@ export class TrocarSenhaComponent extends GenericPageComponent {
   }
 
   protected trocarSenha() {
-    const msgFeedbackSucesso = new MensagemFeedback(
-      TipoMensagemFeedback.SUCESSO,
-      'Senha alterada com sucesso!'
-    );
+    let state = {};
 
     this.subscription = this.serviceCliente
       .trocarSenha(this.id, this.form.value)
       .subscribe({
-        next: () => this.addMensagem(msgFeedbackSucesso),
+        next: () => {
+          const msgFeedbackSucesso = new MensagemFeedback(
+            TipoMensagemFeedback.SUCESSO,
+            'Senha alterada com sucesso!'
+          );
+          state = gerarStateAlertaRota(msgFeedbackSucesso);
+          //this.router.navigate(['/erro'], state);
+          this.router.navigate(['/home'], state);
+        },
         error: (erro) =>
           this.tratarErro(`Não foi possível alterar a senha. Erro: ${erro}`),
       });

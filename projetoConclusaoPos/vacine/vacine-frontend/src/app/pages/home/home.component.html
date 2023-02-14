@@ -1,13 +1,15 @@
 <!-- //TODO: Fazer cars explicando os menus e dando acesso aos itens de menu de acordo com o perfil do usuario -->
-<vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-<vacine-login *ngIf="!servicoAcesso.isLogado()"></vacine-login>
-<br />
-<span *ngIf="servicoAcesso.isLogado()"
-  ><p class="ms-5">
-    Bem vindo
-    <span class="fw-bold text-capitalize">{{
-      servicoAcesso.getUsuario()?.nome
-    }}</span
-    >!
-  </p></span
->
+<div>
+  <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
+  <vacine-login *ngIf="!servicoAcesso.isLogado()"></vacine-login>
+  <br />
+  <span *ngIf="servicoAcesso.isLogado()"
+    ><p class="ms-5">
+      Bem vindo(a)
+      <span class="fw-bold text-capitalize">{{
+        servicoAcesso.getUsuario()?.nome
+      }}</span
+      >!
+    </p></span
+  >
+</div>

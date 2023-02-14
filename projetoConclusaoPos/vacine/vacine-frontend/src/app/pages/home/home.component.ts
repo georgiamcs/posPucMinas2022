@@ -16,5 +16,6 @@ export class HomeComponent extends GenericPageComponent {
   ) {
     super();
     this.router = _router;
+    this.carregarMensagensAoIniciar();
   }
 }
