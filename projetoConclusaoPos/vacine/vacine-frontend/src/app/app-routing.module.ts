@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'erroLogin', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: 'trocar_minha_senha/:id', component: TrocarSenhaComponent },
   { path: 'trocarsenha/:id', component: TrocarSenhaComponent },
   {
     path: 'registrar',

@@ -11,10 +11,23 @@ import { Usuario } from '../../models/usuario.model';
 export class ClienteService {
   constructor(private http: HttpClient) {}
 
-  trocarSenha(id: string | null | undefined, registro: UsuarioTrocaSenha): Observable<Usuario>{
+  trocarSenha(
+    id: string | null | undefined,
+    registro: UsuarioTrocaSenha
+  ): Observable<Usuario> {
     if (id) {
       const url = `${environment.API_URL_BASE}cliente/trocarsenha/${id}`;
       return this.http.put<Usuario>(url, registro);
+    }
+    return throwError(() => 'Id do usuário inválido!');
+  }
+
+  getNome(
+    id: string | null | undefined
+  ): Observable<string> {
+    if (id) {
+      const url = `${environment.API_URL_BASE}cliente/nome/${id}`;
+      return this.http.get<string>(url);
     }
     return throwError(() => 'Id do usuário inválido!');
   }

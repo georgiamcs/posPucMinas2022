@@ -69,6 +69,15 @@
             >
               <mat-icon>delete</mat-icon>
             </button>
+            <button
+              mat-icon-button
+              [routerLink]="['/trocarsenha/' + registro._id]"
+              matTooltip="Alterar senha"
+            >
+              <mat-icon
+                ><span class="material-icons"> lock_reset </span></mat-icon
+              >
+            </button>
           </td>
         </ng-container>
 

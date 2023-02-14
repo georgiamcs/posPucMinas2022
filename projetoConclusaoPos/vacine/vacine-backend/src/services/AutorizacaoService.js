@@ -19,7 +19,12 @@ class AutorizacaoService {
   static temAlgumPerfil = (req) => {
     let usuario = req.user;
     return usuario && usuario.perfis.length > 0;
+  };
 
+  static isMesmoUsuario = (req, id) => {
+    let usuario = req.user;
+
+    return id == usuario._id;
   };
 
   static isReqNovoUsuario = (body) => {

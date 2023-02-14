@@ -14,7 +14,8 @@ function createUsuario(obj) {
   usuario.endereco = obj.endereco;
   usuario.tel_celular = obj.tel_celular;
   usuario.tel_fixo = obj.tel_fixo;
-  if (!!obj.senha) { //caso de alteracao em que nao envia a senha
+  if (!!obj.senha) {
+    //caso de alteracao em que nao envia a senha
     usuario.senha = AutorizacaoService.criptografar(obj.senha);
   }
   usuario.perfis = obj.perfis;
@@ -42,6 +43,27 @@ class UsuarioController extends GenericCrudController {
 
     super(UsuarioService, UsuarioModel, perfisRequeridosUsuario, createUsuario);
   }
+
+  getNomeById = async (req, res) => {
+    const id = req.params.id;
+    if (
+      AutorizacaoService.checarPerfis(req, this.perfisRequeridos) ||
+      AutorizacaoService.isMesmoUsuario(req, id)
+    ) {
+      try {
+        const registro = await this.service.getById(this.objectModel, id);
+        res.json(registro.nome);
+      } catch (error) {
+        res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error: error.message });
+      }
+    } else {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+        .json({ error: "Acesso negado" });
+    }
+  };
 
   registrar = async (req, res) => {
     if (AutorizacaoService.isReqNovoUsuario(req.body)) {

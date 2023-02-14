@@ -10,7 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 import {
-  converterUndefinedEmNulo, gerarStateAlertaRota, validadoresRequeridoSemEspacos
+  converterUndefinedEmNulo,
+  gerarStateAlertaRota,
+  validadoresRequeridoSemEspacos
 } from 'src/app/shared/utils/util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { GenericPageComponent } from './../../../../components/generic-page/generic-page.component';
@@ -46,7 +48,20 @@ export class TrocarSenhaComponent extends GenericPageComponent {
     this.id = converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );
-    this.nomeUsuario = securityProvider.getUsuario()?.nome;
+    this.preencherNomeUsuario();
+  }
+
+  private preencherNomeUsuario() {
+    console.log('id', this.id);
+    this.subscription = this.serviceCliente
+      .getNome(this.id!)
+      .subscribe({
+        next: (nome) => (this.nomeUsuario = nome),
+        error: (e) =>
+          this.tratarErro(
+            `Não foi possível recuperar os dados do usuário. Erro => ${e}`
+          ),
+      });
   }
 
   override ngOnInit(): void {
@@ -127,17 +142,22 @@ export class TrocarSenhaComponent extends GenericPageComponent {
             'Senha alterada com sucesso!'
           );
           state = gerarStateAlertaRota(msgFeedbackSucesso);
-          //this.router.navigate(['/erro'], state);
-          this.router.navigate(['/home'], state);
+          this.voltarParaJanelaAnterior(state);
         },
         error: (erro) =>
           this.tratarErro(`Não foi possível alterar a senha. Erro: ${erro}`),
       });
   }
 
+  private voltarParaJanelaAnterior(state: Object) {
+    let urlRet =
+      this.router.url.indexOf('trocar_minha_senha') > -1
+        ? '/home'
+        : '/usuarios';
+    this.router.navigate([urlRet], state);
+  }
+
   protected fechar() {
-    // const msgFeedback = new MensagemFeedback();
-    // const state = gerarStateAlertaRota(msgFeedback);
-    this.router.navigate(['/home']);
+    this.voltarParaJanelaAnterior({});
   }
 }

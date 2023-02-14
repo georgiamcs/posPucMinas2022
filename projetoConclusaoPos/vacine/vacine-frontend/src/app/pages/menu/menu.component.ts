@@ -20,11 +20,11 @@ export class MenuComponent extends GenericPageComponent{
   ) {
     super();
     this.router = _router;
-    this.idUser = securityProvider.getUsuario()?._id;
   }
 
   trocarSenha() {
-    const link = `/trocarsenha/${this.idUser}`;
+    this.idUser = this.securityProvider.getUsuario()?._id;
+    const link = `/trocar_minha_senha/${this.idUser}`;
     this.router.navigate([link]);
   }
 }
