@@ -1,7 +1,7 @@
-import { CrudModel } from "./crud.model";
+import { EntityModel } from "./entity.model";
 
 export type TipoIdadeRecomendada = 'A' | 'M';
-export class Vacina extends CrudModel {
+export class Vacina extends EntityModel {
   tx_nome: string;
   tx_protecao_contra: string;
   tx_composicao: string;

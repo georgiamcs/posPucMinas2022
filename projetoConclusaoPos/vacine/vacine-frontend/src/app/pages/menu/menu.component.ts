@@ -1,3 +1,5 @@
+//TODO: ter opcao de ver lista e cadastrar novo para cada entidade
+//TODO: Alterar para aparecer nome do usuário fixa na tela e lista de perfis
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';

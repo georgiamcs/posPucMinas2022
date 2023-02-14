@@ -1,6 +1,6 @@
-import { CrudModel } from './crud.model';
+import { EntityModel } from './entity.model';
 
-export class Fornecedor extends CrudModel {
+export class Fornecedor extends EntityModel {
   nome: string;
   email: string;
   cnpj: string;

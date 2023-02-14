@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/app/environment';
-import { CrudModel } from '../../models/crud.model';
+import { EntityModel } from '../../models/entity.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CrudService<T extends CrudModel> {
+export class CrudService<T extends EntityModel> {
   private apiUrlCompleta: string;
   private _apiUrlRelativa: string;
 

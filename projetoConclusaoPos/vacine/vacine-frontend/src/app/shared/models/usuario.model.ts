@@ -1,8 +1,8 @@
 import { TipoPerfil } from '../classes/acesso.class';
 import { TipoUsuario } from './../enums/tipo-usuario.enum';
-import { CrudModel } from './crud.model';
+import { EntityModel } from './entity.model';
 
-export class Usuario extends CrudModel {
+export class Usuario extends EntityModel {
   tipo: TipoUsuario;
   nome: string;
   email: string;

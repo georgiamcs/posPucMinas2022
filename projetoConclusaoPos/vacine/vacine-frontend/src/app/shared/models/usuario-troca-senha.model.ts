@@ -1,6 +1,6 @@
-import { CrudModel } from './crud.model';
+import { EntityModel } from './entity.model';
 
-export class UsuarioTrocaSenha extends CrudModel {
+export class UsuarioTrocaSenha extends EntityModel {
   email: string;
   senha: string;
 }

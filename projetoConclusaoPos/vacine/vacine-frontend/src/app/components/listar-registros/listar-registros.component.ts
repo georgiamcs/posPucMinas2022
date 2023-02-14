@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
-import { CrudModel } from 'src/app/shared/models/crud.model';
+import { EntityModel } from 'src/app/shared/models/entity.model';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
   templateUrl: './listar-registros.component.html',
   styleUrls: ['./listar-registros.component.scss'],
 })
-export class ListarRegistrosComponent<T extends CrudModel>
+export class ListarRegistrosComponent<T extends EntityModel>
   extends GenericPageComponent
   implements OnInit, OnDestroy
 {

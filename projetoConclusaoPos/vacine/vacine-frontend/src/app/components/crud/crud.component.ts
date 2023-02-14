@@ -1,3 +1,4 @@
+//TODO: implementar de forma que nao volte a tela de listagem e permaneca na tela na inclusao, tendo as mensagens de sucesso no proprio formulario
 import { throwError } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
@@ -16,7 +17,7 @@ import {
   ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { CrudModel } from 'src/app/shared/models/crud.model';
+import { EntityModel } from 'src/app/shared/models/entity.model';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { gerarStateAlertaRota } from 'src/app/shared/utils/util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
@@ -27,7 +28,7 @@ import { GenericPageComponent } from '../generic-page/generic-page.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<T extends CrudModel> extends GenericPageComponent {
+export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -149,7 +150,7 @@ export class CrudComponent<T extends CrudModel> extends GenericPageComponent {
     });
   }
 
-  protected confirmarExclusaoRegistro(registro: CrudModel) {
+  protected confirmarExclusaoRegistro(registro: EntityModel) {
     const modalRef = this.dialogoConf.open(
       DialogoConfirmacaoComponent,
       this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
