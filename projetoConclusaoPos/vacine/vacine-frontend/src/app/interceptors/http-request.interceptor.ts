@@ -75,7 +75,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           }
         }
         console.error('Erro', error);
-        return throwError(() => error.message);
+        return throwError(() => error);
       })
     );
   }
