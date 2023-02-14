@@ -24,6 +24,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -59,6 +60,7 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
+import { SelectSearchComponent } from './components/select-search/select-search.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,7 @@ import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/tro
     GenericPageComponent,
     ErroComponent,
     TrocarSenhaComponent,
+    SelectSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,6 +115,7 @@ import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/tro
     NgxMaskDirective,
     NgxMaskPipe,
     SocialLoginModule,
+    MatAutocompleteModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
