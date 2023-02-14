@@ -1,10 +1,9 @@
 import { TipoPerfil } from '../classes/acesso.class';
 import { TipoUsuario } from './../enums/tipo-usuario.enum';
-import { EntityModel } from './entity.model';
+import { EntityNomeModel } from './entity-nome.model';
 
-export class Usuario extends EntityModel {
+export class Usuario extends EntityNomeModel {
   tipo: TipoUsuario;
-  nome: string;
   email: string;
   cpf?: string;
   endereco?: {

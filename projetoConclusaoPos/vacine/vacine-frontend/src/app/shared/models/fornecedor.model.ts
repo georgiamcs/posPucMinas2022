@@ -1,7 +1,6 @@
-import { EntityModel } from './entity.model';
+import { EntityNomeModel } from './entity-nome.model';
 
-export class Fornecedor extends EntityModel {
-  nome: string;
+export class Fornecedor extends EntityNomeModel {
   email: string;
   cnpj: string;
   endereco: {
