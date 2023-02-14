@@ -1,4 +1,4 @@
-//TODO: na edicao, nao mostrar senha e confirmar senha, fazer funcionalidade de troca de senha
+//TODO: na edicao, nao mostrar senha e confirmar senha (remover do builder e nao mostrar no html), fazer funcionalidade de troca de senha
 import { Component } from '@angular/core';
 import {
   AbstractControlOptions,
@@ -56,7 +56,6 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     super.preencherFormComRegistroId(registro);
 
     if (this.modoFormulario == ModoFormulario.ALTERACAO) {
-      // this.form.value.senha = null;
       this.definirValorCampoForm('senha', null);
     }
   }
