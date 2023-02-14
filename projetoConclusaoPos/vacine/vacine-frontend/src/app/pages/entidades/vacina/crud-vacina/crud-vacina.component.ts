@@ -44,13 +44,13 @@ export class CrudVacinaComponent
     this.nomeEntidade = 'vacina';
     this.pluralEntidade = 'vacinas';
     this.artigoEntidade = 'a';
-    this.nomeCampoFormIdentificaEntidade = 'tx_nome';
+    this.nomeCampoFormIdentificaEntidade = 'nome';
   }
 
   protected override buildForm() {
     this.form = this.formBuilder.group({
       _id: [null],
-      tx_nome: [
+      nome: [
         null,
         Validators.compose([
           validadoresRequeridoSemEspacos(),
@@ -58,8 +58,8 @@ export class CrudVacinaComponent
           Validators.maxLength(100),
         ]),
       ],
-      tx_protecao_contra: [null, validadoresRequeridoSemEspacos()],
-      tx_composicao: [null, validadoresRequeridoSemEspacos()],
+      protecao_contra: [null, validadoresRequeridoSemEspacos()],
+      composicao: [null, validadoresRequeridoSemEspacos()],
       in_idade_recomendada: [true, [Validators.required]],
       tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],

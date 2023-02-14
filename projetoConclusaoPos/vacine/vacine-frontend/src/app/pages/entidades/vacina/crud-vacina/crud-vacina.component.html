@@ -9,16 +9,16 @@
         <div>
           <mat-form-field id="fNome" class="me-3">
             <mat-label id="lbNome">Nome</mat-label>
-            <input id="inNome" formControlName="tx_nome" matInput type="text" />
+            <input id="inNome" formControlName="nome" matInput type="text" />
           </mat-form-field>
           <vacine-msg-erro-input
             [form]="form"
-            campo="tx_nome"
+            campo="nome"
             validacao="obrigatorio"
           ></vacine-msg-erro-input>
           <vacine-msg-erro-input
             [form]="form"
-            campo="tx_nome"
+            campo="nome"
             validacao="formato"
             msgerro="Tamanho mínimo do campo é de 3 caracteres e máximo de 100"
           ></vacine-msg-erro-input>
@@ -28,14 +28,14 @@
             <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
             <input
               id="inProtecaoContra"
-              formControlName="tx_protecao_contra"
+              formControlName="protecao_contra"
               matInput
               type="text"
             />
           </mat-form-field>
           <vacine-msg-erro-input
             [form]="form"
-            campo="tx_protecao_contra"
+            campo="protecao_contra"
             validacao="obrigatorio"
           ></vacine-msg-erro-input>
         </div>
@@ -44,14 +44,14 @@
             <mat-label id="lbComposicao">Composição</mat-label>
             <input
               id="inComposicao"
-              formControlName="tx_composicao"
+              formControlName="composicao"
               matInput
               type="text"
             />
           </mat-form-field>
           <vacine-msg-erro-input
             [form]="form"
-            campo="tx_composicao"
+            campo="composicao"
             validacao="obrigatorio"
           ></vacine-msg-erro-input>
         </div>

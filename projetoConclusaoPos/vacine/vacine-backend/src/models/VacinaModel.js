@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const vacinaSchema = Schema({
-  tx_nome: {
+  nome: {
     type: String,
     required: true,
   },
-  tx_protecao_contra: {
+  protecao_contra: {
     type: String,
     required: true,
   },
-  tx_composicao: {
+  composicao: {
     type: String,
     required: true,
   },
