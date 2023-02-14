@@ -1,3 +1,4 @@
+import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
 import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
 import { ErroComponent } from './pages/erro/erro.component';
 import { NgModule } from '@angular/core';
@@ -69,10 +70,11 @@ const routes: Routes = [
   // FORNECEDORES
   {
     path: 'fornecedores',
-    component: ListarFornecedoresComponent,
+    component: CrudCompraComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.FORNECEDOR) },
   },
+
   {
     path: 'fornecedor',
     component: CrudFornecedorComponent,

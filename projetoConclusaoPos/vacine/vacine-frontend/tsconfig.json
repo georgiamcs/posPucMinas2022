@@ -20,7 +20,7 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
-    "strictNullChecks": true,
+    //"strictNullChecks": true,
     "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {

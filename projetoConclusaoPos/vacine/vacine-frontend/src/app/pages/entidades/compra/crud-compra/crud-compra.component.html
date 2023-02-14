@@ -1,0 +1,14 @@
+<form [formGroup]="form" #formDirective="ngForm">
+  <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
+                <mat-form-field class="me-3 mb-3" style="width: 50%;">
+                    <mat-label>Fornecedor</mat-label>
+                    <input type="text" formControlName="fornecedor" [matAutocomplete]="autoFornecedor" matInput placeholder="Escolha o fornecedor" [readonly]="isCarregando || erroCarregando">
+                    <mat-autocomplete #autoFornecedor="matAutocomplete" [displayWith]="displayFnFornecedor">
+                        <mat-option *ngFor="let fornecedor of fornecedoresFiltrados | async" [value]="fornecedor">
+                          {{fornecedor.nome}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="form.get('fornecedor')?.hasError('required')  && form.get('fornecedor')?.touched">O campo é obrigatório!</mat-error>
+                    <mat-error *ngIf="!form.get('fornecedor')?.hasError('required') && form.get('fornecedor')?.hasError('fornecedorCadastrado')  && form.get('fornecedor')?.touched">O fornecedor não está cadastrado!</mat-error>
+                </mat-form-field>
+</form>
