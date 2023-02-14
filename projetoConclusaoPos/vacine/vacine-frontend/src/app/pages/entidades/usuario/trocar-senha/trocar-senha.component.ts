@@ -52,7 +52,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
   }
 
   private preencherNomeUsuario() {
-    console.log('id', this.id);
+
     this.subscription = this.serviceCliente
       .getNome(this.id!)
       .subscribe({

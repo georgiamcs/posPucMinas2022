@@ -1,9 +1,10 @@
+import { throwError } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidatorFn
+  ValidatorFn,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +13,7 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario
+  ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { CrudModel } from 'src/app/shared/models/crud.model';
@@ -26,9 +27,7 @@ import { GenericPageComponent } from '../generic-page/generic-page.component';
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.scss'],
 })
-export class CrudComponent<T extends CrudModel>
-  extends GenericPageComponent
-{
+export class CrudComponent<T extends CrudModel> extends GenericPageComponent {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -54,9 +53,7 @@ export class CrudComponent<T extends CrudModel>
     super();
   }
 
-  protected buildForm() {
-
-  }
+  protected buildForm() {}
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -128,6 +125,10 @@ export class CrudComponent<T extends CrudModel>
     });
   }
 
+  protected registrar() {
+    throwError(() => 'Registro não implementado.');
+  }
+
   protected alterarRegistro() {
     const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
       this.nomeCampoFormIdentificaEntidade
@@ -176,6 +177,9 @@ export class CrudComponent<T extends CrudModel>
         case ModoFormulario.INCLUSAO:
           this.incluirRegistro();
           break;
+        case ModoFormulario.REGISTRAR:
+          this.registrar();
+          break;
         case ModoFormulario.ALTERACAO:
           this.alterarRegistro();
           break;
@@ -187,7 +191,12 @@ export class CrudComponent<T extends CrudModel>
       }
     } else {
       console.error('this.form)', this.form);
-      this.addMensagem(new MensagemFeedback(TipoMensagemFeedback.ERRO, 'Formulário com preenchimento inválido.'));
+      this.addMensagem(
+        new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          'Formulário com preenchimento inválido.'
+        )
+      );
     }
   }
 
@@ -241,7 +250,11 @@ export class CrudComponent<T extends CrudModel>
   }
 
   protected executarAcaoFechar(router: Router, caminhoRelativo: string) {
-    router.navigate([caminhoRelativo]);
+    if (this.modoFormulario == ModoFormulario.REGISTRAR) {
+      router.navigate(['/login']);
+    } else {
+      router.navigate([caminhoRelativo]);
+    }
   }
 
   protected recuperarValorCampoForm(formControlName: string): any {

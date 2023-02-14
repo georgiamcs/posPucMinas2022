@@ -1,3 +1,4 @@
+import { ClienteService } from './../../../../shared/services/cliente/cliente.service';
 import { Component } from '@angular/core';
 import {
   AbstractControlOptions,
@@ -8,12 +9,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudComponent } from 'src/app/components/crud/crud.component';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
+import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { gerarStateAlertaRota, validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { Acesso } from '../../../../shared/classes/acesso.class';
-import { TIPOS_USUARIOS } from '../../../../shared/enums/tipo-usuario.enum';
+import { Acesso, TipoPerfil } from '../../../../shared/classes/acesso.class';
+import { TIPOS_USUARIOS, TipoUsuario } from '../../../../shared/enums/tipo-usuario.enum';
 
 @Component({
   selector: 'vacine-crud-usuario',
@@ -29,7 +32,8 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    public _dialogoConf: MatDialog
+    public _dialogoConf: MatDialog,
+    private serviceCliente: ClienteService
   ) {
     super();
     this.definirAtributosInjetores();
@@ -64,6 +68,28 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     return (
       !this.somenteLeitura() && this.modoFormulario != ModoFormulario.ALTERACAO
     );
+  }
+
+  isRegistrar(): boolean {
+    return this.modoFormulario == ModoFormulario.REGISTRAR;
+  }
+
+  protected override registrar() {
+    this.subscription = this.serviceCliente
+      .registrar(this.form.value)
+      .subscribe({
+        next: () => this.registroComSucesso(),
+        error: (erro) => this.tratarErro(`Erro ao registrar usuário => ${erro}`),
+      });
+  }
+
+  private registroComSucesso() {
+    const msgFeedback = new MensagemFeedback(
+      TipoMensagemFeedback.SUCESSO,
+      'Usuário registrado com sucesso!'
+    );
+    const state = gerarStateAlertaRota(msgFeedback);
+    this.router.navigate(['/home'], state);
   }
 
   protected override buildForm() {
@@ -107,7 +133,10 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
               ])
             : null,
         ],
-        perfis: [null, Validators.required],
+        perfis: [
+          this.isRegistrar() ? TipoPerfil.CLIENTE : null,
+          this.isRegistrar() ? null : Validators.required,
+        ],
         endereco: this.formBuilder.group({
           logradouro: [null, null],
           numero: [null, null],

@@ -29,11 +29,8 @@ class AutorizacaoService {
 
   static isReqNovoUsuario = (body) => {
     let perfis = body.perfis;
-    return (
-      perfis &&
-      perfis.length == 1 &&
-      perfis.indexOf(cnstAcesso.PERFIL.CLIENTE) > -1
-    );
+
+    return perfis == cnstAcesso.PERFIL.CLIENTE;
   };
 
   static criptografar = (dado) => {

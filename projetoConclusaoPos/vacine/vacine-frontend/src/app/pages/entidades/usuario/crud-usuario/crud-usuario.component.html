@@ -8,7 +8,7 @@
     <div class="crud-grid">
       <form [formGroup]="form">
 
-        <div class="campoTipo">
+        <div class="campoTipo" *ngIf="!isRegistrar()">
           <mat-form-field appearance="fill">
             <mat-label>Tipo de Usuário</mat-label>
             <mat-select formControlName="tipo" (selectionChange) ="marcarPerfisDefaultTipoUsuario()">
@@ -159,8 +159,7 @@
             validacao="formato"
           ></vacine-msg-erro-input>
         </div>
-
-        <fieldset class="border rounded p-2 mb-3">
+        <fieldset class="border rounded p-2 mb-3" *ngIf="!isRegistrar()">
           <legend class="float-none w-auto h6">
             &nbsp;Perfis do Usuário&nbsp;
           </legend>

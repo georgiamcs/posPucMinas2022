@@ -22,13 +22,16 @@ export class ClienteService {
     return throwError(() => 'Id do usuário inválido!');
   }
 
-  getNome(
-    id: string | null | undefined
-  ): Observable<string> {
+  getNome(id: string | null | undefined): Observable<string> {
     if (id) {
       const url = `${environment.API_URL_BASE}cliente/nome/${id}`;
       return this.http.get<string>(url);
     }
     return throwError(() => 'Id do usuário inválido!');
+  }
+
+  registrar(registro: Usuario): Observable<Usuario> {
+    const url = `${environment.API_URL_BASE}cliente/registrar`;
+    return this.http.post<Usuario>(url, registro);
   }
 }

@@ -34,6 +34,9 @@ export function definirLabelBotaoAcaoModoFormulario(
     case ModoFormulario.EXCLUSAO:
       lbBotaoAcao = 'Excluir';
       break;
+    case ModoFormulario.REGISTRAR:
+      lbBotaoAcao = 'Registrar';
+      break;
   }
 
   return lbBotaoAcao;
