@@ -9,7 +9,7 @@ class AutorizacaoService {
     if (perfis && perfis.length > 0) {
       if (usuario && usuario.perfis) {
         for (let i in perfis) {
-          retorno = retorno || usuario.perfis.indexOf(perfis[i]) >= 0;
+          retorno = retorno || usuario.perfis.indexOf(perfis[i]) > -1;
         }
       }
     }
@@ -27,7 +27,7 @@ class AutorizacaoService {
     return (
       perfis &&
       perfis.length == 1 &&
-      perfis.indexOf(cnstAcesso.PERFIL.CLIENTE) >= 0
+      perfis.indexOf(cnstAcesso.PERFIL.CLIENTE) > -1
     );
   };
 

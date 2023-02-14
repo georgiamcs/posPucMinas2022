@@ -72,7 +72,7 @@
           ></vacine-msg-erro-input>
         </div>
 
-        <div class="campoSenha" *ngIf="!somenteLeitura()">
+        <div class="campoSenha" *ngIf="habilitaCampoSenha()">
           <mat-form-field id="fSenha">
             <mat-label id="lbSenha">Senha</mat-label>
             <input
@@ -95,7 +95,7 @@
           ></vacine-msg-erro-input>
         </div>
 
-        <div class="campoConfSenha" *ngIf="!somenteLeitura()">
+        <div class="campoConfSenha" *ngIf="habilitaCampoSenha()">
           <mat-form-field id="fConfSenha">
             <mat-label id="lbConfSenha">Confirmação de Senha</mat-label>
             <input

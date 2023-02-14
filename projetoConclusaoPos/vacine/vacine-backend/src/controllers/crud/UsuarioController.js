@@ -14,7 +14,9 @@ function createUsuario(obj) {
   usuario.endereco = obj.endereco;
   usuario.tel_celular = obj.tel_celular;
   usuario.tel_fixo = obj.tel_fixo;
-  usuario.senha = AutorizacaoService.criptografar(obj.senha);
+  if (!!obj.senha) { //caso de alteracao em que nao envia a senha
+    usuario.senha = AutorizacaoService.criptografar(obj.senha);
+  }
   usuario.perfis = obj.perfis;
   return usuario;
 }
@@ -31,7 +33,6 @@ function createObjSenhaUsuario(obj) {
   usuario.senha = AutorizacaoService.criptografar(obj.senha);
   return usuario;
 }
-
 
 class UsuarioController extends GenericCrudController {
   constructor() {
@@ -64,7 +65,6 @@ class UsuarioController extends GenericCrudController {
   };
 
   trocarsenha = async (req, res) => {
-
     if (AutorizacaoService.temAlgumPerfil(req)) {
       let id = req.params.id;
       try {

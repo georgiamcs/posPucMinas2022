@@ -5,6 +5,7 @@ export enum ModoFormulario {
   ALTERACAO = 1,
   CONSULTA = 2,
   EXCLUSAO = 3,
+  REGISTRAR = 4,
 }
 
 export function getParteUrlModoFormulario(modoForm: ModoFormulario): string {
@@ -44,21 +45,25 @@ export function definirLabelBotaoFecharModoFormulario(
   return ModoFormulario.CONSULTA ? 'Fechar' : 'Cancelar';
 }
 
-export function definirModoFormulario(id: string | null | undefined, url: string): ModoFormulario {
+export function definirModoFormulario(
+  id: string | null | undefined,
+  url: string
+): ModoFormulario {
   let modoForm: ModoFormulario;
 
   if (!id) {
-    modoForm = ModoFormulario.INCLUSAO;
+    modoForm =
+      url.indexOf(TipoRota.REGISTRAR) > -1
+        ? ModoFormulario.REGISTRAR
+        : ModoFormulario.INCLUSAO;
   } else {
     modoForm =
-      url.indexOf(TipoRota.ALTERACAO) > 0
+      url.indexOf(TipoRota.ALTERACAO) > -1
         ? ModoFormulario.ALTERACAO
-        : url.indexOf(TipoRota.EXCLUSAO) > 0
+        : url.indexOf(TipoRota.EXCLUSAO) > -1
         ? ModoFormulario.EXCLUSAO
         : ModoFormulario.CONSULTA;
   }
 
   return modoForm;
 }
-
-

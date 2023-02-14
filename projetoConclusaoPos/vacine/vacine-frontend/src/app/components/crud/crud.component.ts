@@ -105,7 +105,7 @@ export class CrudComponent<T extends CrudModel>
       if (this.id) {
         this.subscription = this.service.procurarPorId(this.id).subscribe({
           next: (regBusca) => this.preencherFormComRegistroId(regBusca),
-          error: (erro) => this.tratarErro(`Erro ao carregar dados: ${erro}`),
+          error: (erro) => this.tratarErro(`Erro ao carregar dados => ${erro}`),
         });
       }
     }
@@ -124,7 +124,7 @@ export class CrudComponent<T extends CrudModel>
     );
     this.subscription = this.service.incluir(this.form.value).subscribe({
       next: () => this.carregarRegistros(msgFeedback),
-      error: (erro) => this.tratarErro(`Erro ao incluir registro: ${erro}`),
+      error: (erro) => this.tratarErro(`Erro ao incluir registro => ${erro}`),
     });
   }
 
@@ -134,7 +134,7 @@ export class CrudComponent<T extends CrudModel>
     );
     this.subscription = this.service.alterar(this.form.value).subscribe({
       next: () => this.carregarRegistros(msgFeedback),
-      error: (erro) => this.tratarErro(`Erro ao alterar registro: ${erro}`),
+      error: (erro) => this.tratarErro(`Erro ao alterar registro => ${erro}`),
     });
   }
 
@@ -144,7 +144,7 @@ export class CrudComponent<T extends CrudModel>
     );
     this.subscription = this.service.excluir(id).subscribe({
       next: () => this.carregarRegistros(msgFeedback),
-      error: (erro) => this.tratarErro(`Erro ao excluir registro: ${erro}`),
+      error: (erro) => this.tratarErro(`Erro ao excluir registro => ${erro}`),
     });
   }
 
@@ -162,7 +162,7 @@ export class CrudComponent<T extends CrudModel>
       },
       error: (erro) =>
         this.tratarErro(
-          `Erro ao fechar janela de confirmação de exclusão: ${erro}`
+          `Erro ao fechar janela de confirmação de exclusão => ${erro}`
         ),
     });
   }

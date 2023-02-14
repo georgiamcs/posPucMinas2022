@@ -60,7 +60,7 @@ export class ControleAcessoService {
 
       if (usuario && usuario.perfis) {
         for (let i = 0; i < listaPerfil.length; i++) {
-          if (usuario.perfis.indexOf(listaPerfil[i]) >= 0) {
+          if (usuario.perfis.indexOf(listaPerfil[i]) > -1) {
             retorno = true;
             break;
           }

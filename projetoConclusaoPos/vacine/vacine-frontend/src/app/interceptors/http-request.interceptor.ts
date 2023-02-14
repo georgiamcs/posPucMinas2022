@@ -66,6 +66,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
                 )
               );
               throw new Error('Sem permissão');
+            } else { // erro http nao tratado, melhorar mensagem de retorno
+              return throwError(
+                () => `Mensagem: ${error.message} Erro: ${error.error.error}`
+              );
             }
           }
         }

@@ -1,5 +1,3 @@
-//TODO tratar excecoes do http (ex: backend fora, retorno com erro)
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

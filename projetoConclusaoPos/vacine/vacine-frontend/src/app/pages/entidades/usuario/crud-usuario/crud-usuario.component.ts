@@ -1,8 +1,8 @@
-//TODO: na edicao, nao mostrar senha e confirmar senha (remover do builder e nao mostrar no html), fazer funcionalidade de troca de senha
 import { Component } from '@angular/core';
 import {
   AbstractControlOptions,
-  FormBuilder, Validators
+  FormBuilder,
+  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -60,6 +60,12 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     }
   }
 
+  protected habilitaCampoSenha(): boolean {
+    return (
+      !this.somenteLeitura() && this.modoFormulario != ModoFormulario.ALTERACAO
+    );
+  }
+
   protected override buildForm() {
     this.form = this.formBuilder.group(
       {
@@ -83,19 +89,23 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
         ],
         senha: [
           null,
-          Validators.compose([
-            validadoresRequeridoSemEspacos(),
-            Validators.minLength(5),
-            Validators.maxLength(20),
-          ]),
+          this.habilitaCampoSenha()
+            ? Validators.compose([
+                validadoresRequeridoSemEspacos(),
+                Validators.minLength(5),
+                Validators.maxLength(20),
+              ])
+            : null,
         ],
         confSenha: [
           null,
-          Validators.compose([
-            validadoresRequeridoSemEspacos(),
-            Validators.minLength(5),
-            Validators.maxLength(20),
-          ]),
+          this.habilitaCampoSenha()
+            ? Validators.compose([
+                validadoresRequeridoSemEspacos(),
+                Validators.minLength(5),
+                Validators.maxLength(20),
+              ])
+            : null,
         ],
         perfis: [null, Validators.required],
         endereco: this.formBuilder.group({
@@ -125,9 +135,11 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
           ]),
         ],
       },
-      {
-        validator: UtilValidators.confirmaSenhaValidator,
-      } as AbstractControlOptions
+      this.habilitaCampoSenha()
+        ? ({
+            validator: UtilValidators.confirmaSenhaValidator,
+          } as AbstractControlOptions)
+        : null
     );
   }
 
