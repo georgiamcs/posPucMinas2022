@@ -27,7 +27,7 @@ export class SecurityProvider {
     return window.sessionStorage.getItem(this.KEY_TOKEN);
   }
 
-  getUsuario() {
+  getUsuario(): Usuario | null {
     let usuario = window.sessionStorage.getItem(this.KEY_USER);
     if (usuario) {
       return JSON.parse(usuario);

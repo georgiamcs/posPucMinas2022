@@ -65,9 +65,8 @@ class UsuarioController extends GenericCrudController {
 
   trocarsenha = async (req, res) => {
 
-    if (AutorizacaoService.checarPerfis(req, Acesso.getPerfisPorTema(Acesso.TEMA.CLIENTE))) {
+    if (AutorizacaoService.temAlgumPerfil(req)) {
       let id = req.params.id;
-
       try {
         let regAlterado = createObjSenhaUsuario(req.body);
         const regAtualizado = await this.service.update(

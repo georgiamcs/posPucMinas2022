@@ -187,7 +187,7 @@ export class CrudComponent<T extends CrudModel>
       }
     } else {
       console.error('this.form)', this.form);
-      alert('Formulário com preenchimento inválido.');
+      this.addMensagem(new MensagemFeedback(TipoMensagemFeedback.ERRO, 'Formulário com preenchimento inválido.'));
     }
   }
 
@@ -237,7 +237,6 @@ export class CrudComponent<T extends CrudModel>
     msgFeedback: MensagemFeedback
   ) {
     const state = gerarStateAlertaRota(msgFeedback);
-
     this.router.navigate([caminhoRelativo], state);
   }
 

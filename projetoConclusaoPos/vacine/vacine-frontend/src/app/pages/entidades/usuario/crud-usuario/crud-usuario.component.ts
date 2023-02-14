@@ -1,11 +1,8 @@
 //TODO: na edicao, nao mostrar senha e confirmar senha, fazer funcionalidade de troca de senha
 import { Component } from '@angular/core';
 import {
-  AbstractControl,
   AbstractControlOptions,
-  FormBuilder,
-  ValidationErrors,
-  Validators
+  FormBuilder, Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { UtilValidators } from 'src/app/validators/util-validators';
 import { Acesso } from '../../../../shared/classes/acesso.class';
 import { TIPOS_USUARIOS } from '../../../../shared/enums/tipo-usuario.enum';
 
@@ -128,24 +126,10 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
           ]),
         ],
       },
-      { validator: this.confirmaSenhaValidator } as AbstractControlOptions
+      {
+        validator: UtilValidators.confirmaSenhaValidator,
+      } as AbstractControlOptions
     );
-  }
-
-  private confirmaSenhaValidator(c: AbstractControl): ValidationErrors | null {
-    if (!c.get('senha')?.value && !c.get('confSenha')?.value) {
-      c.get('confSenha')?.setErrors(null);
-      return null;
-    } else if (!c.get('senha')?.value != !c.get('confSenha')?.value) {
-      c.get('confSenha')?.setErrors({ confirmasenha: true });
-      return { confirmasenha: true };
-    } else if (c.get('senha')?.value != c.get('confSenha')?.value) {
-      c.get('confSenha')?.setErrors({ confirmasenha: true });
-      return { confirmasenha: true };
-    } else {
-      c.get('confSenha')?.setErrors(null);
-      return null;
-    }
   }
 
   protected marcarPerfisDefaultTipoUsuario(): void {

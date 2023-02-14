@@ -40,7 +40,7 @@ export class ControleAcessoService {
     return this.security.autenticado();
   }
 
-  getUsuario(): Usuario {
+  getUsuario(){
     return this.security.getUsuario();
   }
 

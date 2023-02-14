@@ -69,7 +69,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             }
           }
         }
-        return throwError(() => error);
+        return throwError(() => error.message);
       })
     );
   }

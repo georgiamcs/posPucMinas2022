@@ -16,9 +16,19 @@ class AutorizacaoService {
     return retorno;
   };
 
+  static temAlgumPerfil = (req) => {
+    let usuario = req.user;
+    return usuario && usuario.perfis.length > 0;
+
+  };
+
   static isReqNovoUsuario = (body) => {
     let perfis = body.perfis;
-    return perfis && perfis.length == 1 && perfis.indexOf(cnstAcesso.PERFIL.CLIENTE) >= 0;
+    return (
+      perfis &&
+      perfis.length == 1 &&
+      perfis.indexOf(cnstAcesso.PERFIL.CLIENTE) >= 0
+    );
   };
 
   static criptografar = (dado) => {

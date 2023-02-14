@@ -1,1 +1,78 @@
-<p>trocar-senha works!</p>
+<!-- TODO: verificar porque nao esta aparecendo mensagem de validacao no cep e no logradouro -->
+<div class="container">
+  <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
+  <fieldset class="border rounded p-2 mb-3">
+    <legend class="float-none w-auto h3">
+      &nbsp;Troca de senha&nbsp;
+    </legend>
+    <div class="crud-grid">
+      <form [formGroup]="form">
+
+        <div class="campoSenha">
+          <mat-form-field id="fSenha">
+            <mat-label id="lbSenha">Senha</mat-label>
+            <input
+              id="inSenha"
+              formControlName="senha"
+              matInput
+              type="password"
+            />
+          </mat-form-field>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="senha"
+            validacao="obrigatorio"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="senha"
+            validacao="formato"
+            msgerro="Tamanho mínimo de 5 caracteres e máximo de 20 caracteres"
+          ></vacine-msg-erro-input>
+        </div>
+
+        <div class="campoConfSenha">
+          <mat-form-field id="fConfSenha">
+            <mat-label id="lbConfSenha">Confirmação de Senha</mat-label>
+            <input
+              id="inConfSenha"
+              formControlName="confSenha"
+              matInput
+              type="password"
+            />
+          </mat-form-field>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="confSenha"
+            validacao="obrigatorio"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="confSenha"
+            validacao="formato"
+            msgerro="Tamanho mínimo de 5 caracteres e máximo de 20 caracteres"
+          ></vacine-msg-erro-input>
+          <vacine-msg-erro-input
+            [form]="form"
+            campo="confSenha"
+            validacao="confirmasenha"
+            msgerro="Senha diferente da confirmação"
+          ></vacine-msg-erro-input>
+        </div>
+      </form>
+    </div>
+    <div class="botoes-crud">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="confirmarAlteracao()"
+        [disabled]="!habilitarBotaoAcao()"
+      >
+        Confirmar
+      </button>
+      <button mat-raised-button (click)="fechar()">
+        Fechar
+      </button>
+    </div>
+  </fieldset>
+</div>

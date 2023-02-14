@@ -1,59 +1,102 @@
-<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-  <div class="position-sticky">
-    <ul>
-      <li *ngIf = "servicoAcesso.isCadastradorUsuario()">
-        <a routerLink="/usuarios" class="list-group-item list-group-item-action py-2 ripple">
-          <i class="fas fa-users fa-fw me-3"></i><span>Usuários</span>
-        </a>
-      </li>
+<div class="flex-shrink-0 p-3 bg-white" style="width: 280px">
+  <ul class="list-unstyled ps-0">
 
-      <li *ngIf = "servicoAcesso.isCadastradorFornecedor()">
-        <a routerLink="/fornecedores"  class="list-group-item list-group-item-action py-2 ripple">
-          <i class="fas fa-building fa-fw me-3"></i><span>Fornecedores</span>
-        </a>
-      </li>
+    <li class="mb-1" *ngIf = "servicoAcesso.isCadastradorVacinacao()">
+      <button
+        routerLink="/vacinas"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#orders-collapse"
+        aria-expanded="false"
+      >
+        Vacinação
+      </button>
+    </li>
 
-      <li *ngIf = "servicoAcesso.isCadastradorVacina()">
-        <a
-          routerLink="/vacinas" routerLinkActive="active"
-          class="list-group-item list-group-item-action py-2 ripple"
-          aria-current="true"
-        >
-          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Vacinas</span>
-        </a>
-      </li>
+    <li class="mb-1" *ngIf = "servicoAcesso.isCadastradorVacina()">
+      <button
+        routerLink="/vacinas"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#orders-collapse"
+        aria-expanded="false"
+      >
+        Vacinas
+      </button>
+    </li>
 
-      <li *ngIf = "servicoAcesso.isCadastradorVacinacao()">
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
-          <i class="fas fa-money-bill fa-fw me-3"></i><span>Vacinação</span>
-        </a>
-      </li>
+    <li class="mb-1" *ngIf="servicoAcesso.isCadastradorUsuario()">
+      <button
+        routerLink="/usuarios"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#usuarios-collapse"
+        aria-expanded="true"
+      >
+        Usuários
+      </button>
+    </li>
+    <li class="mb-1" *ngIf = "servicoAcesso.isCadastradorFornecedor()">
+      <button
+        routerLink="/fornecedores"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#dashboard-collapse"
+        aria-expanded="false"
+      >
+        Fornecedor
+      </button>
+    </li>
 
-      <li *ngIf = "servicoAcesso.isAdmin()">
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
-          <i class="fas fa-chart-line fa-fw me-3"></i><span>Relatórios</span>
-        </a>
-      </li>
+    <li class="mb-1" *ngIf = "servicoAcesso.isAdmin()">
+      <button
+        routerLink="/"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#orders-collapse"
+        aria-expanded="false"
+      >
+        Relatórios
+      </button>
+    </li>
 
-      <li *ngIf = "!servicoAcesso.isLogado()">
-        <a
-          routerLink="/login" routerLinkActive="active"
-          class="list-group-item list-group-item-action py-2 ripple"
-          aria-current="true"
-        >
-          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Login</span>
-        </a>
-      </li>
+    <li class="border-top my-3"></li>
 
-      <li *ngIf = "servicoAcesso.isLogado()">
-        <a
-          routerLink="/logout" routerLinkActive="active"
-          class="list-group-item list-group-item-action py-2 ripple"
-          aria-current="true"
-        >
-          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Logout</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+    <li class="mb-1" *ngIf="!servicoAcesso.isLogado()">
+      <button
+        routerLink="/login"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#account-collapse"
+        aria-expanded="false"
+      >
+        Login
+      </button>
+    </li>
+
+    <li class="mb-1" *ngIf="servicoAcesso.isLogado()">
+      <button
+        routerLink="/logout"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#account-collapse"
+        aria-expanded="false"
+      >
+        Logout
+      </button>
+    </li>
+
+    <li class="mb-1" *ngIf="servicoAcesso.isLogado()">
+      <button
+        (click)="trocarSenha()"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#account-collapse"
+        aria-expanded="false"
+      >
+        Trocar Senha
+      </button>
+    </li>
+
+  </ul>
+</div>

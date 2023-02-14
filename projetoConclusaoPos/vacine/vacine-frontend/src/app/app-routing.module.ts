@@ -1,3 +1,4 @@
+import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
 import { ErroComponent } from './pages/erro/erro.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'erroLogin', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: 'trocarsenha/:id', component: TrocarSenhaComponent },
   {
     path: 'registrar',
     component: CrudUsuarioComponent,
