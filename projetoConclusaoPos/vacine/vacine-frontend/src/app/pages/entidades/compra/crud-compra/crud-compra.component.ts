@@ -40,6 +40,10 @@ export class CrudCompraComponent
   override ngOnInit(): void {
     super.ngOnInit();
 
+    this.preencherLookupFornecedor();
+  }
+
+  private preencherLookupFornecedor() {
     this.subscription = this.service.listar().subscribe({
       next: (lista) => {
         this.fornecedores = lista;
