@@ -21,7 +21,6 @@ export class CrudCompraComponent
   protected readonly nomeControlFornecedor = 'fornecedor';
   protected readonly nomeControlVacina = 'vacina';
 
-  //Filtro de fornecedores
   fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
 
@@ -68,13 +67,17 @@ export class CrudCompraComponent
     });
 
     this.preencherCamposLookup();
-    this.setChangeFornecedorParaFiltrarValores();
-    this.setChangeVacinaParaFiltrarValores();
+    this.setChangeParaFiltrarValoresCamposLookup();
   }
 
   private preencherCamposLookup() {
     this.setLookupFornecedor();
     this.setLookupVacina();
+  }
+
+  private setChangeParaFiltrarValoresCamposLookup() {
+    this.setChangeFornecedorParaFiltrarValores();
+    this.setChangeVacinaParaFiltrarValores();
   }
 
   private setLookupFornecedor() {
@@ -99,17 +102,6 @@ export class CrudCompraComponent
     });
   }
 
-  preencherLookupVacina() {
-    this.subscription = this.serviceVacina.listar().subscribe({
-      next: (lista) => {
-        this.vacinas = lista;
-      },
-      error: (e) => {
-        this.tratarErroCarregarLookup(e, this.nomeControlFornecedor);
-      },
-    });
-  }
-
   private setChangeFornecedorParaFiltrarValores() {
     this.fornecedoresFiltrados = this.form.controls[
       this.nomeControlFornecedor
@@ -125,7 +117,7 @@ export class CrudCompraComponent
     );
   }
 
-  setChangeVacinaParaFiltrarValores() {
+  private setChangeVacinaParaFiltrarValores() {
     this.vacinasFiltradas = this.form.controls[
       this.nomeControlVacina
     ].valueChanges.pipe(
