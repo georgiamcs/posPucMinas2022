@@ -1,7 +1,7 @@
 const GenericCrudController = require("./GenericCrudController");
 const CompraVacinaService = require("../../services/GenericCrudService");
 const CompraVacinaModel = require("../../models/CompraVacinaModel");
-const Acesso = require("../../classes/AcessoClass");
+const Acesso = require("../../setup/acesso");
 
 function createNovoRegistro(obj) {
   let registro = {};

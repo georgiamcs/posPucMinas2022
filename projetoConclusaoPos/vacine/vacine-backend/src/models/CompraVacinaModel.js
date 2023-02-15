@@ -69,7 +69,7 @@ const CompraVacinaSchema = Schema({
   ],
 });
 
-module.exports = CompraVacinaModel = mongoosemodel(
+module.exports = CompraVacinaModel = mongoose.model(
   "compra_vacinas",
   CompraVacinaSchema
 );
