@@ -70,7 +70,7 @@ const routes: Routes = [
   // FORNECEDORES
   {
     path: 'fornecedores',
-    component: CrudCompraComponent,
+    component: ListarFornecedoresComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.FORNECEDOR) },
   },
@@ -130,6 +130,14 @@ const routes: Routes = [
     component: CrudUsuarioComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+  },
+
+  // COMPRAS
+  {
+    path: 'compra-vacina',
+    component: CrudCompraComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA) },
   },
 ];
 

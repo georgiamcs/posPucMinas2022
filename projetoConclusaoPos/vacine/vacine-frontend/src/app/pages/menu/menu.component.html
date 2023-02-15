@@ -39,6 +39,20 @@
         Usuários
       </button>
     </li>
+
+    <li class="mb-1" *ngIf = "servicoAcesso.isCadastradorCompra()">
+      <button
+        routerLink="/compra-vacina"
+        routerLinkActive="active"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#dashboard-collapse"
+        aria-expanded="false"
+      >
+        Compras de Vacinas
+      </button>
+    </li>
+
     <li class="mb-1" *ngIf = "servicoAcesso.isCadastradorFornecedor()">
       <button
         routerLink="/fornecedores"
