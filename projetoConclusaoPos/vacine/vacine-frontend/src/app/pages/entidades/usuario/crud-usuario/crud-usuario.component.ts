@@ -60,7 +60,7 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     super.preencherFormComRegistroId(registro);
 
     if (this.modoFormulario == ModoFormulario.ALTERACAO) {
-      this.definirValorCampoForm('senha', null);
+      this.setValorCampoForm('senha', null);
     }
   }
 
@@ -173,13 +173,13 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
   }
 
   protected marcarPerfisDefaultTipoUsuario(): void {
-    const tpUser = this.recuperarValorCampoForm('tipo');
+    const tpUser = this.getValorCampoForm('tipo');
     const obj = this.tiposUsuarios.find((o) => o.valor == tpUser);
     let perfisDefault;
 
     if (obj != null || obj != undefined) {
       perfisDefault = obj.itens;
     }
-    this.definirValorCampoForm('perfis', perfisDefault);
+    this.setValorCampoForm('perfis', perfisDefault);
   }
 }

@@ -1,20 +1,20 @@
 //TODO: implementar de forma que nao volte a tela de listagem e permaneca na tela na inclusao, tendo as mensagens de sucesso no proprio formulario
-import { throwError } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { throwError } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario,
+  ModoFormulario
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
@@ -258,11 +258,11 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
     }
   }
 
-  protected recuperarValorCampoForm(formControlName: string): any {
+  protected getValorCampoForm(formControlName: string): any {
     return this.form.get(formControlName)?.value;
   }
 
-  protected definirValorCampoForm(formControlName: string, valor: any): any {
+  protected setValorCampoForm(formControlName: string, valor: any): any {
     return this.form.get(formControlName)?.setValue(valor);
   }
 
@@ -280,7 +280,7 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
     return new MensagemFeedback(
       TipoMensagemFeedback.SUCESSO,
       `${this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)}
-                  "${this.recuperarValorCampoForm(nomeCampoForm)}"
+                  "${this.getValorCampoForm(nomeCampoForm)}"
                   foi incluíd${this.artigoEntidade} com sucesso!`
     );
   }
@@ -291,7 +291,7 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
     return new MensagemFeedback(
       TipoMensagemFeedback.SUCESSO,
       `${this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)}
-                  "${this.recuperarValorCampoForm(nomeCampoForm)}"
+                  "${this.getValorCampoForm(nomeCampoForm)}"
                   foi alterad${this.artigoEntidade} com sucesso!`
     );
   }
@@ -302,7 +302,7 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
     return new MensagemFeedback(
       TipoMensagemFeedback.SUCESSO,
       `${this.nomeEntidade[0].toUpperCase() + this.nomeEntidade.substring(1)}
-                  "${this.recuperarValorCampoForm(nomeCampoForm)}"
+                  "${this.getValorCampoForm(nomeCampoForm)}"
                   foi excluíd${this.artigoEntidade} com sucesso!`
     );
   }
@@ -316,7 +316,7 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
         pergunta: `Confirma a exclusão d${this.artigoEntidade} ${
           this.nomeEntidade
         }
-                   "${this.recuperarValorCampoForm(nomeCampoForm)}"?`,
+                   "${this.getValorCampoForm(nomeCampoForm)}"?`,
         rotuloAceitar: this.ROTULO_BOTAO_ACEITAR,
         rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
       },

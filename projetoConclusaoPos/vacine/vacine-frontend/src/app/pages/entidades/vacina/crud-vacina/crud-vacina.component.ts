@@ -77,7 +77,7 @@ export class CrudVacinaComponent
   }
 
   public verificarIdadeRecomendada() {
-    const temIdadeRecomendada = this.recuperarValorCampoForm(
+    const temIdadeRecomendada = this.getValorCampoForm(
       'in_idade_recomendada'
     );
     const controlTpIdade = this.form.get('tp_idade_recomendada');
