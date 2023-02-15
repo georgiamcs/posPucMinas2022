@@ -4,7 +4,8 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidatorFn
+  ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,12 +15,16 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario
+  ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
+import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
-import { gerarStateAlertaRota } from 'src/app/shared/utils/util';
+import {
+  converterUndefinedEmNulo,
+  gerarStateAlertaRota,
+} from 'src/app/shared/utils/util.util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
@@ -36,6 +41,7 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
   protected modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;
   protected lbBotaoSalvar: string | null;
   protected lbBotaoFechar: string | null;
+  TipoErroValForm = TipoErroValidacaoFormulario;
 
   protected id: string | null;
   protected registro: T;
@@ -230,6 +236,10 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
     );
   }
 
+  protected exibeHint(nomeFormControl: string): boolean {
+    return (!this.somenteLeitura() && !this.getValorCampoForm(nomeFormControl));
+  }
+
   protected temBotaoAcao(): boolean {
     return this.modoFormulario != ModoFormulario.CONSULTA;
   }
@@ -321,5 +331,81 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
         rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
       },
     };
+  }
+
+  protected campoFormFoiEditado(formControlName: string): boolean {
+    return !!this.form.get(formControlName)?.touched;
+  }
+
+  protected recuperarErroCampoForm(
+    formControlName: string,
+    nomeErroValidador?: string
+  ): ValidationErrors | null {
+    if (nomeErroValidador) {
+      return converterUndefinedEmNulo(
+        this.form.get(formControlName)?.errors?.[nomeErroValidador]
+      );
+    } else
+      return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
+  }
+
+  protected hasErroValidacao(
+    nomeFormControl: string,
+    tipoErroValidacao: TipoErroValidacaoFormulario,
+    validacaoDefinidaUsuario?: string
+  ): boolean {
+    let exibe = false;
+
+    if (this.campoFormFoiEditado(nomeFormControl)) {
+      switch (tipoErroValidacao) {
+        case TipoErroValidacaoFormulario.OBRIGATORIO:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'required') != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'pattern') != null;
+          break;
+
+        case TipoErroValidacaoFormulario.FORMATO:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'minlength') != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'maxlength') != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'pattern') != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'mask') != null;
+          break;
+
+        case TipoErroValidacaoFormulario.LIMITE:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'min') != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'max') != null;
+          break;
+
+        default:
+          exibe =
+            this.recuperarErroCampoForm(
+              nomeFormControl,
+              validacaoDefinidaUsuario
+            ) != null;
+          break;
+      }
+    }
+    return exibe;
+  }
+
+  protected getMsgErroValidacaoTipo(tipo: TipoErroValidacaoFormulario): string {
+    switch (tipo) {
+      case TipoErroValidacaoFormulario.OBRIGATORIO:
+        return 'Campo obrigatório';
+      case TipoErroValidacaoFormulario.REQUERIDO:
+        return 'Campo obrigatório';
+      case TipoErroValidacaoFormulario.FORMATO:
+        return 'Formato inválido';
+      case TipoErroValidacaoFormulario.LIMITE:
+        return 'Valor fora do lmite de valores do campo';
+      case TipoErroValidacaoFormulario.QUALQUER:
+        return 'Preenchimento inválido';
+      case TipoErroValidacaoFormulario.EMAIL:
+        return 'Email inválido';
+      default:
+        return '';
+    }
   }
 }

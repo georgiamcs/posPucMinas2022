@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { gerarStateAlertaRota } from 'src/app/shared/utils/util';
+import { gerarStateAlertaRota } from 'src/app/shared/utils/util.util';
 
 @Component({
   selector: 'vacine-generic-page',

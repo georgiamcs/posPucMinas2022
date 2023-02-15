@@ -1,6 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/app/environment';
@@ -13,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS
+  MAT_DIALOG_DEFAULT_OPTIONS,
 } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,13 +37,12 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule
+  SocialLoginModule,
 } from '@abacritt/angularx-social-login';
 import { CrudComponent } from './components/crud/crud.component';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { ListarRegistrosComponent } from './components/listar-registros/listar-registros.component';
-import { MensagemErroInputComponent } from './components/mensagem-erro-input/mensagem-erro-input.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
 import { LoginComponent } from './pages/acesso/login/login.component';
 import { LogoutComponent } from './pages/acesso/logout/logout.component';
@@ -80,7 +83,6 @@ import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lo
     CnpjPipe,
     TelefonePipe,
     CrudFornecedorComponent,
-    MensagemErroInputComponent,
     ListarUsuariosComponent,
     CpfPipe,
     CrudUsuarioComponent,

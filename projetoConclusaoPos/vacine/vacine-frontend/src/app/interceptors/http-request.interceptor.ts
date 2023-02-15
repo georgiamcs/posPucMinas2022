@@ -14,7 +14,7 @@ import { RetornoHttp } from './../shared/enums/retorno-http.enum';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { gerarStateAlertaRota } from '../shared/utils/util';
+import { gerarStateAlertaRota } from '../shared/utils/util.util';
 import { MensagemFeedback } from '../shared/classes/mensagem-feedback.class';
 
 @Injectable()
@@ -50,22 +50,26 @@ export class HttpRequestInterceptor implements HttpInterceptor {
                 gerarStateAlertaRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
-                    'Usuário não está logado. Efetue o login!'
+                    'Para ter acesso a essa funcionalidade é preciso efetuar o login!'
                   )
                 )
               );
-              throw new Error('Precisa autenticar');
+              throw new Error(
+                'Para ter acesso a essa funcionalidade é preciso efetuar o login'
+              );
             } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
               this.router.navigate(
                 ['/home'],
                 gerarStateAlertaRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
-                    'Usuário não está logado. Efetue o login!'
+                    'Usuário sem permissão para acessar essa funcionalidade'
                   )
                 )
               );
-              throw new Error('Sem permissão');
+              throw new Error(
+                'Usuário sem permissão para acessar essa funcionalidade'
+              );
             } else { // erro http nao tratado, melhorar mensagem de retorno
               console.error('Erro', error);
               return throwError(

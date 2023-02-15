@@ -13,7 +13,7 @@ import {
   converterUndefinedEmNulo,
   gerarStateAlertaRota,
   validadoresRequeridoSemEspacos
-} from 'src/app/shared/utils/util';
+} from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { GenericPageComponent } from './../../../../components/generic-page/generic-page.component';
 import { MensagemFeedback } from './../../../../shared/classes/mensagem-feedback.class';

@@ -13,7 +13,7 @@ import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
-import { gerarStateAlertaRota, validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { gerarStateAlertaRota, validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { Acesso, TipoPerfil } from '../../../../shared/classes/acesso.class';
 import { TIPOS_USUARIOS, TipoUsuario } from '../../../../shared/enums/tipo-usuario.enum';

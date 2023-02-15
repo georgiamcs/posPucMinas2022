@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Fornecedor } from '../../../../shared/models/fornecedor.model';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
 import { CrudComponent } from 'src/app/components/crud/crud.component';
 
 @Component({

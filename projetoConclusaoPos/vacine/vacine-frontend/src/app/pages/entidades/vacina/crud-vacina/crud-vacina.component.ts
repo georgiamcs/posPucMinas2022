@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { CrudComponent } from 'src/app/components/crud/crud.component';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util';
+import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
 import { VacinaService } from '../../../../services/vacina/vacina.service';
 import { Vacina } from '../../../../shared/models/vacina.model';
 

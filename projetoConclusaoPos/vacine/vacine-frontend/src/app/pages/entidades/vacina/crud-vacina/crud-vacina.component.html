@@ -5,73 +5,69 @@
       &nbsp;Cadastro de Vacinas&nbsp;
     </legend>
     <form class="crudform" class="crudform grade" [formGroup]="form">
-      <span class="divnome">
-        <mat-form-field class="crudfield" id="fNome" class="crudfield">
-          <mat-label id="lbNome">Nome</mat-label>
-          <input id="inNome" formControlName="nome" matInput type="text" />
-        </mat-form-field>
-        <vacine-msg-erro-input
-          [form]="form"
-          campo="nome"
-          validacao="obrigatorio"
-        ></vacine-msg-erro-input>
-        <vacine-msg-erro-input
-          [form]="form"
-          campo="nome"
-          validacao="formato"
-          msgerro="Tamanho mínimo do campo é de 3 caracteres e máximo de 100"
-        ></vacine-msg-erro-input>
-      </span>
-      <span class="divprotecao">
-        <mat-form-field class="crudfield" id="fProtecaoContra">
-          <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
-          <input
-            id="inProtecaoContra"
-            formControlName="protecao_contra"
-            matInput
-            type="text"
-          />
-        </mat-form-field>
-        <vacine-msg-erro-input
-          [form]="form"
-          campo="protecao_contra"
-          validacao="obrigatorio"
-        ></vacine-msg-erro-input>
-      </span>
-      <span class="divcomposicao">
-        <mat-form-field class="crudfield" id="fComposicao">
-          <mat-label id="lbComposicao">Composição</mat-label>
-          <input
-            id="inComposicao"
-            formControlName="composicao"
-            matInput
-            type="text"
-          />
-        </mat-form-field>
-        <vacine-msg-erro-input
-          [form]="form"
-          campo="composicao"
-          validacao="obrigatorio"
-        ></vacine-msg-erro-input>
-      </span>
-      <span class="dividaderecomendada">
-        <span>
-          <mat-checkbox
-            class="crudfield"
-            id="fTemIdadeRecomendada"
-            formControlName="in_idade_recomendada"
-            (change)="verificarIdadeRecomendada()"
-            >Tem idade recomendada
-          </mat-checkbox>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="in_idade_recomendada"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-        </span>
+      <mat-form-field class="crudfield" id="fNome" class="crudfield">
+        <mat-label id="lbNome">Nome*</mat-label>
+        <input id="inNome" formControlName="nome" matInput type="text" />
+        <mat-hint *ngIf="exibeHint('nome')">Digite o nome da vacina</mat-hint>
+        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.FORMATO)"
+          >Tamanho mínimo do campo é de 3 caracteres e máximo de 100
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="crudfield" id="fProtecaoContra">
+        <mat-label id="lbProtecaoContra">Proteção contra*</mat-label>
+        <input
+          id="inProtecaoContra"
+          formControlName="protecao_contra"
+          matInput
+          type="text"
+        />
+        <mat-hint *ngIf="exibeHint('protecao_contra')">Descreva do que a vacina protege</mat-hint>
+        <mat-error
+          *ngIf="
+            hasErroValidacao('protecao_contra', TipoErroValForm.OBRIGATORIO)
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="crudfield" id="fComposicao">
+        <mat-label id="lbComposicao">Composição*</mat-label>
+        <input
+          id="inComposicao"
+          formControlName="composicao"
+          matInput
+          type="text"
+        />
+        <mat-hint *ngIf="exibeHint('composicao')">Descreva de que a vacina é composta</mat-hint>
+        <mat-error
+          *ngIf="hasErroValidacao('composicao', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="dividaderecomendada">
+        <mat-checkbox
+          class="crudfield"
+          formControlName="in_idade_recomendada"
+          (change)="verificarIdadeRecomendada()"
+          >Tem idade recomendada
+        </mat-checkbox>
+        <div
+          class="msg_err_checkbox"
+          *ngIf="
+            hasErroValidacao(
+              'in_idade_recomendada',
+              TipoErroValForm.OBRIGATORIO
+            )
+          "
+        >
+          {{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </div>
 
         <span *ngIf="getValorCampoForm('in_idade_recomendada')">
-          <mat-form-field class="crudfield" id="fIdadeRecomendada" class="me-3">
+          <mat-form-field class="crudfield" id="fIdadeRecomendada">
             <mat-label id="lbIdadeRecomendada">Idade</mat-label>
             <input
               id="nrIdadeRecomendada"
@@ -79,30 +75,40 @@
               matInput
               type="number"
             />
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'nr_idade_recomendada',
+                  TipoErroValForm.OBRIGATORIO
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao('nr_idade_recomendada', TipoErroValForm.LIMITE)
+              "
+              >Valor mínimo do campo é 0 e o máximo é 130
+            </mat-error>
           </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nr_idade_recomendada"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nr_idade_recomendada"
-            validacao="limite"
-            msgerro="Valor mínimo do campo é 0 e o máximo é 130"
-          ></vacine-msg-erro-input>
-          <label id="lbTipoIdadeRecomedada"></label>
+
           <mat-radio-group formControlName="tp_idade_recomendada">
             <mat-radio-button value="A"> Anos </mat-radio-button>
             <mat-radio-button value="M"> Meses </mat-radio-button>
           </mat-radio-group>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="tp_idade_recomendada"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
+          <span
+            class="msg_err_checkbox"
+            *ngIf="
+              hasErroValidacao(
+                'tp_idade_recomendada',
+                TipoErroValForm.OBRIGATORIO
+              )
+            "
+          >
+            {{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </span>
         </span>
-      </span>
+      </div>
       <div class="barrabutton">
         <button
           class="crudbutton"
