@@ -21,12 +21,12 @@ export class CrudComLookupComponent<
   protected filtrarValorLista(
     lista: EntityNomeModel[],
     nome: string
-  ): EntityNomeModel[] {
+  ): any[] {
     const filterValue = nome.toLowerCase();
     return lista.filter((i) => i.nome.toLowerCase().includes(filterValue));
   }
 
-  protected exibirNomeEntidade(entity: EntityNomeModel): string {
+  protected exibirNomeEntidade(entity: any): string {
     return entity?.nome ? entity.nome : '';
   }
 

@@ -1,3 +1,4 @@
+import { CrudComLookupComponent } from 'src/app/components/crud-com-lookup/crud-com-lookup.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,15 +16,12 @@ import { Fornecedor } from './../../../../shared/models/fornecedor.model';
   styleUrls: ['./crud-compra.component.scss'],
 })
 export class CrudCompraComponent
-  extends CrudComponent<Fornecedor>
+  extends CrudComLookupComponent<Fornecedor>
   implements OnInit
 {
   //Filtro de fornecedores
   fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
-
-  protected isCarregando: boolean = false;
-  protected erroCarregando: boolean = false;
 
   constructor(
     private _service: FornecedorService,
@@ -73,20 +71,9 @@ export class CrudCompraComponent
     this.nomeEntidade = 'compra';
     this.pluralEntidade = 'compras';
     this.artigoEntidade = 'a';
-    this.nomeCampoFormIdentificaEntidade = 'fornecedor';
+    this.nomeCampoFormIdentificaEntidade = 'nota fiscal';
   }
 
-  private meuFiltro(nome: string): Fornecedor[] {
-    const filterValue = nome.toLowerCase();
-
-    return this.fornecedores.filter((i) =>
-      i.nome.toLowerCase().includes(filterValue)
-    );
-  }
-
-  displayFnFornecedor(fornecedor: Fornecedor): string {
-    return fornecedor && fornecedor.nome ? fornecedor.nome : '';
-  }
   protected override buildForm() {
     this.form = this.formBuilder.group({
       fornecedor: [null],
@@ -116,10 +103,9 @@ export class CrudCompraComponent
           }
         }
         return nome
-          ? this.meuFiltro(nome as string)
+          ? this.filtrarValorLista(this.fornecedores, nome as string)
           : this.fornecedores.slice();
       })
     );
-    console.log('fornecedores', this.fornecedores);
   }
 }
