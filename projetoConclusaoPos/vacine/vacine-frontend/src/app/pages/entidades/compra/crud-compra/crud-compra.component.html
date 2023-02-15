@@ -21,7 +21,7 @@
         {{ fornecedor.nome }}
       </mat-option>
     </mat-autocomplete>
-    <mat-error
+    <!-- <mat-error
       *ngIf="
         form.get('fornecedor')?.hasError('required') &&
         form.get('fornecedor')?.touched
@@ -35,6 +35,44 @@
         form.get('fornecedor')?.touched
       "
       >O fornecedor não está cadastrado!</mat-error
+    > -->
+  </mat-form-field>
+
+  <mat-form-field class="me-3 mb-3" style="width: 50%">
+    <mat-label>Vacina</mat-label>
+    <input
+      type="text"
+      [formControlName]="nomeControlVacina"
+      [matAutocomplete]="autovacina"
+      matInput
+      placeholder="Escolha a vacina"
+      [readonly]="isCarregando || erroCarregando"
+    />
+    <mat-autocomplete
+      #autovacina="matAutocomplete"
+      [displayWith]="exibirNomeEntidade"
     >
+      <mat-option
+        *ngFor="let vacina of vacinasFiltradas | async"
+        [value]="vacina"
+      >
+        {{ vacina.nome }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <mat-error
+      *ngIf="
+        form.get(`${{nomeControlVacina}}`)?.hasError('required') &&
+        form.get('vacina')?.touched
+      "
+      >O campo é obrigatório!</mat-error
+    >
+    <mat-error
+      *ngIf="
+        !form.get('vacina')?.hasError('required') &&
+        form.get('vacina')?.hasError('vacinaCadastrado') &&
+        form.get('vacina')?.touched
+      "
+      >O vacina não está cadastrado!</mat-error
+    > -->
   </mat-form-field>
 </form>
