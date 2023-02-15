@@ -1,15 +1,15 @@
 <!-- TODO: verificar porque nao esta aparecendo mensagem de validacao no cep e no logradouro -->
 <div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <fieldset class="border rounded p-2 mb-3">
+  <fieldset class="crudfieldset border rounded p-2 mb-3">
     <legend class="float-none w-auto h4">
       &nbsp;Troca de senha do usuário "{{nomeUsuario}}"&nbsp;
     </legend>
     <div class="crud-grid">
-      <form [formGroup]="form">
+      <form class="crudform" [formGroup]="form">
 
         <div class="campoSenha">
-          <mat-form-field id="fSenha">
+          <mat-form-field class="crudfield" id="fSenha">
             <mat-label id="lbSenha">Senha</mat-label>
             <input
               id="inSenha"
@@ -32,7 +32,7 @@
         </div>
 
         <div class="campoConfSenha">
-          <mat-form-field id="fConfSenha">
+          <mat-form-field class="crudfield" id="fConfSenha">
             <mat-label id="lbConfSenha">Confirmação de Senha</mat-label>
             <input
               id="inConfSenha"

@@ -1,14 +1,14 @@
 <!-- TODO: verificar porque nao esta aparecendo mensagem de validacao no cep e no logradouro -->
 <div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <fieldset class="border rounded p-2 mb-3">
+  <fieldset class="crudfieldset border rounded p-2 mb-3">
     <legend class="float-none w-auto h3">
       &nbsp;Cadastro de Fornecedor&nbsp;
     </legend>
     <div class="crud-grid">
-      <form [formGroup]="form">
+      <form class="crudform" [formGroup]="form">
         <div class="campoCnpj">
-          <mat-form-field id="fCnpj">
+          <mat-form-field class="crudfield" id="fCnpj">
             <mat-label id="lbCnpj">Cnpj</mat-label>
             <input
               id="inCnpj"
@@ -31,7 +31,7 @@
         </div>
 
         <div class="campoNome">
-          <mat-form-field id="fNome">
+          <mat-form-field class="crudfield" id="fNome">
             <mat-label id="lbNome">Nome</mat-label>
             <input id="inNome" formControlName="nome" matInput type="text" />
           </mat-form-field>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="campoEmail">
-          <mat-form-field id="fEmail">
+          <mat-form-field class="crudfield" id="fEmail">
             <mat-label id="lbEmail">Email</mat-label>
             <input id="inEmail" formControlName="email" matInput type="email" />
           </mat-form-field>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="campoTelCel">
-          <mat-form-field id="fTelefoneCelular">
+          <mat-form-field class="crudfield" id="fTelefoneCelular">
             <mat-label id="lbTelefoneCelular">Telefone Celular</mat-label>
             <input
               id="inTelefoneCelular"
@@ -89,7 +89,7 @@
         </div>
 
         <div class="campoTelFixo">
-          <mat-form-field id="fTelefoneFixo">
+          <mat-form-field class="crudfield" id="fTelefoneFixo">
             <mat-label id="lbTelefoneFixo">Telefone Fixo</mat-label>
             <input
               id="inTelefoneFixo"
@@ -109,7 +109,7 @@
         <fieldset class="border rounded p-2 mb-3" formGroupName="endereco">
           <legend class="float-none w-auto h6">&nbsp;Endereço&nbsp;</legend>
           <div class="campoLogradouro">
-            <mat-form-field id="fLogradouro">
+            <mat-form-field class="crudfield" id="fLogradouro">
               <mat-label id="lbLogradouro">Logradouro</mat-label>
               <input
                 id="inLogradouro"
@@ -125,7 +125,7 @@
             ></vacine-msg-erro-input>
           </div>
           <div class="campoNumero">
-            <mat-form-field id="fNumero">
+            <mat-form-field class="crudfield" id="fNumero">
               <mat-label id="lbNumero">Numero</mat-label>
               <input
                 id="inNumero"
@@ -142,7 +142,7 @@
           </div>
 
           <div class="campoComplemento">
-            <mat-form-field id="fComplemento">
+            <mat-form-field class="crudfield" id="fComplemento">
               <mat-label id="lbComplemento">Complemento</mat-label>
               <input
                 id="inComplemento"
@@ -154,7 +154,7 @@
           </div>
 
           <div class="campoCep">
-            <mat-form-field id="fCep">
+            <mat-form-field class="crudfield" id="fCep">
               <mat-label id="lbCep">Cep</mat-label>
               <input
                 id="inCep"

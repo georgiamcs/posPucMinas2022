@@ -1,13 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap"; /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
+.container {
+  margin: 20px;
+}
 .msg_err {
-  font-size: 12px;
+  font-size: 10px;
   margin-left: 5px;
   color: red;
-  margin-top: -25px;
+  margin-top: -20px;
   margin-bottom: 20px;
 }
 
@@ -16,5 +26,45 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-top: -10px;
 }
 
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+.titpage {
+  background-color: #7abfc7;
+  font-stretch: wider;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+}
+
+.crudfieldset {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  color: #168895;
+  border-style: groove;
+  border-color: #168895;
+}
+.crudfield {
+  margin-right: 20px;
+}
+.crudcheck {
+  margin-right: 5px;
+}
+.crudform {
+  min-width: 350px;
+  width: 100%;
+  background-color: white;
+}
+
+.barrabutton {
+  background-color: #e8f4f5;
+}
+
+.crudbutton {
+  margin: 10px;
+  border-style: ridge;
+}
+
+.container {
+  background-color: white;
+  display: grid;
+}

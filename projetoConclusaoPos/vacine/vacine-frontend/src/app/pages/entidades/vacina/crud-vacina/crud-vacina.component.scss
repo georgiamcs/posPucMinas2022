@@ -1,10 +1,62 @@
 #fNome {
    width: 30%;
+   min-width: 200px;
 }
 #fProtecaoContra {
    width: 50%;
+   min-width: 200px;
 }
 #fComposicao {
-   width: 70%;
+   width: 100%;
+   min-width: 200px;
 }
 
+#fIdadeRecomendada {
+   width: 10%;
+   min-width: 100px;
+}
+
+.dividaderecomendada {
+     width: 100%;
+}
+
+// .divnome {
+//   grid-area: nome;
+
+//   // background-color: red;
+// }
+// .divprotecao {
+//   grid-area: protecao;
+
+//   // background-color: green;
+// }
+// .divcomposicao {
+//   grid-area: composicao;
+//   background-color: pink;
+// }
+
+// .dividaderecomendada {
+//   grid-area: idade;
+//   display: inline-block;
+//   // background-color: blue;
+// }
+// .barrabutton {
+//   grid-area: botao;
+//   // display: inline-block;
+//   // background-color: blue;
+// }
+
+// .grade {
+//   // display: flex;
+//   display: grid;
+//   align-items: start;
+//   justify-items: start;
+//   background-color: yellow;
+//   grid-template-columns: 1fr 1fr 1f;
+//   grid-template-rows: auto;
+//   grid-template-areas:
+//     "nome protecao protecao"
+//     "composicao composicao ."
+//     "idade idade idade"
+//     "botao botao botao";
+// }

@@ -1,62 +1,63 @@
-<div class="container tab-grid">
+<div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <fieldset class="border rounded p-2 mb-3">
-    <legend class="float-none w-auto h3">
+  <fieldset class="crudfieldset border rounded p-2 mb-3">
+    <legend class="titfiedlset float-none w-auto h3">
       &nbsp;Cadastro de Vacinas&nbsp;
     </legend>
-    <div class="crud-grid">
-      <form [formGroup]="form">
-        <div>
-          <mat-form-field id="fNome" class="me-3">
-            <mat-label id="lbNome">Nome</mat-label>
-            <input id="inNome" formControlName="nome" matInput type="text" />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nome"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nome"
-            validacao="formato"
-            msgerro="Tamanho mínimo do campo é de 3 caracteres e máximo de 100"
-          ></vacine-msg-erro-input>
-        </div>
-        <div>
-          <mat-form-field id="fProtecaoContra" class="me-3">
-            <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
-            <input
-              id="inProtecaoContra"
-              formControlName="protecao_contra"
-              matInput
-              type="text"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="protecao_contra"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-        </div>
-        <div>
-          <mat-form-field id="fComposicao" class="me-3">
-            <mat-label id="lbComposicao">Composição</mat-label>
-            <input
-              id="inComposicao"
-              formControlName="composicao"
-              matInput
-              type="text"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="composicao"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-        </div>
-        <div>
+    <form class="crudform" class="crudform grade" [formGroup]="form">
+      <span class="divnome">
+        <mat-form-field class="crudfield" id="fNome" class="crudfield">
+          <mat-label id="lbNome">Nome</mat-label>
+          <input id="inNome" formControlName="nome" matInput type="text" />
+        </mat-form-field>
+        <vacine-msg-erro-input
+          [form]="form"
+          campo="nome"
+          validacao="obrigatorio"
+        ></vacine-msg-erro-input>
+        <vacine-msg-erro-input
+          [form]="form"
+          campo="nome"
+          validacao="formato"
+          msgerro="Tamanho mínimo do campo é de 3 caracteres e máximo de 100"
+        ></vacine-msg-erro-input>
+      </span>
+      <span class="divprotecao">
+        <mat-form-field class="crudfield" id="fProtecaoContra">
+          <mat-label id="lbProtecaoContra">Proteção contra</mat-label>
+          <input
+            id="inProtecaoContra"
+            formControlName="protecao_contra"
+            matInput
+            type="text"
+          />
+        </mat-form-field>
+        <vacine-msg-erro-input
+          [form]="form"
+          campo="protecao_contra"
+          validacao="obrigatorio"
+        ></vacine-msg-erro-input>
+      </span>
+      <span class="divcomposicao">
+        <mat-form-field class="crudfield" id="fComposicao">
+          <mat-label id="lbComposicao">Composição</mat-label>
+          <input
+            id="inComposicao"
+            formControlName="composicao"
+            matInput
+            type="text"
+          />
+        </mat-form-field>
+        <vacine-msg-erro-input
+          [form]="form"
+          campo="composicao"
+          validacao="obrigatorio"
+        ></vacine-msg-erro-input>
+      </span>
+      <span class="dividaderecomendada">
+        <span>
           <mat-checkbox
+            class="crudfield"
             id="fTemIdadeRecomendada"
             formControlName="in_idade_recomendada"
             (change)="verificarIdadeRecomendada()"
@@ -67,13 +68,13 @@
             campo="in_idade_recomendada"
             validacao="obrigatorio"
           ></vacine-msg-erro-input>
-        </div>
+        </span>
 
-        <div *ngIf="getValorCampoForm('in_idade_recomendada')">
-          <mat-form-field class="me-3">
-            <mat-label id="lbIdadeRecomendada">Idade recomendada</mat-label>
+        <span *ngIf="getValorCampoForm('in_idade_recomendada')">
+          <mat-form-field class="crudfield" id="fIdadeRecomendada" class="me-3">
+            <mat-label id="lbIdadeRecomendada">Idade</mat-label>
             <input
-              id="inIdadeRecomendada"
+              id="nrIdadeRecomendada"
               formControlName="nr_idade_recomendada"
               matInput
               type="number"
@@ -100,22 +101,23 @@
             campo="tp_idade_recomendada"
             validacao="obrigatorio"
           ></vacine-msg-erro-input>
-        </div>
-        <div>
-          <button
-            *ngIf="temBotaoAcao()"
-            mat-raised-button
-            color="primary"
-            (click)="salvar()"
-            [disabled]="!habilitarBotaoAcao()"
-          >
-            {{ lbBotaoSalvar }}
-          </button>
-          <button mat-raised-button (click)="fechar()">
-            {{ lbBotaoFechar }}
-          </button>
-        </div>
-      </form>
-    </div>
+        </span>
+      </span>
+      <div class="barrabutton">
+        <button
+          class="crudbutton"
+          *ngIf="temBotaoAcao()"
+          mat-raised-button
+          color="primary"
+          (click)="salvar()"
+          [disabled]="!habilitarBotaoAcao()"
+        >
+          {{ lbBotaoSalvar }}
+        </button>
+        <button class="crudbutton" mat-raised-button (click)="fechar()">
+          {{ lbBotaoFechar }}
+        </button>
+      </div>
+    </form>
   </fieldset>
 </div>

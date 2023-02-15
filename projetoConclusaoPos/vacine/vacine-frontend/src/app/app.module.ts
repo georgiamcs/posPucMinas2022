@@ -60,7 +60,6 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
-import { SelectSearchComponent } from './components/select-search/select-search.component';
 import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
 import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lookup.component';
 
@@ -91,7 +90,6 @@ import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lo
     GenericPageComponent,
     ErroComponent,
     TrocarSenhaComponent,
-    SelectSearchComponent,
     CrudCompraComponent,
     CrudComLookupComponent,
   ],
@@ -126,11 +124,6 @@ import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lo
     provideNgxMask(),
     SecurityProvider,
     httpInterceptorProviders,
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: SelectSearchComponent,
-    },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

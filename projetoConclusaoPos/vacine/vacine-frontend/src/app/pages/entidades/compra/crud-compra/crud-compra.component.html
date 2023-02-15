@@ -1,6 +1,6 @@
-<form [formGroup]="form" #formDirective="ngForm">
+<form class="crudform" [formGroup]="form" #formDirective="ngForm">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <mat-form-field class="me-3 mb-3" style="width: 50%">
+  <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
     <mat-label>Fornecedor</mat-label>
     <input
       type="text"
@@ -38,7 +38,7 @@
     > -->
   </mat-form-field>
 
-  <mat-form-field class="me-3 mb-3" style="width: 50%">
+  <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
     <mat-label>Vacina</mat-label>
     <input
       type="text"

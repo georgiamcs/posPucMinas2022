@@ -4,12 +4,12 @@
       [mensagens]="mensagens"
     ></vacine-mensagem-feedback>
 
-    <fieldset class="grid gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset class="crudfieldset gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
       <legend class="float-none w-auto h4">
         <i class="bi bi-person-fill"></i> Login do Usuário
       </legend>
 
-      <form [formGroup]="form" #formDirective="ngForm">
+      <form class="crudform" [formGroup]="form" #formDirective="ngForm">
         <div class="mb-3">
           <mat-form-field>
             <mat-label>Login</mat-label>
@@ -26,7 +26,7 @@
           ></vacine-msg-erro-input>
         </div>
         <div>
-          <mat-form-field class="me-3 mb-3">
+          <mat-form-field class="crudfield" class="me-3 mb-3">
             <mat-label>Senha</mat-label>
             <input
               formControlName="senha"

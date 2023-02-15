@@ -1,6 +1,6 @@
 <div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <h1>Vacinas</h1>
+  <h1 class="titpage">Vacinas</h1>
   <mat-progress-bar *ngIf="!carregado" mode="indeterminate"></mat-progress-bar>
   <div *ngIf="carregado">
     <div *ngIf="registros.length > 0; else semRegistros">
