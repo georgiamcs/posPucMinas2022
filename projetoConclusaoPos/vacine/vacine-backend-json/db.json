@@ -95,6 +95,16 @@
       "nr_idade_recomendada": 30,
       "id": "DHUE8Cf",
       "_id": "DHUE8Cf"
+    },
+    {
+      "_id": "jgbB4Th",
+      "nome": "Vacina Json Server",
+      "protecao_contra": "Moquisto",
+      "composicao": "virus inativado",
+      "in_idade_recomendada": false,
+      "tp_idade_recomendada": null,
+      "nr_idade_recomendada": null,
+      "estoque": 100
     }
   ],
   "fornecedores": [
@@ -136,24 +146,6 @@
     },
     {
       "endereco": {
-        "logradouro": "dsfs",
-        "numero": "1",
-        "complemento": "abcde",
-        "cep": "45236544"
-      },
-      "_id": "63e58562ea86251c4e43be6e",
-      "id": "63e58562ea86251c4e43be6e",
-      "nome": "fdgsdg",
-      "email": "m@m.com",
-      "cnpj": "31432534647685",
-      "tel_celular": "96796896708",
-      "tel_fixo": null,
-      "dt_inclusao": "2023-02-09T22:42:24.559Z",
-      "__v": 0,
-      "dt_alteracao": "2023-02-10T00:33:14.921Z"
-    },
-    {
-      "endereco": {
         "logradouro": "Av. Vital Brasil",
         "numero": "1500",
         "cep": "05503900"
@@ -185,6 +177,22 @@
       "dt_inclusao": "2023-02-11T18:50:03.875Z",
       "__v": 0,
       "dt_alteracao": "2023-02-11T19:20:13.768Z"
+    },
+    {
+      "_id": "J4lzoEB",
+      "cnpj": "31432534647685",
+      "nome": "Fornecedor Json Server",
+      "email": "georgiamcs@gmail.com",
+      "endereco": {
+        "logradouro": "rua issac",
+        "numero": "102",
+        "complemento": null,
+        "cidade": "Recife",
+        "estado": "AP",
+        "cep": "52060105"
+      },
+      "tel_fixo": null,
+      "tel_celular": "55819971942"
     }
   ],
   "usuarios": [
