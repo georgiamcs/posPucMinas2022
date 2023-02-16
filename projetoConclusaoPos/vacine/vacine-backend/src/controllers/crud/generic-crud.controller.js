@@ -1,4 +1,4 @@
-const {AutorizacaoService} = require("../../services/AutorizacaoService");
+const {AutorizacaoService} = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
 
 class GenericCrudController {

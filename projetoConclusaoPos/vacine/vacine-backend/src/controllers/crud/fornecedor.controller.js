@@ -1,6 +1,6 @@
 const GenericCrudController = require("./generic-crud.controller");
-const FornecedorService = require("../../services/GenericCrudService");
-const FornecedorModel = require("../../models/FornecedorModel");
+const FornecedorService = require("../../services/generic-crud.service");
+const FornecedorModel = require("../../models/fornecedor.model");
 const Acesso = require("../../setup/acesso");
 
 function createFornecedor(obj) {

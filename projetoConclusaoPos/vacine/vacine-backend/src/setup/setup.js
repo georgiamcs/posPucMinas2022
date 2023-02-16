@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const PassportStrategy = require("../lib/autenticacao/Passaport");
+const PassportStrategy = require("../lib/autenticacao/passaport.lib");
 
 module.exports = {
   init: (app) => {

@@ -1,6 +1,6 @@
 const GenericCrudController = require("./generic-crud.controller");
-const CompraVacinaService = require("../../services/GenericCrudService");
-const CompraVacinaModel = require("../../models/CompraVacinaModel");
+const CompraVacinaService = require("../../services/generic-crud.service");
+const CompraVacinaModel = require("../../models/compra-vacina.model");
 const Acesso = require("../../setup/acesso");
 
 function createNovoRegistro(obj) {

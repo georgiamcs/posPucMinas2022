@@ -1,6 +1,6 @@
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const config = require("../../setup/config");
-const UsuarioModel = require("../../models/UsuarioModel");
+const UsuarioModel = require("../../models/usuario.model");
 
 exports.applyPassportStrategy = (passport) => {
   const options = {};

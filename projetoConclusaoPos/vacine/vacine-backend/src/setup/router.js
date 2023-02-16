@@ -5,10 +5,10 @@ module.exports = {
     const UsuarioController = require("../controllers/crud/usuario.controller");
     const CompraVacinaController = require("../controllers/crud/compra-vacina.controller");
     
-    const createCrudRouter = require("../routers/GenericCrudRouter");
+    const createCrudRouter = require("../routers/generic-crud.router");
 
-    const loginRouter = require("../routers/AutenticacaoRouter");
-    const clienteRouter = require("../routers/ClienteRouter");
+    const loginRouter = require("../routers/autenticacao.router");
+    const clienteRouter = require("../routers/cliente.router");
     const vacinaRouter = createCrudRouter(VacinaController, true);
     const fornecedorRouter = createCrudRouter(FornecedorController, true);
     const usuarioRouter = createCrudRouter(UsuarioController, true);

@@ -1,9 +1,9 @@
 const cnst = require("../constantes");
 const config = require("../setup/config");
 const jwt = require("jsonwebtoken");
-const { AutorizacaoService } = require("../services/AutorizacaoService");
-const UsuarioModel = require("../models/UsuarioModel");
-const UsuarioService = require("../services/GenericCrudService");
+const { AutorizacaoService } = require("../services/autorizacao.service");
+const UsuarioModel = require("../models/usuario.model");
+const UsuarioService = require("../services/generic-crud.service");
 const Acesso = require("../setup/acesso");
 
 const { OAuth2Client } = require("google-auth-library");
