@@ -1,9 +1,9 @@
 module.exports = {
   init: (app) => {
-    const VacinaController = require("../controllers/crud/VacinaController");
-    const FornecedorController = require("../controllers/crud/FornecedorController");
-    const UsuarioController = require("../controllers/crud/UsuarioController");
-    const CompraVacinaController = require("../controllers/crud/CompraVacinaController");
+    const VacinaController = require("../controllers/crud/vacina.controller");
+    const FornecedorController = require("../controllers/crud/fornecedor.controller");
+    const UsuarioController = require("../controllers/crud/usuario.controller");
+    const CompraVacinaController = require("../controllers/crud/compra-vacina.controller");
     
     const createCrudRouter = require("../routers/GenericCrudRouter");
 

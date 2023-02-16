@@ -1,4 +1,4 @@
-const GenericCrudController = require("./GenericCrudController");
+const GenericCrudController = require("./generic-crud.controller");
 const FornecedorService = require("../../services/GenericCrudService");
 const FornecedorModel = require("../../models/FornecedorModel");
 const Acesso = require("../../setup/acesso");

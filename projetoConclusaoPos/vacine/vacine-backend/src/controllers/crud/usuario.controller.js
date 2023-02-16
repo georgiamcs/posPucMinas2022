@@ -1,5 +1,5 @@
 const { AutorizacaoService } = require("../../services/AutorizacaoService");
-const GenericCrudController = require("./GenericCrudController");
+const GenericCrudController = require("./generic-crud.controller");
 const UsuarioService = require("../../services/GenericCrudService");
 const UsuarioModel = require("../../models/UsuarioModel");
 const Acesso = require("../../setup/acesso");

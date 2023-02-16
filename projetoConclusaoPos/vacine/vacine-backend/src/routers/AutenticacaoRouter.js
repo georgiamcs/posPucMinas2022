@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/AutenticacaoController");
+const controller = require("../controllers/autenticacao.controller");
 
 //login
 router.post("/jwt", controller.login);
