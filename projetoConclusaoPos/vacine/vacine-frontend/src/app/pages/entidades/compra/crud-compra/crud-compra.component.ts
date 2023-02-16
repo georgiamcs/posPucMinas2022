@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
-import { CrudComLookupComponent } from 'src/app/components/crud-com-lookup/crud-com-lookup.component';
+import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { VacinaService } from 'src/app/services/vacina/vacina.service';
 import { FornecedorService } from './../../../../services/fornecedor/fornecedor.service';
 import { Fornecedor } from './../../../../shared/models/fornecedor.model';
@@ -15,7 +15,7 @@ import { Vacina } from './../../../../shared/models/vacina.model';
   styleUrls: ['./crud-compra.component.scss'],
 })
 export class CrudCompraComponent
-  extends CrudComLookupComponent<Fornecedor>
+  extends GenericCrudComLookupComponent<Fornecedor>
   implements OnInit
 {
   protected readonly nomeControlFornecedor = 'fornecedor';

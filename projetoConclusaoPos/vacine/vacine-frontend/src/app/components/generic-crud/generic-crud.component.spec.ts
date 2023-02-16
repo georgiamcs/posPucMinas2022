@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrudComLookupComponent } from './crud-com-lookup.component';
+import { GenericCrudComponent } from './generic-crud.component';
 
-describe('CrudComLookupComponent', () => {
-  let component: CrudComLookupComponent;
-  let fixture: ComponentFixture<CrudComLookupComponent>;
+describe('CrudComponent', () => {
+  let component: GenericCrudComponent;
+  let fixture: ComponentFixture<GenericCrudComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrudComLookupComponent ]
+      declarations: [ GenericCrudComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CrudComLookupComponent);
+    fixture = TestBed.createComponent(GenericCrudComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

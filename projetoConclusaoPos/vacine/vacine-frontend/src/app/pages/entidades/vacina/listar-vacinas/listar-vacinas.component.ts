@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-import { ListarRegistrosComponent } from 'src/app/components/listar-registros/listar-registros.component';
+import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { Vacina } from 'src/app/shared/models/vacina.model';
 import { VacinaService } from '../../../../services/vacina/vacina.service';
 
@@ -13,7 +13,7 @@ import { VacinaService } from '../../../../services/vacina/vacina.service';
   templateUrl: './listar-vacinas.component.html',
   styleUrls: ['./listar-vacinas.component.scss'],
 })
-export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
+export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vacina> {
   constructor(
     private _router: Router,
     private _service: VacinaService,

@@ -29,11 +29,13 @@ import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-conf
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
 @Component({
-  selector: 'vacine-crud',
-  templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.scss'],
+  selector: 'vacine-generic-crud',
+  templateUrl: './generic-crud.component.html',
+  styleUrls: ['./generic-crud.component.scss'],
 })
-export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
+export class GenericCrudComponent<
+  T extends EntityModel
+> extends GenericPageComponent {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -368,7 +370,9 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
         this.getFormControl(formControlName)?.errors?.[nomeErroValidador]
       );
     } else
-      return converterUndefinedEmNulo(this.getFormControl(formControlName)?.errors);
+      return converterUndefinedEmNulo(
+        this.getFormControl(formControlName)?.errors
+      );
   }
 
   protected hasErroValidacao(

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Fornecedor } from '../../../../shared/models/fornecedor.model';
 import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
-import { CrudComponent } from 'src/app/components/crud/crud.component';
+import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 
 @Component({
   selector: 'vacine-crud-fornecedor',
@@ -15,7 +15,7 @@ import { CrudComponent } from 'src/app/components/crud/crud.component';
   styleUrls: ['./crud-fornecedor.component.scss'],
 })
 export class CrudFornecedorComponent
-  extends CrudComponent<Fornecedor>
+  extends GenericCrudComponent<Fornecedor>
 {
   protected estados = ESTADOS;
 

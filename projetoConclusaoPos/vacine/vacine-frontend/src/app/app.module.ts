@@ -37,11 +37,11 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
-import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lookup.component';
-import { CrudComponent } from './components/crud/crud.component';
+import { GenericCrudComLookupComponent } from './components/generic-crud-com-lookup/generic-crud-com-lookup.component';
+import { GenericCrudComponent } from './components/generic-crud/generic-crud.component';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
-import { ListarRegistrosComponent } from './components/listar-registros/listar-registros.component';
+import { GenericListarRegistrosComponent } from './components/generic-listar-registros/generic-listar-registros.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
 import { LoginComponent } from './pages/acesso/login/login.component';
 import { LogoutComponent } from './pages/acesso/logout/logout.component';
@@ -77,9 +77,9 @@ registerLocaleData(localePt);
     ListarVacinasComponent,
     SemRegistrosComponent,
     DialogoConfirmacaoComponent,
-    CrudComponent,
+    GenericCrudComponent,
     MensagemFeedbackComponent,
-    ListarRegistrosComponent,
+    GenericListarRegistrosComponent,
     ListarFornecedoresComponent,
     CnpjPipe,
     TelefonePipe,
@@ -94,7 +94,7 @@ registerLocaleData(localePt);
     ErroComponent,
     TrocarSenhaComponent,
     CrudCompraComponent,
-    CrudComLookupComponent,
+    GenericCrudComLookupComponent,
     TruncstrPipe,
   ],
   imports: [

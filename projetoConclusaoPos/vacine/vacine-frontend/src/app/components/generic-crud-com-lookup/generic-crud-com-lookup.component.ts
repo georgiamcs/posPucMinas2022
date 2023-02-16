@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { CrudComponent } from 'src/app/components/crud/crud.component';
+import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { EntityNomeModel } from './../../shared/models/entity-nome.model';
+import { EntityNomeModel } from '../../shared/models/entity-nome.model';
 
 @Component({
-  selector: 'vacine-crud-com-lookup',
-  templateUrl: './crud-com-lookup.component.html',
-  styleUrls: ['./crud-com-lookup.component.scss'],
+  selector: 'vacine-generic-crud-com-lookup',
+  templateUrl: './generic-crud-com-lookup.component.html',
+  styleUrls: ['./generic-crud-com-lookup.component.scss'],
 })
-export class CrudComLookupComponent<
+export class GenericCrudComLookupComponent<
   T extends EntityModel
-> extends CrudComponent<T> {
+> extends GenericCrudComponent<T> {
   protected isCarregando: boolean = false;
   protected erroCarregando: boolean = false;
 

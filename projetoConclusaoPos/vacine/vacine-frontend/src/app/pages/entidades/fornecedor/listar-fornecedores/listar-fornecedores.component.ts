@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FornecedorService } from '../../../../services/fornecedor/fornecedor.service';
 
 import { Router } from '@angular/router';
-import { ListarRegistrosComponent } from 'src/app/components/listar-registros/listar-registros.component';
+import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { Fornecedor } from '../../../../shared/models/fornecedor.model';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -11,7 +11,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   templateUrl: './listar-fornecedores.component.html',
   styleUrls: ['./listar-fornecedores.component.scss'],
 })
-export class ListarFornecedoresComponent extends ListarRegistrosComponent<Fornecedor> {
+export class ListarFornecedoresComponent extends GenericListarRegistrosComponent<Fornecedor> {
   constructor(
     private _router: Router,
     private _service: FornecedorService,

@@ -8,11 +8,11 @@ import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-col
 import { converterUndefinedEmTrue } from 'src/app/shared/utils/util.util';
 
 @Component({
-  selector: 'vacine-listar-registros',
-  templateUrl: './listar-registros.component.html',
-  styleUrls: ['./listar-registros.component.scss'],
+  selector: 'vacine-generic-listar-registros',
+  templateUrl: './generic-listar-registros.component.html',
+  styleUrls: ['./generic-listar-registros.component.scss'],
 })
-export class ListarRegistrosComponent<T extends EntityModel>
+export class GenericListarRegistrosComponent<T extends EntityModel>
   extends GenericPageComponent
   implements OnInit, OnDestroy
 {

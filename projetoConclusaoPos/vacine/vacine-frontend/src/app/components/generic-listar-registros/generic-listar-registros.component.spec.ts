@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListarRegistrosComponent } from './listar-registros.component';
+import { GenericListarRegistrosComponent } from './generic-listar-registros.component';
 
 describe('ListarRegistrosComponent', () => {
-  let component: ListarRegistrosComponent;
-  let fixture: ComponentFixture<ListarRegistrosComponent>;
+  let component: GenericListarRegistrosComponent;
+  let fixture: ComponentFixture<GenericListarRegistrosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListarRegistrosComponent ]
+      declarations: [ GenericListarRegistrosComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ListarRegistrosComponent);
+    fixture = TestBed.createComponent(GenericListarRegistrosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

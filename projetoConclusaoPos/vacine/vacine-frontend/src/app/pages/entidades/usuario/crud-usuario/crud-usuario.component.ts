@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CrudComponent } from 'src/app/components/crud/crud.component';
+import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
@@ -30,7 +30,7 @@ import { ESTADOS } from 'src/app/variables/constantes';
   templateUrl: './crud-usuario.component.html',
   styleUrls: ['./crud-usuario.component.scss'],
 })
-export class CrudUsuarioComponent extends CrudComponent<Usuario> {
+export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
   protected perfisEscolher = Acesso.PERFIS;
   protected tiposUsuarios = TIPOS_USUARIOS;
   protected estados = ESTADOS;

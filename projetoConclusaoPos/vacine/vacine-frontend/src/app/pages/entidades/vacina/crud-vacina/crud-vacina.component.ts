@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CrudComponent } from 'src/app/components/crud/crud.component';
+import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
 import { VacinaService } from '../../../../services/vacina/vacina.service';
 import { Vacina } from '../../../../shared/models/vacina.model';
@@ -15,7 +15,7 @@ import { Vacina } from '../../../../shared/models/vacina.model';
   styleUrls: ['./crud-vacina.component.scss'],
 })
 export class CrudVacinaComponent
-  extends CrudComponent<Vacina>
+  extends GenericCrudComponent<Vacina>
   implements OnInit
 {
   constructor(
