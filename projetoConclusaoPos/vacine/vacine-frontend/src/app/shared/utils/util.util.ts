@@ -2,7 +2,11 @@ import { ValidatorFn, Validators } from '@angular/forms';
 import { MensagemFeedback } from '../classes/mensagem-feedback.class';
 
 export function converterUndefinedEmNulo(valor: any): any {
-  return valor == undefined ? null : valor;
+  return valor === undefined ? null : valor;
+}
+
+export function converterUndefinedEmTrue(valor: any): any {
+  return valor === undefined ? true : valor;
 }
 
 export function validadoresRequeridoSemEspacos(): ValidatorFn | null {

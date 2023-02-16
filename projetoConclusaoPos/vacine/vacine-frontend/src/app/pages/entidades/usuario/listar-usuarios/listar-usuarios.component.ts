@@ -24,26 +24,11 @@ export class ListarUsuariosComponent extends ListarRegistrosComponent<Usuario> {
 
   protected definirColunasExibidas() {
     this.defColunasExibidas = [
-      { def: 'nome', showMobile: true, showDesktop: true, showTablet: true },
-      {
-        def: 'cpf',
-        showMobile: true,
-        showDesktop: true,
-        showTablet: true,
-      },
-      {
-        def: 'email',
-        showMobile: false,
-        showDesktop: true,
-        showTablet: true,
-      },
-      {
-        def: 'tel_celular',
-        showMobile: false,
-        showDesktop: true,
-        showTablet: true,
-      },
-      { def: 'acoes', showMobile: true, showDesktop: true, showTablet: true },
+      { def: 'nome' },
+      { def: 'cpf' },
+      { def: 'email', showMobile: false },
+      { def: 'tel_celular', showMobile: false },
+      { def: 'acoes'},
     ];
   }
 

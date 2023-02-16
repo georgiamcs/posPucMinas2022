@@ -18,9 +18,14 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   protected router: Router;
   protected deviceService: DeviceDetectorService;
 
+  private handlerOrientation: any;
+  private landscape = window.matchMedia('(orientation: landscape)');
+
   constructor() {}
 
   ngOnInit(): void {
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.landscape.addEventListener('change', this.handlerOrientation, true);
     this.carregarMensagensAoIniciar();
   }
 
@@ -28,6 +33,11 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     if (!!this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.landscape.removeEventListener('change', this.handlerOrientation, true);
+  }
+
+  private onChangeOrientation() {
+    return null; //nao precisa fazer nada aqui, o metodo so precisa existir
   }
 
   protected tratarErro(erro: string, irParaPaginaErro = true) {
@@ -76,5 +86,13 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected isTablet() {
     return this.deviceService.isTablet();
+  }
+
+  isPortrait() {
+    return !this.landscape.matches;
+  }
+
+  isLandscape() {
+    return this.landscape.matches;
   }
 }

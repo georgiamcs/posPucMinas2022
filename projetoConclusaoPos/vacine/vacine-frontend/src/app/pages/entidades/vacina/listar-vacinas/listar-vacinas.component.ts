@@ -27,26 +27,11 @@ export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
 
   protected definirColunasExibidas() {
     this.defColunasExibidas = [
-      { def: 'nome', showMobile: true, showDesktop: true, showTablet: true },
-      {
-        def: 'protecaoContra',
-        showMobile: false,
-        showDesktop: true,
-        showTablet: true,
-      },
-      {
-        def: 'vlIdadeRecomendada',
-        showMobile: false,
-        showDesktop: true,
-        showTablet: true,
-      },
-      {
-        def: 'estoque',
-        showMobile: true,
-        showDesktop: true,
-        showTablet: true,
-      },
-      { def: 'acoes', showMobile: true, showDesktop: true, showTablet: true },
+      { def: 'nome' },
+      { def: 'protecaoContra', showMobile: false},
+      { def: 'vlIdadeRecomendada', showMobile: false},
+      { def: 'estoque' },
+      { def: 'acoes' },
     ];
   }
 

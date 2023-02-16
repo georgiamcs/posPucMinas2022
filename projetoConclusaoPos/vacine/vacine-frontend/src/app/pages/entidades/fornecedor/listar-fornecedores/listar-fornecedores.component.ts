@@ -25,16 +25,11 @@ export class ListarFornecedoresComponent extends ListarRegistrosComponent<Fornec
 
   protected definirColunasExibidas() {
     this.defColunasExibidas = [
-      { def: 'nome', showMobile: true, showDesktop: true, showTablet: true },
-      { def: 'cnpj', showMobile: true, showDesktop: true, showTablet: true },
-      { def: 'email', showMobile: false, showDesktop: true, showTablet: true },
-      {
-        def: 'tel_celular',
-        showMobile: false,
-        showDesktop: true,
-        showTablet: true,
-      },
-      { def: 'acoes', showMobile: true, showDesktop: true, showTablet: true },
+      { def: 'nome' },
+      { def: 'cnpj', showMobile: false },
+      { def: 'email', showMobile: false },
+      { def: 'tel_celular' },
+      { def: 'acoes' },
     ];
   }
 
