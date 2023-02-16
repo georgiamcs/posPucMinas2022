@@ -1,10 +1,8 @@
+import { DecimalPipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import {
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
+import localePt from '@angular/common/locales/pt';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/app/environment';
@@ -12,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
 
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
@@ -24,11 +22,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -39,6 +37,7 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lookup.component';
 import { CrudComponent } from './components/crud/crud.component';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
@@ -48,10 +47,12 @@ import { LoginComponent } from './pages/acesso/login/login.component';
 import { LogoutComponent } from './pages/acesso/logout/logout.component';
 import { CabecalhoComponent } from './pages/cabecalho/cabecalho.component';
 import { ConteudoPrincipalComponent } from './pages/conteudo-principal/conteudo-principal.component';
+import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
 import { CrudFornecedorComponent } from './pages/entidades/fornecedor/crud-fornecedor/crud-fornecedor.component';
 import { ListarFornecedoresComponent } from './pages/entidades/fornecedor/listar-fornecedores/listar-fornecedores.component';
 import { CrudUsuarioComponent } from './pages/entidades/usuario/crud-usuario/crud-usuario.component';
 import { ListarUsuariosComponent } from './pages/entidades/usuario/listar-usuarios/listar-usuarios.component';
+import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
 import { CrudVacinaComponent } from './pages/entidades/vacina/crud-vacina/crud-vacina.component';
 import { ListarVacinasComponent } from './pages/entidades/vacina/listar-vacinas/listar-vacinas.component';
 import { ErroComponent } from './pages/erro/erro.component';
@@ -62,10 +63,9 @@ import { SecurityProvider } from './providers/security.provider';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
-import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
-import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
-import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lookup.component';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
+
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -122,9 +122,11 @@ import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
     NgxMaskPipe,
     SocialLoginModule,
     MatAutocompleteModule,
+    DecimalPipe,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    { provide: LOCALE_ID, useValue: 'pt' },
     provideNgxMask(),
     SecurityProvider,
     httpInterceptorProviders,

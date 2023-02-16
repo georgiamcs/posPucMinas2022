@@ -8,4 +8,5 @@ export class Vacina extends EntityNomeModel {
   in_idade_recomendada: boolean;
   tp_idade_recomendada?: TipoIdadeRecomendada;
   nr_idade_recomendada?: number;
+  estoque: number;
 }

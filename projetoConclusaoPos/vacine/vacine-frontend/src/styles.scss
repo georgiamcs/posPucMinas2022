@@ -101,9 +101,14 @@ body {
   background-color: white;
 }
 
+.numero {
+  text-align: right;
+}
+
 @media (max-width: 480px) {
   .container {
     display: flex;
+    flex-direction: column;
     width: 100%;
   }
   .titfiedlset {

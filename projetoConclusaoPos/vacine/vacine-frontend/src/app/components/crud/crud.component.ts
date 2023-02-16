@@ -361,14 +361,14 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
 
   protected recuperarErroCampoForm(
     formControlName: string,
-    nomeErroValidador?: string
+    nomeErroValidador?: string | null
   ): ValidationErrors | null {
-    if (nomeErroValidador) {
+    if (!!nomeErroValidador) {
       return converterUndefinedEmNulo(
-        this.form.get(formControlName)?.errors?.[nomeErroValidador]
+        this.getFormControl(formControlName)?.errors?.[nomeErroValidador]
       );
     } else
-      return converterUndefinedEmNulo(this.form.get(formControlName)?.errors);
+      return converterUndefinedEmNulo(this.getFormControl(formControlName)?.errors);
   }
 
   protected hasErroValidacao(
@@ -386,6 +386,11 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
             this.recuperarErroCampoForm(nomeFormControl, 'pattern') != null;
           break;
 
+        case TipoErroValidacaoFormulario.REQUERIDO:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'required') != null;
+          break;
+
         case TipoErroValidacaoFormulario.FORMATO:
           exibe =
             this.recuperarErroCampoForm(nomeFormControl, 'minlength') != null ||
@@ -400,7 +405,15 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
             this.recuperarErroCampoForm(nomeFormControl, 'max') != null;
           break;
 
-        default:
+        case TipoErroValidacaoFormulario.EMAIL:
+          exibe = this.recuperarErroCampoForm(nomeFormControl, 'email') != null;
+          break;
+
+        case TipoErroValidacaoFormulario.QUALQUER:
+          exibe = this.recuperarErroCampoForm(nomeFormControl, null) != null;
+          break;
+
+        default: //QUALQUER e DEFINIDA_USUARIO
           exibe =
             this.recuperarErroCampoForm(
               nomeFormControl,

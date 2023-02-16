@@ -24,7 +24,9 @@
           matInput
           type="text"
         />
-        <mat-hint *ngIf="exibeHint('protecao_contra')">Descreva do que a vacina protege</mat-hint>
+        <mat-hint *ngIf="exibeHint('protecao_contra')"
+          >Descreva do que a vacina protege</mat-hint
+        >
         <mat-error
           *ngIf="
             hasErroValidacao('protecao_contra', TipoErroValForm.OBRIGATORIO)
@@ -40,7 +42,9 @@
           matInput
           type="text"
         />
-        <mat-hint *ngIf="exibeHint('composicao')">Descreva de que a vacina é composta</mat-hint>
+        <mat-hint *ngIf="exibeHint('composicao')"
+          >Descreva de que a vacina é composta</mat-hint
+        >
         <mat-error
           *ngIf="hasErroValidacao('composicao', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
@@ -67,7 +71,7 @@
           {{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </div>
 
-        <span *ngIf="getValorCampoForm( 'in_idade_recomendada')">
+        <span *ngIf="getValorCampoForm('in_idade_recomendada')">
           <mat-form-field class="crudfield" id="fIdadeRecomendada">
             <mat-label id="lbIdadeRecomendada">Idade</mat-label>
             <input
@@ -93,7 +97,10 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-radio-group formControlName="tp_idade_recomendada" id="fTipoIdadeRecomendada">
+          <mat-radio-group
+            formControlName="tp_idade_recomendada"
+            id="fTipoIdadeRecomendada"
+          >
             <mat-radio-button value="A"> Anos </mat-radio-button>
             <mat-radio-button value="M"> Meses </mat-radio-button>
           </mat-radio-group>
@@ -110,6 +117,32 @@
           </span>
         </span>
       </div>
+
+        <mat-form-field class="crudfield" id="fEstoque">
+          <mat-label id="lbEstoque">Estoque*</mat-label>
+          <input
+            id="nrEstoque"
+            formControlName="estoque"
+            matInput
+            type="number"
+          />
+          <mat-error
+            *ngIf="
+              hasErroValidacao(
+                'estoque',
+                TipoErroValForm.OBRIGATORIO
+              )
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+          <mat-error
+            *ngIf="
+              hasErroValidacao('estoque', TipoErroValForm.LIMITE)
+            "
+            >Valor mínimo do campo é 0
+          </mat-error>
+        </mat-form-field>
+
       <div class="barrabutton">
         <button
           class="crudbutton"

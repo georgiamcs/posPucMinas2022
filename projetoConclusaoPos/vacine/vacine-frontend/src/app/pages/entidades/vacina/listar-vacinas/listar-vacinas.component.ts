@@ -30,13 +30,19 @@ export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
       { def: 'nome', showMobile: true, showDesktop: true, showTablet: true },
       {
         def: 'protecaoContra',
-        showMobile: true,
+        showMobile: false,
         showDesktop: true,
         showTablet: true,
       },
       {
-        def: 'vlIdadeRecomemendada',
+        def: 'vlIdadeRecomendada',
         showMobile: false,
+        showDesktop: true,
+        showTablet: true,
+      },
+      {
+        def: 'estoque',
+        showMobile: true,
         showDesktop: true,
         showTablet: true,
       },

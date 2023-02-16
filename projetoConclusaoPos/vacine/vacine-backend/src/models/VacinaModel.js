@@ -27,6 +27,10 @@ const vacinaSchema = Schema({
     type: Number,
     required: false,
   },
+  estoque: {
+    type: Number,
+    required: true
+  },
   dt_inclusao: {
     type: Date,
     required: true,

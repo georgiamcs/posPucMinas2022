@@ -63,6 +63,13 @@ export class CrudVacinaComponent
       in_idade_recomendada: [true, [Validators.required]],
       tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],
+      estoque: [
+        0,
+        Validators.compose([
+          validadoresRequeridoSemEspacos(),
+          Validators.min(0)
+        ]),
+      ],
     });
   }
 
