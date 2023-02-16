@@ -54,9 +54,9 @@ export class HttpRequestInterceptor implements HttpInterceptor {
                   )
                 )
               );
-              throw new Error(
-                'Para ter acesso a essa funcionalidade é preciso efetuar o login'
-              );
+              // throw new Error(
+              //   'Para ter acesso a essa funcionalidade é preciso efetuar o login'
+              // );
             } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
               this.router.navigate(
                 ['/home'],

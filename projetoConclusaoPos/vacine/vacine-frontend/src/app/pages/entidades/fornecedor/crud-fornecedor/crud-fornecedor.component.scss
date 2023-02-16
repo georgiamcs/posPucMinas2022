@@ -1,18 +1,102 @@
-mat-form-field {
-  width: 40%;
+#fCnpj {
+  grid-area: cnpj;
+  // background-color: green;
+  width: 25%;
+  min-width: 150px;
 }
-// div {
-//   display: flex;
-// }
 
-// .container {
+#fNome {
+  grid-area: nome;
+  width: 60%;
+  min-width: 400px;
+  // background-color: yellow;
+}
+
+#fEmail {
+  grid-area: email;
+  width: 30%;
+  min-width: 250px;
+  // background-color: lightblue;
+}
+
+#fCelular {
+  grid-area: celular;
+  width: 20%;
+  min-width: 200px;
+  // background-color: pink;
+}
+
+#fFixo {
+  grid-area: fixo;
+  width: 20%;
+  min-width: 200px;
+  // background-color: orange;
+}
+
+#fLogradouro {
+  grid-area: logradouro;
+  width: 45%;
+  min-width: 300px;
+  // background-color: orange;
+}
+
+#fNumero {
+  grid-area: numero;
+  width: 20%;
+  min-width: 100px;
+  // background-color: orange;
+}
+
+#fComplemento {
+  grid-area: numero;
+  width: 25%;
+  min-width: 100px;
+  // background-color: orange;
+}
+
+#fCidade {
+  grid-area: cidade;
+  width: 20%;
+  min-width: 100px;
+  // background-color: orange;
+}
+
+#fCidade {
+  grid-area: estado;
+  width: 30%;
+  min-width: 200px;
+  // background-color: orange;
+}
+
+#fEstado {
+  grid-area: fixo;
+  width: 20%;
+  min-width: 100px;
+  // background-color: orange;
+}
+
+#fCep {
+  grid-area: fixo;
+  width: 20%;
+  min-width: 100px;
+  // background-color: orange;
+}
+
+
+.barrabutton {
+  grid-area: botoes;
+}
+
+// .crudfieldset {
+//   background-color: lightcyan;
 //   display: grid;
-//   grid-template-columns: 100%;
-//   grid-template-rows: auto;
+//   // grid-template-columns: 10% 30% 30%;
 //   grid-template-areas:
-//     "titulo"
-//     "crud"
-//     "botoes";
+//     "barramsg barramsg barramsg"
+//     "cnpj nome nome"
+//     "email celular fixo"
+//     "botoes botoes botoes";
+// }
 
 //   .titulo {
 //     grid-area: titulo;

@@ -1,10 +1,10 @@
 <div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <fieldset class="crudfieldset border rounded p-2 mb-3">
+  <fieldset class="crudfieldset">
     <legend class="titfiedlset float-none w-auto h3">
       &nbsp;Cadastro de Vacinas&nbsp;
     </legend>
-    <form class="crudform" class="crudform grade" [formGroup]="form">
+    <form class="crudform" [formGroup]="form">
       <mat-form-field class="crudfield" id="fNome" class="crudfield">
         <mat-label id="lbNome">Nome*</mat-label>
         <input id="inNome" formControlName="nome" matInput type="text" />
@@ -49,6 +49,7 @@
 
       <div class="dividaderecomendada">
         <mat-checkbox
+          id="fInIdadeRecomendada"
           class="crudfield"
           formControlName="in_idade_recomendada"
           (change)="verificarIdadeRecomendada()"
@@ -66,7 +67,7 @@
           {{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </div>
 
-        <span *ngIf="getValorCampoForm('in_idade_recomendada')">
+        <span *ngIf="getValorCampoForm( 'in_idade_recomendada')">
           <mat-form-field class="crudfield" id="fIdadeRecomendada">
             <mat-label id="lbIdadeRecomendada">Idade</mat-label>
             <input
@@ -92,7 +93,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-radio-group formControlName="tp_idade_recomendada">
+          <mat-radio-group formControlName="tp_idade_recomendada" id="fTipoIdadeRecomendada">
             <mat-radio-button value="A"> Anos </mat-radio-button>
             <mat-radio-button value="M"> Meses </mat-radio-button>
           </mat-radio-group>

@@ -65,6 +65,7 @@ import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
 import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
 import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lookup.component';
+import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { CrudComLookupComponent } from './components/crud-com-lookup/crud-com-lo
     TrocarSenhaComponent,
     CrudCompraComponent,
     CrudComLookupComponent,
+    TruncstrPipe,
   ],
   imports: [
     BrowserModule,

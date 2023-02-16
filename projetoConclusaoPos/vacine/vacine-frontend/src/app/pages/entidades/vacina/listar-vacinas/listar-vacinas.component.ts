@@ -2,6 +2,7 @@
 //TODO: Verfificar se tem como colocar mensagens diferentes qnd backend fora e qnd nao tem registros. Atualmente, nos dois casos aparece sem registros
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { ListarRegistrosComponent } from 'src/app/components/listar-registros/listar-registros.component';
 import { Vacina } from 'src/app/shared/models/vacina.model';
@@ -13,16 +14,34 @@ import { VacinaService } from '../../../../services/vacina/vacina.service';
   styleUrls: ['./listar-vacinas.component.scss'],
 })
 export class ListarVacinasComponent extends ListarRegistrosComponent<Vacina> {
-  constructor(private _router: Router, private _service: VacinaService) {
-    super();
-    this.colunasExibidas = [
-      'nome',
-      'protecaoContra',
-      'vlIdadeRecomemendada',
-      'acoes',
-    ];
+  constructor(
+    private _router: Router,
+    private _service: VacinaService,
+    private __deviceService: DeviceDetectorService
+  ) {
+    super(__deviceService);
+    this.definirColunasExibidas();
     this.definirAtributosInjetores();
     this.carregarMensagensAoIniciar();
+  }
+
+  protected definirColunasExibidas() {
+    this.defColunasExibidas = [
+      { def: 'nome', showMobile: true, showDesktop: true, showTablet: true },
+      {
+        def: 'protecaoContra',
+        showMobile: true,
+        showDesktop: true,
+        showTablet: true,
+      },
+      {
+        def: 'vlIdadeRecomemendada',
+        showMobile: false,
+        showDesktop: true,
+        showTablet: true,
+      },
+      { def: 'acoes', showMobile: true, showDesktop: true, showTablet: true },
+    ];
   }
 
   private definirAtributosInjetores() {

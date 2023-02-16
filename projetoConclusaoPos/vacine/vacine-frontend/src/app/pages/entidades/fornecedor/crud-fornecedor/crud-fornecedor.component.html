@@ -1,185 +1,217 @@
-<!-- TODO: verificar porque nao esta aparecendo mensagem de validacao no cep e no logradouro -->
 <div class="container">
-  <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <fieldset class="crudfieldset border rounded p-2 mb-3">
-    <legend class="float-none w-auto h3">
+  <vacine-mensagem-feedback
+    class="barramsg"
+    [mensagens]="mensagens"
+  ></vacine-mensagem-feedback>
+  <fieldset class="crudfieldset">
+    <legend class="titfiedlset float-none w-auto h3">
       &nbsp;Cadastro de Fornecedor&nbsp;
     </legend>
-    <div class="crud-grid">
-      <form class="crudform" [formGroup]="form">
-        <div class="campoCnpj">
-          <mat-form-field class="crudfield" id="fCnpj">
-            <mat-label id="lbCnpj">Cnpj</mat-label>
-            <input
-              id="inCnpj"
-              formControlName="cnpj"
-              matInput
-              type="text"
-              mask="00.000.000/0000-99"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="cnpj"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="cnpj"
-            validacao="formato"
-          ></vacine-msg-erro-input>
-        </div>
 
-        <div class="campoNome">
-          <mat-form-field class="crudfield" id="fNome">
-            <mat-label id="lbNome">Nome</mat-label>
-            <input id="inNome" formControlName="nome" matInput type="text" />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nome"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="nome"
-            validacao="formato"
-            msgerro="Tamanho mínimo de 3 caracteres e máximo de 100 caracteres"
-          ></vacine-msg-erro-input>
-        </div>
+    <form class="crudform" [formGroup]="form">
+      <!-- CNPJ -->
+      <mat-form-field class="crudfield" id="fCnpj">
+        <mat-label id="lbCnpj">CNPJ*</mat-label>
+        <input
+          id="inCnpj"
+          formControlName="cnpj"
+          matInput
+          type="text"
+          mask="00.000.000/0000-99"
+        />
+        <mat-hint *ngIf="exibeHint('cnpj')">Digite o CNPJ</mat-hint>
+        <mat-error *ngIf="hasErroValidacao('cnpj', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error *ngIf="hasErroValidacao('cnpj', TipoErroValForm.FORMATO)"
+          >Digite o CNPJ com 14 dígitos
+        </mat-error>
+      </mat-form-field>
 
-        <div class="campoEmail">
-          <mat-form-field class="crudfield" id="fEmail">
-            <mat-label id="lbEmail">Email</mat-label>
-            <input id="inEmail" formControlName="email" matInput type="email" />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="email"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="email"
-            validacao="email"
-          ></vacine-msg-erro-input>
-        </div>
+      <!-- NOME -->
+      <mat-form-field class="crudfield" id="fNome">
+        <mat-label id="lbNome">Nome*</mat-label>
+        <input id="inNome" formControlName="nome" matInput type="text" />
+        <mat-hint *ngIf="exibeHint('nome')">Digite o nome</mat-hint>
+        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error *ngIf="hasErroValidacao('cnpj', TipoErroValForm.FORMATO)"
+          >Tamanho mínimo de 3 caracteres e máximo de 100 caracteres
+        </mat-error>
+      </mat-form-field>
 
-        <div class="campoTelCel">
-          <mat-form-field class="crudfield" id="fTelefoneCelular">
-            <mat-label id="lbTelefoneCelular">Telefone Celular</mat-label>
-            <input
-              id="inTelefoneCelular"
-              formControlName="tel_celular"
-              matInput
-              type="text"
-              mask="(00) 00000-0000"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="tel_celular"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="tel_celular"
-            validacao="formato"
-          ></vacine-msg-erro-input>
-        </div>
+      <!-- EMAIL -->
+      <mat-form-field class="crudfield" id="fEmail">
+        <mat-label id="lbEmail">Email*</mat-label>
+        <input id="inEmail" formControlName="email" matInput type="email" />
+        <mat-hint *ngIf="exibeHint('email')">Digite o email</mat-hint>
+        <mat-error
+          *ngIf="hasErroValidacao('email', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error *ngIf="hasErroValidacao('email', TipoErroValForm.EMAIL)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.EMAIL) }}
+        </mat-error>
+      </mat-form-field>
 
-        <div class="campoTelFixo">
-          <mat-form-field class="crudfield" id="fTelefoneFixo">
-            <mat-label id="lbTelefoneFixo">Telefone Fixo</mat-label>
-            <input
-              id="inTelefoneFixo"
-              formControlName="tel_fixo"
-              matInput
-              type="text"
-              mask="(00) 0000-0000"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="tel_fixo"
-            validacao="formato"
-          ></vacine-msg-erro-input>
-        </div>
+      <!-- CELULAR -->
+      <mat-form-field class="crudfield" id="fCelular">
+        <mat-label id="lbTelefoneCelular">Telefone Celular*</mat-label>
+        <input
+          id="inTelefoneCelular"
+          formControlName="tel_celular"
+          matInput
+          type="text"
+          mask="(00) 00000-0000"
+        />
+        <mat-hint *ngIf="exibeHint('tel_celular')"
+          >Digite o número do celular</mat-hint
+        >
+        <mat-error
+          *ngIf="hasErroValidacao('tel_celular', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error
+          *ngIf="hasErroValidacao('tel_celular', TipoErroValForm.FORMATO)"
+          >O celular deve ter DD e 9 dígitos
+        </mat-error>
+      </mat-form-field>
 
-        <fieldset class="border rounded p-2 mb-3" formGroupName="endereco">
-          <legend class="float-none w-auto h6">&nbsp;Endereço&nbsp;</legend>
-          <div class="campoLogradouro">
-            <mat-form-field class="crudfield" id="fLogradouro">
-              <mat-label id="lbLogradouro">Logradouro</mat-label>
-              <input
-                id="inLogradouro"
-                formControlName="logradouro"
-                matInput
-                type="text"
-              />
-            </mat-form-field>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="logradouro"
-              validacao="obrigatorio"
-            ></vacine-msg-erro-input>
-          </div>
-          <div class="campoNumero">
-            <mat-form-field class="crudfield" id="fNumero">
-              <mat-label id="lbNumero">Numero</mat-label>
-              <input
-                id="inNumero"
-                formControlName="numero"
-                matInput
-                type="text"
-              />
-            </mat-form-field>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="numero"
-              validacao="obrigatorio"
-            ></vacine-msg-erro-input>
-          </div>
+      <!-- FIXO -->
+      <mat-form-field class="crudfield" id="fFixo">
+        <mat-label id="lbTelefoneFixo">Telefone Fixo</mat-label>
+        <input
+          id="inTelefoneFixo"
+          formControlName="tel_fixo"
+          matInput
+          type="text"
+          mask="(00) 0000-0000"
+        />
+        <mat-hint *ngIf="exibeHint('tel_fixo')"
+          >Digite o telefone fixo</mat-hint
+        >
+        <mat-error *ngIf="hasErroValidacao('tel_fixo', TipoErroValForm.FORMATO)"
+          >O celular deve ter DD e 8 dígitos
+        </mat-error>
+      </mat-form-field>
 
-          <div class="campoComplemento">
-            <mat-form-field class="crudfield" id="fComplemento">
-              <mat-label id="lbComplemento">Complemento</mat-label>
-              <input
-                id="inComplemento"
-                formControlName="complemento"
-                matInput
-                type="text"
-              />
-            </mat-form-field>
-          </div>
+      <fieldset class="fieldsetinterna" formGroupName="endereco">
+        <legend class="float-none w-auto h6">&nbsp;&nbsp;Endereço&nbsp;</legend>
 
-          <div class="campoCep">
-            <mat-form-field class="crudfield" id="fCep">
-              <mat-label id="lbCep">Cep</mat-label>
-              <input
-                id="inCep"
-                formControlName="cep"
-                matInput
-                type="text"
-                mask="00000-000"
-              />
-            </mat-form-field>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="cep"
-              validacao="obrigatorio"
-            ></vacine-msg-erro-input>
-            <vacine-msg-erro-input
-              [form]="form"
-              campo="cep"
-              validacao="formato"
-            ></vacine-msg-erro-input>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-    <div class="botoes-crud">
+        <!-- LOGRADOURO -->
+        <mat-form-field class="crudfield" id="fLogradouro">
+          <mat-label id="lbLogradouro">Logradouro*</mat-label>
+          <input
+            id="inLogradouro"
+            formControlName="logradouro"
+            matInput
+            type="text"
+          />
+          <mat-hint *ngIf="exibeHint('endereco.logradouro')"
+            >Digite o nome (rua, avenida, etc)
+          </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao(
+                'endereco.logradouro',
+                TipoErroValForm.OBRIGATORIO
+              )
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- NUMERO -->
+        <mat-form-field class="crudfield" id="fNumero">
+          <mat-label id="lbNumero">Número*</mat-label>
+          <input id="inNumero" formControlName="numero" matInput type="text" />
+          <mat-hint *ngIf="exibeHint('endereco.numero')"
+            >Digite o número
+          </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao('endereco.numero', TipoErroValForm.OBRIGATORIO)
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- COMPLEMENTO -->
+        <mat-form-field class="crudfield" id="fComplemento">
+          <mat-label id="lbComplemento">Complemento</mat-label>
+          <input
+            id="inComplemento"
+            formControlName="complemento"
+            matInput
+            type="text"
+          />
+          <mat-hint *ngIf="exibeHint('endereco.complemento')"
+            >Digite o complemento
+          </mat-hint>
+        </mat-form-field>
+
+        <!-- CIDADE -->
+        <mat-form-field class="crudfield" id="fCidade">
+          <mat-label id="lbCidade">Cidade*</mat-label>
+          <input id="inCidade" formControlName="cidade" matInput type="text" />
+          <mat-hint *ngIf="exibeHint('endereco.cidade')"
+            >Digite a cidade
+          </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao('endereco.cidade', TipoErroValForm.OBRIGATORIO)
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="crudfield" id="fEstado" appearance="fill">
+          <mat-label>Estado*</mat-label>
+          <mat-select formControlName="estado">
+            <mat-option *ngFor="let e of estados" [value]="e">{{
+              e
+            }}</mat-option>
+          </mat-select>
+          <mat-hint *ngIf="exibeHint('endereco.estado')"
+            >Selecione o estado
+          </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao('endereco.estado', TipoErroValForm.OBRIGATORIO)
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- CEP -->
+        <mat-form-field class="crudfield" id="fCep">
+          <mat-label id="lbCep">CEP*</mat-label>
+          <input
+            id="inCep"
+            formControlName="cep"
+            matInput
+            type="text"
+            mask="00000-000"
+          />
+          <mat-hint *ngIf="exibeHint('endereco.cep')">Digite o CEP </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao('endereco.cep', TipoErroValForm.OBRIGATORIO)
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+          <mat-error
+            *ngIf="hasErroValidacao('endereco.cep', TipoErroValForm.FORMATO)"
+            >O CEP deve ter 8 dígitos
+          </mat-error>
+        </mat-form-field>
+      </fieldset>
+    </form>
+
+    <div class="barrabutton">
       <button
+        class="crudbutton"
         *ngIf="temBotaoAcao()"
         mat-raised-button
         color="primary"
@@ -188,7 +220,7 @@
       >
         {{ lbBotaoSalvar }}
       </button>
-      <button mat-raised-button (click)="fechar()">
+      <button class="crudbutton" mat-raised-button (click)="fechar()">
         {{ lbBotaoFechar }}
       </button>
     </div>

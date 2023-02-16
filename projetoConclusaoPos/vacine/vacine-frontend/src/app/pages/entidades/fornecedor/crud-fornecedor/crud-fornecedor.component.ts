@@ -1,3 +1,4 @@
+import { ESTADOS } from './../../../../variables/constantes';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +17,8 @@ import { CrudComponent } from 'src/app/components/crud/crud.component';
 export class CrudFornecedorComponent
   extends CrudComponent<Fornecedor>
 {
+  protected estados = ESTADOS;
+
   constructor(
     private _service: FornecedorService,
     private _formBuilder: FormBuilder,
@@ -74,6 +77,8 @@ export class CrudFornecedorComponent
         logradouro: [null, validadoresRequeridoSemEspacos()],
         numero: [null, validadoresRequeridoSemEspacos()],
         complemento: [null],
+        cidade: [null, validadoresRequeridoSemEspacos()],
+        estado: [null, validadoresRequeridoSemEspacos()],
         cep: [
           null,
           Validators.compose([

@@ -27,6 +27,14 @@ const FornecedorSchema = Schema({
       type: String,
       required: false,
     },
+    cidade: {
+      type: String,
+      required: true,
+    },
+    estado: {
+      type: String,
+      required: true,
+    },
     cep: {
       type: String,
       required: true,

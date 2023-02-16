@@ -1,9 +1,8 @@
-
 vacine-cabecalho {
   grid-area: cabecalho;
 }
 
-vacine-conteudo-principal{
+vacine-conteudo-principal {
   grid-area: principal;
 }
 
@@ -17,5 +16,20 @@ vacine-menu {
   grid-template-rows: 2fr 10fr;
   grid-template-areas:
     "cabecalho principal"
-    "menulateral principal"
+    "menulateral principal";
 }
+//TODO: colocar menu pequeno qnd for dispositivos moveis
+// @media (max-width: 480px) {
+//   .menuprincipal,.cabecalho
+//  {
+//     display: none;
+//   }
+//   .container {
+//     display: grid;
+//     grid-template-columns: 1fr 3fr;
+//     grid-template-rows: 2fr 10fr;
+//     grid-template-areas:
+//       "principal"
+//       "principal";
+//   }
+// }

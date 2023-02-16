@@ -31,6 +31,14 @@ const UsuarioSchema = Schema({
       type: String,
       required: false,
     },
+    cidade: {
+      type: String,
+      required: false,
+    },
+    estado: {
+      type: String,
+      required: false,
+    },
     cep: {
       type: String,
       required: false,

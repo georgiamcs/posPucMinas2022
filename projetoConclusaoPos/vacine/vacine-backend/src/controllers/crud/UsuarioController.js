@@ -10,7 +10,7 @@ function createUsuario(obj) {
   usuario.tipo = obj.tipo;
   usuario.nome = obj.nome;
   usuario.email = obj.email;
-  usuario.cpf = obj.cnpj;
+  usuario.cpf = obj.cpf;
   usuario.endereco = obj.endereco;
   usuario.tel_celular = obj.tel_celular;
   usuario.tel_fixo = obj.tel_fixo;

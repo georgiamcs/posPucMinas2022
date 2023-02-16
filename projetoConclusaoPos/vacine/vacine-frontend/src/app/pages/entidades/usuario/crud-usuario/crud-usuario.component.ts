@@ -13,10 +13,17 @@ import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
-import { gerarStateAlertaRota, validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
+import {
+  gerarStateAlertaRota,
+  validadoresRequeridoSemEspacos,
+} from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { Acesso, TipoPerfil } from '../../../../shared/classes/acesso.class';
-import { TIPOS_USUARIOS, TipoUsuario } from '../../../../shared/enums/tipo-usuario.enum';
+import {
+  TIPOS_USUARIOS,
+  TipoUsuario,
+} from '../../../../shared/enums/tipo-usuario.enum';
+import { ESTADOS } from 'src/app/variables/constantes';
 
 @Component({
   selector: 'vacine-crud-usuario',
@@ -26,6 +33,7 @@ import { TIPOS_USUARIOS, TipoUsuario } from '../../../../shared/enums/tipo-usuar
 export class CrudUsuarioComponent extends CrudComponent<Usuario> {
   protected perfisEscolher = Acesso.PERFIS;
   protected tiposUsuarios = TIPOS_USUARIOS;
+  protected estados = ESTADOS;
 
   constructor(
     private _service: UsuarioService,
@@ -79,7 +87,8 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
       .registrar(this.form.value)
       .subscribe({
         next: () => this.registroComSucesso(),
-        error: (erro) => this.tratarErro(`Erro ao registrar usuário => ${erro}`),
+        error: (erro) =>
+          this.tratarErro(`Erro ao registrar usuário => ${erro}`),
       });
   }
 
@@ -96,7 +105,10 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
     this.form = this.formBuilder.group(
       {
         _id: [null],
-        tipo: [null],
+        tipo: [
+          this.isRegistrar() ? TipoUsuario.CLIENTE : null,
+          this.isRegistrar() ? null : Validators.required,
+        ],
         nome: [
           null,
           Validators.compose([
@@ -141,6 +153,8 @@ export class CrudUsuarioComponent extends CrudComponent<Usuario> {
           logradouro: [null, null],
           numero: [null, null],
           complemento: [null],
+          cidade: [null, null],
+          estado: [null, null],
           cep: [
             null,
             Validators.compose([

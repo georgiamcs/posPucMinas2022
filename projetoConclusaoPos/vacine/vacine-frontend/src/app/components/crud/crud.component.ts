@@ -237,7 +237,7 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
   }
 
   protected exibeHint(nomeFormControl: string): boolean {
-    return (!this.somenteLeitura() && !this.getValorCampoForm(nomeFormControl));
+    return !this.somenteLeitura() && !this.getValorCampoForm(nomeFormControl);
   }
 
   protected temBotaoAcao(): boolean {
@@ -269,7 +269,29 @@ export class CrudComponent<T extends EntityModel> extends GenericPageComponent {
   }
 
   protected getValorCampoForm(formControlName: string): any {
-    return this.form.get(formControlName)?.value;
+    const posPonto = formControlName.indexOf('.');
+
+    if (posPonto > -1) {
+      // tem campo aninhado
+      const nomeCampo1 = formControlName.substring(-1, posPonto);
+      const nomeCampo2 = formControlName.substring(posPonto + 1);
+      return this.form.get(nomeCampo1)?.get(nomeCampo2)?.value;
+    } else {
+      return this.form.get(formControlName)?.value;
+    }
+  }
+
+  protected getFormControl(formControlName: string): any {
+    const posPonto = formControlName.indexOf('.');
+
+    if (posPonto > -1) {
+      // tem campo aninhado
+      const nomeCampo1 = formControlName.substring(-1, posPonto);
+      const nomeCampo2 = formControlName.substring(posPonto + 1);
+      return this.form.get(nomeCampo1)?.get(nomeCampo2);
+    } else {
+      return this.form.get(formControlName);
+    }
   }
 
   protected setValorCampoForm(formControlName: string, valor: any): any {

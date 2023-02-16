@@ -7,6 +7,8 @@ export class Fornecedor extends EntityNomeModel {
     logradouro: string;
     numero: string;
     complemento?: string;
+    cidade: string;
+    estado: string;
     cep: string;
   };
   tel_celular?: string;

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subscription } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -15,6 +16,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   protected mensagens: MensagemFeedback[] = [];
 
   protected router: Router;
+  protected deviceService: DeviceDetectorService;
 
   constructor() {}
 
@@ -62,5 +64,17 @@ export class GenericPageComponent implements OnInit, OnDestroy {
       msg = this.router.getCurrentNavigation()?.extras.state?.[nomeState];
     }
     return msg;
+  }
+
+  protected isMobile() {
+    return this.deviceService.isMobile();
+  }
+
+  protected isDesktop() {
+    return this.deviceService.isDesktop();
+  }
+
+  protected isTablet() {
+    return this.deviceService.isTablet();
   }
 }
