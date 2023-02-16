@@ -6,6 +6,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { converterUndefinedEmTrue } from 'src/app/shared/utils/util.util';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'vacine-generic-listar-registros',
@@ -18,6 +19,7 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
 {
   protected service: CrudService<T>;
   protected registros: T[] = [];
+  protected dataSourceMatTable: MatTableDataSource<T>;
   protected defColunasExibidas: DefinicaoColunasExibidas[] = [];
   protected carregado: boolean = false;
 
@@ -36,6 +38,7 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
       next: (listaReg) => {
         this.carregado = true;
         this.registros = listaReg;
+        this.dataSourceMatTable = new MatTableDataSource(this.registros);
       },
       error: (erro) => {
         this.carregado = false;
@@ -51,13 +54,25 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
       .filter((cd) => {
         let condMobile =
           converterUndefinedEmTrue(cd.showMobile) && this.isMobile();
-        let condDesktop = converterUndefinedEmTrue(cd.showDesktop) && this.isDesktop();
-        let condTablet = converterUndefinedEmTrue(cd.showTablet) && this.isTablet();
-        let exibeColuna = converterUndefinedEmTrue(condMobile) || condDesktop || condTablet;
+        let condDesktop =
+          converterUndefinedEmTrue(cd.showDesktop) && this.isDesktop();
+        let condTablet =
+          converterUndefinedEmTrue(cd.showTablet) && this.isTablet();
+        let exibeColuna =
+          converterUndefinedEmTrue(condMobile) || condDesktop || condTablet;
         return exibeColuna;
       })
       .map((cd) => cd.def);
 
     return ret;
+  }
+
+  filtrarRegistrosPeloInput(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceMatTable.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceMatTable.paginator) {
+      this.dataSourceMatTable.paginator.firstPage();
+    }
   }
 }

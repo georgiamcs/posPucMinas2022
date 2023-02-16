@@ -7,7 +7,18 @@
       <button class="btaddlistagem" routerLink="/usuario" mat-raised-button color="primary">
         Adicionar Usuário
       </button>
-      <table mat-table [dataSource]="registros">
+      <mat-form-field class="filtlistagem">
+        <mat-label>Filtro</mat-label>
+        <input
+          matInput
+          (keyup)="filtrarRegistrosPeloInput($event)"
+          placeholder="Digite para filtrar registros na tabela"
+          #input
+        />
+      </mat-form-field>
+
+      <div class="tablistagem mat-elevation-z10">
+        <table mat-table [dataSource]="dataSourceMatTable">
         <!-- Coluna Nome -->
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
@@ -84,6 +95,7 @@
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumnsMediaType()"></tr>
         <tr mat-row *matRowDef="let row; columns: getDisplayedColumnsMediaType()"></tr>
       </table>
+      </div>
     </div>
   </div>
 

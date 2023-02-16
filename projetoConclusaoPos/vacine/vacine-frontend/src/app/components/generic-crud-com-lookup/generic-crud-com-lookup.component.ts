@@ -17,8 +17,10 @@ export class GenericCrudComLookupComponent<
   protected erroCarregando: boolean = false;
 
   protected filtrarValorLista(lista: EntityNomeModel[], nome: string): any[] {
-    const filterValue = nome.toLowerCase();
-    return lista.filter((i) => i.nome.toLowerCase().includes(filterValue));
+    const filterValue = nome.trim().toLowerCase();
+    return lista.filter((i) =>
+      i.nome.trim().toLowerCase().includes(filterValue)
+    );
   }
 
   protected exibirNomeEntidade(entity: any): string {
@@ -46,7 +48,7 @@ export class GenericCrudComLookupComponent<
 
     if (ehString && nome && nome != '' && lista && lista.length > 0) {
       let item = lista.find(
-        (item) => item.nome.toLowerCase() == nome.toLowerCase()
+        (item) => item.nome.trim().toLowerCase() == nome.trim().toLowerCase()
       );
       if (item) {
         this.form.get(nomeFormControl)!.patchValue(item, { emitEvent: false });

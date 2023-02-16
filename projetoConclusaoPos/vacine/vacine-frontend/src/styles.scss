@@ -12,6 +12,7 @@ body {
   margin: 10px;
   display: grid;
   grid-template-columns: 1fr;
+  background-color: white;
 }
 
 .mobile-indicator,
@@ -97,12 +98,13 @@ body {
   border-style: ridge;
 }
 
-.container {
-  background-color: white;
-}
-
 .numero {
   text-align: right;
+}
+
+.filtlistagem {
+  width: 100%;
+  padding-top:20px;
 }
 
 @media (max-width: 480px) {
