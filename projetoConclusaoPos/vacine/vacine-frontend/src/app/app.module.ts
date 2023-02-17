@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS
+  MAT_DIALOG_DEFAULT_OPTIONS,
 } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +35,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule
+  SocialLoginModule,
 } from '@abacritt/angularx-social-login';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericCrudComLookupComponent } from './components/generic-crud-com-lookup/generic-crud-com-lookup.component';
@@ -43,23 +43,23 @@ import { GenericCrudComponent } from './components/generic-crud/generic-crud.com
 import { GenericListarRegistrosComponent } from './components/generic-listar-registros/generic-listar-registros.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
-import { LoginComponent } from './pages/acesso/login/login.component';
-import { LogoutComponent } from './pages/acesso/logout/logout.component';
-import { CabecalhoComponent } from './pages/conteudo/cabecalho/cabecalho.component';
-import { ConteudoPrincipalComponent } from './pages/conteudo/conteudo-principal/conteudo-principal.component';
-import { ErroComponent } from './pages/conteudo/erro/erro.component';
-import { HomeComponent } from './pages/conteudo/home/home.component';
-import { MenuComponent } from './pages/conteudo/menu/menu.component';
-import { SemRegistrosComponent } from './pages/conteudo/sem-registros/sem-registros.component';
-import { CrudCompraVacinaComponent } from './pages/formularios/crud-compra-vacina/crud-compra-vacina.component';
-import { CrudFornecedorComponent } from './pages/formularios/crud-fornecedor/crud-fornecedor.component';
-import { CrudUsuarioComponent } from './pages/formularios/crud-usuario/crud-usuario.component';
-import { CrudVacinaComponent } from './pages/formularios/crud-vacina/crud-vacina.component';
-import { TrocarSenhaComponent } from './pages/formularios/trocar-senha/trocar-senha.component';
-import { ListarComprasVacinaComponent } from './pages/listagens/listar-compras-vacina/listar-compras-vacina.component';
-import { ListarFornecedoresComponent } from './pages/listagens/listar-fornecedores/listar-fornecedores.component';
-import { ListarUsuariosComponent } from './pages/listagens/listar-usuarios/listar-usuarios.component';
-import { ListarVacinasComponent } from './pages/listagens/listar-vacinas/listar-vacinas.component';
+import { LoginComponent } from './pages/acess/login/login.component';
+import { LogoutComponent } from './pages/acess/logout/logout.component';
+import { CabecalhoComponent } from './pages/content/cabecalho/cabecalho.component';
+import { ConteudoPrincipalComponent } from './pages/content/conteudo-principal/conteudo-principal.component';
+import { ErroComponent } from './pages/content/erro/erro.component';
+import { HomeComponent } from './pages/content/home/home.component';
+import { MenuComponent } from './pages/content/menu/menu.component';
+import { SemRegistrosComponent } from './pages/content/sem-registros/sem-registros.component';
+import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
+import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
+import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.component';
+import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
+import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
+import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacina/listar-compras-vacina.component';
+import { ListarFornecedoresComponent } from './pages/lists/listar-fornecedores/listar-fornecedores.component';
+import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-usuarios.component';
+import { ListarVacinasComponent } from './pages/lists/listar-vacinas/listar-vacinas.component';
 import { SecurityProvider } from './providers/security.provider';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
