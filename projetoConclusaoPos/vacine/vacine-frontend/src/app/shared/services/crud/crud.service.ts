@@ -9,7 +9,7 @@ import { EntityModel } from '../../models/entity.model';
   providedIn: 'root',
 })
 export class CrudService<T extends EntityModel> {
-  private apiUrlCompleta: string;
+  protected apiUrlCompleta: string;
   private _apiUrlRelativa: string;
 
   protected http: HttpClient;

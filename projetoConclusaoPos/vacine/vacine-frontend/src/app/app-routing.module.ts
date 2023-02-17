@@ -1,22 +1,23 @@
-import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
-import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
-import { ErroComponent } from './pages/erro/erro.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CrudCompraComponent } from './pages/entidades/compra/crud-compra/crud-compra.component';
+import { ListarComprasVacinaComponent } from './pages/entidades/compra/listar-compras-vacina/listar-compras-vacina.component';
+import { TrocarSenhaComponent } from './pages/entidades/usuario/trocar-senha/trocar-senha.component';
+import { ErroComponent } from './pages/erro/erro.component';
 import { Tema } from './shared/enums/tema.enum';
 
+import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { LoginComponent } from './pages/acesso/login/login.component';
 import { LogoutComponent } from './pages/acesso/logout/logout.component';
 import { CrudFornecedorComponent } from './pages/entidades/fornecedor/crud-fornecedor/crud-fornecedor.component';
 import { ListarFornecedoresComponent } from './pages/entidades/fornecedor/listar-fornecedores/listar-fornecedores.component';
 import { CrudUsuarioComponent } from './pages/entidades/usuario/crud-usuario/crud-usuario.component';
-import { AuthenticatedGuard } from './guards/authenticated.guard';
-import { HomeComponent } from './pages/home/home.component';
-import { Acesso } from './shared/classes/acesso.class';
-import { TipoRota } from './shared/enums/tipo-rota.enum';
 import { ListarUsuariosComponent } from './pages/entidades/usuario/listar-usuarios/listar-usuarios.component';
 import { CrudVacinaComponent } from './pages/entidades/vacina/crud-vacina/crud-vacina.component';
 import { ListarVacinasComponent } from './pages/entidades/vacina/listar-vacinas/listar-vacinas.component';
+import { HomeComponent } from './pages/home/home.component';
+import { Acesso } from './shared/classes/acesso.class';
+import { TipoRota } from './shared/enums/tipo-rota.enum';
 
 const routes: Routes = [
   //HOME
@@ -133,6 +134,12 @@ const routes: Routes = [
   },
 
   // COMPRAS
+  {
+    path: 'compras-vacina',
+    component: ListarComprasVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA) },
+  },
   {
     path: 'compra-vacina',
     component: CrudCompraComponent,

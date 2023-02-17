@@ -1,29 +1,29 @@
-import { ClienteService } from './../../../../shared/services/cliente/cliente.service';
 import { Component } from '@angular/core';
 import {
   AbstractControlOptions,
   FormBuilder,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { UsuarioService } from 'src/app/services/entidades/usuario/usuario.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import {
   gerarStateAlertaRota,
-  validadoresRequeridoSemEspacos,
+  validadoresRequeridoSemEspacos
 } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
+import { ESTADOS } from 'src/app/variables/constantes';
+import { ClienteService } from '../../../../services/entidades/cliente/cliente.service';
 import { Acesso, TipoPerfil } from '../../../../shared/classes/acesso.class';
 import {
   TIPOS_USUARIOS,
-  TipoUsuario,
+  TipoUsuario
 } from '../../../../shared/enums/tipo-usuario.enum';
-import { ESTADOS } from 'src/app/variables/constantes';
 
 @Component({
   selector: 'vacine-crud-usuario',

@@ -18,7 +18,7 @@ module.exports = {
     app.use("/api/vacinas", vacinaRouter);
     app.use("/api/fornecedores", fornecedorRouter);
     app.use("/api/usuarios", usuarioRouter);
-    app.use("/api/cliente", clienteRouter);    
-    app.use("/api/compra-vacina", compraVacinaRouter);       
+    app.use("/api/clientes", clienteRouter);    
+    app.use("/api/compras-vacinas", compraVacinaRouter);       
   },
 };

@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
-import { VacinaService } from 'src/app/services/vacina/vacina.service';
-import { FornecedorService } from './../../../../services/fornecedor/fornecedor.service';
+import { VacinaService } from 'src/app/services/entidades/vacina/vacina.service';
+import { FornecedorService } from '../../../../services/entidades/fornecedor/fornecedor.service';
 import { Fornecedor } from './../../../../shared/models/fornecedor.model';
 import { Vacina } from './../../../../shared/models/vacina.model';
 

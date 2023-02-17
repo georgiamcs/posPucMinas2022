@@ -1,12 +1,11 @@
 //TODO: Verificar como usar no routerLink o tipo da rota = usar funcao no ts para retornar?
-//TODO: Verfificar se tem como colocar mensagens diferentes qnd backend fora e qnd nao tem registros. Atualmente, nos dois casos aparece sem registros
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { Vacina } from 'src/app/shared/models/vacina.model';
-import { VacinaService } from '../../../../services/vacina/vacina.service';
+import { VacinaService } from '../../../../services/entidades/vacina/vacina.service';
 
 @Component({
   selector: 'vacine-listar-vacinas',
@@ -28,8 +27,8 @@ export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vaci
   protected definirColunasExibidas() {
     this.defColunasExibidas = [
       { def: 'nome' },
-      { def: 'protecaoContra', showMobile: false},
-      { def: 'vlIdadeRecomendada', showMobile: false},
+      { def: 'protecaoContra', showMobile: false },
+      { def: 'vlIdadeRecomendada', showMobile: false },
       { def: 'estoque' },
       { def: 'acoes' },
     ];

@@ -1,8 +1,8 @@
-import { CrudService } from '../../shared/services/crud/crud.service';
+import { CrudService } from '../../../shared/services/crud/crud.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Vacina } from '../../shared/models/vacina.model';
+import { Vacina } from '../../../shared/models/vacina.model';
 
 @Injectable({
   providedIn: 'root',

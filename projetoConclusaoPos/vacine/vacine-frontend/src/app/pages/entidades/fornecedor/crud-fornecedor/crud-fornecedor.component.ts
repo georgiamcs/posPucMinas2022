@@ -1,22 +1,20 @@
-import { ESTADOS } from './../../../../variables/constantes';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ESTADOS } from './../../../../variables/constantes';
 
-import { Fornecedor } from '../../../../shared/models/fornecedor.model';
-import { FornecedorService } from 'src/app/services/fornecedor/fornecedor.service';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
+import { FornecedorService } from 'src/app/services/entidades/fornecedor/fornecedor.service';
+import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
+import { Fornecedor } from '../../../../shared/models/fornecedor.model';
 
 @Component({
   selector: 'vacine-crud-fornecedor',
   templateUrl: './crud-fornecedor.component.html',
   styleUrls: ['./crud-fornecedor.component.scss'],
 })
-export class CrudFornecedorComponent
-  extends GenericCrudComponent<Fornecedor>
-{
+export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
   protected estados = ESTADOS;
 
   constructor(
@@ -105,5 +103,4 @@ export class CrudFornecedorComponent
       ],
     });
   }
-
 }

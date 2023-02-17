@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { FornecedorService } from '../../../../services/fornecedor/fornecedor.service';
+import { FornecedorService } from '../../../../services/entidades/fornecedor/fornecedor.service';
 
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { Fornecedor } from '../../../../shared/models/fornecedor.model';
-import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'vacine-listar-fornecedores',

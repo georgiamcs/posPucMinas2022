@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
-import { EntityModel } from 'src/app/shared/models/entity.model';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { MatTableDataSource } from '@angular/material/table';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
+import { EntityModel } from 'src/app/shared/models/entity.model';
+import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { converterUndefinedEmTrue } from 'src/app/shared/utils/util.util';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'vacine-generic-listar-registros',
@@ -36,9 +36,9 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   protected carregarRegistros() {
     this.subscription = this.service.listar().subscribe({
       next: (listaReg) => {
-        this.carregado = true;
         this.registros = listaReg;
         this.dataSourceMatTable = new MatTableDataSource(this.registros);
+        this.carregado = true;
       },
       error: (erro) => {
         this.carregado = false;

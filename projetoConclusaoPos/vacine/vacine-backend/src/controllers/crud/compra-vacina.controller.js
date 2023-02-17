@@ -12,6 +12,7 @@ function createNovoRegistro(obj) {
   registro.nota_fiscal = obj.nota_fiscal;
   registro.data_compra = obj.data_compra;
   registro.itens_compra = obj.itens_compra;
+  registro.vl_total_compra = obj.vl_total_compra;
 
   return registro;
 }

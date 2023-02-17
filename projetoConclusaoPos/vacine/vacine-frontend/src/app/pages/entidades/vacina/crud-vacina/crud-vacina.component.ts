@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
-import { VacinaService } from '../../../../services/vacina/vacina.service';
+import { VacinaService } from '../../../../services/entidades/vacina/vacina.service';
 import { Vacina } from '../../../../shared/models/vacina.model';
 
 @Component({
@@ -67,7 +67,7 @@ export class CrudVacinaComponent
         0,
         Validators.compose([
           validadoresRequeridoSemEspacos(),
-          Validators.min(0)
+          Validators.min(0),
         ]),
       ],
     });

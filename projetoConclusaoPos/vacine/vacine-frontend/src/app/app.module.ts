@@ -64,6 +64,7 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
+import { ListarComprasVacinaComponent } from './pages/entidades/compra/listar-compras-vacina/listar-compras-vacina.component';
 
 registerLocaleData(localePt);
 
@@ -96,6 +97,7 @@ registerLocaleData(localePt);
     CrudCompraComponent,
     GenericCrudComLookupComponent,
     TruncstrPipe,
+    ListarComprasVacinaComponent,
   ],
   imports: [
     BrowserModule,

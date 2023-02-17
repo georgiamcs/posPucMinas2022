@@ -15,11 +15,11 @@ import {
   validadoresRequeridoSemEspacos
 } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
+import { ClienteService } from '../../../../services/entidades/cliente/cliente.service';
 import { GenericPageComponent } from './../../../../components/generic-page/generic-page.component';
 import { MensagemFeedback } from './../../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from './../../../../shared/enums/tipo-mensagem-feedback.enum';
 import { UsuarioTrocaSenha } from './../../../../shared/models/usuario-troca-senha.model';
-import { ClienteService } from './../../../../shared/services/cliente/cliente.service';
 
 @Component({
   selector: 'vacine-trocar-senha',
@@ -52,16 +52,13 @@ export class TrocarSenhaComponent extends GenericPageComponent {
   }
 
   private preencherNomeUsuario() {
-
-    this.subscription = this.serviceCliente
-      .getNome(this.id!)
-      .subscribe({
-        next: (nome) => (this.nomeUsuario = nome),
-        error: (e) =>
-          this.tratarErro(
-            `Não foi possível recuperar os dados do usuário. Erro => ${e}`
-          ),
-      });
+    this.subscription = this.serviceCliente.getNome(this.id!).subscribe({
+      next: (nome) => (this.nomeUsuario = nome),
+      error: (e) =>
+        this.tratarErro(
+          `Não foi possível recuperar os dados do usuário. Erro => ${e}`
+        ),
+    });
   }
 
   override ngOnInit(): void {

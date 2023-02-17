@@ -22,6 +22,10 @@ const CompraVacinaSchema = Schema({
     type: Date,
     required: true,
   },
+  vl_total_compra: {
+    type: Number,
+    required: true,
+  },
   dt_inclusao: {
     type: Date,
     required: true,
@@ -33,19 +37,19 @@ const CompraVacinaSchema = Schema({
   },
   itens_compra: [
     {
-      id_vacina: {
+      vacina_id: {
         type: String,
         required: true,
       },
-      nome_vacina: {
+      vacina_nome: {
         type: String,
         required: true,
       },
-      protecao_contra_vacina: {
+      vacina_protecao_contra: {
         type: String,
         required: true,
       },
-      lote_vacina: {
+      lote: {
         type: String,
         required: true,
       },
@@ -53,11 +57,7 @@ const CompraVacinaSchema = Schema({
         type: Number,
         required: true,
       },
-      qtd_doses_compra: {
-        type: Number,
-        required: true,
-      },
-      qtd_doses_disponivel: {
+      qtd_doses: {
         type: Number,
         required: true,
       },
@@ -65,11 +65,15 @@ const CompraVacinaSchema = Schema({
         type: Date,
         required: true,
       },
+      vl_total_item_compra: {
+        type: Number,
+        required: true,
+      },
     },
   ],
 });
 
 module.exports = CompraVacinaModel = mongoose.model(
-  "compra_vacinas",
+  "compras_vacinas",
   CompraVacinaSchema
 );
