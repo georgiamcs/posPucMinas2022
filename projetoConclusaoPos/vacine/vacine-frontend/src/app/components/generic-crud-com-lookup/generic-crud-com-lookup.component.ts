@@ -3,7 +3,7 @@ import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-cr
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { EntityNomeModel } from '../../shared/models/entity-nome.model';
+import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
   selector: 'vacine-generic-crud-com-lookup',
@@ -16,15 +16,15 @@ export class GenericCrudComLookupComponent<
   protected isCarregando: boolean = false;
   protected erroCarregando: boolean = false;
 
-  protected filtrarValorLista(lista: EntityNomeModel[], nome: string): any[] {
-    const filterValue = nome.trim().toLowerCase();
+  protected filtrarValorLista(
+    lista: any[],
+    nomeAtributoFiltro: string,
+    textoFiltro: string
+  ): any[] {
+    const filterValue = textoFiltro.trim().toLowerCase();
     return lista.filter((i) =>
-      i.nome.trim().toLowerCase().includes(filterValue)
+      i[nomeAtributoFiltro].trim().toLowerCase().includes(filterValue)
     );
-  }
-
-  protected exibirNomeEntidade(entity: any): string {
-    return entity?.nome ? entity.nome : '';
   }
 
   protected tratarErroCarregarLookup(erro: any, nomeCampo: string) {
@@ -38,22 +38,31 @@ export class GenericCrudComLookupComponent<
     );
   }
 
-  protected filtrarPeloValor(
+  protected filtrarPeloValorAtributo(
     lista: any[],
     valor: any,
-    nomeFormControl: string
+    nomeFormControl: string,
+    nomeAtributo: string
   ): any[] {
     let ehString = typeof valor === 'string';
-    const nome = typeof valor === 'string' ? valor : valor?.nome;
+    const vlAtributo = typeof valor === 'string' ? valor : valor?.[nomeAtributo];
 
-    if (ehString && nome && nome != '' && lista && lista.length > 0) {
+    if (ehString && vlAtributo && vlAtributo != '' && lista && lista.length > 0) {
       let item = lista.find(
-        (item) => item.nome.trim().toLowerCase() == nome.trim().toLowerCase()
+        (item) =>
+          item[nomeAtributo].trim().toLowerCase() ==
+          vlAtributo.trim().toLowerCase()
       );
       if (item) {
         this.form.get(nomeFormControl)!.patchValue(item, { emitEvent: false });
       }
     }
-    return nome ? this.filtrarValorLista(lista, nome as string) : lista.slice();
+    return vlAtributo
+      ? this.filtrarValorLista(lista, nomeAtributo, vlAtributo as string)
+      : lista.slice();
+  }
+
+  protected exibirTextoLookup(vl: string | null | undefined): string {
+    return Util.converterUndefinedNullStrVazia(vl);
   }
 }

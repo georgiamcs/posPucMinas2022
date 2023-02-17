@@ -1,5 +1,5 @@
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
-import { ControleAcessoService } from './../../services/autenticacao/controle-acesso/controle-acesso.service';
+import { ControleAcessoService } from '../../../services/autenticacao/controle-acesso/controle-acesso.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';

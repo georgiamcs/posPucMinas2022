@@ -10,16 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 import {
-  converterUndefinedEmNulo,
-  gerarStateAlertaRota,
-  validadoresRequeridoSemEspacos
+  Util
 } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { ClienteService } from '../../../../services/entidades/cliente/cliente.service';
-import { GenericPageComponent } from './../../../../components/generic-page/generic-page.component';
-import { MensagemFeedback } from './../../../../shared/classes/mensagem-feedback.class';
-import { TipoMensagemFeedback } from './../../../../shared/enums/tipo-mensagem-feedback.enum';
-import { UsuarioTrocaSenha } from './../../../../shared/models/usuario-troca-senha.model';
+import { ClienteService } from '../../../services/entidades/cliente/cliente.service';
+import { GenericPageComponent } from '../../../components/generic-page/generic-page.component';
+import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
+import { TipoMensagemFeedback } from '../../../shared/enums/tipo-mensagem-feedback.enum';
+import { UsuarioTrocaSenha } from '../../../shared/models/usuario-troca-senha.model';
 
 @Component({
   selector: 'vacine-trocar-senha',
@@ -45,7 +43,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
   ) {
     super();
     this.router = this._router;
-    this.id = converterUndefinedEmNulo(
+    this.id = Util.converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );
     this.preencherNomeUsuario();
@@ -73,7 +71,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
         senha: [
           null,
           Validators.compose([
-            validadoresRequeridoSemEspacos(),
+            Util.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(5),
             Validators.maxLength(20),
           ]),
@@ -81,7 +79,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
         confSenha: [
           null,
           Validators.compose([
-            validadoresRequeridoSemEspacos(),
+            Util.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(5),
             Validators.maxLength(20),
           ]),
@@ -138,7 +136,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
             TipoMensagemFeedback.SUCESSO,
             'Senha alterada com sucesso!'
           );
-          state = gerarStateAlertaRota(msgFeedbackSucesso);
+          state = Util.gerarStateMsgFeedbackRota(msgFeedbackSucesso);
           this.voltarParaJanelaAnterior(state);
         },
         error: (erro) =>

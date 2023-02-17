@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ESTADOS } from './../../../../variables/constantes';
+import { ESTADOS } from '../../../variables/constantes';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { FornecedorService } from 'src/app/services/entidades/fornecedor/fornecedor.service';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
-import { Fornecedor } from '../../../../shared/models/fornecedor.model';
+import { Util } from 'src/app/shared/utils/util.util';
+import { Fornecedor } from '../../../shared/models/fornecedor.model';
 
 @Component({
   selector: 'vacine-crud-fornecedor',
@@ -51,7 +51,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       cnpj: [
         null,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
+          Util.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(14),
           Validators.maxLength(14),
         ]),
@@ -59,7 +59,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       nome: [
         null,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
+          Util.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(3),
           Validators.maxLength(100),
         ]),
@@ -67,20 +67,20 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       email: [
         null,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
+          Util.getValidadorObrigatorioSemEspacos(),
           Validators.email,
         ]),
       ],
       endereco: this.formBuilder.group({
-        logradouro: [null, validadoresRequeridoSemEspacos()],
-        numero: [null, validadoresRequeridoSemEspacos()],
+        logradouro: [null, Util.getValidadorObrigatorioSemEspacos()],
+        numero: [null, Util.getValidadorObrigatorioSemEspacos()],
         complemento: [null],
-        cidade: [null, validadoresRequeridoSemEspacos()],
-        estado: [null, validadoresRequeridoSemEspacos()],
+        cidade: [null, Util.getValidadorObrigatorioSemEspacos()],
+        estado: [null, Util.getValidadorObrigatorioSemEspacos()],
         cep: [
           null,
           Validators.compose([
-            validadoresRequeridoSemEspacos(),
+            Util.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(8),
             Validators.maxLength(8),
           ]),
@@ -96,7 +96,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       tel_celular: [
         null,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
+          Util.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(11),
           Validators.maxLength(11),
         ]),

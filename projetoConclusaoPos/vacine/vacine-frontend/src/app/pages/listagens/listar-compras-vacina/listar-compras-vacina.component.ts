@@ -1,4 +1,4 @@
-import { ListaComprasVacina } from './../../../../shared/classes/lista-compras-vacina.class';
+import { ListaComprasVacina } from '../../../shared/classes/lista-compras-vacina.class';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';

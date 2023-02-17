@@ -66,10 +66,7 @@ class UsuarioController extends GenericCrudController {
   };
 
   registrar = async (req, res) => {
-    console.log(
-      "isReqNovoUsuario(req.body)",
-      AutorizacaoService.isReqNovoUsuario(req.body)
-    );
+
     if (AutorizacaoService.isReqNovoUsuario(req.body)) {
       try {
         const regAdicionado = await this.service.add(

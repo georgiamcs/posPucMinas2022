@@ -1,3 +1,5 @@
+import { RelacionamentoVacina } from './../../../shared/interfaces/relacionamento-vacina.interface';
+import { RelacionamentoFornecedor } from './../../../shared/interfaces/relacionamento-fornecedor.interface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -5,35 +7,41 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { VacinaService } from 'src/app/services/entidades/vacina/vacina.service';
-import { FornecedorService } from '../../../../services/entidades/fornecedor/fornecedor.service';
-import { Fornecedor } from './../../../../shared/models/fornecedor.model';
-import { Vacina } from './../../../../shared/models/vacina.model';
+import { FornecedorService } from '../../../services/entidades/fornecedor/fornecedor.service';
+import { Fornecedor } from '../../../shared/models/fornecedor.model';
+import { Vacina } from '../../../shared/models/vacina.model';
+import { CompraVacinaService } from './../../../services/entidades/compra-vacina/compra-vacina.service';
+import { CompraVacina } from './../../../shared/models/compra-vacina.model';
 
 @Component({
-  selector: 'vacine-crud-compra',
-  templateUrl: './crud-compra.component.html',
-  styleUrls: ['./crud-compra.component.scss'],
+  selector: 'vacine-crud-compra-vacina',
+  templateUrl: './crud-compra-vacina.component.html',
+  styleUrls: ['./crud-compra-vacina.component.scss'],
 })
-export class CrudCompraComponent
-  extends GenericCrudComLookupComponent<Fornecedor>
+export class CrudCompraVacinaComponent
+  extends GenericCrudComLookupComponent<CompraVacina>
   implements OnInit
 {
   protected readonly nomeControlFornecedor = 'fornecedor';
   protected readonly nomeControlVacina = 'vacina';
 
+  protected readonly nomeAtributoExibirFornecedor = 'fornecedor_nome';
+  protected readonly nomeAtributoExibirVacina = 'vacina_nome';
+
   fornecedores: Fornecedor[] = [];
   fornecedoresFiltrados!: Observable<Fornecedor[]>;
 
   vacinas: Vacina[] = [];
-  vacinasFiltradas!: Observable<Fornecedor[]>;
+  vacinasFiltradas!: Observable<Vacina[]>;
 
   constructor(
-    private _service: FornecedorService,
-    private serviceVacina: VacinaService,
+    private _service: CompraVacinaService,
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _dialogoConf: MatDialog
+    private _dialogoConf: MatDialog,
+    private serviceVacina: VacinaService,
+    private serviceFornecedor: FornecedorService
   ) {
     super();
 
@@ -59,7 +67,15 @@ export class CrudCompraComponent
     this.artigoEntidade = 'a';
     this.nomeCampoFormIdentificaEntidade = 'nota fiscal';
   }
-
+  /*
+  fornecedor_id: string;
+  fornecedor_nome: string;
+  fornecedor_cnpj: string;
+  nota_fiscal: string;
+  data_compra: Date;
+  vl_total_compra: number;
+  itens_compra: ItemCompraVacina[];
+*/
   protected override buildForm() {
     this.form = this.formBuilder.group({
       fornecedor: [null],
@@ -81,7 +97,7 @@ export class CrudCompraComponent
   }
 
   private setLookupFornecedor() {
-    this.subscription = this.service.listar().subscribe({
+    this.subscription = this.serviceFornecedor.listar().subscribe({
       next: (listaFornecedor) => {
         this.fornecedores = listaFornecedor;
       },
@@ -108,10 +124,11 @@ export class CrudCompraComponent
     ].valueChanges.pipe(
       startWith(''),
       map((value) =>
-        this.filtrarPeloValor(
+        this.filtrarPeloValorAtributo(
           this.fornecedores,
           value,
-          this.nomeControlFornecedor
+          this.nomeControlFornecedor,
+          this.nomeAtributoExibirFornecedor
         )
       )
     );
@@ -123,8 +140,21 @@ export class CrudCompraComponent
     ].valueChanges.pipe(
       startWith(''),
       map((value) =>
-        this.filtrarPeloValor(this.vacinas, value, this.nomeControlVacina)
+        this.filtrarPeloValorAtributo(
+          this.vacinas,
+          value,
+          this.nomeControlVacina,
+          this.nomeAtributoExibirVacina
+        )
       )
     );
+  }
+
+  protected exibirTextoLookupFornecedor(f: RelacionamentoFornecedor): string {
+    return this.exibirTextoLookup(f[this.nomeAtributoExibirFornecedor]);
+  }
+
+  protected exibirTextoLookupVacina(v: RelacionamentoVacina): string {
+    return this.exibirTextoLookup(v[this.nomeAtributoExibirVacina]);
   }
 }

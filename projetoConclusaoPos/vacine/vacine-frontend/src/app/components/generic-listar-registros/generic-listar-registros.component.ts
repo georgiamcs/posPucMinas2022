@@ -6,7 +6,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
-import { converterUndefinedEmTrue } from 'src/app/shared/utils/util.util';
+import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
   selector: 'vacine-generic-listar-registros',
@@ -53,13 +53,13 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
     let ret = this.defColunasExibidas
       .filter((cd) => {
         let condMobile =
-          converterUndefinedEmTrue(cd.showMobile) && this.isMobile();
+          Util.converterUndefinedEmTrue(cd.showMobile) && this.isMobile();
         let condDesktop =
-          converterUndefinedEmTrue(cd.showDesktop) && this.isDesktop();
+          Util.converterUndefinedEmTrue(cd.showDesktop) && this.isDesktop();
         let condTablet =
-          converterUndefinedEmTrue(cd.showTablet) && this.isTablet();
+          Util.converterUndefinedEmTrue(cd.showTablet) && this.isTablet();
         let exibeColuna =
-          converterUndefinedEmTrue(condMobile) || condDesktop || condTablet;
+          Util.converterUndefinedEmTrue(condMobile) || condDesktop || condTablet;
         return exibeColuna;
       })
       .map((cd) => cd.def);

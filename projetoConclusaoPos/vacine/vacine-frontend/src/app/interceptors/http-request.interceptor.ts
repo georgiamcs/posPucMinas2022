@@ -14,7 +14,7 @@ import { RetornoHttp } from './../shared/enums/retorno-http.enum';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { gerarStateAlertaRota } from '../shared/utils/util.util';
+import { Util } from '../shared/utils/util.util';
 import { MensagemFeedback } from '../shared/classes/mensagem-feedback.class';
 
 @Injectable()
@@ -47,7 +47,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               this.securityProvider.removeTokenUsuario();
               this.router.navigate(
                 ['/login'],
-                gerarStateAlertaRota(
+                Util.gerarStateMsgFeedbackRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
                     'Para ter acesso a essa funcionalidade é preciso efetuar o login!'
@@ -60,7 +60,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
               this.router.navigate(
                 ['/home'],
-                gerarStateAlertaRota(
+                Util.gerarStateMsgFeedbackRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
                     'Usuário sem permissão para acessar essa funcionalidade'

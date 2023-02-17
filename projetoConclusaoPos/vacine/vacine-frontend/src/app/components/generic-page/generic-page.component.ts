@@ -4,7 +4,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subscription } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { gerarStateAlertaRota } from 'src/app/shared/utils/util.util';
+import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
   selector: 'vacine-generic-page',
@@ -42,7 +42,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected tratarErro(erro: string, irParaPaginaErro = true) {
     if (!!this.router && irParaPaginaErro) {
-      const state = gerarStateAlertaRota(
+      const state = Util.gerarStateMsgFeedbackRota(
         new MensagemFeedback(TipoMensagemFeedback.ERRO, erro)
       );
 

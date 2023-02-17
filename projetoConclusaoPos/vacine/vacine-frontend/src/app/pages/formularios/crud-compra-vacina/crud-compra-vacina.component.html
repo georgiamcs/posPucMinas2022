@@ -12,7 +12,7 @@
     />
     <mat-autocomplete
       #autoFornecedor="matAutocomplete"
-      [displayWith]="exibirNomeEntidade"
+      [displayWith]="exibirTextoLookupFornecedor"
     >
       <mat-option
         *ngFor="let fornecedor of fornecedoresFiltrados | async"
@@ -50,7 +50,7 @@
     />
     <mat-autocomplete
       #autovacina="matAutocomplete"
-      [displayWith]="exibirNomeEntidade"
+      [displayWith]="exibirTextoLookupVacina"
     >
       <mat-option
         *ngFor="let vacina of vacinasFiltradas | async"

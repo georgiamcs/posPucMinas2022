@@ -1,28 +1,34 @@
 import { ValidatorFn, Validators } from '@angular/forms';
 import { MensagemFeedback } from '../classes/mensagem-feedback.class';
 
-export function converterUndefinedEmNulo(valor: any): any {
-  return valor === undefined ? null : valor;
-}
+export class Util {
+  public static converterUndefinedEmNulo(valor: any): any {
+    return valor === undefined ? null : valor;
+  }
 
-export function converterUndefinedEmTrue(valor: any): any {
-  return valor === undefined ? true : valor;
-}
+  public static converterUndefinedEmTrue(valor: any): any {
+    return valor === undefined ? true : valor;
+  }
 
-export function validadoresRequeridoSemEspacos(): ValidatorFn | null {
-  return Validators.compose([
-    Validators.required,
-    Validators.pattern(/(.|\s)*\S(.|\s)*/),
-  ]);
-}
+  public static converterUndefinedNullStrVazia(value: string | undefined | null): string {
+    return value ? value : '';
+  }
 
-export function gerarStateAlertaRota(msgFeedback: MensagemFeedback): Object {
-  return {
-    state: {
-      alerta: {
-        tipo: msgFeedback.tipo,
-        texto: msgFeedback.texto,
+  public static getValidadorObrigatorioSemEspacos(): ValidatorFn | null {
+    return Validators.compose([
+      Validators.required,
+      Validators.pattern(/(.|\s)*\S(.|\s)*/),
+    ]);
+  }
+
+  public static gerarStateMsgFeedbackRota(msgFeedback: MensagemFeedback): Object {
+    return {
+      state: {
+        feedback: {
+          tipo: msgFeedback.tipo,
+          texto: msgFeedback.texto,
+        },
       },
-    },
-  };
+    };
+  }
 }

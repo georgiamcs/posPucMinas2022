@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrudCompraComponent } from './crud-compra.component';
+import { CrudCompraComponent } from './crud-compra-vacina.component';
 
 describe('CrudCompraComponent', () => {
   let component: CrudCompraComponent;

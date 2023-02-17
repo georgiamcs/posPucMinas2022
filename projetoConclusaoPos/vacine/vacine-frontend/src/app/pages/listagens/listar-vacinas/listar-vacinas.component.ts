@@ -1,20 +1,21 @@
+//TODO: Verificar como usar no routerLink o tipo da rota = usar funcao no ts para retornar?
 import { Component } from '@angular/core';
-import { FornecedorService } from '../../../../services/entidades/fornecedor/fornecedor.service';
-
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
-import { Fornecedor } from '../../../../shared/models/fornecedor.model';
+import { Vacina } from 'src/app/shared/models/vacina.model';
+import { VacinaService } from '../../../services/entidades/vacina/vacina.service';
 
 @Component({
-  selector: 'vacine-listar-fornecedores',
-  templateUrl: './listar-fornecedores.component.html',
-  styleUrls: ['./listar-fornecedores.component.scss'],
+  selector: 'vacine-listar-vacinas',
+  templateUrl: './listar-vacinas.component.html',
+  styleUrls: ['./listar-vacinas.component.scss'],
 })
-export class ListarFornecedoresComponent extends GenericListarRegistrosComponent<Fornecedor> {
+export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vacina> {
   constructor(
     private _router: Router,
-    private _service: FornecedorService,
+    private _service: VacinaService,
     private __deviceService: DeviceDetectorService
   ) {
     super(__deviceService);
@@ -26,9 +27,9 @@ export class ListarFornecedoresComponent extends GenericListarRegistrosComponent
   protected definirColunasExibidas() {
     this.defColunasExibidas = [
       { def: 'nome' },
-      { def: 'cnpj', showMobile: false },
-      { def: 'email', showMobile: false },
-      { def: 'tel_celular' },
+      { def: 'protecaoContra', showMobile: false },
+      { def: 'vlIdadeRecomendada', showMobile: false },
+      { def: 'estoque' },
       { def: 'acoes' },
     ];
   }

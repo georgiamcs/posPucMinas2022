@@ -12,18 +12,15 @@ import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
-import {
-  gerarStateAlertaRota,
-  validadoresRequeridoSemEspacos
-} from 'src/app/shared/utils/util.util';
+import { Util } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { ESTADOS } from 'src/app/variables/constantes';
-import { ClienteService } from '../../../../services/entidades/cliente/cliente.service';
-import { Acesso, TipoPerfil } from '../../../../shared/classes/acesso.class';
+import { ClienteService } from '../../../services/entidades/cliente/cliente.service';
+import { Acesso, TipoPerfil } from '../../../shared/classes/acesso.class';
 import {
   TIPOS_USUARIOS,
   TipoUsuario
-} from '../../../../shared/enums/tipo-usuario.enum';
+} from '../../../shared/enums/tipo-usuario.enum';
 
 @Component({
   selector: 'vacine-crud-usuario',
@@ -97,7 +94,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       TipoMensagemFeedback.SUCESSO,
       'Usuário registrado com sucesso!'
     );
-    const state = gerarStateAlertaRota(msgFeedback);
+    const state = Util.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate(['/home'], state);
   }
 
@@ -112,7 +109,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
         nome: [
           null,
           Validators.compose([
-            validadoresRequeridoSemEspacos(),
+            Util.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(3),
             Validators.maxLength(100),
           ]),
@@ -121,7 +118,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
         email: [
           null,
           Validators.compose([
-            validadoresRequeridoSemEspacos(),
+            Util.getValidadorObrigatorioSemEspacos(),
             Validators.email,
           ]),
         ],
@@ -129,7 +126,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
           null,
           this.habilitaCampoSenha()
             ? Validators.compose([
-                validadoresRequeridoSemEspacos(),
+                Util.getValidadorObrigatorioSemEspacos(),
                 Validators.minLength(5),
                 Validators.maxLength(20),
               ])
@@ -139,7 +136,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
           null,
           this.habilitaCampoSenha()
             ? Validators.compose([
-                validadoresRequeridoSemEspacos(),
+                Util.getValidadorObrigatorioSemEspacos(),
                 Validators.minLength(5),
                 Validators.maxLength(20),
               ])

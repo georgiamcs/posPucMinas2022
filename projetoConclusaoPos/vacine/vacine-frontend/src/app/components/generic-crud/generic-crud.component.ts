@@ -5,7 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,16 +15,13 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario,
+  ModoFormulario
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
-import {
-  converterUndefinedEmNulo,
-  gerarStateAlertaRota,
-} from 'src/app/shared/utils/util.util';
+import { Util } from 'src/app/shared/utils/util.util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
@@ -258,7 +255,7 @@ export class GenericCrudComponent<
     caminhoRelativo: string,
     msgFeedback: MensagemFeedback
   ) {
-    const state = gerarStateAlertaRota(msgFeedback);
+    const state = Util.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate([caminhoRelativo], state);
   }
 
@@ -366,11 +363,11 @@ export class GenericCrudComponent<
     nomeErroValidador?: string | null
   ): ValidationErrors | null {
     if (!!nomeErroValidador) {
-      return converterUndefinedEmNulo(
+      return Util.converterUndefinedEmNulo(
         this.getFormControl(formControlName)?.errors?.[nomeErroValidador]
       );
     } else
-      return converterUndefinedEmNulo(
+      return Util.converterUndefinedEmNulo(
         this.getFormControl(formControlName)?.errors
       );
   }

@@ -5,9 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
-import { validadoresRequeridoSemEspacos } from 'src/app/shared/utils/util.util';
-import { VacinaService } from '../../../../services/entidades/vacina/vacina.service';
-import { Vacina } from '../../../../shared/models/vacina.model';
+import { Util } from 'src/app/shared/utils/util.util';
+import { VacinaService } from '../../../services/entidades/vacina/vacina.service';
+import { Vacina } from '../../../shared/models/vacina.model';
 
 @Component({
   selector: 'vacine-crud-vacina',
@@ -53,20 +53,20 @@ export class CrudVacinaComponent
       nome: [
         null,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
+          Util.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(3),
           Validators.maxLength(100),
         ]),
       ],
-      protecao_contra: [null, validadoresRequeridoSemEspacos()],
-      composicao: [null, validadoresRequeridoSemEspacos()],
+      protecao_contra: [null, Util.getValidadorObrigatorioSemEspacos()],
+      composicao: [null, Util.getValidadorObrigatorioSemEspacos()],
       in_idade_recomendada: [true, [Validators.required]],
       tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],
       estoque: [
         0,
         Validators.compose([
-          validadoresRequeridoSemEspacos(),
+          Util.getValidadorObrigatorioSemEspacos(),
           Validators.min(0),
         ]),
       ],
