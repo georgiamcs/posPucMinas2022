@@ -1,3 +1,4 @@
+import { GenericGetterService } from './../../services/generic/generic-getter/generic-getter.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 
@@ -5,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
@@ -17,7 +18,7 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   extends GenericPageComponent
   implements OnInit, OnDestroy
 {
-  protected service: CrudService<T>;
+  protected service: GenericGetterService<T>;
   protected registros: T[] = [];
   protected dataSourceMatTable: MatTableDataSource<T>;
   protected defColunasExibidas: DefinicaoColunasExibidas[] = [];
@@ -34,7 +35,7 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   }
 
   protected carregarRegistros() {
-    this.subscription = this.service.listar().subscribe({
+    this.subscription = this.service.getAll().subscribe({
       next: (listaReg) => {
         this.registros = listaReg;
         this.dataSourceMatTable = new MatTableDataSource(this.registros);

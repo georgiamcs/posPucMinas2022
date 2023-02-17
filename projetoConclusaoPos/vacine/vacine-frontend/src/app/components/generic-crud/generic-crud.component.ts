@@ -20,7 +20,7 @@ import {
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { Util } from 'src/app/shared/utils/util.util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
@@ -45,7 +45,7 @@ export class GenericCrudComponent<
   protected id: string | null;
   protected registro: T;
 
-  protected service: CrudService<T>;
+  protected service: GenericCrudService<T>;
   protected formBuilder: FormBuilder;
   protected activatedRoute: ActivatedRoute;
   protected dialogoConf: MatDialog;
@@ -106,7 +106,7 @@ export class GenericCrudComponent<
   protected carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.id) {
-        this.subscription = this.service.procurarPorId(this.id).subscribe({
+        this.subscription = this.service.getById(this.id).subscribe({
           next: (regBusca) => this.preencherFormComRegistroId(regBusca),
           error: (erro) => this.tratarErro(`Erro ao carregar dados => ${erro}`),
         });
@@ -125,7 +125,7 @@ export class GenericCrudComponent<
     const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
-    this.subscription = this.service.incluir(this.form.value).subscribe({
+    this.subscription = this.service.add(this.form.value).subscribe({
       next: () => this.carregarRegistros(msgFeedback),
       error: (erro) => this.tratarErro(`Erro ao incluir registro => ${erro}`),
     });
@@ -139,7 +139,7 @@ export class GenericCrudComponent<
     const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
-    this.subscription = this.service.alterar(this.form.value).subscribe({
+    this.subscription = this.service.update(this.form.value).subscribe({
       next: () => this.carregarRegistros(msgFeedback),
       error: (erro) => this.tratarErro(`Erro ao alterar registro => ${erro}`),
     });
@@ -149,7 +149,7 @@ export class GenericCrudComponent<
     const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
       this.nomeCampoFormIdentificaEntidade
     );
-    this.subscription = this.service.excluir(id).subscribe({
+    this.subscription = this.service.delete(id).subscribe({
       next: () => this.carregarRegistros(msgFeedback),
       error: (erro) => this.tratarErro(`Erro ao excluir registro => ${erro}`),
     });

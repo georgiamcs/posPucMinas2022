@@ -1,11 +1,9 @@
-import { ListaComprasVacina } from '../../../shared/classes/lista-compras-vacina.class';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
-import { ListaCompraVacinaService } from 'src/app/services/listagens/lista-compra-vacina/lista-compra-vacina.service';
-import { CompraVacina } from 'src/app/shared/models/compra-vacina.model';
-import { MatTableDataSource } from '@angular/material/table';
+import { ListaComprasVacina } from '../../../shared/classes/lista-compras-vacina.class';
+import { ListaCompraVacinaService } from './../../../services/listagens/lista-compra-vacina/lista-compra-vacina.service';
 
 @Component({
   selector: 'vacine-listar-compras-vacina',
@@ -39,5 +37,4 @@ export class ListarComprasVacinaComponent extends GenericListarRegistrosComponen
     this.service = this._service;
     this.router = this._router;
   }
-
 }

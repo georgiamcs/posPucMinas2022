@@ -1,21 +1,23 @@
+import { CompraVacinaService } from './../../entidades/compra-vacina/compra-vacina.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { CompraVacina } from 'src/app/shared/models/compra-vacina.model';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { ListaComprasVacina } from '../../../shared/classes/lista-compras-vacina.class';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ListaCompraVacinaService extends CrudService<ListaComprasVacina> {
-  constructor(private _http: HttpClient) {
+export class ListaCompraVacinaService extends GenericCrudService<ListaComprasVacina> {
+
+  constructor(private _http: HttpClient, private serviceCompraVacina: CompraVacinaService) {
     super();
     this.http = _http;
-    this.apiUrlRelativa = 'compras-vacinas';
+    this.relativeApiURL = 'compras-vacinas';
   }
 
-  private compraVacinaToListaCompraVacina(
+  static compraVacinaToListaCompraVacina(
     compraVacina: CompraVacina
   ): ListaComprasVacina {
     let novo = new ListaComprasVacina();
@@ -39,15 +41,18 @@ export class ListaCompraVacinaService extends CrudService<ListaComprasVacina> {
     return novo;
   }
 
-  private arrayCompraVacinaToArrayListaCompraVacina(
-    lista: CompraVacina[]
-  ): ListaComprasVacina[] {
-    return lista.map((c) => this.compraVacinaToListaCompraVacina(c));
+  public override getById(id: string): Observable<ListaComprasVacina> {
+
+    return this.serviceCompraVacina.getByIdConverted<ListaComprasVacina>(
+      id,
+      ListaCompraVacinaService.compraVacinaToListaCompraVacina
+    );
   }
 
-  override listar(): Observable<ListaComprasVacina[]> {
-    return this.http
-      .get<CompraVacina[]>(this.apiUrlCompleta)
-      .pipe(map((ret) => this.arrayCompraVacinaToArrayListaCompraVacina(ret)));
+  public override getAll(): Observable<ListaComprasVacina[]> {
+
+    return this.serviceCompraVacina.getAllConverted<ListaComprasVacina>(
+      ListaCompraVacinaService.compraVacinaToListaCompraVacina
+    );
   }
 }

@@ -1,5 +1,3 @@
-import { RelacionamentoVacina } from './../../../shared/interfaces/relacionamento-vacina.interface';
-import { RelacionamentoFornecedor } from './../../../shared/interfaces/relacionamento-fornecedor.interface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,9 +6,9 @@ import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { VacinaService } from 'src/app/services/entidades/vacina/vacina.service';
 import { FornecedorService } from '../../../services/entidades/fornecedor/fornecedor.service';
-import { Fornecedor } from '../../../shared/models/fornecedor.model';
-import { Vacina } from '../../../shared/models/vacina.model';
 import { CompraVacinaService } from './../../../services/entidades/compra-vacina/compra-vacina.service';
+import { RelacionamentoFornecedor } from './../../../shared/interfaces/relacionamento-fornecedor.interface';
+import { RelacionamentoVacina } from './../../../shared/interfaces/relacionamento-vacina.interface';
 import { CompraVacina } from './../../../shared/models/compra-vacina.model';
 
 @Component({
@@ -28,11 +26,11 @@ export class CrudCompraVacinaComponent
   protected readonly nomeAtributoExibirFornecedor = 'fornecedor_nome';
   protected readonly nomeAtributoExibirVacina = 'vacina_nome';
 
-  fornecedores: Fornecedor[] = [];
-  fornecedoresFiltrados!: Observable<Fornecedor[]>;
+  fornecedores: RelacionamentoFornecedor[] = [];
+  fornecedoresFiltrados!: Observable<RelacionamentoFornecedor[]>;
 
-  vacinas: Vacina[] = [];
-  vacinasFiltradas!: Observable<Vacina[]>;
+  vacinas: RelacionamentoVacina[] = [];
+  vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
 
   constructor(
     private _service: CompraVacinaService,
@@ -97,25 +95,25 @@ export class CrudCompraVacinaComponent
   }
 
   private setLookupFornecedor() {
-    this.subscription = this.serviceFornecedor.listar().subscribe({
-      next: (listaFornecedor) => {
-        this.fornecedores = listaFornecedor;
-      },
-      error: (e) => {
-        this.tratarErroCarregarLookup(e, this.nomeControlFornecedor);
-      },
-    });
+    // this.subscription = this.serviceFornecedor.listarConvertido<ListaComprasVacina>().subscribe({
+    //   next: (listaFornecedor) => {
+    //     this.fornecedores = listaFornecedor;
+    //   },
+    //   error: (e) => {
+    //     this.tratarErroCarregarLookup(e, this.nomeControlFornecedor);
+    //   },
+    // });
   }
 
   private setLookupVacina() {
-    this.subscription = this.serviceVacina.listar().subscribe({
-      next: (listaVacina) => {
-        this.vacinas = listaVacina;
-      },
-      error: (e) => {
-        this.tratarErroCarregarLookup(e, this.nomeControlVacina);
-      },
-    });
+    // this.subscription = this.serviceVacina.listar().subscribe({
+    //   next: (listaVacina) => {
+    //     this.vacinas = listaVacina;
+    //   },
+    //   error: (e) => {
+    //     this.tratarErroCarregarLookup(e, this.nomeControlVacina);
+    //   },
+    // });
   }
 
   private setChangeFornecedorParaFiltrarValores() {

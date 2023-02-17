@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CrudCompraVacinaComponent } from './pages/formularios/crud-compra-vacina/crud-compra-vacina.component';
-import { ListarComprasVacinaComponent } from './pages/listagens/listar-compras-vacina/listar-compras-vacina.component';
-import { TrocarSenhaComponent } from './pages/formularios/trocar-senha/trocar-senha.component';
-import { ErroComponent } from './pages/conteudo/erro/erro.component';
+import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
+import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacina/listar-compras-vacina.component';
+import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
+import { ErroComponent } from './pages/content/erro/erro.component';
 import { Tema } from './shared/enums/tema.enum';
 
 import { AuthenticatedGuard } from './guards/authenticated.guard';
-import { LoginComponent } from './pages/acesso/login/login.component';
-import { LogoutComponent } from './pages/acesso/logout/logout.component';
-import { CrudFornecedorComponent } from './pages/formularios/crud-fornecedor/crud-fornecedor.component';
-import { ListarFornecedoresComponent } from './pages/listagens/listar-fornecedores/listar-fornecedores.component';
-import { CrudUsuarioComponent } from './pages/formularios/crud-usuario/crud-usuario.component';
-import { ListarUsuariosComponent } from './pages/listagens/listar-usuarios/listar-usuarios.component';
-import { CrudVacinaComponent } from './pages/formularios/crud-vacina/crud-vacina.component';
-import { ListarVacinasComponent } from './pages/listagens/listar-vacinas/listar-vacinas.component';
-import { HomeComponent } from './pages/conteudo/home/home.component';
+import { LoginComponent } from './pages/acess/login/login.component';
+import { LogoutComponent } from './pages/acess/logout/logout.component';
+import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
+import { ListarFornecedoresComponent } from './pages/lists/listar-fornecedores/listar-fornecedores.component';
+import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.component';
+import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-usuarios.component';
+import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
+import { ListarVacinasComponent } from './pages/lists/listar-vacinas/listar-vacinas.component';
+import { HomeComponent } from './pages/content/home/home.component';
 import { Acesso } from './shared/classes/acesso.class';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
 
