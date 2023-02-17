@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ESTADOS } from '../../../variables/constantes';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
-import { FornecedorService } from 'src/app/services/entidades/fornecedor/fornecedor.service';
+import { FornecedorService } from 'src/app/services/crud/fornecedor/fornecedor.service';
 import { Util } from 'src/app/shared/utils/util.util';
 import { Fornecedor } from '../../../shared/models/fornecedor.model';
 

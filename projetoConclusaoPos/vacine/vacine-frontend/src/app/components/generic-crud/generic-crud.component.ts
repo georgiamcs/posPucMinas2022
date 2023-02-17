@@ -255,7 +255,7 @@ export class GenericCrudComponent<
     caminhoRelativo: string,
     msgFeedback: MensagemFeedback
   ) {
-    const state = Util.gerarStateMsgFeedbackRota(msgFeedback);
+    const state = MensagemFeedback.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate([caminhoRelativo], state);
   }
 

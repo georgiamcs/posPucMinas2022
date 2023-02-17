@@ -7,7 +7,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
-import { UsuarioService } from 'src/app/services/entidades/usuario/usuario.service';
+import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -15,7 +15,7 @@ import { Usuario } from 'src/app/shared/models/usuario.model';
 import { Util } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { ESTADOS } from 'src/app/variables/constantes';
-import { ClienteService } from '../../../services/entidades/cliente/cliente.service';
+import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import { Acesso, TipoPerfil } from '../../../shared/classes/acesso.class';
 import {
   TIPOS_USUARIOS,
@@ -94,7 +94,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       TipoMensagemFeedback.SUCESSO,
       'Usuário registrado com sucesso!'
     );
-    const state = Util.gerarStateMsgFeedbackRota(msgFeedback);
+    const state = MensagemFeedback.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate(['/home'], state);
   }
 

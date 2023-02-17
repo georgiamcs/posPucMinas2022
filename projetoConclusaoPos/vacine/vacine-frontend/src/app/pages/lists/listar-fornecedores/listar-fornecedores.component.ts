@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FornecedorService } from '../../../services/entidades/fornecedor/fornecedor.service';
+import { FornecedorService } from '../../../services/crud/fornecedor/fornecedor.service';
 
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';

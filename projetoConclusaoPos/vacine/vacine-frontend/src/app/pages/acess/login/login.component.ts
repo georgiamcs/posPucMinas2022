@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { ControleAcessoService } from '../../../services/autenticacao/controle-acesso/controle-acesso.service';
+
 import { LoginUsuario } from '../../../shared/interfaces/login-usuario.interface';
 
 @Component({

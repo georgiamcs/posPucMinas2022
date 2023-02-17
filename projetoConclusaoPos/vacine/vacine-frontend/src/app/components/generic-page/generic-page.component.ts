@@ -42,7 +42,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected tratarErro(erro: string, irParaPaginaErro = true) {
     if (!!this.router && irParaPaginaErro) {
-      const state = Util.gerarStateMsgFeedbackRota(
+      const state = MensagemFeedback.gerarStateMsgFeedbackRota(
         new MensagemFeedback(TipoMensagemFeedback.ERRO, erro)
       );
 
@@ -54,7 +54,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   }
 
   protected carregarMensagensAoIniciar() {
-    let msg = this.getStateRota('alerta');
+    let msg = this.getStateRota(MensagemFeedback.NOME_STATE_ROTA_MSG_FEEDBACK);
     if (!!msg) {
       this.addMensagem(msg);
     }

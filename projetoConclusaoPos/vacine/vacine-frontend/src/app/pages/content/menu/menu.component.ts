@@ -3,7 +3,7 @@
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { ControleAcessoService } from '../../../services/autenticacao/controle-acesso/controle-acesso.service';
+import { ControleAcessoService } from '../../../services/authentication/controle-acesso/controle-acesso.service';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 
 @Component({

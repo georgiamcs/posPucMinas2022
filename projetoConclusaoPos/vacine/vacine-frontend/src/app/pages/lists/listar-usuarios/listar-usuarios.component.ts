@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
-import { UsuarioService } from 'src/app/services/entidades/usuario/usuario.service';
+import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 
 @Component({

@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { Util } from 'src/app/shared/utils/util.util';
-import { VacinaService } from '../../../services/entidades/vacina/vacina.service';
+import { VacinaService } from '../../../services/crud/vacina/vacina.service';
 import { Vacina } from '../../../shared/models/vacina.model';
 
 @Component({

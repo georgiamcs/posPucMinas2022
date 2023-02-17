@@ -5,7 +5,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { Vacina } from 'src/app/shared/models/vacina.model';
-import { VacinaService } from '../../../services/entidades/vacina/vacina.service';
+import { VacinaService } from '../../../services/crud/vacina/vacina.service';
 
 @Component({
   selector: 'vacine-listar-vacinas',

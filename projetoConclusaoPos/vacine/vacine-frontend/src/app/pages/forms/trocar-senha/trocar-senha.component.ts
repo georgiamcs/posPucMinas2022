@@ -13,7 +13,7 @@ import {
   Util
 } from 'src/app/shared/utils/util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { ClienteService } from '../../../services/entidades/cliente/cliente.service';
+import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import { GenericPageComponent } from '../../../components/generic-page/generic-page.component';
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../../../shared/enums/tipo-mensagem-feedback.enum';
@@ -136,7 +136,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
             TipoMensagemFeedback.SUCESSO,
             'Senha alterada com sucesso!'
           );
-          state = Util.gerarStateMsgFeedbackRota(msgFeedbackSucesso);
+          state = MensagemFeedback.gerarStateMsgFeedbackRota(msgFeedbackSucesso);
           this.voltarParaJanelaAnterior(state);
         },
         error: (erro) =>

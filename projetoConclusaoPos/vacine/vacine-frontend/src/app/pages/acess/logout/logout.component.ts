@@ -2,7 +2,7 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
-import { ControleAcessoService } from '../../../services/autenticacao/controle-acesso/controle-acesso.service';
+import { ControleAcessoService } from '../../../services/authentication/controle-acesso/controle-acesso.service';
 
 @Component({
   selector: 'vacine-logout',

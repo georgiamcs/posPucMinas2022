@@ -47,7 +47,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               this.securityProvider.removeTokenUsuario();
               this.router.navigate(
                 ['/login'],
-                Util.gerarStateMsgFeedbackRota(
+                MensagemFeedback.gerarStateMsgFeedbackRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
                     'Para ter acesso a essa funcionalidade é preciso efetuar o login!'
@@ -60,7 +60,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
               this.router.navigate(
                 ['/home'],
-                Util.gerarStateMsgFeedbackRota(
+                MensagemFeedback.gerarStateMsgFeedbackRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
                     'Usuário sem permissão para acessar essa funcionalidade'
