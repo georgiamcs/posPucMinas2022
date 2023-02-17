@@ -21,14 +21,4 @@ export class Util {
     ]);
   }
 
-  public static gerarStateMsgFeedbackRota(msgFeedback: MensagemFeedback): Object {
-    return {
-      state: {
-        feedback: {
-          tipo: msgFeedback.tipo,
-          texto: msgFeedback.texto,
-        },
-      },
-    };
-  }
 }
