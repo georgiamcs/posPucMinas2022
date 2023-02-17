@@ -5,5 +5,5 @@ export class ListaComprasVacina extends EntityModel {
   data_compra: string;
   fornecedor_nome: string;
   itens: string;
-  vl_total_compra: number;
+  vl_total_compra: string;
 }
