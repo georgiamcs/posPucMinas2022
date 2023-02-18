@@ -1,78 +1,169 @@
-<form class="crudform" [formGroup]="form" #formDirective="ngForm">
-  <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
-    <mat-label>Fornecedor</mat-label>
-    <input
-      type="text"
-      formControlName="fornecedor"
-      [matAutocomplete]="autoFornecedor"
-      matInput
-      placeholder="Escolha o fornecedor"
-      [readonly]="isCarregando || erroCarregando"
-    />
-    <mat-autocomplete
-      #autoFornecedor="matAutocomplete"
-      [displayWith]="exibirTextoLookupFornecedor"
-    >
-      <mat-option
-        *ngFor="let fornecedor of fornecedoresFiltrados | async"
-        [value]="fornecedor"
-      >
-        {{ fornecedor.fornecedor_nome }}
-      </mat-option>
-    </mat-autocomplete>
-    <!-- <mat-error
-      *ngIf="
-        form.get('fornecedor')?.hasError('required') &&
-        form.get('fornecedor')?.touched
-      "
-      >O campo é obrigatório!</mat-error
-    >
-    <mat-error
-      *ngIf="
-        !form.get('fornecedor')?.hasError('required') &&
-        form.get('fornecedor')?.hasError('fornecedorCadastrado') &&
-        form.get('fornecedor')?.touched
-      "
-      >O fornecedor não está cadastrado!</mat-error
-    > -->
-  </mat-form-field>
+<div class="container">
+  <vacine-mensagem-feedback
+    class="barramsg"
+    [mensagens]="mensagens"
+  ></vacine-mensagem-feedback>
+  <fieldset class="crudfieldset">
+    <legend class="titfiedlset float-none w-auto h3">
+      &nbsp;Cadastro de Compras de Vacinas&nbsp;
+    </legend>
 
-  <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
-    <mat-label>Vacina</mat-label>
-    <input
-      type="text"
-      [formControlName]="nomeControlVacina"
-      [matAutocomplete]="autovacina"
-      matInput
-      placeholder="Escolha a vacina"
-      [readonly]="isCarregando || erroCarregando"
-    />
-    <mat-autocomplete
-      #autovacina="matAutocomplete"
-      [displayWith]="exibirTextoLookupVacina"
-    >
-      <mat-option
-        *ngFor="let vacina of vacinasFiltradas | async"
-        [value]="vacina"
+    <form class="crudform" [formGroup]="form">
+      <mat-form-field class="crudfield" id="fNotaFiscal">
+        <mat-label id="lbNotaFiscal">Nota Fiscal*</mat-label>
+        <input
+          id="inNotaFiscal"
+          formControlName="nota_fiscal"
+          matInput
+          type="text"
+        />
+        <mat-hint *ngIf="exibeHint('nota_fiscal')"
+          >Digite a Nota Fiscal</mat-hint
+        >
+        <mat-error
+          *ngIf="hasErroValidacao('nota_fiscal', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="crudfield" id="fDataCompra" appearance="fill">
+        <mat-label>Data da compra</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="data_compra"
+        />
+        <mat-hint *ngIf="exibeHint('data_compra')"
+          >Digite ou selecione a data</mat-hint
+        >
+        <mat-error
+          *ngIf="
+            hasErroValidacao(
+              'data_compra',
+              TipoErroValForm.DEFINIDA_USUARIO,
+              'matDatepickerParse'
+            )
+          "
+        >
+          Selecione ou informe uma data válida
+        </mat-error>
+        <mat-error
+          *ngIf="
+            hasErroValidacao('data_compra', TipoErroValForm.REQUERIDO) &&
+            !hasErroValidacao(
+              'data_compra',
+              TipoErroValForm.DEFINIDA_USUARIO,
+              'matDatepickerParse'
+            )
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="crudfield" id="fVlTotCompra">
+        <mat-label id="lblTotCompra">Valor Total da Compra*</mat-label>
+        <input
+          id="inVlTotCompra"
+          formControlName="vl_total_compra"
+          matInput
+          type="text"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
+        <mat-label>Fornecedor</mat-label>
+        <input
+          type="text"
+          formControlName="fornecedor"
+          matInput
+          placeholder="Escolha o fornecedor"
+          [readonly]="isCarregando || erroCarregando"
+          [matAutocomplete]="autoFornecedor"
+        />
+        <mat-autocomplete
+          #autoFornecedor="matAutocomplete"
+          [displayWith]="exibirTextoLookup"
+        >
+          <mat-option
+            *ngFor="let fornecedor of fornecedoresFiltrados | async"
+            [value]="fornecedor"
+          >
+            {{ fornecedor.nome }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint *ngIf="exibeHint('fornecedor')"
+          >Digite o nome do fornecedor ou selecione na lista</mat-hint
+        >
+        <mat-error
+          *ngIf="hasErroValidacao('fornecedor', TipoErroValForm.OBRIGATORIO)"
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error
+          *ngIf="
+            hasErroValidacao(
+              'fornecedor',
+              TipoErroValForm.DEFINIDA_USUARIO,
+              'valornalista'
+            )
+          "
+          >Fornecedor informado não está cadastrado
+        </mat-error>
+
+        <mat-error
+          *ngIf="
+            !form.get('fornecedor')?.hasError('required') &&
+            form.get('fornecedor')?.hasError('fornecedorCadastrado') &&
+            form.get('fornecedor')?.touched
+          "
+          >O fornecedor não está cadastrado!</mat-error
+        >
+      </mat-form-field>
+      <!-- <div formGroupName="itens_compra">F
+        <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
+          <mat-label>Vacina</mat-label>
+          <input
+            type="text"
+            [formGroupName]="nomeCtrlVacina"
+            [matAutocomplete]="autovacina"
+            matInput
+            placeholder="Escolha a vacina"
+            [readonly]="isCarregando || erroCarregando"
+          />
+          <mat-autocomplete
+            #autovacina="matAutocomplete"
+            [displayWith]="exibirTextoLookupVacina"
+          >
+            <mat-option
+              *ngFor="let vacina of vacinasFiltradas | async"
+              [value]="vacina"
+            >
+              {{ vacina.nome }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field> -->
+
+      <!-- </div> -->
+    </form>
+
+    <div class="barrabutton">
+      <button
+        class="crudbutton"
+        *ngIf="temBotaoAcao()"
+        mat-raised-button
+        color="primary"
+        (click)="salvar()"
+        [disabled]="!habilitarBotaoAcao()"
       >
-        {{ vacina.vacina_nome }}
-      </mat-option>
-    </mat-autocomplete>
-    <!-- <mat-error
-      *ngIf="
-        form.get(`${{nomeControlVacina}}`)?.hasError('required') &&
-        form.get('vacina')?.touched
-      "
-      >O campo é obrigatório!</mat-error
-    >
-    <mat-error
-      *ngIf="
-        !form.get('vacina')?.hasError('required') &&
-        form.get('vacina')?.hasError('vacinaCadastrado') &&
-        form.get('vacina')?.touched
-      "
-      >O vacina não está cadastrado!</mat-error
-    > -->
-  </mat-form-field>
-</form>
+        {{ lbBotaoSalvar }}
+      </button>
+      <button class="crudbutton" mat-raised-button (click)="fechar()">
+        {{ lbBotaoFechar }}
+      </button>
+    </div>
+  </fieldset>
+</div>

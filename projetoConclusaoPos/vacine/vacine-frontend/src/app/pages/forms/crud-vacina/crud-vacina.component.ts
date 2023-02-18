@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { Util } from 'src/app/shared/utils/util.util';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { VacinaService } from '../../../services/crud/vacina/vacina.service';
 import { Vacina } from '../../../shared/models/vacina.model';
 
@@ -53,20 +54,20 @@ export class CrudVacinaComponent
       nome: [
         null,
         Validators.compose([
-          Util.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(3),
           Validators.maxLength(100),
         ]),
       ],
-      protecao_contra: [null, Util.getValidadorObrigatorioSemEspacos()],
-      composicao: [null, Util.getValidadorObrigatorioSemEspacos()],
+      protecao_contra: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      composicao: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
       in_idade_recomendada: [true, [Validators.required]],
       tp_idade_recomendada: [null],
       nr_idade_recomendada: [null],
       estoque: [
         0,
         Validators.compose([
-          Util.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.min(0),
         ]),
       ],

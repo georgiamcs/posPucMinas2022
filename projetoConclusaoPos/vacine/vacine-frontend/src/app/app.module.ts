@@ -13,9 +13,11 @@ import { httpInterceptorProviders } from './interceptors/http-request.intercepto
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS,
+  MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +37,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule,
+  SocialLoginModule
 } from '@abacritt/angularx-social-login';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericCrudComLookupComponent } from './components/generic-crud-com-lookup/generic-crud-com-lookup.component';
@@ -125,6 +127,8 @@ registerLocaleData(localePt);
     SocialLoginModule,
     MatAutocompleteModule,
     DecimalPipe,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

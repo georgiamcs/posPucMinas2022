@@ -6,9 +6,7 @@ const Acesso = require("../../setup/acesso");
 function createNovoRegistro(obj) {
   let registro = {};
 
-  registro.fornecedor_id = obj.fornecedor_id;
-  registro.fornecedor_nome = obj.fornecedor_nome;
-  registro.fornecedor_cnpj = obj.fornecedor_cnpj;
+  registro.fornecedor = obj.fornecedor;
   registro.nota_fiscal = obj.nota_fiscal;
   registro.data_compra = obj.data_compra;
   registro.itens_compra = obj.itens_compra;

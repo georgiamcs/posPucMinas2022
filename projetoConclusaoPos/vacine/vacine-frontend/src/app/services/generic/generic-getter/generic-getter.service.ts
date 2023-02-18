@@ -20,13 +20,15 @@ export class GenericGetterService<T> extends GenericHttpService {
   }
 
   public getAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.fullApiURL);
+    let ret = this.http.get<T[]>(this.fullApiURL);
+    return ret;
   }
 
   public getAllConverted<Type>(fnTransformTipo: any): Observable<Type[]> {
-    return this.getAll().pipe(
+    let ret = this.getAll().pipe(
       map((ret) => this.toArrayNewType<Type>(ret, fnTransformTipo))
     );
+    return ret;
   }
 
   private toNewType<Type>(obj: T, fnTransformTipo: any): Type {

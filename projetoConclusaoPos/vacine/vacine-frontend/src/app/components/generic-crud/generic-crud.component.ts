@@ -5,7 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  ValidatorFn
+  ValidatorFn,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario
+  ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -268,28 +268,37 @@ export class GenericCrudComponent<
   }
 
   protected getValorCampoForm(formControlName: string): any {
-    const posPonto = formControlName.indexOf('.');
-
-    if (posPonto > -1) {
-      // tem campo aninhado
-      const nomeCampo1 = formControlName.substring(-1, posPonto);
-      const nomeCampo2 = formControlName.substring(posPonto + 1);
-      return this.form.get(nomeCampo1)?.get(nomeCampo2)?.value;
-    } else {
-      return this.form.get(formControlName)?.value;
-    }
+    return this.getFormControl(formControlName)?.value;
   }
 
   protected getFormControl(formControlName: string): any {
-    const posPonto = formControlName.indexOf('.');
+    let nomesCampos = formControlName.split('.');
 
-    if (posPonto > -1) {
-      // tem campo aninhado
-      const nomeCampo1 = formControlName.substring(-1, posPonto);
-      const nomeCampo2 = formControlName.substring(posPonto + 1);
-      return this.form.get(nomeCampo1)?.get(nomeCampo2);
-    } else {
-      return this.form.get(formControlName);
+    switch (nomesCampos.length) {
+      case 1:
+        return this.form.get(formControlName);
+
+      case 2:
+        return this.form.get(nomesCampos[0])?.get(nomesCampos[1]);
+
+      case 3:
+        return this.form
+          .get(nomesCampos[0])
+          ?.get(nomesCampos[1])
+          ?.get(nomesCampos[2]);
+
+      case 4:
+        return this.form
+          .get(nomesCampos[0])
+          ?.get(nomesCampos[1])
+          ?.get(nomesCampos[2])
+          ?.get(nomesCampos[3]);
+
+      default:
+        throwError(
+          () =>
+            'Condição não esperada. Control com aninhamento maior do que 4 níveis'
+        );
     }
   }
 
@@ -377,6 +386,7 @@ export class GenericCrudComponent<
     tipoErroValidacao: TipoErroValidacaoFormulario,
     validacaoDefinidaUsuario?: string
   ): boolean {
+    console.log('this.form', this.form)
     let exibe = false;
 
     if (this.campoFormFoiEditado(nomeFormControl)) {

@@ -18,6 +18,7 @@ import { GenericPageComponent } from '../../../components/generic-page/generic-p
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../../../shared/enums/tipo-mensagem-feedback.enum';
 import { UsuarioTrocaSenha } from '../../../shared/models/usuario-troca-senha.model';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 
 @Component({
   selector: 'vacine-trocar-senha',
@@ -71,7 +72,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
         senha: [
           null,
           Validators.compose([
-            Util.getValidadorObrigatorioSemEspacos(),
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(5),
             Validators.maxLength(20),
           ]),
@@ -79,7 +80,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
         confSenha: [
           null,
           Validators.compose([
-            Util.getValidadorObrigatorioSemEspacos(),
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(5),
             Validators.maxLength(20),
           ]),

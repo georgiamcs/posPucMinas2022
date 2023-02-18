@@ -13,6 +13,7 @@ import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { Util } from 'src/app/shared/utils/util.util';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { ESTADOS } from 'src/app/variables/constantes';
 import { ClienteService } from '../../../services/crud/cliente/cliente.service';
@@ -109,7 +110,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
         nome: [
           null,
           Validators.compose([
-            Util.getValidadorObrigatorioSemEspacos(),
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(3),
             Validators.maxLength(100),
           ]),
@@ -118,7 +119,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
         email: [
           null,
           Validators.compose([
-            Util.getValidadorObrigatorioSemEspacos(),
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
             Validators.email,
           ]),
         ],
@@ -126,7 +127,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
           null,
           this.habilitaCampoSenha()
             ? Validators.compose([
-                Util.getValidadorObrigatorioSemEspacos(),
+                ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
                 Validators.minLength(5),
                 Validators.maxLength(20),
               ])
@@ -136,7 +137,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
           null,
           this.habilitaCampoSenha()
             ? Validators.compose([
-                Util.getValidadorObrigatorioSemEspacos(),
+                ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
                 Validators.minLength(5),
                 Validators.maxLength(20),
               ])

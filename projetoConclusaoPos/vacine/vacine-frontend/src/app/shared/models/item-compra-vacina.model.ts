@@ -1,7 +1,6 @@
+import { RelacionamentoVacina } from './../classes/relacionamento-vacina.class';
 export class ItemCompraVacina {
-  vacina_id: string;
-  vacina_nome: string;
-  vacina_protecao_contra: string;
+  vacina: RelacionamentoVacina;
   lote: string;
   qtd_frascos: number;
   qtd_doses: number;

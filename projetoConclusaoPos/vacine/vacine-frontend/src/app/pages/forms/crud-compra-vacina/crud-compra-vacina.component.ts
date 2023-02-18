@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
+import { Util } from 'src/app/shared/utils/util.util';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { FornecedorService } from '../../../services/crud/fornecedor/fornecedor.service';
+import { RelacionamentoFornecedor } from '../../../shared/classes/relacionamento-fornecedor.class';
+import { RelacionamentoVacina } from '../../../shared/classes/relacionamento-vacina.class';
 import { CompraVacinaService } from './../../../services/crud/compra-vacina/compra-vacina.service';
-import { RelacionamentoFornecedor } from './../../../shared/interfaces/relacionamento-fornecedor.interface';
-import { RelacionamentoVacina } from './../../../shared/interfaces/relacionamento-vacina.interface';
 import { CompraVacina } from './../../../shared/models/compra-vacina.model';
 
 @Component({
@@ -20,11 +22,12 @@ export class CrudCompraVacinaComponent
   extends GenericCrudComLookupComponent<CompraVacina>
   implements OnInit
 {
-  protected readonly nomeControlFornecedor = 'fornecedor';
-  protected readonly nomeControlVacina = 'vacina';
+  protected readonly nomeCtrlFornecedor = 'fornecedor';
+  protected readonly nomeCtrlVacina = 'vacina';
+  protected readonly nomeCtrlVacinaCompleto = 'itens_compra.vacina';
 
-  protected readonly nomeAtributoExibirFornecedor = 'fornecedor_nome';
-  protected readonly nomeAtributoExibirVacina = 'vacina_nome';
+  protected readonly nomeAtributoExibirFornecedor = 'nome';
+  protected readonly nomeAtributoExibirVacina = 'nome';
 
   fornecedores: RelacionamentoFornecedor[] = [];
   fornecedoresFiltrados!: Observable<RelacionamentoFornecedor[]>;
@@ -65,94 +68,116 @@ export class CrudCompraVacinaComponent
     this.artigoEntidade = 'a';
     this.nomeCampoFormIdentificaEntidade = 'nota fiscal';
   }
-  /*
-  fornecedor_id: string;
-  fornecedor_nome: string;
-  fornecedor_cnpj: string;
-  nota_fiscal: string;
-  data_compra: Date;
-  vl_total_compra: number;
-  itens_compra: ItemCompraVacina[];
-*/
+
   protected override buildForm() {
     this.form = this.formBuilder.group({
-      fornecedor: [null],
-      vacina: [null],
+      _id: [null],
+      nota_fiscal: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      data_compra: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      vl_total_compra: [
+        0.00,
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+      ],
+      fornecedor: [
+        null,
+        Validators.compose([
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidatorValorExisteInpuAutoComplete(),
+        ]),
+      ],
+      itens_compra: this.formBuilder.group({
+        vacina: [null],
+      }),
+      // lote: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      // qtd_frascos: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      // qtd_doses: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      // data_validade: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      // vl_total_item_compra: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      // }),
     });
 
     this.preencherCamposLookup();
-    this.setChangeParaFiltrarValoresCamposLookup();
   }
 
   private preencherCamposLookup() {
     this.setLookupFornecedor();
-    this.setLookupVacina();
-  }
-
-  private setChangeParaFiltrarValoresCamposLookup() {
-    this.setChangeFornecedorParaFiltrarValores();
-    this.setChangeVacinaParaFiltrarValores();
+    // this.setLookupVacina();
   }
 
   private setLookupFornecedor() {
-    // this.subscription = this.serviceFornecedor.listarConvertido<ListaComprasVacina>().subscribe({
-    //   next: (listaFornecedor) => {
-    //     this.fornecedores = listaFornecedor;
-    //   },
-    //   error: (e) => {
-    //     this.tratarErroCarregarLookup(e, this.nomeControlFornecedor);
-    //   },
-    // });
+    this.subscription = this.serviceFornecedor
+      .getAllConverted<RelacionamentoFornecedor>(
+        RelacionamentoFornecedor.fornecedorToRelacionamentoFornecedor
+      )
+      .subscribe({
+        next: (listaFornecedor) => {
+          this.fornecedores = listaFornecedor;
+          this.setChangeFornecedorParaFiltrarValores();
+        },
+        error: (e) => {
+          this.tratarErroCarregarLookup(e, this.nomeCtrlFornecedor);
+        },
+      });
   }
 
   private setLookupVacina() {
-    // this.subscription = this.serviceVacina.listar().subscribe({
-    //   next: (listaVacina) => {
-    //     this.vacinas = listaVacina;
-    //   },
-    //   error: (e) => {
-    //     this.tratarErroCarregarLookup(e, this.nomeControlVacina);
-    //   },
-    // });
+    this.subscription = this.serviceVacina
+      .getAllConverted<RelacionamentoVacina>(
+        RelacionamentoVacina.vacinaToRelacionamentoVacina
+      )
+      .subscribe({
+        next: (listaVacina) => {
+          this.vacinas = listaVacina;
+          this.setChangeFornecedorParaFiltrarValores();
+        },
+        error: (e) => {
+          this.tratarErroCarregarLookup(e, this.nomeCtrlVacina);
+        },
+      });
   }
 
   private setChangeFornecedorParaFiltrarValores() {
-    this.fornecedoresFiltrados = this.form.controls[
-      this.nomeControlFornecedor
-    ].valueChanges.pipe(
+    this.fornecedoresFiltrados = this.getFormControl(
+      this.nomeCtrlFornecedor
+    ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
           this.fornecedores,
           value,
-          this.nomeControlFornecedor,
+          this.nomeCtrlFornecedor,
           this.nomeAtributoExibirFornecedor
         )
       )
     );
   }
 
+  protected filtrarFornecedor(value: any) {
+    this.filtrarPeloValorAtributo(
+      this.fornecedores,
+      value,
+      this.nomeCtrlFornecedor,
+      this.nomeAtributoExibirFornecedor
+    );
+  }
+
   private setChangeVacinaParaFiltrarValores() {
-    this.vacinasFiltradas = this.form.controls[
-      this.nomeControlVacina
-    ].valueChanges.pipe(
+    this.vacinasFiltradas = this.getFormControl(
+      this.nomeCtrlVacinaCompleto
+    ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
           this.vacinas,
           value,
-          this.nomeControlVacina,
+          this.nomeCtrlVacina,
           this.nomeAtributoExibirVacina
         )
       )
     );
   }
 
-  protected exibirTextoLookupFornecedor(f: RelacionamentoFornecedor): string {
-    return this.exibirTextoLookup(f[this.nomeAtributoExibirFornecedor]);
-  }
-
-  protected exibirTextoLookupVacina(v: RelacionamentoVacina): string {
-    return this.exibirTextoLookup(v[this.nomeAtributoExibirVacina]);
+  protected exibirTextoLookup(v: any): string {
+    return v.nome ? v.nome : '';
   }
 }

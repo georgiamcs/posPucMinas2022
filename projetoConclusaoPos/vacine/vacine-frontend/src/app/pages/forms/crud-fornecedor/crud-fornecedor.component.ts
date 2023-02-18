@@ -8,6 +8,7 @@ import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-cr
 import { FornecedorService } from 'src/app/services/crud/fornecedor/fornecedor.service';
 import { Util } from 'src/app/shared/utils/util.util';
 import { Fornecedor } from '../../../shared/models/fornecedor.model';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 
 @Component({
   selector: 'vacine-crud-fornecedor',
@@ -51,7 +52,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       cnpj: [
         null,
         Validators.compose([
-          Util.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(14),
           Validators.maxLength(14),
         ]),
@@ -59,7 +60,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       nome: [
         null,
         Validators.compose([
-          Util.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(3),
           Validators.maxLength(100),
         ]),
@@ -67,20 +68,20 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       email: [
         null,
         Validators.compose([
-          Util.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.email,
         ]),
       ],
       endereco: this.formBuilder.group({
-        logradouro: [null, Util.getValidadorObrigatorioSemEspacos()],
-        numero: [null, Util.getValidadorObrigatorioSemEspacos()],
+        logradouro: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+        numero: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
         complemento: [null],
-        cidade: [null, Util.getValidadorObrigatorioSemEspacos()],
-        estado: [null, Util.getValidadorObrigatorioSemEspacos()],
+        cidade: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+        estado: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
         cep: [
           null,
           Validators.compose([
-            Util.getValidadorObrigatorioSemEspacos(),
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
             Validators.minLength(8),
             Validators.maxLength(8),
           ]),
@@ -96,7 +97,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       tel_celular: [
         null,
         Validators.compose([
-          Util.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.minLength(11),
           Validators.maxLength(11),
         ]),

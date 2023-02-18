@@ -30,14 +30,14 @@ export class ListaCompraVacinaService extends GenericCrudService<ListaComprasVac
     );
     novo.dt_inclusao = compraVacina.dt_inclusao;
     novo.dt_alteracao = compraVacina.dt_alteracao;
-    novo.fornecedor_nome = compraVacina.fornecedor_nome;
+    novo.fornecedor_nome = compraVacina.fornecedor.nome;
     novo.nota_fiscal = compraVacina.nota_fiscal;
     novo.vl_total_compra = compraVacina.vl_total_compra.toLocaleString(
       'pt-br',
       { minimumFractionDigits: 2 }
     );
     novo.itens = compraVacina.itens_compra
-      .map((i) => i.vacina_nome)
+      .map((i) => i.vacina.nome)
       .reduce((acum, currentElement) => `${acum}, ${currentElement}`);
 
     return novo;

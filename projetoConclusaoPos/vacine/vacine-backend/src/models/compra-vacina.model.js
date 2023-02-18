@@ -2,21 +2,23 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CompraVacinaSchema = Schema({
-  fornecedor_id: {
-    type: String,
-    required: true,
-  },
-  fornecedor_nome: {
-    type: String,
-    required: true,
-  },
-  fornecedor_cnpj: {
-    type: String,
-    required: true,
-  },
   nota_fiscal: {
     type: String,
     required: true,
+  },
+  fornecedor: {
+    _id: {
+      type: String,
+      required: true,
+    },
+    nome: {
+      type: String,
+      required: true,
+    },
+    cnpj: {
+      type: String,
+      required: true,
+    },
   },
   data_compra: {
     type: Date,
@@ -37,17 +39,19 @@ const CompraVacinaSchema = Schema({
   },
   itens_compra: [
     {
-      vacina_id: {
-        type: String,
-        required: true,
-      },
-      vacina_nome: {
-        type: String,
-        required: true,
-      },
-      vacina_protecao_contra: {
-        type: String,
-        required: true,
+      vacina: {
+        _id: {
+          type: String,
+          required: true,
+        },
+        nome: {
+          type: String,
+          required: true,
+        },
+        protecao_contra: {
+          type: String,
+          required: true,
+        },
       },
       lote: {
         type: String,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -45,16 +46,25 @@ export class GenericCrudComLookupComponent<
     nomeAtributo: string
   ): any[] {
     let ehString = typeof valor === 'string';
-    const vlAtributo = typeof valor === 'string' ? valor : valor?.[nomeAtributo];
+    const vlAtributo =
+      typeof valor === 'string' ? valor : valor?.[nomeAtributo];
 
-    if (ehString && vlAtributo && vlAtributo != '' && lista && lista.length > 0) {
+    if (
+      ehString &&
+      vlAtributo &&
+      vlAtributo != '' &&
+      lista &&
+      lista.length > 0
+    ) {
       let item = lista.find(
         (item) =>
           item[nomeAtributo].trim().toLowerCase() ==
           vlAtributo.trim().toLowerCase()
       );
       if (item) {
-        this.form.get(nomeFormControl)!.patchValue(item, { emitEvent: false });
+        this.getFormControl(nomeFormControl)!.patchValue(item, {
+          emitEvent: false,
+        });
       }
     }
     return vlAtributo
@@ -62,7 +72,4 @@ export class GenericCrudComLookupComponent<
       : lista.slice();
   }
 
-  protected exibirTextoLookup(vl: string | null | undefined): string {
-    return Util.converterUndefinedNullStrVazia(vl);
-  }
 }
