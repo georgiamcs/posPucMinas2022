@@ -65,17 +65,7 @@
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field class="crudfield" id="fVlTotCompra">
-        <mat-label id="lblTotCompra">Valor Total da Compra*</mat-label>
-        <input
-          id="inVlTotCompra"
-          formControlName="vl_total_compra"
-          matInput
-          type="text"
-        />
-      </mat-form-field>
-
-      <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
+      <mat-form-field class="crudfield" id="fFornecedor">
         <mat-label>Fornecedor</mat-label>
         <input
           type="text"
@@ -123,6 +113,18 @@
           >O fornecedor não está cadastrado!</mat-error
         >
       </mat-form-field>
+
+      <mat-form-field class="crudfield" id="fVlTotCompra">
+        <mat-label id="lblTotCompra">Total Compra*</mat-label>
+        <input
+          id="inVlTotCompra"
+          formControlName="vl_total_compra"
+          matInput
+          type="text"
+        />
+      </mat-form-field>
+
+
       <!-- <div formGroupName="itens_compra">F
         <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
           <mat-label>Vacina</mat-label>
