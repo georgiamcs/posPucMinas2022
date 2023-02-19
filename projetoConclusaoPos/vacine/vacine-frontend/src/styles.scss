@@ -9,10 +9,15 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .container {
-  margin: 10px;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   background-color: white;
+}
+
+.accordion {
+  margin: 10px;
+  border: 1px gray solid;
 }
 
 .mobile-indicator,
@@ -74,6 +79,8 @@ body {
 .fieldsetinterna {
   @extend .crudfieldset;
   border: 1px gray solid;
+  margin-top: 10px
+
 }
 
 .crudfield {
@@ -85,7 +92,7 @@ body {
   margin-right: 5px;
 }
 .crudform {
-  width: 80%;
+  width: 100%;
   background-color: white;
 }
 
@@ -104,7 +111,7 @@ body {
 
 .filtlistagem {
   width: 100%;
-  padding-top:20px;
+  padding-top: 20px;
 }
 
 @media (max-width: 480px) {
