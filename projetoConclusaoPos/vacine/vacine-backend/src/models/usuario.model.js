@@ -18,6 +18,10 @@ const UsuarioSchema = Schema({
     type: String,
     required: false,
   },
+  data_nascimento: {
+    type: Date,
+    required: false,    
+  },
   endereco: {
     logradouro: {
       type: String,

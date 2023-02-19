@@ -11,6 +11,7 @@ function createUsuario(obj) {
   usuario.nome = obj.nome;
   usuario.email = obj.email;
   usuario.cpf = obj.cpf;
+  usuario.data_nascimento = obj.data_nascimento;  
   usuario.endereco = obj.endereco;
   usuario.tel_celular = obj.tel_celular;
   usuario.tel_fixo = obj.tel_fixo;

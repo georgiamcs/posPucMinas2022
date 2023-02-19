@@ -6,6 +6,7 @@ export class Usuario extends EntityNomeModel {
   tipo: TipoUsuario;
   email: string;
   cpf?: string;
+  data_nascimento?: Date;
   endereco?: {
     logradouro?: string;
     numero?: string;

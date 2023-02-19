@@ -71,6 +71,46 @@
         </mat-error>
       </mat-form-field>
 
+      <!-- DATA NASCIMENTO -->
+      <mat-form-field class="crudfield" id="fDataNascimento" appearance="fill">
+        <mat-label>Data de nascimento</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="data_nascimento"
+        />
+        <mat-hint *ngIf="exibeHint('data_nascimento')"
+          >Digite ou selecione a data</mat-hint
+        >
+        <mat-error
+          *ngIf="
+            hasErroValidacao(
+              'data_nascimento',
+              TipoErroValForm.DEFINIDA_USUARIO,
+              'matDatepickerParse'
+            )
+          "
+        >
+          Selecione ou informe uma data válida
+        </mat-error>
+        <mat-error
+          *ngIf="
+            hasErroValidacao('data_compra', TipoErroValForm.REQUERIDO) &&
+            !hasErroValidacao(
+              'data_compra',
+              TipoErroValForm.DEFINIDA_USUARIO,
+              'matDatepickerParse'
+            )
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
       <!-- SENHA -->
       <div>
         <span *ngIf="habilitaCampoSenha()">

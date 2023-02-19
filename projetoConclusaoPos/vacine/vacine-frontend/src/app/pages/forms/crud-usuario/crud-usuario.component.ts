@@ -123,6 +123,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
             Validators.email,
           ]),
         ],
+        data_nascimento: [null],
         senha: [
           null,
           this.habilitaCampoSenha()
