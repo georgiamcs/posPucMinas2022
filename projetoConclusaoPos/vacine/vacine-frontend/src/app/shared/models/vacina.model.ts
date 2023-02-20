@@ -1,5 +1,4 @@
-import { EntityNomeModel } from "./entity-nome.model";
-import { EntityModel } from "./entity.model";
+import { EntityNomeModel } from './entity-nome.model';
 
 export type TipoIdadeRecomendada = 'A' | 'M';
 export class Vacina extends EntityNomeModel {

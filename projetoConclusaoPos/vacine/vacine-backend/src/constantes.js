@@ -15,7 +15,14 @@ const TIPO_USUARIO = Object.freeze({
   TECNICO_ENFERMAGEM: "T",
 }); 
 
+const TIPO_ATUALIZACAO_ESTOQUE = Object.freeze({
+  ADICIONAR: "A",
+  REMOVER: "R",
+}); 
+
 module.exports = {
-  RETORNO_HTTP, TIPO_USUARIO
+  RETORNO_HTTP,
+  TIPO_USUARIO,
+  TIPO_ATUALIZACAO_ESTOQUE,
 };
 

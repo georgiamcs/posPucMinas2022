@@ -266,7 +266,7 @@ export class CrudCompraVacinaComponent
   }
 
   protected limparFormItens() {
-    this.buildFormItens();
+    this.formItem.reset();
   }
 
   protected setAdicionando(v: boolean) {
@@ -289,5 +289,11 @@ export class CrudCompraVacinaComponent
       .map((i) => i.vl_total_item_compra)
       .reduce((acum, v) => acum + v, 0);
     this.setValorCampoForm('vl_total_compra', vlTotCompra);
+  }
+
+  protected override limparFormulario(): void {
+      super.limparFormulario();
+      this.limparFormItens();
+      this.itens = [];
   }
 }

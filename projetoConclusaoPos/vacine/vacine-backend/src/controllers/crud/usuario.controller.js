@@ -53,7 +53,7 @@ class UsuarioController extends GenericCrudController {
     ) {
       try {
         const registro = await this.service.getById(this.objectModel, id);
-        res.json(registro.nome);
+        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro.nome);
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -99,15 +99,15 @@ class UsuarioController extends GenericCrudController {
           regAlterado
         );
 
-        if (regAtualizado.nModified === 0) {
-          return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({});
+        if (regAtualizado.modifiedCount === 0) {
+          return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({error: `Senha do usuário com id ${id} não foi atualizada`});
         }
 
-        res.json(regAtualizado);
+        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
+          .json({ error: `Senha do usuário com id ${id} não foi atualizada. Erro => ${error.message}` });
       }
     } else {
       res

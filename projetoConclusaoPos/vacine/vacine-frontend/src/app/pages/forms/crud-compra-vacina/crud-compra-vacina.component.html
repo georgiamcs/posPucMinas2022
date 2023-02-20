@@ -408,6 +408,7 @@
             <button
               mat-icon-button
               (click)="excluirItem(item)"
+              [disabled]="somenteLeitura()"
               matTooltip="Excluir"
             >
               <mat-icon>delete</mat-icon>

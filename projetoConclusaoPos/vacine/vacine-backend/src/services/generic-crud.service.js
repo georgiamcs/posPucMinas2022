@@ -22,10 +22,10 @@ class GenericCrudService {
     }
   }
 
-  static async add(objectModel, fnCriarObjEntidade, pNovoRegistro) {
+  static async add(objectModel, fnCriarObjEntidade, pNovoRegistro, session) {
     try {
       const novoRegistro = fnCriarObjEntidade(pNovoRegistro);
-      const response = await new objectModel(novoRegistro).save();
+      const response = await new objectModel(novoRegistro).save({session});
       return response;
     } catch (error) {
       const msgErro = `Erro ao adicionar novo registro ${pNovoRegistro.nome}: ${error.message}`;
@@ -33,14 +33,17 @@ class GenericCrudService {
     }
   }
 
-  static async update(objectModel, id, pRegistroAlterado) {
+  static async update(objectModel, id, pRegistroAlterado, session) {
     try {
+      //caso o pRegistroAlterado vier com _id e __v, remover esses campos para atualizar
+      let { _id, __v, ...registroAlteradoPuro } = pRegistroAlterado;
       const updateResponse = await objectModel.updateOne(
         { _id: id },
         {
-          ...pRegistroAlterado,
+          ...registroAlteradoPuro,
           dt_alteracao: Date.now(),
-        }
+        },
+        { session }
       );
 
       return updateResponse;
@@ -50,11 +53,14 @@ class GenericCrudService {
     }
   }
 
-  static async delete(objectModel, id) {
+  static async delete(objectModel, id, session) {
     try {
-      const deletedResponse = await objectModel.findOneAndDelete({
-        _id: id,
-      });
+      const deletedResponse = await objectModel.findOneAndDelete(
+        {
+          _id: id,
+        },
+        { session }
+      );
 
       return deletedResponse;
     } catch (error) {
@@ -63,9 +69,13 @@ class GenericCrudService {
     }
   }
 
-  static async findOne(objectModel, query) {
+  static async getOne(objectModel, query, session) {
+    if (!!session) {
+    return await objectModel.findOne(query).session(session);
+  } else {
     return await objectModel.findOne(query);
   }
+}
 }
 
 module.exports = GenericCrudService;

@@ -84,7 +84,6 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     let state;
     if (!!this.router) {
       state = this.router.getCurrentNavigation()?.extras.state?.[nomeState];
-      console.log('getCurrentNavigation', this.router.getCurrentNavigation());
     }
     return state;
   }

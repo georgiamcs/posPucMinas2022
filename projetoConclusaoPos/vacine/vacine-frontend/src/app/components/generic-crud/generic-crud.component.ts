@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormGroup,
-  ValidationErrors,
+  FormGroup, ValidationErrors,
   ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -497,7 +496,6 @@ export class GenericCrudComponent<
   }
 
   protected limparFormulario() {
-    this.buildForm();
+    this.form.reset();
   }
-
 }

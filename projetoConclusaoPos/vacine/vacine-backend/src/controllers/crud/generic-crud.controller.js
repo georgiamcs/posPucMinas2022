@@ -91,11 +91,13 @@ class GenericCrudController {
           regAlterado
         );
 
-        if (regAtualizado.nModified === 0) {
-          return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({});
+        if (regAtualizado.modifiedCount === 0) {
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json({ error: `Registro com id ${id} não foi atualizado.` });
         }
 
-        res.json(regAtualizado);
+        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -114,7 +116,7 @@ class GenericCrudController {
 
       try {
         const deleteResponse = await this.service.delete(this.objectModel, id);
-        res.json(deleteResponse);
+        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(deleteResponse);
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)

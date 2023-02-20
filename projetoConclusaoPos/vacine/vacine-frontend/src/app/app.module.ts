@@ -2,7 +2,7 @@ import { DecimalPipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/app/environment';
@@ -13,7 +13,7 @@ import { httpInterceptorProviders } from './interceptors/http-request.intercepto
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule } from '@angular/material/core';
+import { ErrorStateMatcher, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
@@ -87,6 +87,14 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   thousands: '.',
 };
 
+// Para fazer com que o reset form nao deixe as validacoes invalidas dos campos
+// https://github.com/angular/components/issues/4190#issuecomment-1326268423
+export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null): boolean {
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -152,6 +160,9 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: LOCALE_ID, useValue: 'pt' },
+    {
+        provide: ErrorStateMatcher, useClass: CustomMaterialFormsMatcher
+    },
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     provideNgxMask(),
     SecurityProvider,
