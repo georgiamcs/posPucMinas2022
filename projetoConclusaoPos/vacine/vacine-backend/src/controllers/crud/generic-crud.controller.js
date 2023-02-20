@@ -1,8 +1,8 @@
-const {AutorizacaoService} = require("../../services/autorizacao.service");
+const { AutorizacaoService } = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
 
 class GenericCrudController {
-  constructor(service, objectModel,  perfisRequeridos, fnCriarObjEntidade) {
+  constructor(service, objectModel, perfisRequeridos, fnCriarObjEntidade) {
     this.service = service;
     this.perfisRequeridos = perfisRequeridos;
     this.fnCriarObjEntidade = fnCriarObjEntidade;
@@ -15,7 +15,13 @@ class GenericCrudController {
 
       try {
         const registro = await this.service.getById(this.objectModel, id);
-        res.json(registro);
+        if (registro) {
+          res.json(registro);
+        } else {
+          res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error:  `Registro com Id ${id} não encontrado.`});
+        }
+
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -55,7 +61,11 @@ class GenericCrudController {
   add = async (req, res) => {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
       try {
-        const regAdicionado = await this.service.add(this.objectModel, this.fnCriarObjEntidade, req.body);
+        const regAdicionado = await this.service.add(
+          this.objectModel,
+          this.fnCriarObjEntidade,
+          req.body
+        );
         res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
       } catch (error) {
         res
@@ -76,7 +86,7 @@ class GenericCrudController {
       try {
         let regAlterado = this.fnCriarObjEntidade(req.body);
         const regAtualizado = await this.service.update(
-          this.objectModel, 
+          this.objectModel,
           id,
           regAlterado
         );
