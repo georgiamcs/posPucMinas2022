@@ -478,7 +478,7 @@ export class GenericCrudComponent<
   protected getMsgErroValidacaoTipo(tipo: TipoErroValidacaoFormulario): string {
     switch (tipo) {
       case TipoErroValidacaoFormulario.OBRIGATORIO:
-        return 'Campo obrigatório';
+        return 'Campo obrigatório e com caracteres válidos';
       case TipoErroValidacaoFormulario.REQUERIDO:
         return 'Campo obrigatório';
       case TipoErroValidacaoFormulario.FORMATO:

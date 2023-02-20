@@ -140,3 +140,10 @@ justify-content: flex-end;
     min-width: auto;
   }
 }
+
+.semregistros {
+  display: flex;
+  flex-direction:column;
+  flex-wrap: wrap;
+  align-content: center;
+}

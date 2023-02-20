@@ -3,10 +3,13 @@
   justify-content: flex-end;
 }
 
-.mat-column-acoes {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+.mat-column-vl_total_compra {
+  text-align: right;
   justify-content: flex-end;
+}
+
+.mat-column-acoes {
+  text-align: center;
+  width: 180px;
 }
 
