@@ -12,14 +12,13 @@ import { Usuario } from 'src/app/shared/models/usuario.model';
 })
 export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usuario> {
   constructor(
-    private _router: Router,
-    private _service: UsuarioService,
-    private __deviceService: DeviceDetectorService
+    private __router: Router,
+    private __deviceService: DeviceDetectorService,
+    private _service: UsuarioService
   ) {
-    super(__deviceService);
+    super(__router, __deviceService, _service);
     this.definirColunasExibidas();
-    this.definirAtributosInjetores();
-    this.carregarMensagensAoIniciar();
+    this.definirAtributosSuperClasse();
   }
 
   protected definirColunasExibidas() {
@@ -32,8 +31,7 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     ];
   }
 
-  private definirAtributosInjetores() {
-    this.service = this._service;
-    this.router = this._router;
+  private definirAtributosSuperClasse() {
+    this.pathCrudUrl = 'usuario';
   }
 }

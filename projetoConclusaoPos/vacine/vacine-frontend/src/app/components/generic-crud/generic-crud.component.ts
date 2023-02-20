@@ -1,3 +1,4 @@
+import { TipoOrigemRota } from './../../shared/enums/tipo-rota.enum';
 //TODO: implementar de forma que nao volte a tela de listagem e permaneca na tela na inclusao, tendo as mensagens de sucesso no proprio formulario
 import { Component } from '@angular/core';
 import {
@@ -5,22 +6,24 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { throwError } from 'rxjs';
+import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario,
+  ModoFormulario
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
+import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
@@ -45,18 +48,20 @@ export class GenericCrudComponent<
   protected id: string | null;
   protected registro: T;
 
-  protected service: GenericCrudService<T>;
-  protected formBuilder: FormBuilder;
-  protected activatedRoute: ActivatedRoute;
-  protected dialogoConf: MatDialog;
-
   private _nomeEntidade: string;
   private _pluralEntidade: string;
   private _artigoEntidade: string;
   private _nomeCampoFormIdentificaEntidade: string;
 
-  constructor() {
-    super();
+  constructor(
+    private _router: Router,
+    protected _deviceService: DeviceDetectorService,
+    protected activatedRoute: ActivatedRoute,
+    protected formBuilder: FormBuilder,
+    protected dialogoConf: MatDialog,
+    protected service: GenericCrudService<T>
+  ) {
+    super(_router, _deviceService);
   }
 
   protected buildForm() {}
@@ -121,13 +126,28 @@ export class GenericCrudComponent<
     );
   }
 
+  protected getRegistroForm() {
+    return this.form.value;
+  }
+
   protected incluirRegistro() {
-    const msgFeedback = this.getMsgFeedBackIncluidoSucesso(
-      this.nomeCampoFormIdentificaEntidade
-    );
-    this.subscription = this.service.add(this.form.value).subscribe({
-      next: () => this.carregarRegistros(msgFeedback),
-      error: (erro) => this.tratarErro(`Erro ao incluir registro => ${erro}`),
+    const novoRegistro = this.getRegistroForm();
+
+    this.subscription = this.service.add(novoRegistro).subscribe({
+      next: () => {
+        const msgFeedbackSucesso = this.getMsgFeedBackIncluidoSucesso(
+          this.nomeCampoFormIdentificaEntidade
+        );
+        this.addMensagem(msgFeedbackSucesso);
+        this.limparFormulario();
+      },
+      error: (erro) => {
+        const msgFeedbackErro = new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          `Erro ao incluir registro => ${erro}`
+        );
+        this.addMensagem(msgFeedbackErro);
+      },
     });
   }
 
@@ -136,21 +156,25 @@ export class GenericCrudComponent<
   }
 
   protected alterarRegistro() {
-    const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
-      this.nomeCampoFormIdentificaEntidade
-    );
     this.subscription = this.service.update(this.form.value).subscribe({
-      next: () => this.carregarRegistros(msgFeedback),
+      next: () => {
+        const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
+          this.nomeCampoFormIdentificaEntidade
+        );
+        this.carregarRegistros(msgFeedback);
+      },
       error: (erro) => this.tratarErro(`Erro ao alterar registro => ${erro}`),
     });
   }
 
   protected excluirRegistro(id: string) {
-    const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
-      this.nomeCampoFormIdentificaEntidade
-    );
     this.subscription = this.service.delete(id).subscribe({
-      next: () => this.carregarRegistros(msgFeedback),
+      next: () => {
+        const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
+          this.nomeCampoFormIdentificaEntidade
+        );
+        this.carregarRegistros(msgFeedback);
+      },
       error: (erro) => this.tratarErro(`Erro ao excluir registro => ${erro}`),
     });
   }
@@ -181,6 +205,7 @@ export class GenericCrudComponent<
     if (this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO) {
       switch (this.modoFormulario) {
         case ModoFormulario.INCLUSAO:
+          this.mensagens = [];
           this.incluirRegistro();
           break;
         case ModoFormulario.REGISTRAR:
@@ -207,10 +232,11 @@ export class GenericCrudComponent<
   }
 
   protected fechar() {
-    this.executarAcaoFechar(
-      this.router,
-      this.getCaminhoRelativoListaRegistros()
-    );
+    if (this.modoFormulario == ModoFormulario.REGISTRAR) {
+      this.router.navigate(['/login']);
+    } else if (this.origemRotaNavegacao == TipoOrigemRota.LISTAGEM) {
+      this.router.navigate([this.getCaminhoRelativoListaRegistros()]);
+    } else this.router.navigate(['/home']);
   }
 
   protected preencherAtributosGenericosCrud() {
@@ -235,8 +261,10 @@ export class GenericCrudComponent<
     );
   }
 
-  protected exibeHint(nomeFormControl: string): boolean {
-    return !this.somenteLeitura() && !this.getValorCampoForm(nomeFormControl);
+  protected exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
+    return (
+      !this.somenteLeitura() && !this.getValorCampoForm(nomeFormControl, form)
+    );
   }
 
   protected temBotaoAcao(): boolean {
@@ -255,40 +283,34 @@ export class GenericCrudComponent<
     caminhoRelativo: string,
     msgFeedback: MensagemFeedback
   ) {
-    const state = MensagemFeedback.gerarStateMsgFeedbackRota(msgFeedback);
+    const state = UtilRota.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate([caminhoRelativo], state);
   }
 
-  protected executarAcaoFechar(router: Router, caminhoRelativo: string) {
-    if (this.modoFormulario == ModoFormulario.REGISTRAR) {
-      router.navigate(['/login']);
-    } else {
-      router.navigate([caminhoRelativo]);
-    }
+  protected getValorCampoForm(formControlName: string, form?: FormGroup): any {
+    return this.getFormControl(formControlName, form)?.value;
   }
 
-  protected getValorCampoForm(formControlName: string): any {
-    return this.getFormControl(formControlName)?.value;
-  }
-
-  protected getFormControl(formControlName: string): any {
+  protected getFormControl(formControlName: string, form?: FormGroup): any {
     let nomesCampos = formControlName.split('.');
+
+    let formulario = Util.converterUndefinedEmNulo(form) ? form : this.form;
 
     switch (nomesCampos.length) {
       case 1:
-        return this.form.get(formControlName);
+        return formulario!.get(formControlName);
 
       case 2:
-        return this.form.get(nomesCampos[0])?.get(nomesCampos[1]);
+        return formulario!.get(nomesCampos[0])?.get(nomesCampos[1]);
 
       case 3:
-        return this.form
+        return formulario!
           .get(nomesCampos[0])
           ?.get(nomesCampos[1])
           ?.get(nomesCampos[2]);
 
       case 4:
-        return this.form
+        return formulario!
           .get(nomesCampos[0])
           ?.get(nomesCampos[1])
           ?.get(nomesCampos[2])
@@ -308,6 +330,10 @@ export class GenericCrudComponent<
 
   protected habilitarBotaoAcao(): boolean {
     return this.form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO;
+  }
+
+  protected habilitarBotaoAcaoForm(form: FormGroup): boolean {
+    return form.valid || this.modoFormulario == ModoFormulario.EXCLUSAO;
   }
 
   protected getCaminhoRelativoListaRegistros(): string {
@@ -363,72 +389,85 @@ export class GenericCrudComponent<
     };
   }
 
-  protected campoFormFoiEditado(formControlName: string): boolean {
-    return !!this.form.get(formControlName)?.touched;
+  protected campoFormFoiEditado(
+    formControlName: string,
+    form?: FormGroup
+  ): boolean {
+    return !!this.getFormControl(formControlName, form)?.touched;
   }
 
   protected recuperarErroCampoForm(
     formControlName: string,
-    nomeErroValidador?: string | null
+    nomeErroValidador?: string | null,
+    form?: FormGroup
   ): ValidationErrors | null {
     if (!!nomeErroValidador) {
       return Util.converterUndefinedEmNulo(
-        this.getFormControl(formControlName)?.errors?.[nomeErroValidador]
+        this.getFormControl(formControlName, form)?.errors?.[nomeErroValidador]
       );
     } else
       return Util.converterUndefinedEmNulo(
-        this.getFormControl(formControlName)?.errors
+        this.getFormControl(formControlName, form)?.errors
       );
   }
 
   protected hasErroValidacao(
     nomeFormControl: string,
     tipoErroValidacao: TipoErroValidacaoFormulario,
-    validacaoDefinidaUsuario?: string
+    validacaoDefinidaUsuario?: string,
+    form?: FormGroup
   ): boolean {
-    console.log('this.form', this.form)
     let exibe = false;
 
-    if (this.campoFormFoiEditado(nomeFormControl)) {
+    if (this.campoFormFoiEditado(nomeFormControl, form)) {
       switch (tipoErroValidacao) {
         case TipoErroValidacaoFormulario.OBRIGATORIO:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'required') != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'pattern') != null;
+            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
+              null;
           break;
 
         case TipoErroValidacaoFormulario.REQUERIDO:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'required') != null;
+            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
+            null;
           break;
 
         case TipoErroValidacaoFormulario.FORMATO:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'minlength') != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'maxlength') != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'pattern') != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'mask') != null;
+            this.recuperarErroCampoForm(nomeFormControl, 'minlength', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'maxlength', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'mask', form) != null;
           break;
 
         case TipoErroValidacaoFormulario.LIMITE:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'min') != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'max') != null;
+            this.recuperarErroCampoForm(nomeFormControl, 'min', form) != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'max', form) != null;
           break;
 
         case TipoErroValidacaoFormulario.EMAIL:
-          exibe = this.recuperarErroCampoForm(nomeFormControl, 'email') != null;
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'email', form) != null;
           break;
 
         case TipoErroValidacaoFormulario.QUALQUER:
-          exibe = this.recuperarErroCampoForm(nomeFormControl, null) != null;
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, null, form) != null;
           break;
 
         default: //QUALQUER e DEFINIDA_USUARIO
           exibe =
             this.recuperarErroCampoForm(
               nomeFormControl,
-              validacaoDefinidaUsuario
+              validacaoDefinidaUsuario,
+              form
             ) != null;
           break;
       }
@@ -453,5 +492,21 @@ export class GenericCrudComponent<
       default:
         return '';
     }
+  }
+
+  protected limparFormulario() {
+    this.limparFormGroup(this.form);
+  }
+
+  protected limparFormGroup(formGroup: FormGroup) {
+    formGroup.reset();
+
+    Object.keys(formGroup.controls).forEach((formControl) => {
+      this.getFormControl(formControl).markAsUntouched();
+      this.getFormControl(formControl).markAsPristine();
+      this.getFormControl(formControl).setErrors(null);
+    });
+
+    formGroup.markAsPristine();
   }
 }

@@ -3,3 +3,7 @@ export enum TipoRota {
   EXCLUSAO  = 'excluir',
   REGISTRAR = 'registrar'
 }
+
+export enum TipoOrigemRota {
+  LISTAGEM = 'listar'
+}

@@ -6,7 +6,7 @@
     <div *ngIf="registros.length > 0; else semRegistros">
       <button
         class="btaddlistagem"
-        routerLink="/compra-vacina"
+        (click)="irParaTelaAdicionar()"
         mat-raised-button
         color="primary"
       >
@@ -71,21 +71,21 @@
             <td mat-cell *matCellDef="let registro">
               <button
                 mat-icon-button
-                [routerLink]="['/compras-vacina/' + registro._id]"
+                (click)="irParaTelaVisualizar(registro._id)"
                 matTooltip="Visualizar"
               >
                 <mat-icon>visibility</mat-icon>
               </button>
               <button
                 mat-icon-button
-                [routerLink]="['/compras-vacina/editar/' + registro._id]"
+                (click)="irParaTelaEditar(registro._id)"
                 matTooltip="Editar"
               >
                 <mat-icon>edit</mat-icon>
               </button>
               <button
                 mat-icon-button
-                [routerLink]="['/compras-vacina/excluir/' + registro._id]"
+                (click)="irParaTelaExcluir(registro._id)"
                 matTooltip="Excluir"
               >
                 <mat-icon>delete</mat-icon>

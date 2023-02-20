@@ -1,12 +1,14 @@
-import { GenericGetterService } from './../../services/generic/generic-getter/generic-getter.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
+import { GenericGetterService } from './../../services/generic/generic-getter/generic-getter.service';
 
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { TipoOrigemRota } from 'src/app/shared/enums/tipo-rota.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
+import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
@@ -18,15 +20,19 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   extends GenericPageComponent
   implements OnInit, OnDestroy
 {
-  protected service: GenericGetterService<T>;
   protected registros: T[] = [];
   protected dataSourceMatTable: MatTableDataSource<T>;
   protected defColunasExibidas: DefinicaoColunasExibidas[] = [];
   protected carregado: boolean = false;
 
-  constructor(private _deviceService: DeviceDetectorService) {
-    super();
-    this.deviceService = this._deviceService;
+  protected pathCrudUrl: string;
+
+  constructor(
+    private _router: Router,
+    private _deviceService: DeviceDetectorService,
+    protected service: GenericGetterService<T>
+  ) {
+    super(_router, _deviceService);
   }
 
   override ngOnInit(): void {
@@ -60,7 +66,9 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
         let condTablet =
           Util.converterUndefinedEmTrue(cd.showTablet) && this.isTablet();
         let exibeColuna =
-          Util.converterUndefinedEmTrue(condMobile) || condDesktop || condTablet;
+          Util.converterUndefinedEmTrue(condMobile) ||
+          condDesktop ||
+          condTablet;
         return exibeColuna;
       })
       .map((cd) => cd.def);
@@ -68,12 +76,36 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
     return ret;
   }
 
-  filtrarRegistrosPeloInput(event: Event) {
+  protected filtrarRegistrosPeloInput(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceMatTable.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSourceMatTable.paginator) {
       this.dataSourceMatTable.paginator.firstPage();
     }
+  }
+
+  protected irParaTelaAdicionar() {
+    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+
+    this.router.navigate([this.pathCrudUrl], state);
+  }
+
+  protected irParaTelaVisualizar(id: string) {
+    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+
+    this.router.navigate([`${this.pathCrudUrl}/${id}`], state);
+  }
+
+  protected irParaTelaEditar(id: string) {
+    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+
+    this.router.navigate([`${this.pathCrudUrl}/editar/${id}`], state);
+  }
+
+  protected irParaTelaExcluir(id: string) {
+    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+
+    this.router.navigate([`${this.pathCrudUrl}/excluir/${id}`], state);
   }
 }

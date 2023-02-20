@@ -1,8 +1,8 @@
-import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
-import { ControleAcessoService } from '../../../services/authentication/controle-acesso/controle-acesso.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
+import { ControleAcessoService } from '../../../services/authentication/controle-acesso/controle-acesso.service';
 
 @Component({
   selector: 'vacine-home',
@@ -12,10 +12,9 @@ import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class
 export class HomeComponent extends GenericPageComponent {
   constructor(
     private _router: Router,
+    private __deviceService: DeviceDetectorService,
     protected servicoAcesso: ControleAcessoService
   ) {
-    super();
-    this.router = _router;
-    this.carregarMensagensAoIniciar();
+    super(_router, __deviceService);
   }
 }

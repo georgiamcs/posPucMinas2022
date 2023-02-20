@@ -14,14 +14,13 @@ import { VacinaService } from '../../../services/crud/vacina/vacina.service';
 })
 export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vacina> {
   constructor(
-    private _router: Router,
-    private _service: VacinaService,
-    private __deviceService: DeviceDetectorService
+    private __router: Router,
+    private __deviceService: DeviceDetectorService,
+    private _service: VacinaService
   ) {
-    super(__deviceService);
+    super(__router, __deviceService, _service);
     this.definirColunasExibidas();
-    this.definirAtributosInjetores();
-    this.carregarMensagensAoIniciar();
+    this.definirAtributosSuperClasse();
   }
 
   protected definirColunasExibidas() {
@@ -34,8 +33,7 @@ export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vaci
     ];
   }
 
-  private definirAtributosInjetores() {
-    this.service = this._service;
-    this.router = this._router;
+  private definirAtributosSuperClasse() {
+    this.pathCrudUrl = 'vacina';
   }
 }

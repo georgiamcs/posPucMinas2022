@@ -34,7 +34,7 @@
           formControlName="data_compra"
         />
         <mat-hint *ngIf="exibeHint('data_compra')"
-          >Digite ou selecione a data</mat-hint
+          >Digite ou selecione a data da compra</mat-hint
         >
         <mat-error
           *ngIf="
@@ -45,7 +45,7 @@
             )
           "
         >
-          Selecione ou informe uma data válida
+          Selecione ou Digite uma data válida
         </mat-error>
         <mat-error
           *ngIf="
@@ -69,9 +69,9 @@
         <mat-label>Fornecedor</mat-label>
         <input
           type="text"
-          formControlName="fornecedor"
+          [formControlName]="nomeCtrlFornecedor"
           matInput
-          placeholder="Escolha o fornecedor"
+          placeholder="Fornecedor"
           [readonly]="isCarregando || erroCarregando"
           [matAutocomplete]="autoFornecedor"
         />
@@ -86,32 +86,25 @@
             {{ fornecedor.nome }}
           </mat-option>
         </mat-autocomplete>
-        <mat-hint *ngIf="exibeHint('fornecedor')"
+        <mat-hint *ngIf="exibeHint(nomeCtrlFornecedor)"
           >Digite o nome do fornecedor ou selecione na lista</mat-hint
         >
         <mat-error
-          *ngIf="hasErroValidacao('fornecedor', TipoErroValForm.OBRIGATORIO)"
+          *ngIf="
+            hasErroValidacao(nomeCtrlFornecedor, TipoErroValForm.OBRIGATORIO)
+          "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
         <mat-error
           *ngIf="
             hasErroValidacao(
-              'fornecedor',
+              nomeCtrlFornecedor,
               TipoErroValForm.DEFINIDA_USUARIO,
               'valornalista'
             )
           "
           >Fornecedor informado não está cadastrado
         </mat-error>
-
-        <mat-error
-          *ngIf="
-            !form.get('fornecedor')?.hasError('required') &&
-            form.get('fornecedor')?.hasError('fornecedorCadastrado') &&
-            form.get('fornecedor')?.touched
-          "
-          >O fornecedor não está cadastrado!</mat-error
-        >
       </mat-form-field>
 
       <mat-form-field class="crudfield" id="fVlTotCompra">
@@ -121,36 +114,325 @@
           formControlName="vl_total_compra"
           matInput
           type="text"
+          currencyMask
         />
       </mat-form-field>
-
-
-      <!-- <div formGroupName="itens_compra">F
-        <mat-form-field class="crudfield" class="me-3 mb-3" style="width: 50%">
-          <mat-label>Vacina</mat-label>
-          <input
-            type="text"
-            [formGroupName]="nomeCtrlVacina"
-            [matAutocomplete]="autovacina"
-            matInput
-            placeholder="Escolha a vacina"
-            [readonly]="isCarregando || erroCarregando"
-          />
-          <mat-autocomplete
-            #autovacina="matAutocomplete"
-            [displayWith]="exibirTextoLookupVacina"
-          >
-            <mat-option
-              *ngFor="let vacina of vacinasFiltradas | async"
-              [value]="vacina"
-            >
-              {{ vacina.nome }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field> -->
-
-      <!-- </div> -->
     </form>
+
+    <button
+      class="btaddlistagem"
+      (click)="setAdicionando(true)"
+      mat-raised-button
+      color="primary"
+      [hidden]="adicionando || somenteLeitura()"
+    >
+      Adicionar Item
+    </button>
+    <div>
+      <form class="crudform" [formGroup]="formItem" [hidden]="!adicionando">
+        <fieldset class="fieldsetinterna">
+          <legend class="float-none w-auto h6">
+            &nbsp;&nbsp;Adicionar item da compra&nbsp;
+          </legend>
+
+          <mat-form-field class="crudfield" id="fVacina">
+            <mat-label>Vacina</mat-label>
+            <input
+              type="text"
+              [formControlName]="nomeCtrlVacina"
+              matInput
+              placeholder="Vacina"
+              [readonly]="isCarregando || erroCarregando"
+              [matAutocomplete]="autoVacina"
+            />
+            <mat-autocomplete
+              #autoVacina="matAutocomplete"
+              [displayWith]="exibirTextoLookup"
+            >
+              <mat-option
+                *ngFor="let vacina of vacinasFiltradas | async"
+                [value]="vacina"
+              >
+                {{ vacina.nome }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-hint *ngIf="exibeHint(nomeCtrlVacina, formItem)"
+              >Digite o nome da vacina ou selecione na lista</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  nomeCtrlVacina,
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  nomeCtrlVacina,
+                  TipoErroValForm.DEFINIDA_USUARIO,
+                  'valornalista',
+                  formItem
+                )
+              "
+              >Vacina informada não está cadastrado
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="crudfield" id="fLote">
+            <mat-label id="lbLote">Lote*</mat-label>
+            <input id="inLote" formControlName="lote" matInput type="text" />
+            <mat-hint *ngIf="exibeHint('lote', formItem)"
+              >Digite o lote</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'lote',
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="crudfield" id="fDataCompra" appearance="fill">
+            <mat-label>Data de validade</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="data_validade"
+            />
+            <mat-hint *ngIf="exibeHint('data_validade', formItem)"
+              >Digite ou selecione a data de validade</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'data_validade',
+                  TipoErroValForm.DEFINIDA_USUARIO,
+                  'matDatepickerParse',
+                  formItem
+                )
+              "
+            >
+              Selecione ou Digite uma data válida
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'data_validade',
+                  TipoErroValForm.REQUERIDO,
+                  '',
+                  formItem
+                ) &&
+                !hasErroValidacao(
+                  'data_validade',
+                  TipoErroValForm.DEFINIDA_USUARIO,
+                  'matDatepickerParse',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="crudfield" id="fQtdFrascos">
+            <mat-label id="lbEstoque">Qtd de frascos*</mat-label>
+            <input
+              id="qtdFrascos"
+              formControlName="qtd_frascos"
+              matInput
+              type="number"
+            />
+            <mat-hint *ngIf="exibeHint('qtd_frascos', formItem)"
+              >Digite a quantidade de frascos</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_frascos',
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_frascos',
+                  TipoErroValForm.LIMITE,
+                  '',
+                  formItem
+                )
+              "
+              >Valor mínimo do campo é 0
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="crudfield" id="fQtdDoses">
+            <mat-label id="lbEstoque">Qtd de doses*</mat-label>
+            <input
+              id="qtddoses"
+              formControlName="qtd_doses"
+              matInput
+              type="number"
+            />
+            <mat-hint *ngIf="exibeHint('qtd_doses', formItem)"
+              >Digite a quantidade de doses</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_doses',
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_doses',
+                  TipoErroValForm.LIMITE,
+                  '',
+                  formItem
+                )
+              "
+              >Valor mínimo do campo é 0
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="crudfield" id="fVlTotItem">
+            <mat-label id="lblTotCompra">Valor Total Item*</mat-label>
+            <input
+              id="inVlTotItem"
+              formControlName="vl_total_item_compra"
+              matInput
+              type="text"
+              currencyMask
+            />
+            <mat-hint *ngIf="exibeHint('vl_total_item_compra', formItem)"
+              >Digite o valor total do item</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'vl_total_item_compra',
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+          </mat-form-field>
+
+          <div class="barrabuttondetalhe">
+            <button
+              class="crudbutton"
+              *ngIf="temBotaoAcao()"
+              mat-raised-button
+              color="primary"
+              (click)="adicionarItem()"
+              [disabled]="!habilitarBotaoAcaoForm(formItem)"
+            >
+              Adicionar
+            </button>
+            <button
+              class="crudbutton"
+              mat-raised-button
+              (click)="fecharAdicionarItem()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </fieldset>
+      </form>
+      <div class="tabdetalhe mat-elevation-z10">
+        <h2>Itens da compra</h2>
+        <table mat-table [dataSource]="itens">
+          <ng-container matColumnDef="vacina">
+            <th mat-header-cell *matHeaderCellDef>Vacina</th>
+            <td mat-cell *matCellDef="let item">{{ item.vacina.nome }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="lote">
+            <th mat-header-cell *matHeaderCellDef>Lote</th>
+            <td mat-cell *matCellDef="let item">{{ item.lote }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="qtd_frascos">
+            <th mat-header-cell *matHeaderCellDef>Qtd Frascos</th>
+            <td mat-cell *matCellDef="let item">{{ item.qtd_frascos }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="qtd_doses">
+            <th mat-header-cell *matHeaderCellDef>Qtd Lote</th>
+            <td mat-cell *matCellDef="let item">{{ item.qtd_doses }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="data_validade">
+            <th mat-header-cell *matHeaderCellDef>Validade</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.data_validade | date : "dd/MM/yyyy" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="vl_total_item_compra">
+            <th mat-header-cell *matHeaderCellDef>Valor Item</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.vl_total_item_compra }}
+            </td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let item">
+            <button
+              mat-icon-button
+              [routerLink]="['/vacina/' + registro._id]"
+              matTooltip="Visualizar"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              [routerLink]="['/vacina/editar/' + registro._id]"
+              matTooltip="Editar"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              [routerLink]="['/vacina/excluir/' + registro._id]"
+              matTooltip="Excluir"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container> -->
+
+          <tr mat-header-row *matHeaderRowDef="defColunasExibidas"></tr>
+          <tr mat-row *matRowDef="let row; columns: defColunasExibidas"></tr>
+        </table>
+      </div>
+    </div>
 
     <div class="barrabutton">
       <button

@@ -13,14 +13,13 @@ import { Fornecedor } from '../../../shared/models/fornecedor.model';
 })
 export class ListarFornecedoresComponent extends GenericListarRegistrosComponent<Fornecedor> {
   constructor(
-    private _router: Router,
-    private _service: FornecedorService,
-    private __deviceService: DeviceDetectorService
+    private __router: Router,
+    private __deviceService: DeviceDetectorService,
+    private _service: FornecedorService
   ) {
-    super(__deviceService);
+    super(__router, __deviceService, _service);
     this.definirColunasExibidas();
-    this.definirAtributosInjetores();
-    this.carregarMensagensAoIniciar();
+    this.definirAtributosSuperClasse();
   }
 
   protected definirColunasExibidas() {
@@ -33,8 +32,7 @@ export class ListarFornecedoresComponent extends GenericListarRegistrosComponent
     ];
   }
 
-  private definirAtributosInjetores() {
-    this.service = this._service;
-    this.router = this._router;
+  private definirAtributosSuperClasse() {
+    this.pathCrudUrl = 'fornecedor';
   }
 }

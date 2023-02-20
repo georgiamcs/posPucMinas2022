@@ -4,7 +4,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subscription } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
-import { Util } from 'src/app/shared/utils/util.util';
+import { UtilRota } from './../../shared/utils/rota.util';
 
 @Component({
   selector: 'vacine-generic-page',
@@ -15,18 +15,22 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   protected subscription: Subscription;
   protected mensagens: MensagemFeedback[] = [];
 
-  protected router: Router;
-  protected deviceService: DeviceDetectorService;
-
   private handlerOrientation: any;
   private landscape = window.matchMedia('(orientation: landscape)');
 
-  constructor() {}
+  protected origemRotaNavegacao: string;
+
+  constructor(
+    protected router: Router,
+    protected deviceService: DeviceDetectorService
+  ) {
+    this.mensagens = [];
+    this.carregarStateAoIniciar();
+  }
 
   ngOnInit(): void {
     this.handlerOrientation = this.onChangeOrientation.bind(this);
     this.landscape.addEventListener('change', this.handlerOrientation, true);
-    this.carregarMensagensAoIniciar();
   }
 
   ngOnDestroy(): void {
@@ -42,7 +46,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected tratarErro(erro: string, irParaPaginaErro = true) {
     if (!!this.router && irParaPaginaErro) {
-      const state = MensagemFeedback.gerarStateMsgFeedbackRota(
+      const state = UtilRota.gerarStateMsgFeedbackRota(
         new MensagemFeedback(TipoMensagemFeedback.ERRO, erro)
       );
 
@@ -53,11 +57,15 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected carregarMensagensAoIniciar() {
-    let msg = this.getStateRota(MensagemFeedback.NOME_STATE_ROTA_MSG_FEEDBACK);
+  protected carregarStateAoIniciar() {
+    let msg = this.getStateRota(UtilRota.NOME_STATE_ROTA_MSG_FEEDBACK);
     if (!!msg) {
       this.addMensagem(msg);
     }
+
+    this.origemRotaNavegacao = this.getStateRota(
+      UtilRota.NOME_STATE_ROTA_ORIGEM_NAV
+    );
   }
 
   protected addMensagem(msg: MensagemFeedback) {
@@ -69,11 +77,12 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   }
 
   protected getStateRota(nomeState: string) {
-    let msg;
+    let state;
     if (!!this.router) {
-      msg = this.router.getCurrentNavigation()?.extras.state?.[nomeState];
+      state = this.router.getCurrentNavigation()?.extras.state?.[nomeState];
+      console.log('getCurrentNavigation', this.router.getCurrentNavigation());
     }
-    return msg;
+    return state;
   }
 
   protected isMobile() {

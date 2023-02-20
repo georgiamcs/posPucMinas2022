@@ -2,17 +2,19 @@ import { Component } from '@angular/core';
 import {
   AbstractControlOptions,
   FormBuilder,
+  FormGroup,
   Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Usuario } from 'src/app/shared/models/usuario.model';
-import { Util } from 'src/app/shared/utils/util.util';
+import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
 import { ESTADOS } from 'src/app/variables/constantes';
@@ -34,25 +36,24 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
   protected estados = ESTADOS;
 
   constructor(
-    private _service: UsuarioService,
+    private __router: Router,
+    private __deviceService: DeviceDetectorService,
     private _formBuilder: FormBuilder,
-    private _router: Router,
     private _activatedRoute: ActivatedRoute,
     public _dialogoConf: MatDialog,
+    private _service: UsuarioService,
     private serviceCliente: ClienteService
   ) {
-    super();
-    this.definirAtributosInjetores();
+    super(
+      __router,
+      __deviceService,
+      _activatedRoute,
+      _formBuilder,
+      _dialogoConf,
+      _service
+    );
     this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud();
-  }
-
-  private definirAtributosInjetores() {
-    this.service = this._service;
-    this.formBuilder = this._formBuilder;
-    this.router = this._router;
-    this.activatedRoute = this._activatedRoute;
-    this.dialogoConf = this._dialogoConf;
   }
 
   private definirIdentificadoresEntidade() {
@@ -95,7 +96,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       TipoMensagemFeedback.SUCESSO,
       'Usuário registrado com sucesso!'
     );
-    const state = MensagemFeedback.gerarStateMsgFeedbackRota(msgFeedback);
+    const state = UtilRota.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate(['/home'], state);
   }
 

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESTADOS } from '../../../variables/constantes';
 
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { FornecedorService } from 'src/app/services/crud/fornecedor/fornecedor.service';
-import { Util } from 'src/app/shared/utils/util.util';
-import { Fornecedor } from '../../../shared/models/fornecedor.model';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
+import { Fornecedor } from '../../../shared/models/fornecedor.model';
 
 @Component({
   selector: 'vacine-crud-fornecedor',
@@ -19,24 +19,23 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
   protected estados = ESTADOS;
 
   constructor(
-    private _service: FornecedorService,
-    private _formBuilder: FormBuilder,
-    private _router: Router,
+    private __router: Router,
+    private __deviceService: DeviceDetectorService,
     private _activatedRoute: ActivatedRoute,
-    public _dialogoConf: MatDialog
+    private _formBuilder: FormBuilder,
+    private _dialogoConf: MatDialog,
+    private _service: FornecedorService
   ) {
-    super();
-    this.definirAtributosInjetores();
+    super(
+      __router,
+      __deviceService,
+      _activatedRoute,
+      _formBuilder,
+      _dialogoConf,
+      _service
+    );
     this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud();
-  }
-
-  private definirAtributosInjetores() {
-    this.service = this._service;
-    this.formBuilder = this._formBuilder;
-    this.router = this._router;
-    this.activatedRoute = this._activatedRoute;
-    this.dialogoConf = this._dialogoConf;
   }
 
   private definirIdentificadoresEntidade() {

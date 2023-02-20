@@ -7,18 +7,18 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
-import {
-  Util
-} from 'src/app/shared/utils/util.util';
+import { UtilRota } from 'src/app/shared/utils/rota.util';
+import { Util } from 'src/app/shared/utils/util.util';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import { GenericPageComponent } from '../../../components/generic-page/generic-page.component';
+import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../../../shared/enums/tipo-mensagem-feedback.enum';
 import { UsuarioTrocaSenha } from '../../../shared/models/usuario-troca-senha.model';
-import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 
 @Component({
   selector: 'vacine-trocar-senha',
@@ -36,14 +36,14 @@ export class TrocarSenhaComponent extends GenericPageComponent {
 
   constructor(
     private _router: Router,
+    private _deviceService: DeviceDetectorService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceCliente: ClienteService,
     private securityProvider: SecurityProvider,
     public dialogoConf: MatDialog
   ) {
-    super();
-    this.router = this._router;
+    super(_router, _deviceService);
     this.id = Util.converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );
@@ -137,7 +137,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
             TipoMensagemFeedback.SUCESSO,
             'Senha alterada com sucesso!'
           );
-          state = MensagemFeedback.gerarStateMsgFeedbackRota(msgFeedbackSucesso);
+          state = UtilRota.gerarStateMsgFeedbackRota(msgFeedbackSucesso);
           this.voltarParaJanelaAnterior(state);
         },
         error: (erro) =>

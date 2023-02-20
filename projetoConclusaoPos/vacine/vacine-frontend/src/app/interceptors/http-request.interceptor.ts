@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HTTP_INTERCEPTORS,
+  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -14,8 +14,8 @@ import { RetornoHttp } from './../shared/enums/retorno-http.enum';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Util } from '../shared/utils/util.util';
 import { MensagemFeedback } from '../shared/classes/mensagem-feedback.class';
+import { UtilRota } from '../shared/utils/rota.util';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -47,7 +47,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               this.securityProvider.removeTokenUsuario();
               this.router.navigate(
                 ['/login'],
-                MensagemFeedback.gerarStateMsgFeedbackRota(
+                UtilRota.gerarStateMsgFeedbackRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
                     'Para ter acesso a essa funcionalidade é preciso efetuar o login!'
@@ -60,7 +60,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
               this.router.navigate(
                 ['/home'],
-                MensagemFeedback.gerarStateMsgFeedbackRota(
+                UtilRota.gerarStateMsgFeedbackRota(
                   new MensagemFeedback(
                     TipoMensagemFeedback.ERRO,
                     'Usuário sem permissão para acessar essa funcionalidade'
@@ -70,7 +70,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               throw new Error(
                 'Usuário sem permissão para acessar essa funcionalidade'
               );
-            } else { // erro http nao tratado, melhorar mensagem de retorno
+            } else {
+              // erro http nao tratado, melhorar mensagem de retorno
               console.error('Erro', error);
               return throwError(
                 () => `Mensagem: ${error.message} Erro: ${error.error.error}`

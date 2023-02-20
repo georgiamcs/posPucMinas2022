@@ -7,9 +7,9 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Util } from 'src/app/shared/utils/util.util';
 import { MensagemFeedback } from '../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../shared/enums/tipo-mensagem-feedback.enum';
+import { UtilRota } from '../shared/utils/rota.util';
 import { ControleAcessoService } from './../services/authentication/controle-acesso/controle-acesso.service';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class AuthenticatedGuard implements CanActivate {
     if (!this.servicoAcesso.isLogado()) {
       this.router.navigate(
         ['login'],
-        MensagemFeedback.gerarStateMsgFeedbackRota(
+        UtilRota.gerarStateMsgFeedbackRota(
           new MensagemFeedback(
             TipoMensagemFeedback.ERRO,
             'Usuário não está logado. Efetue o login!'
@@ -39,7 +39,7 @@ export class AuthenticatedGuard implements CanActivate {
     } else if (!this.servicoAcesso.verificaExistePerfil(route.data['perfis'])) {
       this.router.navigate(
         ['home'],
-        MensagemFeedback.gerarStateMsgFeedbackRota(
+        UtilRota.gerarStateMsgFeedbackRota(
           new MensagemFeedback(
             TipoMensagemFeedback.ERRO,
             'Usuário sem permissão para acessar essa funcionalidade'

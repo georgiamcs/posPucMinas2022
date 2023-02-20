@@ -4,7 +4,12 @@
   <mat-progress-bar *ngIf="!carregado" mode="indeterminate"></mat-progress-bar>
   <div *ngIf="carregado">
     <div *ngIf="registros.length > 0; else semRegistros">
-      <button class="btaddlistagem" routerLink="/usuario" mat-raised-button color="primary">
+      <button
+        class="btaddlistagem"
+        (click)="irParaTelaAdicionar()"
+        mat-raised-button
+        color="primary"
+      >
         Adicionar Usuário
       </button>
       <mat-form-field class="filtlistagem">
@@ -19,82 +24,92 @@
 
       <div class="tablistagem mat-elevation-z10">
         <table mat-table [dataSource]="dataSourceMatTable">
-        <!-- Coluna Nome -->
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let registro">{{ registro.nome | truncstr:25 }}</td>
-        </ng-container>
+          <!-- Coluna Nome -->
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let registro">
+              {{ registro.nome | truncstr : 25 }}
+            </td>
+          </ng-container>
 
-        <!-- Coluna CPF -->
-        <ng-container matColumnDef="cpf">
-          <th mat-header-cell *matHeaderCellDef>CPF</th>
-          <td mat-cell *matCellDef="let registro">{{ registro.cpf | cpf }}</td>
-        </ng-container>
+          <!-- Coluna CPF -->
+          <ng-container matColumnDef="cpf">
+            <th mat-header-cell *matHeaderCellDef>CPF</th>
+            <td mat-cell *matCellDef="let registro">
+              {{ registro.cpf | cpf }}
+            </td>
+          </ng-container>
 
-        <!-- Email -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>Email</th>
-          <td mat-cell *matCellDef="let registro">
-            {{ registro.email }}
-          </td>
-        </ng-container>
+          <!-- Email -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let registro">
+              {{ registro.email }}
+            </td>
+          </ng-container>
 
-        <!-- Telefone Celular  -->
-        <ng-container matColumnDef="tel_celular">
-          <th mat-header-cell *matHeaderCellDef>Telefone Celular</th>
-          <td mat-cell *matCellDef="let registro">
-            {{ registro.tel_celular | telefone }}
-          </td>
-        </ng-container>
+          <!-- Telefone Celular  -->
+          <ng-container matColumnDef="tel_celular">
+            <th mat-header-cell *matHeaderCellDef>Telefone Celular</th>
+            <td mat-cell *matCellDef="let registro">
+              {{ registro.tel_celular | telefone }}
+            </td>
+          </ng-container>
 
-        <!-- Telefone Fixo  -->
-        <ng-container matColumnDef="tel_fixo">
-          <th mat-header-cell *matHeaderCellDef>Telefone Fixo</th>
-          <td mat-cell *matCellDef="let registro">
-            {{ registro.tel_fixo | telefone }}
-          </td>
-        </ng-container>
+          <!-- Telefone Fixo  -->
+          <ng-container matColumnDef="tel_fixo">
+            <th mat-header-cell *matHeaderCellDef>Telefone Fixo</th>
+            <td mat-cell *matCellDef="let registro">
+              {{ registro.tel_fixo | telefone }}
+            </td>
+          </ng-container>
 
-        <!-- Coluna Ações -->
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let registro">
-            <button
-              mat-icon-button
-              [routerLink]="['/usuario/' + registro._id]"
-              matTooltip="Visualizar"
-            >
-              <mat-icon>visibility</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              [routerLink]="['/usuario/editar/' + registro._id]"
-              matTooltip="Editar"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              [routerLink]="['/usuario/excluir/' + registro._id]"
-              matTooltip="Excluir"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              [routerLink]="['/trocarsenha/' + registro._id]"
-              matTooltip="Alterar senha"
-            >
-              <mat-icon
-                ><span class="material-icons"> lock_reset </span></mat-icon
+          <!-- Coluna Ações -->
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let registro">
+              <button
+                mat-icon-button
+                (click)="irParaTelaVisualizar(registro._id)"
+                matTooltip="Visualizar"
               >
-            </button>
-          </td>
-        </ng-container>
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="irParaTelaEditar(registro._id)"
+                matTooltip="Editar"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="irParaTelaExcluir(registro._id)"
+                matTooltip="Excluir"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                [routerLink]="['/trocarsenha/' + registro._id]"
+                matTooltip="Alterar senha"
+              >
+                <mat-icon
+                  ><span class="material-icons"> lock_reset </span></mat-icon
+                >
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="getDisplayedColumnsMediaType()"></tr>
-        <tr mat-row *matRowDef="let row; columns: getDisplayedColumnsMediaType()"></tr>
-      </table>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="getDisplayedColumnsMediaType()"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: getDisplayedColumnsMediaType()"
+          ></tr>
+        </table>
       </div>
     </div>
   </div>
@@ -102,7 +117,12 @@
   <ng-template #semRegistros>
     <div>
       <vacine-sem-registros></vacine-sem-registros>
-      <button class="btaddlistagem" routerLink="/usuario" mat-raised-button color="primary">
+      <button
+        class="btaddlistagem"
+        routerLink="/usuario"
+        mat-raised-button
+        color="primary"
+      >
         Adicionar Usuário
       </button>
     </div>

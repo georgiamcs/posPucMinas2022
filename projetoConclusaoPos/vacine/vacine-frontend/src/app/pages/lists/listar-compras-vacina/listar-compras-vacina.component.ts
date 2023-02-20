@@ -12,14 +12,16 @@ import { ListaCompraVacinaService } from './../../../services/lists/lista-compra
 })
 export class ListarComprasVacinaComponent extends GenericListarRegistrosComponent<ListaComprasVacina> {
   constructor(
-    private _router: Router,
-    private _service: ListaCompraVacinaService,
-    private __deviceService: DeviceDetectorService
+    private __router: Router,
+    private __deviceService: DeviceDetectorService,
+    private _service: ListaCompraVacinaService
   ) {
-    super(__deviceService);
+    super(__router, __deviceService, _service);
+
+    this.pathCrudUrl = 'compras-vacina';
+
     this.definirColunasExibidas();
-    this.definirAtributosInjetores();
-    this.carregarMensagensAoIniciar();
+    this.definirAtributosSuperClasse();
   }
 
   protected definirColunasExibidas() {
@@ -33,8 +35,7 @@ export class ListarComprasVacinaComponent extends GenericListarRegistrosComponen
     ];
   }
 
-  private definirAtributosInjetores() {
-    this.service = this._service;
-    this.router = this._router;
+  private definirAtributosSuperClasse() {
+    this.pathCrudUrl = 'compra-vacina';
   }
 }

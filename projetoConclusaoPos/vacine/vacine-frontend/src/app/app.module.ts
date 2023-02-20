@@ -17,7 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS,
+  MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,10 +35,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 import {
+  CurrencyMaskConfig,
+  CurrencyMaskModule,
+  CURRENCY_MASK_CONFIG
+} from 'ng2-currency-mask';
+
+import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule,
+  SocialLoginModule
 } from '@abacritt/angularx-social-login';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericCrudComLookupComponent } from './components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { GenericCrudComponent } from './components/generic-crud/generic-crud.component';
@@ -67,9 +74,18 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 registerLocaleData(localePt);
+
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: 'right',
+  allowNegative: false,
+  decimal: ',',
+  precision: 2,
+  prefix: 'R$ ',
+  suffix: '',
+  thousands: '.',
+};
 
 @NgModule({
   declarations: [
@@ -131,10 +147,12 @@ registerLocaleData(localePt);
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
+    CurrencyMaskModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: LOCALE_ID, useValue: 'pt' },
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     provideNgxMask(),
     SecurityProvider,
     httpInterceptorProviders,
