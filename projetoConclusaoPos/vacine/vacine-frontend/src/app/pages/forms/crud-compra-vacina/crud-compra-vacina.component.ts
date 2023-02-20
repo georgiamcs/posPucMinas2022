@@ -48,7 +48,7 @@ export class CrudCompraVacinaComponent
     'qtd_doses',
     'data_validade',
     'vl_total_item_compra',
-    // 'acoes'
+    'acoes',
   ];
 
   constructor(
@@ -75,36 +75,34 @@ export class CrudCompraVacinaComponent
   }
   override ngOnInit(): void {
     super.ngOnInit();
-    console.log('itens inicio', this.itens);
+  }
+
+  protected override preencherFormComRegistroId(registro: any): void {
+    super.preencherFormComRegistroId(registro);
+    this.itens = registro.itens_compra;
   }
 
   private definirIdentificadoresEntidade() {
     this.nomeEntidade = 'compra';
-    this.pluralEntidade = 'compras';
+    this.pluralEntidade = 'compras-vacina';
     this.artigoEntidade = 'a';
     this.nomeCampoFormIdentificaEntidade = 'nota_fiscal';
   }
 
-  protected override buildForm(): FormGroup {
-    this.form = this.formBuilder.group({
-      _id: [null],
-      nota_fiscal: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      data_compra: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      vl_total_compra: [
-        null,
-        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-      ],
-      fornecedor: [
+  protected override buildForm() {
+    this.buildFormCompra();
+    this.buildFormItens();
+  }
+
+  private buildFormItens() {
+    this.formItem = this.formBuilder.group({
+      vacina: [
         null,
         Validators.compose([
           ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           ValidatorsUtil.getValidatorValorExisteInpuAutoComplete(),
         ]),
       ],
-    });
-
-    this.formItem = this.formBuilder.group({
-      vacina: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
       lote: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
       qtd_frascos: [
         null,
@@ -126,14 +124,28 @@ export class CrudCompraVacinaComponent
         ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
       ],
     });
-    this.preencherCamposLookup();
-
-    return this.form;
+    this.setLookupVacina();
   }
 
-  private preencherCamposLookup() {
+  private buildFormCompra() {
+    this.form = this.formBuilder.group({
+      _id: [null],
+      nota_fiscal: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      data_compra: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      vl_total_compra: [
+        null,
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+      ],
+      fornecedor: [
+        null,
+        Validators.compose([
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidatorValorExisteInpuAutoComplete(),
+        ]),
+      ],
+    });
     this.setLookupFornecedor();
-    this.setLookupVacina();
+    this.itens = [];
   }
 
   private setLookupFornecedor() {
@@ -236,6 +248,7 @@ export class CrudCompraVacinaComponent
 
   protected override getRegistroForm() {
     let compraVacina: CompraVacina = new CompraVacina();
+    compraVacina._id = this.getValorCampoForm('_id');
     compraVacina.nota_fiscal = this.getValorCampoForm('nota_fiscal');
     compraVacina.data_compra = this.getValorCampoForm('data_compra');
     compraVacina.fornecedor = this.getValorCampoForm('fornecedor');
@@ -248,18 +261,12 @@ export class CrudCompraVacinaComponent
   protected adicionarItem() {
     const novoItem = this.getItemCompraForm();
     this.itens.push(novoItem);
-    this.itens = [...this.itens]; //forcar table ser renderizada
+    this.atualizarListaItens();
     this.limparFormItens();
   }
 
-  protected override limparFormulario() {
-    this.limparFormGroup(this.form);
-    this.limparFormGroup(this.formItem);
-    this.itens = [];
-  }
-
   protected limparFormItens() {
-    this.limparFormGroup(this.formItem);
+    this.buildFormItens();
   }
 
   protected setAdicionando(v: boolean) {
@@ -269,5 +276,18 @@ export class CrudCompraVacinaComponent
   protected fecharAdicionarItem() {
     this.setAdicionando(false);
     this.limparFormItens();
+  }
+
+  protected excluirItem(registro: ItemCompraVacina) {
+    this.itens.splice(this.itens.indexOf(registro), 1);
+    this.atualizarListaItens();
+  }
+
+  protected atualizarListaItens() {
+    this.itens = [...this.itens];
+    const vlTotCompra = this.itens
+      .map((i) => i.vl_total_item_compra)
+      .reduce((acum, v) => acum + v, 0);
+    this.setValorCampoForm('vl_total_compra', vlTotCompra);
   }
 }

@@ -156,7 +156,9 @@ export class GenericCrudComponent<
   }
 
   protected alterarRegistro() {
-    this.subscription = this.service.update(this.form.value).subscribe({
+    const regAlterado = this.getRegistroForm();
+
+    this.subscription = this.service.update(regAlterado).subscribe({
       next: () => {
         const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
           this.nomeCampoFormIdentificaEntidade
@@ -495,18 +497,7 @@ export class GenericCrudComponent<
   }
 
   protected limparFormulario() {
-    this.limparFormGroup(this.form);
+    this.buildForm();
   }
 
-  protected limparFormGroup(formGroup: FormGroup) {
-    formGroup.reset();
-
-    Object.keys(formGroup.controls).forEach((formControl) => {
-      this.getFormControl(formControl).markAsUntouched();
-      this.getFormControl(formControl).markAsPristine();
-      this.getFormControl(formControl).setErrors(null);
-    });
-
-    formGroup.markAsPristine();
-  }
 }

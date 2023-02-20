@@ -146,6 +146,24 @@ const routes: Routes = [
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA) },
   },
+  {
+    path: 'compra-vacina/:id',
+    component: CrudCompraVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+  },
+  {
+    path: `compra-vacina/${TipoRota.ALTERACAO}/:id`,
+    component: CrudCompraVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+  },
+  {
+    path: `compra-vacina/${TipoRota.EXCLUSAO}/:id`,
+    component: CrudCompraVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+  },
 ];
 
 @NgModule({
