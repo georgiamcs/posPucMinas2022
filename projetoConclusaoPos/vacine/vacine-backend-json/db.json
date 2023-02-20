@@ -104,7 +104,7 @@
       "in_idade_recomendada": false,
       "tp_idade_recomendada": null,
       "nr_idade_recomendada": null,
-      "estoque": 100
+      "qtd_doses_estoque": 100
     }
   ],
   "fornecedores": [

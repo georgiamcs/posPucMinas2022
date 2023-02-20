@@ -14,20 +14,7 @@ const vacinaSchema = Schema({
     type: String,
     required: true,
   },
-  in_idade_recomendada: {
-    type: Boolean,
-    required: true,
-  },
-  tp_idade_recomendada: {
-    // m (meses), a (anos)
-    type: String,
-    required: false,
-  },
-  nr_idade_recomendada: {
-    type: Number,
-    required: false,
-  },
-  estoque: {
+  qtd_doses_estoque: {
     type: Number,
     required: true
   },

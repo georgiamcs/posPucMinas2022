@@ -63,10 +63,7 @@ export class CrudVacinaComponent
         ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
       ],
       composicao: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      in_idade_recomendada: [false, [Validators.required]],
-      tp_idade_recomendada: [null],
-      nr_idade_recomendada: [null],
-      estoque: [
+      qtd_doses_estoque: [
         null,
         Validators.compose([
           ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
@@ -76,48 +73,4 @@ export class CrudVacinaComponent
     });
   }
 
-  protected override preencherFormComRegistroId(registro: any): void {
-    this.form.patchValue(registro);
-    this.verificarIdadeRecomendada();
-  }
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    this.verificarIdadeRecomendada();
-  }
-
-  protected override limparFormulario(): void {
-    super.limparFormulario();
-    this.verificarIdadeRecomendada();
-  }
-
-  public verificarIdadeRecomendada() {
-    let temIdadeRecomendada = this.getValorCampoForm('in_idade_recomendada');
-    const controlInIdade = this.getFormControl('in_idade_recomendada');
-    const controlTpIdade = this.getFormControl('tp_idade_recomendada');
-    const controlNrIdade = this.getFormControl('nr_idade_recomendada');
-
-    if (temIdadeRecomendada == undefined) {
-      this.setValorCampoForm('in_idade_recomendada', false);
-      temIdadeRecomendada = this.getValorCampoForm('in_idade_recomendada');
-    }
-
-    if (!temIdadeRecomendada) {
-      controlTpIdade?.setValue(!temIdadeRecomendada ? null : false);
-      controlNrIdade?.setValue(null);
-      this.atualizarValidadores(controlTpIdade!, null);
-      this.atualizarValidadores(controlNrIdade!, null);
-      controlTpIdade?.setValidators(null);
-      controlNrIdade?.setValidators(null);
-    } else {
-      controlTpIdade?.setValidators([Validators.required]);
-      controlNrIdade?.setValidators(
-        Validators.compose([
-          Validators.required,
-          Validators.min(0),
-          Validators.max(130),
-        ])
-      );
-    }
-  }
 }

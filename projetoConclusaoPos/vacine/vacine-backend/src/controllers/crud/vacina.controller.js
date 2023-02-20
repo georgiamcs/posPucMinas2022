@@ -11,7 +11,7 @@ function createVacina(obj) {
   vacina.in_idade_recomendada = obj.in_idade_recomendada;
   vacina.tp_idade_recomendada = obj.tp_idade_recomendada;
   vacina.nr_idade_recomendada = obj.nr_idade_recomendada;
-  vacina.estoque = obj.estoque;  
+  vacina.qtd_doses_estoque = obj.qtd_doses_estoque;  
 
   return vacina;
 }

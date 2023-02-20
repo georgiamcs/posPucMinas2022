@@ -39,20 +39,11 @@
             </td>
           </ng-container>
 
-          <!-- Coluna Idade Recomendada -->
-          <ng-container matColumnDef="vlIdadeRecomendada">
-            <th mat-header-cell *matHeaderCellDef>Idade Recomendada</th>
-            <td mat-cell *matCellDef="let registro">
-              {{ registro.nr_idade_recomendada }}
-              {{ registro.tp_idade_recomendada }}
-            </td>
-          </ng-container>
-
           <!-- Coluna Estoque -->
-          <ng-container matColumnDef="estoque">
-            <th mat-header-cell *matHeaderCellDef>Estoque</th>
+          <ng-container matColumnDef="qtd_doses_estoque">
+            <th mat-header-cell *matHeaderCellDef>Qtd Doses Estoque</th>
             <td mat-cell *matCellDef="let registro">
-              {{ registro.estoque | number }}
+              {{ registro.qtd_doses_estoque | number }}
             </td>
           </ng-container>
 

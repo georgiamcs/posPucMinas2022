@@ -51,97 +51,28 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="dividaderecomendada">
-        <mat-checkbox
-          id="fInIdadeRecomendada"
-          class="crudfield"
-          formControlName="in_idade_recomendada"
-          (change)="verificarIdadeRecomendada()"
-          >Tem idade recomendada
-        </mat-checkbox>
-        <div
-          class="msg_err_checkbox"
-          *ngIf="
-            hasErroValidacao(
-              'in_idade_recomendada',
-              TipoErroValForm.OBRIGATORIO
-            )
-          "
+      <mat-form-field class="crudfield" id="fEstoque">
+        <mat-label id="lbEstoque">Qtd Doses em Estoque*</mat-label>
+        <input
+          id="nrEstoque"
+          formControlName="qtd_doses_estoque"
+          matInput
+          type="number"
+        />
+        <mat-hint *ngIf="exibeHint('qtd_doses_estoque')"
+          >Digite a quantidade de doses atual no estoque</mat-hint
         >
-          {{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-        </div>
-
-        <span *ngIf="getValorCampoForm('in_idade_recomendada')">
-          <mat-form-field class="crudfield" id="fIdadeRecomendada">
-            <mat-label id="lbIdadeRecomendada">Idade</mat-label>
-            <input
-              id="nrIdadeRecomendada"
-              formControlName="nr_idade_recomendada"
-              matInput
-              type="number"
-            />
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'nr_idade_recomendada',
-                  TipoErroValForm.OBRIGATORIO
-                )
-              "
-              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-            </mat-error>
-            <mat-error
-              *ngIf="
-                hasErroValidacao('nr_idade_recomendada', TipoErroValForm.LIMITE)
-              "
-              >Valor mínimo do campo é 0 e o máximo é 130
-            </mat-error>
-          </mat-form-field>
-
-          <mat-radio-group
-            formControlName="tp_idade_recomendada"
-            id="fTipoIdadeRecomendada"
-          >
-            <mat-radio-button value="A"> Anos </mat-radio-button>
-            <mat-radio-button value="M"> Meses </mat-radio-button>
-          </mat-radio-group>
-          <span
-            class="msg_err_checkbox"
-            *ngIf="
-              hasErroValidacao(
-                'tp_idade_recomendada',
-                TipoErroValForm.OBRIGATORIO
-              )
-            "
-          >
-            {{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-          </span>
-        </span>
-      </div>
-
-        <mat-form-field class="crudfield" id="fEstoque">
-          <mat-label id="lbEstoque">Qtd Doses em Estoque*</mat-label>
-          <input
-            id="nrEstoque"
-            formControlName="estoque"
-            matInput
-            type="number"
-          />
-          <mat-error
-            *ngIf="
-              hasErroValidacao(
-                'estoque',
-                TipoErroValForm.OBRIGATORIO
-              )
-            "
-            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-          </mat-error>
-          <mat-error
-            *ngIf="
-              hasErroValidacao('estoque', TipoErroValForm.LIMITE)
-            "
-            >Valor mínimo do campo é 0
-          </mat-error>
-        </mat-form-field>
+        <mat-error
+          *ngIf="
+            hasErroValidacao('qtd_doses_estoque', TipoErroValForm.OBRIGATORIO)
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error
+          *ngIf="hasErroValidacao('qtd_doses_estoque', TipoErroValForm.LIMITE)"
+          >Valor mínimo do campo é 0
+        </mat-error>
+      </mat-form-field>
 
       <div class="barrabutton">
         <button
