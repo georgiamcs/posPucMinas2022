@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { UtilRota } from './../../shared/utils/rota.util';
+import { browserRefresh } from '../../app.component';
 
 @Component({
   selector: 'vacine-generic-page',
@@ -29,7 +30,10 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.handlerOrientation = this.onChangeOrientation.bind(this);
+    if (browserRefresh) {
+      this.mensagens = [];
+    }
+      this.handlerOrientation = this.onChangeOrientation.bind(this);
     this.landscape.addEventListener('change', this.handlerOrientation, true);
   }
 
