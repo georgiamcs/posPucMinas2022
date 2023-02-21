@@ -21,13 +21,43 @@ const TIPO_ATUALIZACAO_ESTOQUE = Object.freeze({
   REMOVER: "R",
 }); 
 
-const MENSAGEM_REGISTRO_DUPLICADO =
-  "Já existe registro com as mesmas características na base.";
+const TIPO_OPERACAO = Object.freeze({
+  INSERT: "I",
+  UPDATE: "U",
+  DELETE: "D"
+}); 
+
+const MENSAGEM = Object.freeze({
+  REGISTRO_DUPLICADO:
+    "Já existe registro com as mesmas características na base.",
+  NAO_PODE_EXCLUIR:
+    "Não é possível excluir registro pois há outros registros ativos relacionados na base de dados.",
+}); 
+
+const TIPO_EVENTO_CONTROLE_ESTOQUE = Object.freeze({
+  ENTRADA: "E",
+  SAIDA: "S",
+});   
+
+const TIPO_MOTIVO_CONTROLE_ESTOQUE = Object.freeze({
+  CADASTRO_INICIAL: "I",
+  DESCARTE: "D",
+  VACINACAO: "V",
+  COMPRA: "C",
+  AJUSTE_ESTOQUE: "A",
+  ALTERACAO_COMPRA: "AC",
+  ALTERACAO_VACINACAO: "AV",
+  EXCLUSAO_COMPRA: "EC",
+  EXCLUSAO_VACINACAO: "EV",
+});  
 
 module.exports = {
   RETORNO_HTTP,
   TIPO_USUARIO,
   TIPO_ATUALIZACAO_ESTOQUE,
-  MENSAGEM_REGISTRO_DUPLICADO,
+  MENSAGEM,
+  TIPO_EVENTO_CONTROLE_ESTOQUE,
+  TIPO_MOTIVO_CONTROLE_ESTOQUE,
+  TIPO_OPERACAO,
 };
 

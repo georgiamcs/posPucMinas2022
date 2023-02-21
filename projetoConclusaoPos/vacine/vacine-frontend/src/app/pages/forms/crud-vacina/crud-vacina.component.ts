@@ -1,4 +1,3 @@
-//TODO: Verificar css qnd nao escolhe idade e tipo idade pq esta quebrando
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
+import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { VacinaService } from '../../../services/crud/vacina/vacina.service';
 import { Vacina } from '../../../shared/models/vacina.model';
@@ -74,4 +74,7 @@ export class CrudVacinaComponent
     });
   }
 
+  protected habilitarEstoque() {
+      return this.modoFormulario === ModoFormulario.INCLUSAO;
+  }
 }

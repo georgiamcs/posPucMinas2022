@@ -1,6 +1,7 @@
 const GenericCrudController = require("./generic-crud.controller");
-const FornecedorService = require("../../services/generic-crud.service");
+const GenericService = require("../../services/generic-crud.service");
 const FornecedorModel = require("../../models/fornecedor.model");
+const CompraVacinaModel = require("../../models/compra-vacina.model");
 const Acesso = require("../../setup/acesso");
 
 function createFornecedor(obj) {
@@ -22,16 +23,29 @@ async function existeDuplicado(obj) {
   searchCNPJ = obj.cnpj.trim();
 
   if (!!obj._id) {
-    regBase = await FornecedorService.find(FornecedorModel, {
+    regBase = await GenericService.find(FornecedorModel, {
       $or: [{ nome: searchNome }, { email: searchEmail }, { cnpj: searchCNPJ }],
       _id: { $ne: obj._id },
     });
   } else {
-    regBase = await FornecedorService.find(FornecedorModel, {
+    regBase = await GenericService.find(FornecedorModel, {
       $or: [{ nome: searchNome }, { email: searchEmail }, { cnpj: searchCNPJ }],
     });
   }
   return regBase.length > 0;
+}
+
+async function podeExcluir(id, session) {
+  const comprasDoFornecedor = await GenericService.getAll(
+    CompraVacinaModel,
+    session,
+    {
+      "fornecedor._id": id,
+    },
+    "_id"
+  );
+
+  return comprasDoFornecedor.length == 0;
 }
 
 class FornecedorController extends GenericCrudController {
@@ -41,11 +55,12 @@ class FornecedorController extends GenericCrudController {
     );
 
     super(
-      FornecedorService,
+      GenericService,
       FornecedorModel,
       perfisRequeridosFornecedor,
       createFornecedor,
-      existeDuplicado
+      existeDuplicado,
+      podeExcluir
     );
   }
 }

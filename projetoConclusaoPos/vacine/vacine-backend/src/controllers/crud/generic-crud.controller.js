@@ -1,3 +1,6 @@
+//TODO: DEIXAR POR DEFAULT COM TRANSACAO E SESSION VER SE TEM COMO TER FUNCAO DE DONE 
+// PARA REALIZAR APOS A OPERACAO PRINCIPAL PARA EVITAR DE TER CONTROLLES ESPECIFICOS 
+// (VIDE ATUALIZACAO ESTOQUE E CONTROLE ESTOQUE)
 const { AutorizacaoService } = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
 
@@ -7,13 +10,15 @@ class GenericCrudController {
     objectModel,
     perfisRequeridos,
     fnCriarObjEntidade,
-    fnVerificarRegDuplicado
+    fnVerificarRegDuplicado,
+    fnPodeExcluir
   ) {
     this.service = service;
     this.objectModel = objectModel;
     this.perfisRequeridos = perfisRequeridos;
     this.fnCriarObjEntidade = fnCriarObjEntidade;
     this.fnVerificarRegDuplicado = fnVerificarRegDuplicado;
+    this.fnPodeExcluir = fnPodeExcluir;
   }
 
   getById = async (req, res) => {
@@ -68,12 +73,12 @@ class GenericCrudController {
   add = async (req, res) => {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
       try {
-        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
+        const regDuplicado = await this.fnVerificarRegDuplicado(req.body, null);
 
         if (!!regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM_REGISTRO_DUPLICADO });
+            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
           const regAdicionado = await this.service.add(
             this.objectModel,
@@ -104,7 +109,7 @@ class GenericCrudController {
         if (!!regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM_REGISTRO_DUPLICADO });
+            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
           let regAlterado = this.fnCriarObjEntidade(req.body);
           const regAtualizado = await this.service.update(
@@ -117,9 +122,9 @@ class GenericCrudController {
             return res
               .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
               .json({ error: `Registro com id ${id} não foi atualizado.` });
+          } else {
+            res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
           }
-
-          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
         }
       } catch (error) {
         res
@@ -138,8 +143,19 @@ class GenericCrudController {
       let id = req.params.id;
 
       try {
-        const deleteResponse = await this.service.delete(this.objectModel, id);
-        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(deleteResponse);
+        const podeExcluir = await this.fnPodeExcluir(id,null);
+
+        if (!podeExcluir) {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
+            .json({ error: cnst.MENSAGEM.NAO_PODE_EXCLUIR });
+        } else {
+          const deleteResponse = await this.service.deleteById(
+            this.objectModel,
+            id
+          );
+          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(deleteResponse);
+        }
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)

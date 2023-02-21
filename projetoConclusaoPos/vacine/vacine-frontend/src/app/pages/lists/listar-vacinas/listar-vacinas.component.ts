@@ -1,4 +1,3 @@
-//TODO: Verificar como usar no routerLink o tipo da rota = usar funcao no ts para retornar?
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';

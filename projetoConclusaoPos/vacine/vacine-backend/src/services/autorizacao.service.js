@@ -12,7 +12,10 @@ class AutorizacaoService {
           retorno = retorno || usuario.perfis.indexOf(perfis[i]) > -1;
         }
       }
+    } else if (perfis.length == 0) {
+      retorno = true;
     }
+    
     return retorno;
   };
 

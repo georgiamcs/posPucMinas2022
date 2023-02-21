@@ -58,6 +58,7 @@
           formControlName="qtd_doses_estoque"
           matInput
           type="number"
+          [readonly]="!habilitarEstoque()"
         />
         <mat-hint *ngIf="exibeHint('qtd_doses_estoque')"
           >Digite a quantidade de doses atual no estoque</mat-hint

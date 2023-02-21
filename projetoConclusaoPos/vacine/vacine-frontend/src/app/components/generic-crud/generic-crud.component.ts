@@ -151,7 +151,7 @@ export class GenericCrudComponent<
           const textoErro = !!erro.error.error
             ? erro.error.error
             : erro.message;
-          msgErro = `Erro ao alterar registro => ${textoErro}`;
+          msgErro = `Erro ao incluir registro => ${textoErro}`;
         }
         const msgFeedbackErro = new MensagemFeedback(
           TipoMensagemFeedback.ERRO,
@@ -202,7 +202,15 @@ export class GenericCrudComponent<
         );
         this.carregarRegistros(msgFeedback);
       },
-      error: (erro) => this.tratarErro(`Erro ao excluir registro => ${erro}`),
+      error: (erro) => {
+        const textoErro = !!erro.error.error ? erro.error.error : erro.message;
+        const msgErro = `Erro ao excluir registro => ${textoErro}`;
+        const msgFeedbackErro = new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          msgErro
+        );
+        this.addMensagem(msgFeedbackErro);
+      },
     });
   }
 

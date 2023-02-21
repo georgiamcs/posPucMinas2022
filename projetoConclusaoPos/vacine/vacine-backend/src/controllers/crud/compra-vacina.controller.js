@@ -1,14 +1,15 @@
 const GenericCrudController = require("./generic-crud.controller");
-const CompraVacinaService = require("../../services/generic-crud.service");
+const ControleEstoqueVacinaController = require("../../controllers/crud/controle-estoque-vacina.controller");
+const genericService = require("../../services/generic-crud.service");
 const CompraVacinaModel = require("../../models/compra-vacina.model");
 const Acesso = require("../../setup/acesso");
 const { AutorizacaoService } = require("../../services/autorizacao.service");
-const serviceVacina = require("../../services/generic-crud.service");
+const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
 const modelVacina = require("../../models/vacina.model");
 const mongoose = require("mongoose");
 const cnst = require("../../constantes");
 
-function createNovoRegistro(obj) {
+function criarRegistro(obj) {
   let registro = {};
 
   registro.fornecedor = obj.fornecedor;
@@ -20,21 +21,31 @@ function createNovoRegistro(obj) {
   return registro;
 }
 
-async function existeDuplicado(obj) {
+async function existeDuplicado(obj, session) {
   searchNotaFiscal = obj.nota_fiscal.trim();
 
   if (!!obj._id) {
-    regBase = await CompraVacinaService.find(CompraVacinaModel, {
+    regBase = await genericService.find(CompraVacinaModel, {
       nota_fiscal: searchNotaFiscal,
       _id: { $ne: obj._id },
-    });
+    }, session, "_id");
   } else {
-    regBase = await CompraVacinaService.find(CompraVacinaModel, {
-      nota_fiscal: searchNotaFiscal,
-    });
+    regBase = await genericService.find(
+      CompraVacinaModel,
+      {
+        nota_fiscal: searchNotaFiscal,
+      },
+      session,
+      "_id"
+    );
   }
   return regBase.length > 0;
 }
+
+async function podeExcluir(id, session) {
+  return true;
+}
+
 class CompraVacinaController extends GenericCrudController {
   constructor() {
     const perfisRequeridosCompraVacina = Acesso.getPerfisPorTema(
@@ -42,11 +53,12 @@ class CompraVacinaController extends GenericCrudController {
     );
 
     super(
-      CompraVacinaService,
+      genericService,
       CompraVacinaModel,
       perfisRequeridosCompraVacina,
-      createNovoRegistro,
-      existeDuplicado
+      criarRegistro,
+      existeDuplicado,
+      podeExcluir
     );
   }
 
@@ -61,7 +73,7 @@ class CompraVacinaController extends GenericCrudController {
         if (!!regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM_REGISTRO_DUPLICADO });
+            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
           // adiciona a compra
           const regAdicionado = await this.service.add(
@@ -74,8 +86,13 @@ class CompraVacinaController extends GenericCrudController {
           await this.atualizarEstoqueVacina(
             cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
             regAdicionado.itens_compra,
-            session
+            session,
+            regAdicionado._id,
+            regAdicionado.nota_fiscal,
+            cnst.TIPO_OPERACAO.INSERT,
+            req.user
           );
+
           await session.commitTransaction();
           res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
         }
@@ -106,7 +123,7 @@ class CompraVacinaController extends GenericCrudController {
 
       try {
         //exclui a compra
-        const regDeletado = await this.service.delete(
+        const regDeletado = await this.service.deleteById(
           this.objectModel,
           id,
           session
@@ -115,7 +132,11 @@ class CompraVacinaController extends GenericCrudController {
         await this.atualizarEstoqueVacina(
           cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
           regDeletado.itens_compra,
-          session
+          session,
+          regDeletado._id,
+          regDeletado.nota_fiscal,
+          cnst.TIPO_OPERACAO.DELETE,
+          req.user
         );
         await session.commitTransaction();
 
@@ -151,7 +172,7 @@ class CompraVacinaController extends GenericCrudController {
         if (!!regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM_REGISTRO_DUPLICADO });
+            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
           let compraAntes = await this.service.getById(this.objectModel, id);
           if (!compraAntes) {
@@ -169,19 +190,33 @@ class CompraVacinaController extends GenericCrudController {
             throw new Error(`Compra com Id ${id} não foi atualizada`);
           }
 
-          // atualizar estoque, removendo o estoque dos itens da compra antes da mudanca
-          await this.atualizarEstoqueVacina(
-            cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
-            compraAntes.itens_compra,
-            session
-          );
-          // atualizar estoque, adicionando o estoque dos itens da compra apos a mudanca
-          await this.atualizarEstoqueVacina(
-            cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
-            regAlterado.itens_compra,
-            session
-          );
+          // verifica se houve mudanca nos itens da compra
+          if (
+            JSON.stringify(compraAntes.itens_compra) !==
+            JSON.stringify(regAlterado.itens_compra)
+          ) {
+            // atualizar estoque, removendo o estoque dos itens da compra antes da mudanca
+            await this.atualizarEstoqueVacina(
+              cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
+              compraAntes.itens_compra,
+              session,
+              id,
+              regAlterado.nota_fiscal,
+              cnst.TIPO_OPERACAO.UPDATE,
+              req.user
+            );
 
+            // atualizar estoque, adicionando o estoque dos itens da compra apos a mudanca
+            await this.atualizarEstoqueVacina(
+              cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
+              regAlterado.itens_compra,
+              session,
+              id,
+              regAlterado.nota_fiscal,
+              cnst.TIPO_OPERACAO.UPDATE,
+              req.user
+            );
+          }
           await session.commitTransaction();
           res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
         }
@@ -203,15 +238,53 @@ class CompraVacinaController extends GenericCrudController {
     }
   };
 
-  async atualizarEstoqueVacina(tipoAtualizacao, itensCompra, session) {
+  async atualizarEstoqueVacina(
+    tipoAtualizacao,
+    itensCompra,
+    session,
+    idCompra,
+    nfCompra,
+    tpOperacao,
+    userRequisicao
+  ) {
+    let tpMotControleEstoque;
+
+    switch (tpOperacao) {
+      case cnst.TIPO_OPERACAO.INSERT:
+        tpMotControleEstoque = cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.COMPRA;
+        break;
+
+      case cnst.TIPO_OPERACAO.UPDATE:
+        tpMotControleEstoque =
+          cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.ALTERACAO_COMPRA;
+        break;
+
+      case cnst.TIPO_OPERACAO.DELETE:
+        tpMotControleEstoque =
+          cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.EXCLUSAO_COMPRA;
+        break;
+
+      default:
+        throw new Error(`Tipo de operação inválida: ${tpOperacao}`);
+    }
+    const tpEventoControleEstoque =
+      tipoAtualizacao == cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR
+        ? cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.ENTRADA
+        : cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.SAIDA;
+
+    const estoqueController = new ControleEstoqueVacinaController();
+
     for (let index = 0; index < itensCompra.length; index++) {
       const element = itensCompra[index];
-      let vacina = await serviceVacina.getOne(
+      let vacina = await this.service.getById(
         modelVacina,
-        { _id: element.vacina._id },
-        session
+        element.vacina._id,
+        session,
+        "_id nome qtd_doses_estoque"
       );
       if (!!vacina) {
+        let qtd_estoque_antes = vacina.qtd_doses_estoque;
+
         if (tipoAtualizacao == cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR) {
           vacina.qtd_doses_estoque =
             vacina.qtd_doses_estoque + element.qtd_doses;
@@ -223,7 +296,7 @@ class CompraVacinaController extends GenericCrudController {
             `Tipo de atualização de estoque inválida: ${tipoAtualizacao}`
           );
         }
-        const regAtualizado = await serviceVacina.update(
+        const regAtualizado = await this.service.update(
           modelVacina,
           element.vacina._id,
           vacina.toObject(),
@@ -234,6 +307,21 @@ class CompraVacinaController extends GenericCrudController {
           throw new Error(
             `Estoque não pode ser atualizado porque vacina com id ${element.vacina._id} não foi localizada`
           );
+        } else {
+          //insere registro de controle de estoque
+          const regContEstoque = new ControleEstoqueVacina(
+            { _id: vacina._id, nome: vacina.nome }, //vacina
+            { _id: userRequisicao._id, nome: userRequisicao.nome }, //usuario
+            new Date(), // data_evento
+            tpEventoControleEstoque, //tipo_evento
+            tpMotControleEstoque, //tipo_motivo,
+            `Compra Nota Fiscal: ${nfCompra} e ID: ${idCompra}`, //descricao_evento
+            null, //justificativa_evento
+            qtd_estoque_antes, //qtd_estoque_antes
+            vacina.qtd_doses_estoque //qtd_estoque_depois
+          );
+
+          await estoqueController.inserirFromRecord(regContEstoque, session);
         }
       } else {
         throw new Error(

@@ -1,63 +1,68 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const FornecedorSchema = Schema({
-  nome: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  cnpj: {
-    type: String,
-    required: true,
-  },
-  endereco: {
-    logradouro: {
+const FornecedorSchema = Schema(
+  {
+    nome: {
       type: String,
       required: true,
     },
-    numero: {
+    email: {
       type: String,
       required: true,
     },
-    complemento: {
+    cnpj: {
+      type: String,
+      required: true,
+    },
+    endereco: {
+      logradouro: {
+        type: String,
+        required: true,
+      },
+      numero: {
+        type: String,
+        required: true,
+      },
+      complemento: {
+        type: String,
+        required: false,
+      },
+      cidade: {
+        type: String,
+        required: true,
+      },
+      estado: {
+        type: String,
+        required: true,
+      },
+      cep: {
+        type: String,
+        required: true,
+      },
+    },
+    tel_celular: {
+      type: String,
+      required: true,
+    },
+    tel_fixo: {
       type: String,
       required: false,
     },
-    cidade: {
-      type: String,
+    dt_inclusao: {
+      type: Date,
       required: true,
+      default: Date.now(),
     },
-    estado: {
-      type: String,
-      required: true,
-    },
-    cep: {
-      type: String,
-      required: true,
+    dt_alteracao: {
+      type: Date,
+      required: false,
     },
   },
-  tel_celular: {
-    type: String,
-    required: true,
-  },
-  tel_fixo: {
-    type: String,
-    required: false,
-  },
-  dt_inclusao: {
-    type: Date,
-    required: true,
-    default: Date.now(),
-  },
-  dt_alteracao: {
-    type: Date,
-    required: false,
-  },
-});
+  {
+    strictQuery: "throw",
+  }
+);
 
 module.exports = FornecedorModel = mongoose.model(
   "fornecedores",

@@ -11,7 +11,7 @@ function createUsuario(obj) {
   usuario.nome = obj.nome;
   usuario.email = obj.email;
   usuario.cpf = obj.cpf;
-  usuario.data_nascimento = obj.data_nascimento;  
+  usuario.data_nascimento = obj.data_nascimento;
   usuario.endereco = obj.endereco;
   usuario.tel_celular = obj.tel_celular;
   usuario.tel_fixo = obj.tel_fixo;
@@ -36,22 +36,35 @@ function createObjSenhaUsuario(obj) {
   return usuario;
 }
 
-async function existeDuplicado(obj) {
-  searchNome = obj.nome.trim();
-  searchEmail = obj.email.trim();
-  searchCPF = obj.cpf.trim();
+async function existeDuplicado(obj, session) {
+  const searchNome = obj.nome.trim();
+  const searchEmail = obj.email.trim();
 
   if (!!obj._id) {
-    regBase = await UsuarioService.find(UsuarioModel, {
-      $or: [{ nome: searchNome }, { email: searchEmail }, { cpf: searchCPF }],
-      _id: { $ne: obj._id },
-    });
+    regBase = await UsuarioService.find(
+      UsuarioModel,
+      {
+        $or: [{ nome: searchNome }, { email: searchEmail }],
+        _id: { $ne: obj._id },
+      },
+      session,
+      "_id"
+    );
   } else {
-    regBase = await UsuarioService.find(UsuarioModel, {
-      $or: [{ nome: searchNome }, { email: searchEmail }, { cpf: searchCPF }],
-    });
+    regBase = await UsuarioService.find(
+      UsuarioModel,
+      {
+        $or: [{ nome: searchNome }, { email: searchEmail }],
+      },
+      session,
+      "_id"
+    );
   }
   return regBase.length > 0;
+}
+
+async function podeExcluir(id, session) {
+  return true;
 }
 
 class UsuarioController extends GenericCrudController {
@@ -65,7 +78,8 @@ class UsuarioController extends GenericCrudController {
       UsuarioModel,
       perfisRequeridosUsuario,
       createUsuario,
-      existeDuplicado
+      existeDuplicado,
+      podeExcluir
     );
   }
 
@@ -91,7 +105,6 @@ class UsuarioController extends GenericCrudController {
   };
 
   registrar = async (req, res) => {
-
     if (AutorizacaoService.isReqNovoUsuario(req.body)) {
       try {
         const regAdicionado = await this.service.add(
@@ -124,14 +137,20 @@ class UsuarioController extends GenericCrudController {
         );
 
         if (regAtualizado.modifiedCount === 0) {
-          return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({error: `Senha do usuário com id ${id} não foi atualizada`});
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json({
+              error: `Senha do usuário com id ${id} não foi atualizada`,
+            });
         }
 
         res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: `Senha do usuário com id ${id} não foi atualizada. Erro => ${error.message}` });
+          .json({
+            error: `Senha do usuário com id ${id} não foi atualizada. Erro => ${error.message}`,
+          });
       }
     } else {
       res

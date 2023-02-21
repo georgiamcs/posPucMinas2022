@@ -1,8 +1,15 @@
 class GenericCrudService {
-  static async getAll(objectModel) {
+  static async getAll(objectModel, session, query, camposRecuperar) {
+    const vlSession = !!session ? session : null;
     try {
-      const todosRegistros = await objectModel.find();
-
+      let todosRegistros;
+      if (!!camposRecuperar) {
+        todosRegistros = await objectModel
+          .find(query, camposRecuperar)
+          .session(vlSession);
+      } else {
+        todosRegistros = await objectModel.find(query).session(vlSession);
+      }
       return todosRegistros;
     } catch (error) {
       const msgErro = `Erro ao recuperar todos os registros: ${error.message}`;
@@ -10,9 +17,17 @@ class GenericCrudService {
     }
   }
 
-  static async getById(objectModel, id) {
+  static async getById(objectModel, id, session, camposRecuperar) {
+    const vlSession = !!session ? session : null;
+    let registro;
     try {
-      const registro = await objectModel.findById(id);
+      if (!!camposRecuperar) {
+        registro = await objectModel
+          .findById(id, camposRecuperar)
+          .session(vlSession);
+      } else {
+        registro = await objectModel.findById(id).session(vlSession);
+      }
 
       return registro;
     } catch (error) {
@@ -21,12 +36,29 @@ class GenericCrudService {
     }
   }
 
-  static async add(
-    objectModel,
-    fnCriarObjEntidade,
-    pNovoRegistro,
-    session
-  ) {
+  static async getOne(objectModel, query, session, camposRecuperar) {
+    const vlSession = !!session ? session : null;
+
+    if (!!camposRecuperar) {
+      return await objectModel
+        .findOne(query, camposRecuperar)
+        .session(vlSession);
+    } else {
+      return await objectModel.findOne(query).session(vlSession);
+    }
+  }
+
+  static async find(objectModel, query, session, camposRecuperar) {
+    const vlSession = !!session ? session : null;
+
+    if (!!camposRecuperar) {
+      return await objectModel.find(query, camposRecuperar).session(vlSession);
+    } else {
+      return await objectModel.find(query).session(vlSession);
+    }
+  }
+
+  static async add(objectModel, fnCriarObjEntidade, pNovoRegistro, session) {
     try {
       const novoRegistro = fnCriarObjEntidade(pNovoRegistro);
       const response = await new objectModel(novoRegistro).save({ session });
@@ -37,12 +69,7 @@ class GenericCrudService {
     }
   }
 
-  static async update(
-    objectModel,
-    id,
-    pRegistroAlterado,
-    session
-  ) {
+  static async update(objectModel, id, pRegistroAlterado, session) {
     try {
       //caso o pRegistroAlterado vier com _id e __v, remover esses campos para atualizar
       let { _id, __v, ...registroAlteradoPuro } = pRegistroAlterado;
@@ -62,7 +89,7 @@ class GenericCrudService {
     }
   }
 
-  static async delete(objectModel, id, session) {
+  static async deleteById(objectModel, id, session) {
     try {
       const deletedResponse = await objectModel.findOneAndDelete(
         {
@@ -78,19 +105,14 @@ class GenericCrudService {
     }
   }
 
-  static async getOne(objectModel, query, session) {
-    if (!!session) {
-      return await objectModel.findOne(query).session(session);
-    } else {
-      return await objectModel.findOne(query);
-    }
-  }
+  static async deleteByQuery(objectModel, query, session) {
+    try {
+      const deletedResponse = await objectModel.deleteMany(query, { session });
 
-  static async find(objectModel, query, session) {
-    if (!!session) {
-      return await objectModel.find(query).session(session);
-    } else {
-      return await objectModel.find(query);
+      return deletedResponse;
+    } catch (error) {
+      const msgErro = `Registros não podem ser excluídos. Query: ${query}. Erro: ${error.message}`;
+      throw new Error(msgErro);
     }
   }
 }
