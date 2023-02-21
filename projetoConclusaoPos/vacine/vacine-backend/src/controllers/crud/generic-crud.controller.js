@@ -2,11 +2,18 @@ const { AutorizacaoService } = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
 
 class GenericCrudController {
-  constructor(service, objectModel, perfisRequeridos, fnCriarObjEntidade) {
+  constructor(
+    service,
+    objectModel,
+    perfisRequeridos,
+    fnCriarObjEntidade,
+    fnVerificarRegDuplicado
+  ) {
     this.service = service;
+    this.objectModel = objectModel;
     this.perfisRequeridos = perfisRequeridos;
     this.fnCriarObjEntidade = fnCriarObjEntidade;
-    this.objectModel = objectModel;
+    this.fnVerificarRegDuplicado = fnVerificarRegDuplicado;
   }
 
   getById = async (req, res) => {
@@ -18,10 +25,10 @@ class GenericCrudController {
         if (registro) {
           res.json(registro);
         } else {
-          res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-          .json({ error:  `Registro com Id ${id} não encontrado.`});
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json({ error: `Registro com Id ${id} não encontrado.` });
         }
-
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -61,12 +68,20 @@ class GenericCrudController {
   add = async (req, res) => {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
       try {
-        const regAdicionado = await this.service.add(
-          this.objectModel,
-          this.fnCriarObjEntidade,
-          req.body
-        );
-        res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
+        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
+
+        if (!!regDuplicado) {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
+            .json({ error: cnst.MENSAGEM_REGISTRO_DUPLICADO });
+        } else {
+          const regAdicionado = await this.service.add(
+            this.objectModel,
+            this.fnCriarObjEntidade,
+            req.body
+          );
+          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
+        }
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -84,20 +99,28 @@ class GenericCrudController {
       let id = req.params.id;
 
       try {
-        let regAlterado = this.fnCriarObjEntidade(req.body);
-        const regAtualizado = await this.service.update(
-          this.objectModel,
-          id,
-          regAlterado
-        );
+        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
 
-        if (regAtualizado.modifiedCount === 0) {
-          return res
-            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json({ error: `Registro com id ${id} não foi atualizado.` });
+        if (!!regDuplicado) {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
+            .json({ error: cnst.MENSAGEM_REGISTRO_DUPLICADO });
+        } else {
+          let regAlterado = this.fnCriarObjEntidade(req.body);
+          const regAtualizado = await this.service.update(
+            this.objectModel,
+            id,
+            regAlterado
+          );
+
+          if (regAtualizado.modifiedCount === 0) {
+            return res
+              .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+              .json({ error: `Registro com id ${id} não foi atualizado.` });
+          }
+
+          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
         }
-
-        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)

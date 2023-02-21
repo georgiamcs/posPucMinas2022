@@ -27,3 +27,6 @@ export const ESTADOS = [
   'SE',
   'TO',
 ];
+
+export const MENSAGEM_REGISTRO_DUPLICADO =
+  "Já existe registro com as mesmas características na base.";

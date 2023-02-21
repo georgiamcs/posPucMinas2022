@@ -36,13 +36,37 @@ function createObjSenhaUsuario(obj) {
   return usuario;
 }
 
+async function existeDuplicado(obj) {
+  searchNome = obj.nome.trim();
+  searchEmail = obj.email.trim();
+  searchCPF = obj.cpf.trim();
+
+  if (!!obj._id) {
+    regBase = await UsuarioService.find(UsuarioModel, {
+      $or: [{ nome: searchNome }, { email: searchEmail }, { cpf: searchCPF }],
+      _id: { $ne: obj._id },
+    });
+  } else {
+    regBase = await UsuarioService.find(UsuarioModel, {
+      $or: [{ nome: searchNome }, { email: searchEmail }, { cpf: searchCPF }],
+    });
+  }
+  return regBase.length > 0;
+}
+
 class UsuarioController extends GenericCrudController {
   constructor() {
     const perfisRequeridosUsuario = Acesso.getPerfisPorTema(
       Acesso.TEMA.USUARIO
     );
 
-    super(UsuarioService, UsuarioModel, perfisRequeridosUsuario, createUsuario);
+    super(
+      UsuarioService,
+      UsuarioModel,
+      perfisRequeridosUsuario,
+      createUsuario,
+      existeDuplicado
+    );
   }
 
   getNomeById = async (req, res) => {

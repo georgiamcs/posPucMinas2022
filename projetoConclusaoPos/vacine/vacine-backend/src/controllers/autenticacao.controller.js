@@ -18,7 +18,7 @@ function gerarToken(login) {
 exports.login = async (req, res) => {
   try {
     let { email, senha } = req.body;
-    const usuario = await UsuarioService.findOne(UsuarioModel, {
+    const usuario = await UsuarioService.getOne(UsuarioModel, {
       email: email,
     });
 
@@ -70,7 +70,7 @@ exports.loginGoogle = async (req, res) => {
     const payload = ticket.getPayload();
 
     // Verificar se tem usuário cadastrado com o mesmo email
-    let usuario = await UsuarioService.findOne(UsuarioModel, {
+    let usuario = await UsuarioService.getOne(UsuarioModel, {
       email: payload.email,
     });
 

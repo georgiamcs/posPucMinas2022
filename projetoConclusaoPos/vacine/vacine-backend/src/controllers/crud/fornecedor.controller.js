@@ -15,6 +15,25 @@ function createFornecedor(obj) {
 
   return fornecedor;
 }
+
+async function existeDuplicado(obj) {
+  searchNome = obj.nome.trim();
+  searchEmail = obj.email.trim();
+  searchCNPJ = obj.cnpj.trim();
+
+  if (!!obj._id) {
+    regBase = await FornecedorService.find(FornecedorModel, {
+      $or: [{ nome: searchNome }, { email: searchEmail }, { cnpj: searchCNPJ }],
+      _id: { $ne: obj._id },
+    });
+  } else {
+    regBase = await FornecedorService.find(FornecedorModel, {
+      $or: [{ nome: searchNome }, { email: searchEmail }, { cnpj: searchCNPJ }],
+    });
+  }
+  return regBase.length > 0;
+}
+
 class FornecedorController extends GenericCrudController {
   constructor() {
     const perfisRequeridosFornecedor = Acesso.getPerfisPorTema(
@@ -25,7 +44,8 @@ class FornecedorController extends GenericCrudController {
       FornecedorService,
       FornecedorModel,
       perfisRequeridosFornecedor,
-      createFornecedor
+      createFornecedor,
+      existeDuplicado
     );
   }
 }

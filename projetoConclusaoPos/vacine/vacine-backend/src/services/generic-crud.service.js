@@ -1,4 +1,3 @@
-// TODO: verificar se registro com mesmo nome ja existe antes de incluir
 class GenericCrudService {
   static async getAll(objectModel) {
     try {
@@ -22,10 +21,15 @@ class GenericCrudService {
     }
   }
 
-  static async add(objectModel, fnCriarObjEntidade, pNovoRegistro, session) {
+  static async add(
+    objectModel,
+    fnCriarObjEntidade,
+    pNovoRegistro,
+    session
+  ) {
     try {
       const novoRegistro = fnCriarObjEntidade(pNovoRegistro);
-      const response = await new objectModel(novoRegistro).save({session});
+      const response = await new objectModel(novoRegistro).save({ session });
       return response;
     } catch (error) {
       const msgErro = `Erro ao adicionar novo registro ${pNovoRegistro.nome}: ${error.message}`;
@@ -33,7 +37,12 @@ class GenericCrudService {
     }
   }
 
-  static async update(objectModel, id, pRegistroAlterado, session) {
+  static async update(
+    objectModel,
+    id,
+    pRegistroAlterado,
+    session
+  ) {
     try {
       //caso o pRegistroAlterado vier com _id e __v, remover esses campos para atualizar
       let { _id, __v, ...registroAlteradoPuro } = pRegistroAlterado;
@@ -71,11 +80,19 @@ class GenericCrudService {
 
   static async getOne(objectModel, query, session) {
     if (!!session) {
-    return await objectModel.findOne(query).session(session);
-  } else {
-    return await objectModel.findOne(query);
+      return await objectModel.findOne(query).session(session);
+    } else {
+      return await objectModel.findOne(query);
+    }
   }
-}
+
+  static async find(objectModel, query, session) {
+    if (!!session) {
+      return await objectModel.find(query).session(session);
+    } else {
+      return await objectModel.find(query);
+    }
+  }
 }
 
 module.exports = GenericCrudService;

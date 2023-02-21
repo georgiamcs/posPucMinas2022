@@ -21,14 +21,14 @@
 
 #fCelular {
   grid-area: celular;
-  width: 20%;
+  width: 30%;
   min-width: 200px;
   // background-color: pink;
 }
 
 #fFixo {
   grid-area: fixo;
-  width: 20%;
+  width: 30%;
   min-width: 200px;
   // background-color: orange;
 }
@@ -86,76 +86,3 @@
 .barrabutton {
   grid-area: botoes;
 }
-
-// .crudfieldset {
-//   background-color: lightcyan;
-//   display: grid;
-//   // grid-template-columns: 10% 30% 30%;
-//   grid-template-areas:
-//     "barramsg barramsg barramsg"
-//     "cnpj nome nome"
-//     "email celular fixo"
-//     "botoes botoes botoes";
-// }
-
-//   .titulo {
-//     grid-area: titulo;
-//     background-color: orange;
-//   }
-//   .crud-grid {
-//     grid-area: crud;
-//     display: grid;
-
-//     grid-row-gap: 1rem;
-//     grid-column-gap: 3rem;
-//     grid-template-columns: 80% 10% 10%;
-//     grid-template-rows: auto;
-//     grid-template-areas:
-//       "cnpj nome nome"
-//       "email telCel telFixo"
-//       "logradouro logradouro numero"
-//       "complemento cep .";
-//     background-color: yellow;
-
-//     .campoCnpj {
-//       grid-area: cnpj;
-//       background-color: red;
-//     }
-//     .campoNome {
-//       grid-area: nome;
-//       background-color: pink;
-//     }
-//     .campoEmail {
-//       grid-area: email;
-//       background-color: green;
-//     }
-//     .campoTelCel {
-//       grid-area: telCel;
-//       background-color: blue;
-//     }
-//     .campoTelFixo {
-//       grid-area: telFixo;
-//       background-color: gray;
-//     }
-//     .campoLogradouro {
-//       grid-area: logradouro;
-//       background-color: purple;
-//     }
-//     .campoNumero {
-//       grid-area: numero;
-//       background-color: purple;
-//     }
-//     .campoComplemento {
-//       grid-area: complemento;
-//       background-color: purple;
-//     }
-//     .campoCep {
-//       grid-area: cep;
-//       background-color: purple;
-//     }
-//   }
-
-//   .botoes-crud {
-//     grid-area: botoes;
-//   }
-// }

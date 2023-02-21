@@ -108,6 +108,7 @@ export class CrudCompraVacinaComponent
         null,
         Validators.compose([
           ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+          Validators.pattern('^[0-9]*$'),
           Validators.min(0),
         ]),
       ],
@@ -115,6 +116,7 @@ export class CrudCompraVacinaComponent
         null,
         Validators.compose([
           ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+          Validators.pattern('^[0-9]*$'),
           Validators.min(0),
         ]),
       ],

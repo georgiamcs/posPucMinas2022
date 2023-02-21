@@ -3,8 +3,9 @@ import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormGroup, ValidationErrors,
-  ValidatorFn
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +17,7 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario
+  ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -25,6 +26,8 @@ import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
+import { MENSAGEM_REGISTRO_DUPLICADO } from 'src/app/variables/constantes';
+import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 
 @Component({
   selector: 'vacine-generic-crud',
@@ -140,9 +143,19 @@ export class GenericCrudComponent<
         this.limparFormulario();
       },
       error: (erro) => {
+        let msgErro: string;
+
+        if (erro.status === RetornoHttp.HTTP_CONFLIT) {
+          msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
+        } else {
+          const textoErro = !!erro.error.error
+            ? erro.error.error
+            : erro.message;
+          msgErro = `Erro ao alterar registro => ${textoErro}`;
+        }
         const msgFeedbackErro = new MensagemFeedback(
           TipoMensagemFeedback.ERRO,
-          `Erro ao incluir registro => ${erro}`
+          msgErro
         );
         this.addMensagem(msgFeedbackErro);
       },
@@ -163,7 +176,21 @@ export class GenericCrudComponent<
         );
         this.carregarRegistros(msgFeedback);
       },
-      error: (erro) => this.tratarErro(`Erro ao alterar registro => ${erro}`),
+      error: (erro) => {
+        let msgErro: string;
+
+        if (erro.status === RetornoHttp.HTTP_CONFLIT) {
+          msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
+        } else {
+          const textoErro = !!erro.error.error ? erro.error.error : erro.message;
+          msgErro = `Erro ao alterar registro => ${textoErro}`;
+        }
+        const msgFeedbackErro = new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          msgErro
+        );
+        this.addMensagem(msgFeedbackErro);
+      },
     });
   }
 
@@ -478,7 +505,7 @@ export class GenericCrudComponent<
   protected getMsgErroValidacaoTipo(tipo: TipoErroValidacaoFormulario): string {
     switch (tipo) {
       case TipoErroValidacaoFormulario.OBRIGATORIO:
-        return 'Campo obrigatório e com caracteres válidos';
+        return 'Campo obrigatório com caracteres válidos';
       case TipoErroValidacaoFormulario.REQUERIDO:
         return 'Campo obrigatório';
       case TipoErroValidacaoFormulario.FORMATO:

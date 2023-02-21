@@ -54,9 +54,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
                   )
                 )
               );
-              // throw new Error(
-              //   'Para ter acesso a essa funcionalidade é preciso efetuar o login'
-              // );
             } else if (error.status === RetornoHttp.HTTP_FORBIDEN) {
               this.router.navigate(
                 ['/home'],
@@ -72,15 +69,16 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               );
             } else {
               // erro http nao tratado, melhorar mensagem de retorno
-              console.error('Erro', error);
-              return throwError(
-                () => `Mensagem: ${error.message} Erro: ${error.error.error}`
-              );
+              console.error('Erro http', error);
+              throw error;
+              // return throwError(
+              //   () => `Mensagem: ${error.message} Erro: ${error.error.error}`
+              // );
             }
           }
         }
-        console.error('Erro', error);
-        return throwError(() => error);
+        console.error('Erro não HTTP', error);
+        throw error;
       })
     );
   }
