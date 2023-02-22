@@ -87,7 +87,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-hint *ngIf="exibeHint(nomeCtrlFornecedor)"
-          >Digite o nome do fornecedor ou selecione na lista</mat-hint
+          >Digite ou selecione na lista o nome do fornecedor</mat-hint
         >
         <mat-error
           *ngIf="
@@ -107,17 +107,6 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="crudfield" id="fVlTotCompra">
-        <mat-label id="lblTotCompra">Total Compra*</mat-label>
-        <input
-          id="inVlTotCompra"
-          formControlName="vl_total_compra"
-          matInput
-          type="text"
-          currencyMask
-          [readonly]="true"
-        />
-      </mat-form-field>
     </form>
 
     <button
@@ -158,7 +147,7 @@
               </mat-option>
             </mat-autocomplete>
             <mat-hint *ngIf="exibeHint(nomeCtrlVacina, formItem)"
-              >Digite o nome da vacina ou selecione na lista</mat-hint
+              >Digite ou selecione na lista o nome da vacina</mat-hint
             >
             <mat-error
               *ngIf="
@@ -360,7 +349,7 @@
               mat-raised-button
               (click)="fecharAdicionarItem()"
             >
-              Cancelar
+              Concluir
             </button>
           </div>
         </fieldset>
@@ -371,21 +360,25 @@
           <ng-container matColumnDef="vacina">
             <th mat-header-cell *matHeaderCellDef>Vacina</th>
             <td mat-cell *matCellDef="let item">{{ item.vacina.nome }}</td>
+            <td mat-footer-cell *matFooterCellDef>Total da Compra</td>
           </ng-container>
 
           <ng-container matColumnDef="lote">
             <th mat-header-cell *matHeaderCellDef>Lote</th>
             <td mat-cell *matCellDef="let item">{{ item.lote }}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="qtd_frascos">
             <th mat-header-cell *matHeaderCellDef>Qtd Frascos</th>
             <td mat-cell *matCellDef="let item">{{ item.qtd_frascos }}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="qtd_doses">
             <th mat-header-cell *matHeaderCellDef>Qtd Doses</th>
             <td mat-cell *matCellDef="let item">{{ item.qtd_doses }}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="data_validade">
@@ -393,31 +386,37 @@
             <td mat-cell *matCellDef="let item">
               {{ item.data_validade | date : "dd/MM/yyyy" }}
             </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="vl_total_item_compra">
-            <th mat-header-cell *matHeaderCellDef>Valor Item</th>
+            <th mat-header-cell *matHeaderCellDef>Valor Total Item</th>
             <td mat-cell *matCellDef="let item">
-              {{ item.vl_total_item_compra }}
+              {{ formatarValor(item.vl_total_item_compra) }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+              {{ calcularTotalCompra() | currency : "BRL" : "symbol" }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let item">
-            <button
-              mat-icon-button
-              (click)="excluirItem(item)"
-              [disabled]="somenteLeitura()"
-              matTooltip="Excluir"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let item">
+              <button
+                mat-icon-button
+                (click)="excluirItem(item)"
+                [disabled]="somenteLeitura()"
+                matTooltip="Excluir"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="defColunasExibidas"></tr>
           <tr mat-row *matRowDef="let row; columns: defColunasExibidas"></tr>
+          <tr mat-footer-row *matFooterRowDef="defColunasExibidas"></tr>
         </table>
       </div>
     </div>

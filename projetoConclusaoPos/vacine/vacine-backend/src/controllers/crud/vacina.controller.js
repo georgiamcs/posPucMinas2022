@@ -8,172 +8,94 @@ const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.cla
 const mongoose = require("mongoose");
 const cnst = require("../../constantes");
 
-function createVacina(obj) {
-  let vacina = {};
-  vacina.nome = obj.nome;
-  vacina.protecao_contra = obj.protecao_contra;
-  vacina.composicao = obj.composicao;
-  vacina.in_idade_recomendada = obj.in_idade_recomendada;
-  vacina.tp_idade_recomendada = obj.tp_idade_recomendada;
-  vacina.nr_idade_recomendada = obj.nr_idade_recomendada;
-
-  // se id for nulo ou undefined, i.e, obj sendo criado, define o estoque
-  // caso contrario, so pela funcionalidade de atualizar estoque
-  if (!!!obj._id) {
-    vacina.qtd_doses_estoque = obj.qtd_doses_estoque;
-  }
-
-  return vacina;
-}
-
-function createObjAtualizaEstoque(obj) {
-  let vacina = {};
-  vacina.qtd_doses_estoque = obj.qtd_doses_estoque;
-  return vacina;
-}
-
-async function existeDuplicado(obj) {
-  searchTerm = obj.nome.trim();
-  // TENTATIVAS DE FAZER CASE INSENSITIVE
-  // regBase = await VacinaService.find(VacinaModel, {
-  //   nome: { $regex: `/${searchTerm}/i` }
-  // });
-  // regBase = await VacinaService.find(VacinaModel, {
-  //   nome: { $regex: new RegExp(searchTerm, "i") },
-  // });
-  if (!!obj._id) {
-    regBase = await GenericCrudService.find(VacinaModel, {
-      nome: searchTerm,
-      _id: { $ne: obj._id },
-    });
-  } else {
-    regBase = await GenericCrudService.find(VacinaModel, {
-      nome: searchTerm,
-    });
-  }
-  return regBase.length > 0;
-}
-
-async function podeExcluir(id, session) {
-  const comprasDaVacina = await GenericCrudService.getAll(CompraVacinaModel,
-    session,
-    {
-      "itens_compra.vacina._id": id,
-    },
-    "_id"
-  );  
-
-  return comprasDaVacina.length == 0;
-}
 class VacinaController extends GenericCrudController {
   constructor() {
     const perfisRequeridosVacina = Acesso.getPerfisPorTema(Acesso.TEMA.VACINA);
 
-    super(
-      GenericCrudService,
-      VacinaModel,
-      perfisRequeridosVacina,
-      createVacina,
-      existeDuplicado,
-      podeExcluir
-    );
+    super(GenericCrudService, VacinaModel, perfisRequeridosVacina);
   }
 
-  add = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
-      const session = await mongoose.startSession();
-      session.startTransaction();
+  createObj(obj) {
+    let vacina = {};
+    vacina.nome = obj.nome;
+    vacina.protecao_contra = obj.protecao_contra;
+    vacina.composicao = obj.composicao;
+    vacina.in_idade_recomendada = obj.in_idade_recomendada;
+    vacina.tp_idade_recomendada = obj.tp_idade_recomendada;
+    vacina.nr_idade_recomendada = obj.nr_idade_recomendada;
 
-      try {
-        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
-
-        if (!!regDuplicado) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
-        } else {
-          const regAdicionado = await this.service.add(
-            this.objectModel,
-            this.fnCriarObjEntidade,
-            req.body,
-            session
-          );
-
-          let estoqueController = new ControleEstoqueVacinaController();
-
-          const regContEstoque = new ControleEstoqueVacina(
-            { _id: regAdicionado._id, nome: regAdicionado.nome }, //vacina
-            { _id: req.user._id, nome: req.user.nome }, //usuario
-            new Date(), // data_evento
-            cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.ENTRADA, //tipo_evento
-            cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.CADASTRO_INICIAL, //tipo_motivo,
-            null, //descricao_evento
-            null, //justificativa_evento
-            0, //qtd_estoque_antes
-            regAdicionado.qtd_doses_estoque //qtd_estoque_depois
-          );
-
-          await estoqueController.inserirFromRecord(regContEstoque, session);
-
-          await session.commitTransaction();
-          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
-        }
-      } catch (error) {
-        await session.abortTransaction();
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
-      } finally {
-        session.endSession();
-      }
-    } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+    // se id for nulo ou undefined, i.e, obj sendo criado, define o estoque
+    // caso contrario, so pela funcionalidade de atualizar estoque
+    if (!!!obj._id) {
+      vacina.qtd_doses_estoque = obj.qtd_doses_estoque;
     }
-  };
 
-  delete = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
-      let id = req.params.id;
+    return vacina;
+  }
 
-      const session = await mongoose.startSession();
-      session.startTransaction();
+  createObjAtualizaEstoque(obj) {
+    let vacina = {};
+    vacina.qtd_doses_estoque = obj.qtd_doses_estoque;
+    return vacina;
+  }
 
-      try {
-        const podeExcluir = await this.fnPodeExcluir(id);
-
-        if (!podeExcluir) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM.NAO_PODE_EXCLUIR });
-        } else {
-          const deleteResponse = await this.service.deleteById(
-            this.objectModel,
-            id,
-            session
-          );
-
-          let estoqueController = new ControleEstoqueVacinaController();
-          await estoqueController.excluirCascataVacina(id, session);
-
-          await session.commitTransaction();
-          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(deleteResponse);
-        }
-      } catch (error) {
-        await session.abortTransaction();
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
-      } finally {
-        session.endSession();
-      }
+  async temDuplicado(obj) {
+    let searchTerm = obj.nome.trim();
+    let regBase = [];
+    // TENTATIVAS DE FAZER CASE INSENSITIVE
+    // regBase = await VacinaService.find(VacinaModel, {
+    //   nome: { $regex: `/${searchTerm}/i` }
+    // });
+    // regBase = await VacinaService.find(VacinaModel, {
+    //   nome: { $regex: new RegExp(searchTerm, "i") },
+    // });
+    if (!!obj._id) {
+      regBase = await GenericCrudService.find(VacinaModel, {
+        nome: searchTerm,
+        _id: { $ne: obj._id },
+      });
     } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+      regBase = await GenericCrudService.find(VacinaModel, {
+        nome: searchTerm,
+      });
     }
-  };
+    return regBase.length > 0;
+  }
+
+  async podeExcluir(id, session) {
+    const comprasDaVacina = await GenericCrudService.getAll(
+      CompraVacinaModel,
+      session,
+      {
+        "itens_compra.vacina._id": id,
+      },
+      "_id"
+    );
+
+    return comprasDaVacina.length == 0;
+  }
+
+  async doOnAdd(regAdicionado, user, session) {
+    let estoqueController = new ControleEstoqueVacinaController();
+
+    const regContEstoque = new ControleEstoqueVacina(
+      { _id: regAdicionado._id, nome: regAdicionado.nome },
+      { _id: user._id, nome: user.nome },
+      new Date(),
+      cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.ENTRADA,
+      cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.CADASTRO_INICIAL,
+      null,
+      null,
+      0,
+      regAdicionado.qtd_doses_estoque //qtd_estoque_depois
+    );
+    await estoqueController.inserirFromRecord(regContEstoque, session);
+  }
+
+  async doOnDelete(id, objBeforeDelete, objDeleted, user, session) {
+    let estoqueController = new ControleEstoqueVacinaController();
+    await estoqueController.excluirCascataVacina(id, session);
+  }
 
   atualizarEstoque = async (req, res) => {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {

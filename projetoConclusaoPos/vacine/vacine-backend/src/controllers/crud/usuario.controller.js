@@ -5,68 +5,6 @@ const UsuarioModel = require("../../models/usuario.model");
 const Acesso = require("../../setup/acesso");
 const cnst = require("../../constantes");
 
-function createUsuario(obj) {
-  let usuario = {};
-  usuario.tipo = obj.tipo;
-  usuario.nome = obj.nome;
-  usuario.email = obj.email;
-  usuario.cpf = obj.cpf;
-  usuario.data_nascimento = obj.data_nascimento;
-  usuario.endereco = obj.endereco;
-  usuario.tel_celular = obj.tel_celular;
-  usuario.tel_fixo = obj.tel_fixo;
-  if (!!obj.senha) {
-    //caso de alteracao em que nao envia a senha
-    usuario.senha = AutorizacaoService.criptografar(obj.senha);
-  }
-  usuario.perfis = obj.perfis;
-  return usuario;
-}
-
-function createUsuarioCliente(obj) {
-  let usuario = createUsuario(obj);
-  usuario.tipo = cnst.TIPO_USUARIO.CLIENTE;
-  usuario.perfis = [Acesso.PERFIL.CLIENTE];
-  return usuario;
-}
-
-function createObjSenhaUsuario(obj) {
-  let usuario = {};
-  usuario.senha = AutorizacaoService.criptografar(obj.senha);
-  return usuario;
-}
-
-async function existeDuplicado(obj, session) {
-  const searchNome = obj.nome.trim();
-  const searchEmail = obj.email.trim();
-
-  if (!!obj._id) {
-    regBase = await UsuarioService.find(
-      UsuarioModel,
-      {
-        $or: [{ nome: searchNome }, { email: searchEmail }],
-        _id: { $ne: obj._id },
-      },
-      session,
-      "_id"
-    );
-  } else {
-    regBase = await UsuarioService.find(
-      UsuarioModel,
-      {
-        $or: [{ nome: searchNome }, { email: searchEmail }],
-      },
-      session,
-      "_id"
-    );
-  }
-  return regBase.length > 0;
-}
-
-async function podeExcluir(id, session) {
-  return true;
-}
-
 class UsuarioController extends GenericCrudController {
   constructor() {
     const perfisRequeridosUsuario = Acesso.getPerfisPorTema(
@@ -76,11 +14,67 @@ class UsuarioController extends GenericCrudController {
     super(
       UsuarioService,
       UsuarioModel,
-      perfisRequeridosUsuario,
-      createUsuario,
-      existeDuplicado,
-      podeExcluir
+      perfisRequeridosUsuario
     );
+  }
+
+  createUsuarioCliente(obj) {
+    let usuario = createUsuario(obj);
+    usuario.tipo = cnst.TIPO_USUARIO.CLIENTE;
+    usuario.perfis = [Acesso.PERFIL.CLIENTE];
+    return usuario;
+  }
+
+  createObjSenhaUsuario(obj) {
+    let usuario = {};
+    usuario.senha = AutorizacaoService.criptografar(obj.senha);
+    return usuario;
+  }
+
+  createObj(obj) {
+    let usuario = {};
+    usuario.tipo = obj.tipo;
+    usuario.nome = obj.nome;
+    usuario.email = obj.email;
+    usuario.cpf = obj.cpf;
+    usuario.data_nascimento = obj.data_nascimento;
+    usuario.endereco = obj.endereco;
+    usuario.tel_celular = obj.tel_celular;
+    usuario.tel_fixo = obj.tel_fixo;
+    if (!!obj.senha) {
+      //caso de alteracao em que nao envia a senha
+      usuario.senha = AutorizacaoService.criptografar(obj.senha);
+    }
+    usuario.perfis = obj.perfis;
+    return usuario;
+  }
+
+  async temDuplicado(obj, session) {
+    const searchNome = obj.nome.trim();
+    const searchEmail = obj.email.trim();
+    let regBase = [];
+
+    if (!!obj._id) {
+      regBase = await UsuarioService.find(
+        UsuarioModel,
+        {
+          $or: [{ nome: searchNome }, { email: searchEmail }],
+          _id: { $ne: obj._id },
+        },
+        session,
+        "_id"
+      );
+    } else {
+      regBase = await UsuarioService.find(
+        UsuarioModel,
+        {
+          $or: [{ nome: searchNome }, { email: searchEmail }],
+        },
+        session,
+        "_id"
+      );
+    }
+    return regBase.length > 0;
   }
 
   getNomeById = async (req, res) => {
@@ -109,7 +103,7 @@ class UsuarioController extends GenericCrudController {
       try {
         const regAdicionado = await this.service.add(
           this.objectModel,
-          createUsuarioCliente,
+          this.createUsuarioCliente,
           req.body
         );
         res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
@@ -129,7 +123,7 @@ class UsuarioController extends GenericCrudController {
     if (AutorizacaoService.temAlgumPerfil(req)) {
       let id = req.params.id;
       try {
-        let regAlterado = createObjSenhaUsuario(req.body);
+        let regAlterado = this.createObjSenhaUsuario(req.body);
         const regAtualizado = await this.service.update(
           this.objectModel,
           id,
@@ -137,20 +131,16 @@ class UsuarioController extends GenericCrudController {
         );
 
         if (regAtualizado.modifiedCount === 0) {
-          return res
-            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json({
-              error: `Senha do usuário com id ${id} não foi atualizada`,
-            });
+          return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({
+            error: `Senha do usuário com id ${id} não foi atualizada`,
+          });
         }
 
         res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
       } catch (error) {
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({
-            error: `Senha do usuário com id ${id} não foi atualizada. Erro => ${error.message}`,
-          });
+        res.status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO).json({
+          error: `Senha do usuário com id ${id} não foi atualizada. Erro => ${error.message}`,
+        });
       }
     } else {
       res

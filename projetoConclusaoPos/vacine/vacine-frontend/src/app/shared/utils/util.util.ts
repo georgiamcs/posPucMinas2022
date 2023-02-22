@@ -15,4 +15,7 @@ export class Util {
     return value ? value : '';
   }
 
+  public static formatarValorDecimal(v: number): string {
+    return v.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+  }
 }

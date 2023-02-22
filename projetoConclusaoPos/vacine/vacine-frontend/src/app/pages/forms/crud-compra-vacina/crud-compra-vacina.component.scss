@@ -1,5 +1,5 @@
 #fNotaFiscal {
-  width: 15%;
+  width: 25%;
   min-width: 150px;
 }
 
@@ -9,16 +9,12 @@
 }
 
 #fFornecedor {
-  width: 35%;
+  width: 45%;
   min-width: 200px;
 }
 
-#fVlTotCompra {
-  width: 20%;
-  min-width: 150px;
-}
 
- #fLote {
+#fLote {
   width: 20%;
   min-width: 150px;
 }
@@ -48,4 +44,22 @@
   min-width: 150px;
 }
 
+.mat-column-vl_total_item_compra,
+.mat-column-qtd_doses,
+.mat-column-qtd_frascos {
+  text-align: right;
+}
 
+.mat-column-acoes {
+  text-align: center;
+  min-width: 50px;
+}
+
+.mat-column-data_validade {
+  text-align: center;
+}
+
+tr.mat-mdc-footer-row td {
+  font-weight: bold;
+  font-size: large;
+}

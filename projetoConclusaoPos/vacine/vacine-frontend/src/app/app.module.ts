@@ -1,6 +1,6 @@
 import { DecimalPipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import localePt from '@angular/common/locales/pt';
+import ptBr from '@angular/common/locales/pt';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -75,7 +75,7 @@ import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 
-registerLocaleData(localePt);
+registerLocaleData(ptBr);
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'right',
@@ -159,9 +159,10 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
-    { provide: LOCALE_ID, useValue: 'pt' },
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     {
-        provide: ErrorStateMatcher, useClass: CustomMaterialFormsMatcher
+      provide: ErrorStateMatcher,
+      useClass: CustomMaterialFormsMatcher,
     },
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     provideNgxMask(),

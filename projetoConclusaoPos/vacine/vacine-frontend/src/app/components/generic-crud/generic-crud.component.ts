@@ -148,7 +148,7 @@ export class GenericCrudComponent<
         if (erro.status === RetornoHttp.HTTP_CONFLIT) {
           msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
         } else {
-          const textoErro = !!erro.error.error
+          const textoErro = !!erro.error?.error
             ? erro.error.error
             : erro.message;
           msgErro = `Erro ao incluir registro => ${textoErro}`;
@@ -182,7 +182,7 @@ export class GenericCrudComponent<
         if (erro.status === RetornoHttp.HTTP_CONFLIT) {
           msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
         } else {
-          const textoErro = !!erro.error.error ? erro.error.error : erro.message;
+          const textoErro = !!erro.error?.error ? erro.error.error : erro.message;
           msgErro = `Erro ao alterar registro => ${textoErro}`;
         }
         const msgFeedbackErro = new MensagemFeedback(
@@ -203,7 +203,7 @@ export class GenericCrudComponent<
         this.carregarRegistros(msgFeedback);
       },
       error: (erro) => {
-        const textoErro = !!erro.error.error ? erro.error.error : erro.message;
+        const textoErro = !!erro.error?.error ? erro.error.error : erro.message;
         const msgErro = `Erro ao excluir registro => ${textoErro}`;
         const msgFeedbackErro = new MensagemFeedback(
           TipoMensagemFeedback.ERRO,

@@ -58,10 +58,9 @@ class GenericCrudService {
     }
   }
 
-  static async add(objectModel, fnCriarObjEntidade, pNovoRegistro, session) {
+  static async add(objectModel, pNovoRegistro, session) {
     try {
-      const novoRegistro = fnCriarObjEntidade(pNovoRegistro);
-      const response = await new objectModel(novoRegistro).save({ session });
+      const response = await new objectModel(pNovoRegistro).save({ session });
       return response;
     } catch (error) {
       const msgErro = `Erro ao adicionar novo registro ${pNovoRegistro.nome}: ${error.message}`;

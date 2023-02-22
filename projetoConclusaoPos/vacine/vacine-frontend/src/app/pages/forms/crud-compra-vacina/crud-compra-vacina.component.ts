@@ -6,6 +6,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
+import { Util } from 'src/app/shared/utils/util.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { FornecedorService } from '../../../services/crud/fornecedor/fornecedor.service';
 import { RelacionamentoFornecedor } from '../../../shared/classes/relacionamento-fornecedor.class';
@@ -134,10 +135,6 @@ export class CrudCompraVacinaComponent
       _id: [null],
       nota_fiscal: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
       data_compra: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      vl_total_compra: [
-        null,
-        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-      ],
       fornecedor: [
         null,
         Validators.compose([
@@ -254,7 +251,7 @@ export class CrudCompraVacinaComponent
     compraVacina.nota_fiscal = this.getValorCampoForm('nota_fiscal');
     compraVacina.data_compra = this.getValorCampoForm('data_compra');
     compraVacina.fornecedor = this.getValorCampoForm('fornecedor');
-    compraVacina.vl_total_compra = this.getValorCampoForm('vl_total_compra');
+    compraVacina.vl_total_compra = this.calcularTotalCompra();
     compraVacina.itens_compra = this.itens;
 
     return compraVacina;
@@ -285,17 +282,25 @@ export class CrudCompraVacinaComponent
     this.atualizarListaItens();
   }
 
-  protected atualizarListaItens() {
-    this.itens = [...this.itens];
+  protected calcularTotalCompra(): number {
     const vlTotCompra = this.itens
       .map((i) => i.vl_total_item_compra)
       .reduce((acum, v) => acum + v, 0);
-    this.setValorCampoForm('vl_total_compra', vlTotCompra);
+
+    return vlTotCompra;
+  }
+
+  protected atualizarListaItens() {
+    this.itens = [...this.itens];
   }
 
   protected override limparFormulario(): void {
-      super.limparFormulario();
-      this.limparFormItens();
-      this.itens = [];
+    super.limparFormulario();
+    this.limparFormItens();
+    this.itens = [];
+  }
+
+  protected formatarValor(v: number): string {
+    return Util.formatarValorDecimal(v);
   }
 }

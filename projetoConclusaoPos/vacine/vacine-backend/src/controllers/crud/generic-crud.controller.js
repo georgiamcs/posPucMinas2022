@@ -1,24 +1,39 @@
-//TODO: DEIXAR POR DEFAULT COM TRANSACAO E SESSION VER SE TEM COMO TER FUNCAO DE DONE 
-// PARA REALIZAR APOS A OPERACAO PRINCIPAL PARA EVITAR DE TER CONTROLLES ESPECIFICOS 
+//TODO: DEIXAR POR DEFAULT COM TRANSACAO E SESSION VER SE TEM COMO TER FUNCAO DE DONE
+// PARA REALIZAR APOS A OPERACAO PRINCIPAL PARA EVITAR DE TER CONTROLLES ESPECIFICOS
 // (VIDE ATUALIZACAO ESTOQUE E CONTROLE ESTOQUE)
 const { AutorizacaoService } = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
+const mongoose = require("mongoose");
 
 class GenericCrudController {
-  constructor(
-    service,
-    objectModel,
-    perfisRequeridos,
-    fnCriarObjEntidade,
-    fnVerificarRegDuplicado,
-    fnPodeExcluir
-  ) {
+  constructor(service, objectModel, perfisRequeridos) {
     this.service = service;
     this.objectModel = objectModel;
     this.perfisRequeridos = perfisRequeridos;
-    this.fnCriarObjEntidade = fnCriarObjEntidade;
-    this.fnVerificarRegDuplicado = fnVerificarRegDuplicado;
-    this.fnPodeExcluir = fnPodeExcluir;
+  }
+
+  async createObj(obj) {
+    throw new Error("Função precisa ser implementada nas classes filhas");
+  }
+
+  async temDuplicado(obj) {
+    return false;
+  }
+
+  async podeExcluir(id, session) {
+    return true;
+  }
+
+  async doOnAdd(regAdicionado, user, session) {
+    return null;
+  }
+
+  async doOnDelete(id, objBeforeDelete, objDeleted, user, session) {
+    return null;
+  }
+
+  async doOnUpdate(id, objBeforeUpdate, objUpdated, user, session) {
+    return null;
   }
 
   getById = async (req, res) => {
@@ -72,25 +87,35 @@ class GenericCrudController {
 
   add = async (req, res) => {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+      const session = await mongoose.startSession();
+      session.startTransaction();
       try {
-        const regDuplicado = await this.fnVerificarRegDuplicado(req.body, null);
+        const regDuplicado = await this.temDuplicado(req.body, session);
 
         if (!!regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
+          const novoRegistro = this.createObj(req.body);
           const regAdicionado = await this.service.add(
             this.objectModel,
-            this.fnCriarObjEntidade,
-            req.body
+            novoRegistro,
+            session
           );
+
+          await this.doOnAdd(regAdicionado, req.user, session);
+
+          await session.commitTransaction();
           res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
         }
       } catch (error) {
+        await session.abortTransaction();
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
           .json({ error: error.message });
+      } finally {
+        session.endSession();
       }
     } else {
       res
@@ -103,33 +128,53 @@ class GenericCrudController {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
       let id = req.params.id;
 
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
       try {
-        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
+        const regDuplicado = await this.temDuplicado(req.body);
 
         if (!!regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
-          let regAlterado = this.fnCriarObjEntidade(req.body);
-          const regAtualizado = await this.service.update(
+          const objBeforeUpdate = await this.service.getById(
+            this.objectModel,
+            id,
+            session
+          );
+          let regAlterado = this.createObj(req.body);
+          const objUpdated = await this.service.update(
             this.objectModel,
             id,
             regAlterado
           );
 
-          if (regAtualizado.modifiedCount === 0) {
+          if (objUpdated.modifiedCount === 0) {
             return res
               .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
               .json({ error: `Registro com id ${id} não foi atualizado.` });
           } else {
-            res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
+            await this.doOnUpdate(
+              id,
+              objBeforeUpdate,
+              objUpdated,
+              req.user,
+              session
+            );
+
+            await session.commitTransaction();
+            res.status(cnst.RETORNO_HTTP.HTTP_OK).json(objUpdated);
           }
         }
       } catch (error) {
+        await session.abortTransaction();
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
           .json({ error: error.message });
+      } finally {
+        session.endSession();
       }
     } else {
       res
@@ -142,24 +187,46 @@ class GenericCrudController {
     if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
       let id = req.params.id;
 
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
       try {
-        const podeExcluir = await this.fnPodeExcluir(id,null);
+        const podeExcluir = await this.podeExcluir(id, session);
 
         if (!podeExcluir) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.NAO_PODE_EXCLUIR });
         } else {
-          const deleteResponse = await this.service.deleteById(
+          const objBeforeDelete = await this.service.getById(
             this.objectModel,
-            id
+            id,
+            session
           );
-          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(deleteResponse);
+          const objDeleted = await this.service.deleteById(
+            this.objectModel,
+            id,
+            session
+          );
+
+          await this.doOnDelete(
+            id,
+            objBeforeDelete,
+            objDeleted,
+            req.user,
+            session
+          );
+
+          await session.commitTransaction();
+          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(objDeleted);
         }
       } catch (error) {
+        await session.abortTransaction();
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
           .json({ error: error.message });
+      } finally {
+        session.endSession();
       }
     } else {
       res

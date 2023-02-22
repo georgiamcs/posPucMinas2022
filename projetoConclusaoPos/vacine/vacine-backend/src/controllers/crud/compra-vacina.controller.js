@@ -9,234 +9,53 @@ const modelVacina = require("../../models/vacina.model");
 const mongoose = require("mongoose");
 const cnst = require("../../constantes");
 
-function criarRegistro(obj) {
-  let registro = {};
-
-  registro.fornecedor = obj.fornecedor;
-  registro.nota_fiscal = obj.nota_fiscal;
-  registro.data_compra = obj.data_compra;
-  registro.itens_compra = obj.itens_compra;
-  registro.vl_total_compra = obj.vl_total_compra;
-
-  return registro;
-}
-
-async function existeDuplicado(obj, session) {
-  searchNotaFiscal = obj.nota_fiscal.trim();
-
-  if (!!obj._id) {
-    regBase = await genericService.find(CompraVacinaModel, {
-      nota_fiscal: searchNotaFiscal,
-      _id: { $ne: obj._id },
-    }, session, "_id");
-  } else {
-    regBase = await genericService.find(
-      CompraVacinaModel,
-      {
-        nota_fiscal: searchNotaFiscal,
-      },
-      session,
-      "_id"
-    );
-  }
-  return regBase.length > 0;
-}
-
-async function podeExcluir(id, session) {
-  return true;
-}
-
 class CompraVacinaController extends GenericCrudController {
   constructor() {
     const perfisRequeridosCompraVacina = Acesso.getPerfisPorTema(
       Acesso.TEMA.COMPRA_VACINA
     );
 
-    super(
-      genericService,
-      CompraVacinaModel,
-      perfisRequeridosCompraVacina,
-      criarRegistro,
-      existeDuplicado,
-      podeExcluir
-    );
+    super(genericService, CompraVacinaModel, perfisRequeridosCompraVacina);
   }
 
-  add = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
-      const session = await mongoose.startSession();
-      session.startTransaction();
+  createObj(obj) {
+    let registro = {};
 
-      try {
-        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
+    registro.fornecedor = obj.fornecedor;
+    registro.nota_fiscal = obj.nota_fiscal;
+    registro.data_compra = obj.data_compra;
+    registro.itens_compra = obj.itens_compra;
+    registro.vl_total_compra = obj.vl_total_compra;
 
-        if (!!regDuplicado) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
-        } else {
-          // adiciona a compra
-          const regAdicionado = await this.service.add(
-            this.objectModel,
-            this.fnCriarObjEntidade,
-            req.body,
-            session
-          );
-          //atualiza o estoque dos itens dos produtos
-          await this.atualizarEstoqueVacina(
-            cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
-            regAdicionado.itens_compra,
-            session,
-            regAdicionado._id,
-            regAdicionado.nota_fiscal,
-            cnst.TIPO_OPERACAO.INSERT,
-            req.user
-          );
+    return registro;
+  }
 
-          await session.commitTransaction();
-          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
-        }
-      } catch (error) {
-        console.error(
-          `Erro ao adicionar compra da vacina ${req.body} => ${error}`
-        );
-        await session.abortTransaction();
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
-      } finally {
-        session.endSession();
-      }
+  async temDuplicado(obj, session) {
+    let searchNotaFiscal = obj.nota_fiscal.trim();
+    let regBase = [];
+
+    if (!!obj._id) {
+      regBase = await genericService.find(
+        CompraVacinaModel,
+        {
+          nota_fiscal: searchNotaFiscal,
+          _id: { $ne: obj._id },
+        },
+        session,
+        "_id"
+      );
     } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+      regBase = await genericService.find(
+        CompraVacinaModel,
+        {
+          nota_fiscal: searchNotaFiscal,
+        },
+        session,
+        "_id"
+      );
     }
-  };
-
-  delete = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
-      let id = req.params.id;
-
-      const session = await mongoose.startSession();
-      session.startTransaction();
-
-      try {
-        //exclui a compra
-        const regDeletado = await this.service.deleteById(
-          this.objectModel,
-          id,
-          session
-        );
-        //atualiza o estoque dos itens dos produtos
-        await this.atualizarEstoqueVacina(
-          cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
-          regDeletado.itens_compra,
-          session,
-          regDeletado._id,
-          regDeletado.nota_fiscal,
-          cnst.TIPO_OPERACAO.DELETE,
-          req.user
-        );
-        await session.commitTransaction();
-
-        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regDeletado);
-      } catch (error) {
-        console.error(
-          `Erro ao excluir compra da vacina de id ${id} => ${error}`
-        );
-        await session.abortTransaction();
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
-      } finally {
-        session.endSession();
-      }
-    } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
-    }
-  };
-
-  update = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
-      let id = req.params.id;
-
-      const session = await mongoose.startSession();
-      session.startTransaction();
-
-      try {
-        const regDuplicado = await this.fnVerificarRegDuplicado(req.body);
-
-        if (!!regDuplicado) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
-        } else {
-          let compraAntes = await this.service.getById(this.objectModel, id);
-          if (!compraAntes) {
-            throw new Error(`Compra com Id ${id} não localizada`);
-          }
-          let regAlterado = this.fnCriarObjEntidade(req.body);
-          const regAtualizado = await this.service.update(
-            this.objectModel,
-            id,
-            regAlterado,
-            session
-          );
-
-          if (regAtualizado.modifiedCount === 0) {
-            throw new Error(`Compra com Id ${id} não foi atualizada`);
-          }
-
-          // verifica se houve mudanca nos itens da compra
-          if (
-            JSON.stringify(compraAntes.itens_compra) !==
-            JSON.stringify(regAlterado.itens_compra)
-          ) {
-            // atualizar estoque, removendo o estoque dos itens da compra antes da mudanca
-            await this.atualizarEstoqueVacina(
-              cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
-              compraAntes.itens_compra,
-              session,
-              id,
-              regAlterado.nota_fiscal,
-              cnst.TIPO_OPERACAO.UPDATE,
-              req.user
-            );
-
-            // atualizar estoque, adicionando o estoque dos itens da compra apos a mudanca
-            await this.atualizarEstoqueVacina(
-              cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
-              regAlterado.itens_compra,
-              session,
-              id,
-              regAlterado.nota_fiscal,
-              cnst.TIPO_OPERACAO.UPDATE,
-              req.user
-            );
-          }
-          await session.commitTransaction();
-          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
-        }
-      } catch (error) {
-        console.log(
-          `Erro ao atualizar compra de vacina com id ${id} => ${error}`
-        );
-        await session.abortTransaction();
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
-      } finally {
-        session.endSession();
-      }
-    } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
-    }
-  };
+    return regBase.length > 0;
+  }
 
   async atualizarEstoqueVacina(
     tipoAtualizacao,
@@ -330,6 +149,63 @@ class CompraVacinaController extends GenericCrudController {
       }
     }
   }
+
+  async doOnAdd(regAdicionado, user, session) {
+    //atualiza o estoque dos itens dos produtos
+    await this.atualizarEstoqueVacina(
+      cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
+      regAdicionado.itens_compra,
+      session,
+      regAdicionado._id,
+      regAdicionado.nota_fiscal,
+      cnst.TIPO_OPERACAO.INSERT,
+      user
+    );
+  }
+
+  async doOnDelete(id, objBeforeDelete, objDeleted, user, session) {
+    //atualiza o estoque dos itens dos produtos
+    await this.atualizarEstoqueVacina(
+      cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
+      objDeleted.itens_compra,
+      session,
+      id,
+      objDeleted.nota_fiscal,
+      cnst.TIPO_OPERACAO.DELETE,
+      user
+    );
+  }
+
+  async doOnUpdate(id, objBeforeUpdate, objUpdated, user, session) {
+    // verifica se houve mudanca nos itens da compra
+    if (
+      JSON.stringify(objBeforeUpdate.itens_compra) !==
+      JSON.stringify(objUpdated.itens_compra)
+    ) {
+      // atualizar estoque, removendo o estoque dos itens da compra antes da mudanca
+      await this.atualizarEstoqueVacina(
+        cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
+        objBeforeUpdate.itens_compra,
+        session,
+        id,
+        objBeforeUpdate.nota_fiscal,
+        cnst.TIPO_OPERACAO.UPDATE,
+        req.user
+      );
+
+      // atualizar estoque, adicionando o estoque dos itens da compra apos a mudanca
+      await this.atualizarEstoqueVacina(
+        cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
+        objUpdated.itens_compra,
+        session,
+        id,
+        objUpdated.nota_fiscal,
+        cnst.TIPO_OPERACAO.UPDATE,
+        req.user
+      );
+    }
+  }
+
 }
 
 module.exports = CompraVacinaController;
