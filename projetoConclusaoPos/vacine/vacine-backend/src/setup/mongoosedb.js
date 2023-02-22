@@ -7,6 +7,7 @@ const database = "vacine";
 
 module.exports = {
   init: () => {
+    mongoose.set("strictQuery", "throw");
     mongoose
       .connect(
         `mongodb+srv://${user}:${pass}@${serverName}/${database}?retryWrites=true&w=majority`,
@@ -15,7 +16,7 @@ module.exports = {
           useUnifiedTopology: true,
         }
       )
-      .then((res) => console.error('>> Conexão com BD realizada com sucesso!'))
+      .then((res) => console.error(">> Conexão com BD realizada com sucesso!"))
       .catch((err) => console.error(`## Erro ao conectar ao BD: ${err}`));
   },
-};    
+};
