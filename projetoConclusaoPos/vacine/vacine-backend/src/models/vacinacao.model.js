@@ -102,4 +102,4 @@ const VacinacaSchema = Schema(
   }
 );
 
-module.exports = VacinacaSchema = mongoose.model("vacinacoes", VacinacaSchema);
+module.exports = vacinacaoModel = mongoose.model("vacinacoes", VacinacaSchema);
