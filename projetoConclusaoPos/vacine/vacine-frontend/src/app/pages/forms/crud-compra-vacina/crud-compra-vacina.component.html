@@ -392,7 +392,7 @@
           <ng-container matColumnDef="vl_total_item_compra">
             <th mat-header-cell *matHeaderCellDef>Valor Total Item</th>
             <td mat-cell *matCellDef="let item">
-              {{ formatarValor(item.vl_total_item_compra) }}
+              {{ formatarValorDecimal(item.vl_total_item_compra) }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
               {{ calcularTotalCompra() | currency : "BRL" : "symbol" }}

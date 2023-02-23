@@ -6,6 +6,7 @@ import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { UtilRota } from './../../shared/utils/rota.util';
 import { browserRefresh } from '../../app.component';
+import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
   selector: 'vacine-generic-page',
@@ -33,7 +34,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     if (browserRefresh) {
       this.mensagens = [];
     }
-      this.handlerOrientation = this.onChangeOrientation.bind(this);
+    this.handlerOrientation = this.onChangeOrientation.bind(this);
     this.landscape.addEventListener('change', this.handlerOrientation, true);
   }
 
@@ -100,11 +101,19 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     return this.deviceService.isTablet();
   }
 
-  isPortrait() {
+  protected isPortrait() {
     return !this.landscape.matches;
   }
 
-  isLandscape() {
+  protected isLandscape() {
     return this.landscape.matches;
+  }
+
+  protected formatarValorDecimal(v: number): string {
+    if (!!v) {
+      return Util.formatarValorDecimal(v);
+    } else {
+      return '';
+    }
   }
 }

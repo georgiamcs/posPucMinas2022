@@ -63,6 +63,10 @@ export class CrudVacinaComponent
         ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
       ],
       composicao: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      vl_atual_unit_dose: [
+        null,
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+      ],
       qtd_doses_estoque: [
         null,
         Validators.compose([

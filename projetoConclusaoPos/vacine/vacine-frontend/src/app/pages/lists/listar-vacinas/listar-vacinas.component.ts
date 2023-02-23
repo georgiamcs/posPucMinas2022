@@ -27,6 +27,7 @@ export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vaci
       { def: 'nome' },
       { def: 'protecaoContra', showMobile: false },
       { def: 'qtd_doses_estoque' },
+      { def: 'vl_atual_unit_dose'},
       { def: 'acoes' },
     ];
   }

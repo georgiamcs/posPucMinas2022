@@ -20,9 +20,7 @@ class VacinaController extends GenericCrudController {
     vacina.nome = obj.nome;
     vacina.protecao_contra = obj.protecao_contra;
     vacina.composicao = obj.composicao;
-    vacina.in_idade_recomendada = obj.in_idade_recomendada;
-    vacina.tp_idade_recomendada = obj.tp_idade_recomendada;
-    vacina.nr_idade_recomendada = obj.nr_idade_recomendada;
+    vacina.vl_atual_unit_dose = obj.vl_atual_unit_dose;
 
     // se id for nulo ou undefined, i.e, obj sendo criado, define o estoque
     // caso contrario, so pela funcionalidade de atualizar estoque

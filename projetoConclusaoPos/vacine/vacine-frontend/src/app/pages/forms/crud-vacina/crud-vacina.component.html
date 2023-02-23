@@ -51,6 +51,31 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-form-field class="crudfield" id="fVlAtualDose">
+        <mat-label id="lblTotCompra">Valor Atual Dose*</mat-label>
+        <input
+          id="inVlAtualDose"
+          formControlName="vl_atual_unit_dose"
+          matInput
+          type="text"
+          currencyMask
+        />
+        <mat-hint *ngIf="exibeHint('vl_atual_unit_dose', form)"
+          >Digite o valor total do item</mat-hint
+        >
+        <mat-error
+          *ngIf="
+            hasErroValidacao(
+              'vl_atual_unit_dose',
+              TipoErroValForm.OBRIGATORIO,
+              '',
+              form
+            )
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+      </mat-form-field>
+
       <mat-form-field class="crudfield" id="fEstoque">
         <mat-label id="lbEstoque">Qtd Doses em Estoque*</mat-label>
         <input

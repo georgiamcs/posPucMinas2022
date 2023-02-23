@@ -6,7 +6,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
-import { Util } from 'src/app/shared/utils/util.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { FornecedorService } from '../../../services/crud/fornecedor/fornecedor.service';
 import { RelacionamentoFornecedor } from '../../../shared/classes/relacionamento-fornecedor.class';
@@ -298,9 +297,5 @@ export class CrudCompraVacinaComponent
     super.limparFormulario();
     this.limparFormItens();
     this.itens = [];
-  }
-
-  protected formatarValor(v: number): string {
-    return Util.formatarValorDecimal(v);
   }
 }

@@ -19,6 +19,10 @@ const vacinaSchema = Schema(
       type: Number,
       required: true,
     },
+    vl_atual_unit_dose: {
+      type: Number,
+      required: true,
+    },
     dt_inclusao: {
       type: Date,
       required: true,
