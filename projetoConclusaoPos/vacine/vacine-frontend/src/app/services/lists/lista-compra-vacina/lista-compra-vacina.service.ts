@@ -19,26 +19,29 @@ export class ListaCompraVacinaService extends GenericCrudService<ListaComprasVac
     this.relativeApiURL = 'compras-vacinas';
   }
 
+  nota_fiscal: string | undefined | null;
+  data_compra: string | undefined | null;
+  fornecedor_nome: string | undefined | null;
+  itens: string | undefined | null;
+  vl_total_compra: string | undefined | null;
+
   static compraVacinaToListaCompraVacina(
     compraVacina: CompraVacina
   ): ListaComprasVacina {
     let novo = new ListaComprasVacina();
 
-    novo._id = compraVacina._id;
+    novo.nota_fiscal = compraVacina.nota_fiscal;
     novo.data_compra = new Date(compraVacina.data_compra).toLocaleDateString(
       'pt-BR'
     );
-    novo.dt_inclusao = compraVacina.dt_inclusao;
-    novo.dt_alteracao = compraVacina.dt_alteracao;
     novo.fornecedor_nome = compraVacina.fornecedor.nome;
-    novo.nota_fiscal = compraVacina.nota_fiscal;
+    novo.itens = compraVacina.itens_compra
+      .map((i) => i.vacina.nome)
+      .reduce((acum, currentElement) => `${acum}, ${currentElement}`);
     novo.vl_total_compra = compraVacina.vl_total_compra.toLocaleString(
       'pt-br',
       { minimumFractionDigits: 2 }
     );
-    novo.itens = compraVacina.itens_compra
-      .map((i) => i.vacina.nome)
-      .reduce((acum, currentElement) => `${acum}, ${currentElement}`);
 
     return novo;
   }

@@ -74,6 +74,7 @@ import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
+import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
 
 registerLocaleData(ptBr);
 
@@ -125,6 +126,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     GenericCrudComLookupComponent,
     TruncstrPipe,
     ListarComprasVacinaComponent,
+    ListarVacinacoesComponent,
   ],
   imports: [
     BrowserModule,
