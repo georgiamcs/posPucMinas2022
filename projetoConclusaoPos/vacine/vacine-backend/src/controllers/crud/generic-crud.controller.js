@@ -12,7 +12,7 @@ class GenericCrudController {
     this.perfisRequeridos = perfisRequeridos;
   }
 
-  async createObj(obj) {
+  async createObj(obj, user) {
     throw new Error("Função precisa ser implementada nas classes filhas");
   }
 
@@ -97,7 +97,7 @@ class GenericCrudController {
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else {
-          const novoRegistro = this.createObj(req.body);
+          const novoRegistro = this.createObj(req.body, req.user);
           const regAdicionado = await this.service.add(
             this.objectModel,
             novoRegistro,
@@ -144,7 +144,7 @@ class GenericCrudController {
             id,
             session
           );
-          let regAlterado = this.createObj(req.body);
+          let regAlterado = this.createObj(req.body, req.user);
           const objUpdated = await this.service.update(
             this.objectModel,
             id,

@@ -22,6 +22,10 @@ const ControleEstoqueVacinaSchema = Schema(
         type: String,
         required: true,
       },
+      cpf: {
+        type: String,
+        required: false,
+      },
     },
     data_evento: {
       type: String,

@@ -15,7 +15,7 @@ class VacinaController extends GenericCrudController {
     super(GenericCrudService, VacinaModel, perfisRequeridosVacina);
   }
 
-  createObj(obj) {
+  createObj(obj, user) {
     let vacina = {};
     vacina.nome = obj.nome;
     vacina.protecao_contra = obj.protecao_contra;

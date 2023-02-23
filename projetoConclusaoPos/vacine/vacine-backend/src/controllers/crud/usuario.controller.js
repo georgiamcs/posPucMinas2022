@@ -31,7 +31,7 @@ class UsuarioController extends GenericCrudController {
     return usuario;
   }
 
-  createObj(obj) {
+  createObj(obj, user) {
     let usuario = {};
     usuario.tipo = obj.tipo;
     usuario.nome = obj.nome;

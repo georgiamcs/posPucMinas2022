@@ -13,7 +13,7 @@ class FornecedorController extends GenericCrudController {
     super(GenericService, FornecedorModel, perfisRequeridosFornecedor);
   }
 
-  createObj(obj) {
+  createObj(obj, user) {
     let fornecedor = {};
 
     fornecedor.nome = obj.nome;

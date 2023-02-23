@@ -1,44 +1,44 @@
 const GenericCrudController = require("./generic-crud.controller");
-const ControleEstoqueVacinaController = require("../../controllers/crud/controle-estoque-vacina.controller");
+const ControleEstoqueVacinaController = require("./controle-estoque-vacina.controller");
 const genericService = require("../../services/generic-crud.service");
-const CompraVacinaModel = require("../../models/compra-vacina.model");
+const VacinacaoModel = require("../../models/vacinacao.model");
 const Acesso = require("../../setup/acesso");
-const { AutorizacaoService } = require("../../services/autorizacao.service");
 const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
 const modelVacina = require("../../models/vacina.model");
-const mongoose = require("mongoose");
 const cnst = require("../../constantes");
 
-class CompraVacinaController extends GenericCrudController {
+class VacinacaoController extends GenericCrudController {
   constructor() {
-    const perfisRequeridosCompraVacina = Acesso.getPerfisPorTema(
-      Acesso.TEMA.COMPRA_VACINA
+    const perfisRequeridosVacinacao = Acesso.getPerfisPorTema(
+      Acesso.TEMA.VACINACAO
     );
 
-    super(genericService, CompraVacinaModel, perfisRequeridosCompraVacina);
+    super(genericService, VacinacaoModel, perfisRequeridosVacinacao);
   }
 
   createObj(obj, user) {
     let registro = {};
 
-    registro.fornecedor = obj.fornecedor;
-    registro.nota_fiscal = obj.nota_fiscal;
-    registro.data_compra = obj.data_compra;
-    registro.itens_compra = obj.itens_compra;
-    registro.vl_total_compra = obj.vl_total_compra;
+    registro.codigo = obj.codigo;
+    registro.usuario_resp_cadastro = user;
+    registro.usuario_cliente = obj.usuario_cliente;
+    registro.usuario_aplicador_vacina = obj.usuario_aplicador_vacina;
+    registro.data_aplicacao = obj.data_aplicacao;
+    registro.vl_total = obj.vl_total;
+    registro.itens_vacinacao = obj.itens_vacinacao;
 
     return registro;
   }
 
   async temDuplicado(obj, session) {
-    let searchNotaFiscal = obj.nota_fiscal.trim();
+    let searchCodigo = obj.codigo.trim();
     let regBase = [];
 
     if (!!obj._id) {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
-          nota_fiscal: searchNotaFiscal,
+          codigo: searchCodigo,
           _id: { $ne: obj._id },
         },
         session,
@@ -48,7 +48,7 @@ class CompraVacinaController extends GenericCrudController {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
-          nota_fiscal: searchNotaFiscal,
+          codigo: searchCodigo,
         },
         session,
         "_id"
@@ -59,10 +59,10 @@ class CompraVacinaController extends GenericCrudController {
 
   async atualizarEstoqueVacina(
     tipoAtualizacao,
-    itensCompra,
+    itens,
     session,
-    idCompra,
-    nfCompra,
+    idVacinacao,
+    codigoVacinacao,
     tpOperacao,
     userRequisicao
   ) {
@@ -70,17 +70,17 @@ class CompraVacinaController extends GenericCrudController {
 
     switch (tpOperacao) {
       case cnst.TIPO_OPERACAO.INSERT:
-        tpMotControleEstoque = cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.COMPRA;
+        tpMotControleEstoque = cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.VACINACAO;
         break;
 
       case cnst.TIPO_OPERACAO.UPDATE:
         tpMotControleEstoque =
-          cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.ALTERACAO_COMPRA;
+          cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.ALTERACAO_VACINACAO;
         break;
 
       case cnst.TIPO_OPERACAO.DELETE:
         tpMotControleEstoque =
-          cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.EXCLUSAO_COMPRA;
+          cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.EXCLUSAO_VACINACAO;
         break;
 
       default:
@@ -93,7 +93,7 @@ class CompraVacinaController extends GenericCrudController {
 
     const estoqueController = new ControleEstoqueVacinaController();
 
-    for (let index = 0; index < itensCompra.length; index++) {
+    for (let index = 0; index < itens.length; index++) {
       const element = itensCompra[index];
       let vacina = await this.service.getById(
         modelVacina,
@@ -134,7 +134,7 @@ class CompraVacinaController extends GenericCrudController {
             new Date(), // data_evento
             tpEventoControleEstoque, //tipo_evento
             tpMotControleEstoque, //tipo_motivo,
-            `Compra Nota Fiscal: ${nfCompra} e ID: ${idCompra}`, //descricao_evento
+            `Vacinação Código: ${codigoVacinacao} e ID: ${idVacinacao}`, //descricao_evento
             null, //justificativa_evento
             qtd_estoque_antes, //qtd_estoque_antes
             vacina.qtd_doses_estoque //qtd_estoque_depois
@@ -153,11 +153,11 @@ class CompraVacinaController extends GenericCrudController {
   async doOnAdd(regAdicionado, user, session) {
     //atualiza o estoque dos itens dos produtos
     await this.atualizarEstoqueVacina(
-      cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
-      regAdicionado.itens_compra,
+      cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
+      regAdicionado.itens_vacinacao,
       session,
       regAdicionado._id,
-      regAdicionado.nota_fiscal,
+      regAdicionado.codigo,
       cnst.TIPO_OPERACAO.INSERT,
       user
     );
@@ -166,11 +166,11 @@ class CompraVacinaController extends GenericCrudController {
   async doOnDelete(id, objBeforeDelete, objDeleted, user, session) {
     //atualiza o estoque dos itens dos produtos
     await this.atualizarEstoqueVacina(
-      cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
-      objDeleted.itens_compra,
+      cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
+      objDeleted.itens_vacinacao,
       session,
       id,
-      objDeleted.nota_fiscal,
+      objDeleted.codigo,
       cnst.TIPO_OPERACAO.DELETE,
       user
     );
@@ -179,33 +179,32 @@ class CompraVacinaController extends GenericCrudController {
   async doOnUpdate(id, objBeforeUpdate, objUpdated, user, session) {
     // verifica se houve mudanca nos itens da compra
     if (
-      JSON.stringify(objBeforeUpdate.itens_compra) !==
-      JSON.stringify(objUpdated.itens_compra)
+      JSON.stringify(objBeforeUpdate.itens_vacinacao) !==
+      JSON.stringify(objUpdated.itens_vacinacao)
     ) {
-      // atualizar estoque, removendo o estoque dos itens da compra antes da mudanca
+      // atualizar estoque, adicionando ao estoque os itens da vacinacao antes da mudanca
       await this.atualizarEstoqueVacina(
-        cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
-        objBeforeUpdate.itens_compra,
+        cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
+        objBeforeUpdate.itens_vacinacao,
         session,
         id,
-        objBeforeUpdate.nota_fiscal,
+        objBeforeUpdate.codigo,
         cnst.TIPO_OPERACAO.UPDATE,
         req.user
       );
 
-      // atualizar estoque, adicionando o estoque dos itens da compra apos a mudanca
+      // atualizar estoque, removendo do estoque os itens da vacinacao depois da mudanca
       await this.atualizarEstoqueVacina(
-        cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR,
-        objUpdated.itens_compra,
+        cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
+        objUpdated.itens_vacinacao,
         session,
         id,
-        objUpdated.nota_fiscal,
+        objUpdated.codigo,
         cnst.TIPO_OPERACAO.UPDATE,
         req.user
       );
     }
   }
-
 }
 
-module.exports = CompraVacinaController;
+module.exports = VacinacaoController;

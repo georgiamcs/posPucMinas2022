@@ -9,7 +9,7 @@ class ControleEstoqueVacinaController extends GenericCrudController {
     super(Service, Model, perfisRequeridos);
   }
 
-  createObj(obj) {
+  createObj(obj, user) {
     let cestoque = {};
 
     cestoque.vacina = obj.vacina;

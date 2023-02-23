@@ -16,6 +16,7 @@ exports.applyPassportStrategy = (passport) => {
             _id: user["_id"],
             email: user.email,
             nome: user.nome,
+            cpf: user.cpf,
             perfis: user.perfis,
           });
         }
