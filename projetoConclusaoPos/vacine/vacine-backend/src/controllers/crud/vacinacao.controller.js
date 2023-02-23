@@ -18,7 +18,6 @@ class VacinacaoController extends GenericCrudController {
 
   createObj(obj, user) {
     let registro = {};
-
     registro.codigo = obj.codigo;
     registro.usuario_resp_cadastro = user;
     registro.usuario_cliente = obj.usuario_cliente;
@@ -30,13 +29,13 @@ class VacinacaoController extends GenericCrudController {
     return registro;
   }
 
-  async temDuplicado(obj, session) {
-    let searchCodigo = obj.codigo.trim();
+  async temDuplicado(obj, session, tipoOperacao) {
+    let searchCodigo = obj.codigo;
     let regBase = [];
 
-    if (!!obj._id) {
+    if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
       regBase = await genericService.find(
-        CompraVacinaModel,
+        VacinacaoModel,
         {
           codigo: searchCodigo,
           _id: { $ne: obj._id },
@@ -44,9 +43,9 @@ class VacinacaoController extends GenericCrudController {
         session,
         "_id"
       );
-    } else {
+    } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
       regBase = await genericService.find(
-        CompraVacinaModel,
+        VacinacaoModel,
         {
           codigo: searchCodigo,
         },
@@ -94,7 +93,7 @@ class VacinacaoController extends GenericCrudController {
     const estoqueController = new ControleEstoqueVacinaController();
 
     for (let index = 0; index < itens.length; index++) {
-      const element = itensCompra[index];
+      const element = itens[index];
       let vacina = await this.service.getById(
         modelVacina,
         element.vacina._id,
@@ -105,11 +104,9 @@ class VacinacaoController extends GenericCrudController {
         let qtd_estoque_antes = vacina.qtd_doses_estoque;
 
         if (tipoAtualizacao == cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR) {
-          vacina.qtd_doses_estoque =
-            vacina.qtd_doses_estoque + element.qtd_doses;
+          vacina.qtd_doses_estoque = vacina.qtd_doses_estoque + 1;
         } else if (tipoAtualizacao == cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER) {
-          vacina.qtd_doses_estoque =
-            vacina.qtd_doses_estoque - element.qtd_doses;
+          vacina.qtd_doses_estoque = vacina.qtd_doses_estoque - 1;
         } else {
           throw new Error(
             `Tipo de atualização de estoque inválida: ${tipoAtualizacao}`
@@ -144,7 +141,7 @@ class VacinacaoController extends GenericCrudController {
         }
       } else {
         throw new Error(
-          `Não foi possível atualizar o estoque da vacina com Id ${id} pois a mesma não foi localizada.`
+          `Não foi possível atualizar o estoque da vacina com Id ${idVacinacao} pois a mesma não foi localizada.`
         );
       }
     }
@@ -190,9 +187,9 @@ class VacinacaoController extends GenericCrudController {
         id,
         objBeforeUpdate.codigo,
         cnst.TIPO_OPERACAO.UPDATE,
-        req.user
+        user
       );
-
+    
       // atualizar estoque, removendo do estoque os itens da vacinacao depois da mudanca
       await this.atualizarEstoqueVacina(
         cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
@@ -201,7 +198,7 @@ class VacinacaoController extends GenericCrudController {
         id,
         objUpdated.codigo,
         cnst.TIPO_OPERACAO.UPDATE,
-        req.user
+        user
       );
     }
   }

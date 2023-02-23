@@ -30,11 +30,11 @@ class CompraVacinaController extends GenericCrudController {
     return registro;
   }
 
-  async temDuplicado(obj, session) {
+  async temDuplicado(obj, session, tipoOperacao) {
     let searchNotaFiscal = obj.nota_fiscal.trim();
     let regBase = [];
 
-    if (!!obj._id) {
+    if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
@@ -44,7 +44,7 @@ class CompraVacinaController extends GenericCrudController {
         session,
         "_id"
       );
-    } else {
+    } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
@@ -205,7 +205,6 @@ class CompraVacinaController extends GenericCrudController {
       );
     }
   }
-
 }
 
 module.exports = CompraVacinaController;

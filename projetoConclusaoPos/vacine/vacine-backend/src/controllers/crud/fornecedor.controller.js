@@ -26,30 +26,40 @@ class FornecedorController extends GenericCrudController {
     return fornecedor;
   }
 
-  async temDuplicado(obj) {
+  async temDuplicado(obj, session, tipoOperacao) {
     let searchNome = obj.nome.trim();
     let searchEmail = obj.email.trim();
     let searchCNPJ = obj.cnpj.trim();
 
     let regBase = [];
 
-    if (!!obj._id) {
-      regBase = await GenericService.find(FornecedorModel, {
-        $or: [
-          { nome: searchNome },
-          { email: searchEmail },
-          { cnpj: searchCNPJ },
-        ],
-        _id: { $ne: obj._id },
-      });
-    } else {
-      regBase = await GenericService.find(FornecedorModel, {
-        $or: [
-          { nome: searchNome },
-          { email: searchEmail },
-          { cnpj: searchCNPJ },
-        ],
-      });
+    if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
+      regBase = await GenericService.find(
+        FornecedorModel,
+        {
+          $or: [
+            { nome: searchNome },
+            { email: searchEmail },
+            { cnpj: searchCNPJ },
+          ],
+          _id: { $ne: obj._id },
+        },
+        session,
+        "_id"
+      );
+    } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
+      regBase = await GenericService.find(
+        FornecedorModel,
+        {
+          $or: [
+            { nome: searchNome },
+            { email: searchEmail },
+            { cnpj: searchCNPJ },
+          ],
+        },
+        session,
+        "_id"
+      );
     }
     return regBase.length > 0;
   }

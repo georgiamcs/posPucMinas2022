@@ -37,25 +37,39 @@ class VacinaController extends GenericCrudController {
     return vacina;
   }
 
-  async temDuplicado(obj) {
-    let searchTerm = obj.nome.trim();
+  async temDuplicado(obj, session, tipoOperacao) {
     let regBase = [];
-    // TENTATIVAS DE FAZER CASE INSENSITIVE
-    // regBase = await VacinaService.find(VacinaModel, {
-    //   nome: { $regex: `/${searchTerm}/i` }
-    // });
-    // regBase = await VacinaService.find(VacinaModel, {
-    //   nome: { $regex: new RegExp(searchTerm, "i") },
-    // });
-    if (!!obj._id) {
-      regBase = await GenericCrudService.find(VacinaModel, {
-        nome: searchTerm,
-        _id: { $ne: obj._id },
-      });
-    } else {
-      regBase = await GenericCrudService.find(VacinaModel, {
-        nome: searchTerm,
-      });
+
+    if (!!obj.nome) {
+      let searchTerm = obj.nome.trim();
+
+      // TENTATIVAS DE FAZER CASE INSENSITIVE
+      // regBase = await VacinaService.find(VacinaModel, {
+      //   nome: { $regex: `/${searchTerm}/i` }
+      // });
+      // regBase = await VacinaService.find(VacinaModel, {
+      //   nome: { $regex: new RegExp(searchTerm, "i") },
+      // });
+      if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
+        regBase = await GenericCrudService.find(
+          VacinaModel,
+          {
+            nome: searchTerm,
+            _id: { $ne: obj._id },
+          },
+          session,
+          "_id"
+        );
+      } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
+        regBase = await GenericCrudService.find(
+          VacinaModel,
+          {
+            nome: searchTerm,
+          },
+          session,
+          "_id"
+        );
+      }
     }
     return regBase.length > 0;
   }

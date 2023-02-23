@@ -11,11 +11,7 @@ class UsuarioController extends GenericCrudController {
       Acesso.TEMA.USUARIO
     );
 
-    super(
-      UsuarioService,
-      UsuarioModel,
-      perfisRequeridosUsuario
-    );
+    super(UsuarioService, UsuarioModel, perfisRequeridosUsuario);
   }
 
   createUsuarioCliente(obj) {
@@ -49,12 +45,12 @@ class UsuarioController extends GenericCrudController {
     return usuario;
   }
 
-  async temDuplicado(obj, session) {
+  async temDuplicado(obj, session, tipoOperacao) {
     const searchNome = obj.nome.trim();
     const searchEmail = obj.email.trim();
     let regBase = [];
 
-    if (!!obj._id) {
+    if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
       regBase = await UsuarioService.find(
         UsuarioModel,
         {
@@ -64,7 +60,7 @@ class UsuarioController extends GenericCrudController {
         session,
         "_id"
       );
-    } else {
+    } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
       regBase = await UsuarioService.find(
         UsuarioModel,
         {

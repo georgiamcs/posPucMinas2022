@@ -16,7 +16,7 @@ class GenericCrudController {
     throw new Error("Função precisa ser implementada nas classes filhas");
   }
 
-  async temDuplicado(obj) {
+  async temDuplicado(obj, session, tipoOperacao) {
     return false;
   }
 
@@ -90,7 +90,11 @@ class GenericCrudController {
       const session = await mongoose.startSession();
       session.startTransaction();
       try {
-        const regDuplicado = await this.temDuplicado(req.body, session);
+        const regDuplicado = await this.temDuplicado(
+          req.body,
+          session,
+          cnst.TIPO_OPERACAO.INSERT
+        );
 
         if (!!regDuplicado) {
           res
@@ -132,7 +136,10 @@ class GenericCrudController {
       session.startTransaction();
 
       try {
-        const regDuplicado = await this.temDuplicado(req.body);
+        const regDuplicado = await this.temDuplicado(
+          req.body,
+          cnst.TIPO_OPERACAO.UPDATE
+        );
 
         if (!!regDuplicado) {
           res
@@ -159,7 +166,7 @@ class GenericCrudController {
             await this.doOnUpdate(
               id,
               objBeforeUpdate,
-              objUpdated,
+              regAlterado,
               req.user,
               session
             );
