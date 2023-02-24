@@ -1,5 +1,5 @@
 import { GenericCrudService } from '../../generic/generic-crud/generic-crud.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Usuario } from 'src/app/shared/models/usuario.model';
@@ -16,11 +16,18 @@ export class UsuarioService extends GenericCrudService<Usuario> {
   }
 
   public getAllByTipo(tipo: string): Observable<Usuario[]> {
-    const url = `${this.fullApiURL}tipo/${tipo}`;
-    return this.http.get<Usuario[]>(url);
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('tipo', tipo);
+
+    const url = `${this.fullApiURL}`;
+
+    return this.http.get<Usuario[]>(url, { params: queryParams });
   }
 
-  public getAllByTipoConverted<Type>(tipo: string,fnTransformTipo: any): Observable<Type[]> {
+  public getAllByTipoConverted<Type>(
+    tipo: string,
+    fnTransformTipo: any
+  ): Observable<Type[]> {
     let ret = this.getAllByTipo(tipo).pipe(
       map((ret) => this.toArrayNewType<Type>(ret, fnTransformTipo))
     );

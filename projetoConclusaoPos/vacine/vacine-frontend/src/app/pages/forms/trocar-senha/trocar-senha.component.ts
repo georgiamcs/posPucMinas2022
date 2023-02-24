@@ -55,7 +55,7 @@ export class TrocarSenhaComponent extends GenericPageComponent {
       next: (nome) => (this.nomeUsuario = nome),
       error: (e) =>
         this.tratarErro(
-          `Não foi possível recuperar os dados do usuário. Erro => ${e}`
+          `Não foi possível recuperar os dados do usuário. Erro => ${e.message}`
         ),
     });
   }

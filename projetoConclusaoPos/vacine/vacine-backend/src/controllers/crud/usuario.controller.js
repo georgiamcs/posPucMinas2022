@@ -80,7 +80,7 @@ class UsuarioController extends GenericCrudController {
       AutorizacaoService.isMesmoUsuario(req, id)
     ) {
       try {
-        const registro = await this.service.getById(this.objectModel, id);
+        const registro = await this.service.getById(this.objectModel, id, undefined, "nome");
         res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro.nome);
       } catch (error) {
         res
@@ -94,22 +94,39 @@ class UsuarioController extends GenericCrudController {
     }
   };
 
-  getByTipo = async (req, res) => {
-    const tipo = req.params.tipo;
+  getAll = async (req, res) => {
+    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+      const tipo = req.query.tipo;
+      let registros;
 
-    if (AutorizacaoService.checarPerfis(req,  Acesso.getPerfisPorTema(Acesso.TEMA.VACINACAO))) {
+      if (!!tipo) {
+        registros = await this.service.find(
+          this.objectModel,
+          { tipo: tipo },
+          null,
+          "_id nome cpf"
+        );
+      } else {
+        registros = await this.service.getAll(this.objectModel);
+      }
+
       try {
-        const registro = await this.service.find(this.objectModel, {"tipo": tipo}, null, "_id nome cpf");
-        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro);
-      } catch (error) {
-        res
+        if (!registros) {
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json("Não existem registros cadastrados!");
+        }
+
+        res.json(registros);
+      } catch (err) {
+        return res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
+          .json({ error: err.message });
       }
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado!!" });
+        .json({ error: "Acesso negado" });
     }
   };
 
