@@ -38,6 +38,7 @@ export class ListaCompraVacinaService extends GenericCrudService<ListaComprasVac
     novo.fornecedor_nome = compraVacina.fornecedor.nome;
     novo.itens = compraVacina.itens_compra
       .map((i) => i.vacina.nome)
+      .sort((a, b) => a!.localeCompare(b!))
       .reduce((acum, currentElement) => `${acum}, ${currentElement}`);
     novo.vl_total_compra = compraVacina.vl_total_compra.toLocaleString(
       'pt-br',

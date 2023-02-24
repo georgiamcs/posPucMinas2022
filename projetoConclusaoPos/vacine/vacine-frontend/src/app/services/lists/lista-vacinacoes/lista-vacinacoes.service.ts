@@ -34,6 +34,7 @@ export class ListaVacinacoesService extends GenericCrudService<ListaVacinacoes> 
     });
     novo.vacinas = vacinacao.itens_vacinacao
       .map((i) => i.vacina.nome)
+      .sort((a, b) => a!.localeCompare(b!))
       .reduce((acum, currentElement) => `${acum}, ${currentElement}`);
 
     return novo;
