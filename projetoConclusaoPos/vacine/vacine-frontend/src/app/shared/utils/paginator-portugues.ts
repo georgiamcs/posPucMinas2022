@@ -16,10 +16,13 @@ export class PaginatorPortugues implements MatPaginatorIntl {
   previousPageLabel = 'Página anterior';
 
   getRangeLabel(page: number, pageSize: number, length: number): string {
-    if (length === 0) {
-      return $localize`Página 1 of 1`;
+    let footer;
+    if (length <= 1) {
+      footer = $localize`Página 1 of 1`;
+    } else {
+      const amountPages = Math.ceil(length / pageSize);
+      footer = $localize`Página ${page + 1} de ${amountPages} - Total de ${length} itens`;
     }
-    const amountPages = Math.ceil(length / pageSize);
-    return $localize`Página ${page + 1} de ${amountPages}`;
+    return footer;
   }
 }
