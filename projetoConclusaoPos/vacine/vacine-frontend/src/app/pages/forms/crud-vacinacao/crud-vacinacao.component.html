@@ -1,3 +1,4 @@
+<!-- //TODO: ERRO COMPONENTES DATA QND DIGITA 01/05/2012 ALTERA ARA 05/01/2012 -->
 <div class="container">
   <vacine-mensagem-feedback
     class="barramsg"
@@ -5,41 +6,41 @@
   ></vacine-mensagem-feedback>
   <fieldset class="crudfieldset">
     <legend class="titfiedlset float-none w-auto h3">
-      &nbsp;Cadastro de Compras de Vacinas&nbsp;
+      &nbsp;Cadastro de Vacinação&nbsp;
     </legend>
 
     <form class="crudform" [formGroup]="form">
-      <mat-form-field class="crudfield" id="fNotaFiscal">
-        <mat-label id="lbNotaFiscal">Nota Fiscal*</mat-label>
+      <mat-form-field class="crudfield" id="fCodigo">
+        <mat-label id="lbCodigo">Código*</mat-label>
         <input
-          id="inNotaFiscal"
-          formControlName="nota_fiscal"
+          id="inCodigo"
+          formControlName="codigo"
           matInput
           type="text"
         />
-        <mat-hint *ngIf="exibeHint('nota_fiscal')"
-          >Digite a Nota Fiscal</mat-hint
+        <mat-hint *ngIf="exibeHint('codigo')"
+          >Digite o Código</mat-hint
         >
         <mat-error
-          *ngIf="hasErroValidacao('nota_fiscal', TipoErroValForm.OBRIGATORIO)"
+          *ngIf="hasErroValidacao('codigo', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="crudfield" id="fDataCompra" appearance="fill">
-        <mat-label>Data da compra</mat-label>
+      <mat-form-field class="crudfield" id="fDataAplicacao" appearance="fill">
+        <mat-label>Data da aplicação</mat-label>
         <input
           matInput
           [matDatepicker]="picker1"
-          formControlName="data_compra"
+          formControlName="data_aplicacao"
         />
-        <mat-hint *ngIf="exibeHint('data_compra')"
-          >Digite ou selecione a data da compra</mat-hint
+        <mat-hint *ngIf="exibeHint('data_aplicacao')"
+          >Digite ou selecione a data da aplicação</mat-hint
         >
         <mat-error
           *ngIf="
             hasErroValidacao(
-              'data_compra',
+              'data_aplicacao',
               TipoErroValForm.DEFINIDA_USUARIO,
               'matDatepickerParse'
             )
@@ -49,9 +50,9 @@
         </mat-error>
         <mat-error
           *ngIf="
-            hasErroValidacao('data_compra', TipoErroValForm.REQUERIDO) &&
+            hasErroValidacao('data_aplicacao', TipoErroValForm.REQUERIDO) &&
             !hasErroValidacao(
-              'data_compra',
+              'data_aplicacao',
               TipoErroValForm.DEFINIDA_USUARIO,
               'matDatepickerParse'
             )
@@ -65,45 +66,87 @@
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field class="crudfield" id="fFornecedor">
-        <mat-label>Fornecedor</mat-label>
+      <mat-form-field class="crudfield" id="fCliente">
+        <mat-label>Cliente</mat-label>
         <input
           type="text"
-          [formControlName]="nomeCtrlFornecedor"
+          [formControlName]="nomeCtrlCliente"
           matInput
-          placeholder="Fornecedor"
+          placeholder="Cliente"
           [readonly]="isCarregando || erroCarregando"
-          [matAutocomplete]="autoFornecedor"
+          [matAutocomplete]="autoCliente"
         />
         <mat-autocomplete
-          #autoFornecedor="matAutocomplete"
+          #autoCliente="matAutocomplete"
           [displayWith]="exibirTextoLookup"
         >
           <mat-option
-            *ngFor="let fornecedor of fornecedoresFiltrados | async"
-            [value]="fornecedor"
+            *ngFor="let cliente of clientesFiltrados | async"
+            [value]="cliente"
           >
-            {{ fornecedor.nome }}
+            {{ cliente.nome }}
           </mat-option>
         </mat-autocomplete>
-        <mat-hint *ngIf="exibeHint(nomeCtrlFornecedor)"
-          >Digite ou selecione na lista o nome do fornecedor</mat-hint
+        <mat-hint *ngIf="exibeHint(nomeCtrlCliente)"
+          >Digite ou selecione na lista o nome do cliente</mat-hint
         >
         <mat-error
           *ngIf="
-            hasErroValidacao(nomeCtrlFornecedor, TipoErroValForm.OBRIGATORIO)
+            hasErroValidacao(nomeCtrlCliente, TipoErroValForm.OBRIGATORIO)
           "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
         <mat-error
           *ngIf="
             hasErroValidacao(
-              nomeCtrlFornecedor,
+              nomeCtrlCliente,
               TipoErroValForm.DEFINIDA_USUARIO,
               'valornalista'
             )
           "
-          >Fornecedor informado não está cadastrado
+          >Cliente informado não está cadastrado
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="crudfield" id="fAplicador">
+        <mat-label>Aplicador da vacina</mat-label>
+        <input
+          type="text"
+          [formControlName]="nomeCtrlAplicador"
+          matInput
+          placeholder="Aplicador"
+          [readonly]="isCarregando || erroCarregando"
+          [matAutocomplete]="autoAplicador"
+        />
+        <mat-autocomplete
+          #autoAplicador="matAutocomplete"
+          [displayWith]="exibirTextoLookup"
+        >
+          <mat-option
+            *ngFor="let aplicador of aplicadoresFiltrados | async"
+            [value]="aplicador"
+          >
+            {{ aplicador.nome }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint *ngIf="exibeHint(nomeCtrlAplicador)"
+          >Digite ou selecione na lista o nome do aplicador da vacina</mat-hint
+        >
+        <mat-error
+          *ngIf="
+            hasErroValidacao(nomeCtrlAplicador, TipoErroValForm.OBRIGATORIO)
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+        </mat-error>
+        <mat-error
+          *ngIf="
+            hasErroValidacao(
+              nomeCtrlAplicador,
+              TipoErroValForm.DEFINIDA_USUARIO,
+              'valornalista'
+            )
+          "
+          >Aplicador informado não está cadastrado
         </mat-error>
       </mat-form-field>
 
@@ -116,13 +159,13 @@
       color="primary"
       [hidden]="adicionando || somenteLeitura()"
     >
-      Adicionar Item
+      Adicionar Vacina
     </button>
     <div>
       <form class="crudform" [formGroup]="formItem" [hidden]="!adicionando">
         <fieldset class="fieldsetinterna">
           <legend class="float-none w-auto h6">
-            &nbsp;&nbsp;Adicionar item da compra&nbsp;
+            &nbsp;&nbsp;Adicionar Vacina&nbsp;
           </legend>
 
           <mat-form-field class="crudfield" id="fVacina">
@@ -192,7 +235,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="crudfield" id="fDataCompra" appearance="fill">
+          <mat-form-field class="crudfield" id="fDataValidade" appearance="fill">
             <mat-label>Data de validade</mat-label>
             <input
               matInput
@@ -238,92 +281,22 @@
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field class="crudfield" id="fQtdFrascos">
-            <mat-label id="lbEstoque">Qtd de frascos*</mat-label>
-            <input
-              id="qtdFrascos"
-              formControlName="qtd_frascos"
-              matInput
-              type="number"
-            />
-            <mat-hint *ngIf="exibeHint('qtd_frascos', formItem)"
-              >Digite a quantidade de frascos</mat-hint
-            >
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'qtd_frascos',
-                  TipoErroValForm.OBRIGATORIO,
-                  '',
-                  formItem
-                )
-              "
-              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-            </mat-error>
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'qtd_frascos',
-                  TipoErroValForm.LIMITE,
-                  '',
-                  formItem
-                )
-              "
-              >Valor mínimo do campo é 0
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="crudfield" id="fQtdDoses">
-            <mat-label id="lbEstoque">Qtd de doses*</mat-label>
-            <input
-              id="qtddoses"
-              formControlName="qtd_doses"
-              matInput
-              type="number"
-            />
-            <mat-hint *ngIf="exibeHint('qtd_doses', formItem)"
-              >Digite a quantidade de doses</mat-hint
-            >
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'qtd_doses',
-                  TipoErroValForm.OBRIGATORIO,
-                  '',
-                  formItem
-                )
-              "
-              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-            </mat-error>
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'qtd_doses',
-                  TipoErroValForm.LIMITE,
-                  '',
-                  formItem
-                )
-              "
-              >Valor mínimo do campo é 0
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="crudfield" id="fVlTotItem">
-            <mat-label id="lblTotItem">Valor Total Item*</mat-label>
+          <mat-form-field class="crudfield" id="fVlItem">
+            <mat-label id="lblTotCompra">Valor Item*</mat-label>
             <input
               id="inVlTotItem"
-              formControlName="vl_total_item_compra"
+              formControlName="vl_item"
               matInput
               type="text"
               currencyMask
             />
-            <mat-hint *ngIf="exibeHint('vl_total_item_compra', formItem)"
-              >Digite o valor total do item</mat-hint
+            <mat-hint *ngIf="exibeHint('vl_item', formItem)"
+              >Digite o valor do item</mat-hint
             >
             <mat-error
               *ngIf="
                 hasErroValidacao(
-                  'vl_total_item_compra',
+                  'vl_item',
                   TipoErroValForm.OBRIGATORIO,
                   '',
                   formItem
@@ -355,12 +328,12 @@
         </fieldset>
       </form>
       <div class="tabdetalhe mat-elevation-z10">
-        <h2>Itens da compra</h2>
+        <h2>Vacinas aplicadas</h2>
         <table mat-table [dataSource]="itens">
           <ng-container matColumnDef="vacina">
             <th mat-header-cell *matHeaderCellDef>Vacina</th>
             <td mat-cell *matCellDef="let item">{{ item.vacina.nome }}</td>
-            <td mat-footer-cell *matFooterCellDef>Total da Compra</td>
+            <td mat-footer-cell *matFooterCellDef>Total</td>
           </ng-container>
 
           <ng-container matColumnDef="lote">
@@ -389,13 +362,13 @@
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <ng-container matColumnDef="vl_total_item_compra">
+          <ng-container matColumnDef="vl_item">
             <th mat-header-cell *matHeaderCellDef>Valor Total Item</th>
             <td mat-cell *matCellDef="let item">
-              {{ formatarValorDecimal(item.vl_total_item_compra) }}
+              {{ formatarValorDecimal(item.vl_item) }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
-              {{ calcularTotalCompra() | currency : "BRL" : "symbol" }}
+              {{ calcularTotal() | currency : "BRL" : "symbol" }}
             </td>
           </ng-container>
 

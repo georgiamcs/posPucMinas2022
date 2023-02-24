@@ -22,6 +22,7 @@ export class ListaVacinacoesService extends GenericCrudService<ListaVacinacoes> 
   static vacinacaoToListaVacinacao(vacinacao: Vacinacao): ListaVacinacoes {
     let novo = new ListaVacinacoes();
 
+    novo._id = vacinacao._id;
     novo.codigo = vacinacao.codigo;
     novo.data_aplicacao = new Date(vacinacao.data_aplicacao).toLocaleDateString(
       'pt-BR'

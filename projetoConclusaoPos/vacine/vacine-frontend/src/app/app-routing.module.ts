@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErroComponent } from './pages/content/erro/erro.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
+import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacina/listar-compras-vacina.component';
 import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
@@ -78,25 +79,25 @@ const routes: Routes = [
   },
   {
     path: 'vacinacao',
-    component: CrudVacinaComponent,
+    component: CrudVacinacaoComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },
   {
     path: 'vacinacao/:id',
-    component: CrudVacinaComponent,
+    component: CrudVacinacaoComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },
   {
     path: `vacinacao/${TipoRota.ALTERACAO}/:id`,
-    component: CrudVacinaComponent,
+    component: CrudVacinacaoComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },
   {
     path: `vacinacao/${TipoRota.EXCLUSAO}/:id`,
-    component: CrudVacinaComponent,
+    component: CrudVacinacaoComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },

@@ -3,6 +3,10 @@ import { HttpClientModule } from '@angular/common/http';
 import ptBr from '@angular/common/locales/pt';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/app/environment';
@@ -13,7 +17,13 @@ import { httpInterceptorProviders } from './interceptors/http-request.intercepto
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ErrorStateMatcher, MatNativeDateModule } from '@angular/material/core';
+import {
+  DateAdapter,
+  ErrorStateMatcher,
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
@@ -64,17 +74,19 @@ import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud
 import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
 import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.component';
 import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
+import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacina/listar-compras-vacina.component';
 import { ListarFornecedoresComponent } from './pages/lists/listar-fornecedores/listar-fornecedores.component';
 import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-usuarios.component';
+import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
 import { ListarVacinasComponent } from './pages/lists/listar-vacinas/listar-vacinas.component';
 import { SecurityProvider } from './providers/security.provider';
 import { CnpjPipe } from './shared/pipes/cnpj/cnpj.pipe';
 import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
-import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
+import { FORMATO_DATA_APP } from './variables/constantes';
 
 registerLocaleData(ptBr);
 
@@ -127,6 +139,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     TruncstrPipe,
     ListarComprasVacinaComponent,
     ListarVacinacoesComponent,
+    CrudVacinacaoComponent,
   ],
   imports: [
     BrowserModule,
@@ -161,6 +174,12 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: FORMATO_DATA_APP },
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     {
       provide: ErrorStateMatcher,

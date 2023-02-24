@@ -30,3 +30,15 @@ export const ESTADOS = [
 
 export const MENSAGEM_REGISTRO_DUPLICADO =
   "Já existe registro com as mesmas características na base.";
+
+export const FORMATO_DATA_APP = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};

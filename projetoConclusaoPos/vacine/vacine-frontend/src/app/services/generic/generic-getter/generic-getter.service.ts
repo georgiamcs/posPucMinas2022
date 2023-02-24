@@ -31,13 +31,13 @@ export class GenericGetterService<T> extends GenericHttpService {
     return ret;
   }
 
-  private toNewType<Type>(obj: T, fnTransformTipo: any): Type {
+  protected toNewType<Type>(obj: T, fnTransformTipo: any): Type {
     let novo: Type = fnTransformTipo(obj);
 
     return novo;
   }
 
-  private toArrayNewType<Type>(lista: T[], fnTransformTipo: any): Type[] {
+  protected toArrayNewType<Type>(lista: T[], fnTransformTipo: any): Type[] {
     return lista.map((c) => this.toNewType(c, fnTransformTipo));
   }
 }

@@ -1,5 +1,5 @@
 const SHAJS = require("sha.js");
-const cnstAcesso = require("../setup/acesso")
+const cnstAcesso = require("../setup/acesso");
 
 class AutorizacaoService {
   static checarPerfis = (req, perfis) => {
@@ -15,7 +15,7 @@ class AutorizacaoService {
     } else if (perfis.length == 0) {
       retorno = true;
     }
-    
+
     return retorno;
   };
 
@@ -42,5 +42,5 @@ class AutorizacaoService {
 }
 
 module.exports = {
-  AutorizacaoService: AutorizacaoService
+  AutorizacaoService: AutorizacaoService,
 };

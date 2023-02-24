@@ -18,7 +18,7 @@ const VacinacaSchema = Schema(
       },
       cpf: {
         type: String,
-        required: true,
+        required: false,
       },
     },
     usuario_cliente: {
@@ -32,7 +32,7 @@ const VacinacaSchema = Schema(
       },
       cpf: {
         type: String,
-        required: true,
+        required: false,
       },
     },
     usuario_aplicador_vacina: {
@@ -46,7 +46,7 @@ const VacinacaSchema = Schema(
       },
       cpf: {
         type: String,
-        required: true,
+        required: false,
       },
     },
     data_aplicacao: {

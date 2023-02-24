@@ -34,7 +34,7 @@ export class GenericCrudComLookupComponent<
     this.addMensagem(
       new MensagemFeedback(
         TipoMensagemFeedback.ERRO,
-        `Erro ao recuperar lista de! ${nomeCampo}. Detalhe do erro: ${erro}`
+        `Erro ao recuperar lista de! ${nomeCampo}. Detalhe do erro: ${erro.message}`
       )
     );
   }

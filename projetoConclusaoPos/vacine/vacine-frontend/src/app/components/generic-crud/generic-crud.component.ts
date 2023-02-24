@@ -114,7 +114,7 @@ export class GenericCrudComponent<
       if (this.id) {
         this.subscription = this.service.getById(this.id).subscribe({
           next: (regBusca) => this.preencherFormComRegistroId(regBusca),
-          error: (erro) => this.tratarErro(`Erro ao carregar dados => ${erro}`),
+          error: (erro) => this.tratarErro(`Erro ao carregar dados => ${erro.message}`),
         });
       }
     }

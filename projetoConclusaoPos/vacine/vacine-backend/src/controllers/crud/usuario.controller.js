@@ -94,6 +94,25 @@ class UsuarioController extends GenericCrudController {
     }
   };
 
+  getByTipo = async (req, res) => {
+    const tipo = req.params.tipo;
+
+    if (AutorizacaoService.checarPerfis(req,  Acesso.getPerfisPorTema(Acesso.TEMA.VACINACAO))) {
+      try {
+        const registro = await this.service.find(this.objectModel, {"tipo": tipo}, null, "_id nome cpf");
+        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro);
+      } catch (error) {
+        res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error: error.message });
+      }
+    } else {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+        .json({ error: "Acesso negado!!" });
+    }
+  };
+
   registrar = async (req, res) => {
     if (AutorizacaoService.isReqNovoUsuario(req.body)) {
       try {

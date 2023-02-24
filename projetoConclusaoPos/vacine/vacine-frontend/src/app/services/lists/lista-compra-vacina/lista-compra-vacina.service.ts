@@ -30,6 +30,7 @@ export class ListaCompraVacinaService extends GenericCrudService<ListaComprasVac
   ): ListaComprasVacina {
     let novo = new ListaComprasVacina();
 
+    novo._id = compraVacina._id;
     novo.nota_fiscal = compraVacina.nota_fiscal;
     novo.data_compra = new Date(compraVacina.data_compra).toLocaleDateString(
       'pt-BR'
