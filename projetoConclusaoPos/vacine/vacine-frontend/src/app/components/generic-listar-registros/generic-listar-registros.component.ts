@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 import { GenericGetterService } from './../../services/generic/generic-getter/generic-getter.service';
 
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -18,12 +20,16 @@ import { Util } from 'src/app/shared/utils/util.util';
 })
 export class GenericListarRegistrosComponent<T extends EntityModel>
   extends GenericPageComponent
-  implements OnInit, OnDestroy
+  implements AfterViewInit
 {
   protected registros: T[] = [];
-  protected dataSourceMatTable: MatTableDataSource<T>;
   protected defColunasExibidas: DefinicaoColunasExibidas[] = [];
   protected carregado: boolean = false;
+
+  protected dataSourceMatTable: MatTableDataSource<T> =
+    new MatTableDataSource();
+  private paginator!: MatPaginator;
+  private sort!: MatSort;
 
   protected pathCrudUrl: string;
 
@@ -40,11 +46,31 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
     this.carregarRegistros();
   }
 
+  ngAfterViewInit() {
+    this.dataSourceMatTable.paginator = this.paginator;
+    this.dataSourceMatTable.sort = this.sort;
+  }
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
+    this.dataSourceMatTable.paginator = this.paginator;
+    this.dataSourceMatTable.sort = this.sort;
+  }
+
   protected carregarRegistros() {
     this.subscription = this.service.getAll().subscribe({
       next: (listaReg) => {
         this.registros = listaReg;
-        this.dataSourceMatTable = new MatTableDataSource(this.registros);
+        this.dataSourceMatTable.data = this.registros;
         this.carregado = true;
       },
       error: (erro) => {

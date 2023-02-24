@@ -1,3 +1,4 @@
+import { PaginatorPortugues } from './shared/utils/paginator-portugues';
 import { DecimalPipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import ptBr from '@angular/common/locales/pt';
@@ -7,13 +8,6 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter
 } from '@angular/material-moment-adapter';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { environment } from 'src/app/environment';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
-
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -35,10 +29,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from 'src/app/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -171,9 +176,12 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     MatNativeDateModule,
     MatExpansionModule,
     CurrencyMaskModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    { provide: MatPaginatorIntl, useClass: PaginatorPortugues },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

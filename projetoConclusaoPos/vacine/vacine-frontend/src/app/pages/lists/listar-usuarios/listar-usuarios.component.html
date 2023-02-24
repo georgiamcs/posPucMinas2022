@@ -23,10 +23,10 @@
       </mat-form-field>
 
       <div class="tablistagem mat-elevation-z10">
-        <table mat-table [dataSource]="dataSourceMatTable">
+        <table mat-table [dataSource]="dataSourceMatTable" matSort matSortActive="nome" matSortDirection="asc">
           <!-- Coluna Nome -->
           <ng-container matColumnDef="nome">
-            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.nome }}
             </td>
@@ -34,7 +34,7 @@
 
           <!-- Coluna CPF -->
           <ng-container matColumnDef="cpf">
-            <th mat-header-cell *matHeaderCellDef>CPF</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CPF</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.cpf | cpf }}
             </td>
@@ -42,7 +42,7 @@
 
           <!-- Email -->
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.email }}
             </td>
@@ -50,7 +50,7 @@
 
           <!-- Telefone Celular  -->
           <ng-container matColumnDef="tel_celular">
-            <th mat-header-cell *matHeaderCellDef>Telefone Celular</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefone Celular</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.tel_celular | telefone }}
             </td>
@@ -58,7 +58,7 @@
 
           <!-- Telefone Fixo  -->
           <ng-container matColumnDef="tel_fixo">
-            <th mat-header-cell *matHeaderCellDef>Telefone Fixo</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefone Fixo</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.tel_fixo | telefone }}
             </td>
@@ -110,6 +110,7 @@
             *matRowDef="let row; columns: getDisplayedColumnsMediaType()"
           ></tr>
         </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Selecione a página"></mat-paginator>
       </div>
     </div>
   </div>
