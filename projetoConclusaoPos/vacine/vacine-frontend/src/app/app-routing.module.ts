@@ -1,3 +1,4 @@
+import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErroComponent } from './pages/content/erro/erro.component';
@@ -66,6 +67,14 @@ const routes: Routes = [
   {
     path: `vacina/${TipoRota.EXCLUSAO}/:id`,
     component: CrudVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+
+  // CONTROLE DE ESTOQUE DE VACINA
+  {
+    path: `controle-estoque-vacina/:idVacina`,
+    component: ListarControleEstoqueVacinaComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
   },

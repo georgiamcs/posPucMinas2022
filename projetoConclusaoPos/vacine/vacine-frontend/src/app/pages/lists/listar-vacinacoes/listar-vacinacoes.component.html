@@ -37,7 +37,7 @@
           <ng-container matColumnDef="data_aplicacao">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Data Aplicação</th>
             <td mat-cell *matCellDef="let registro">
-              {{ registro.data_aplicacao }}
+              {{ registro.data_aplicacao | date : "dd/MM/yyyy" }}
             </td>
           </ng-container>
 

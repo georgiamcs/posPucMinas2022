@@ -1,6 +1,3 @@
-//TODO: DEIXAR POR DEFAULT COM TRANSACAO E SESSION VER SE TEM COMO TER FUNCAO DE DONE
-// PARA REALIZAR APOS A OPERACAO PRINCIPAL PARA EVITAR DE TER CONTROLLES ESPECIFICOS
-// (VIDE ATUALIZACAO ESTOQUE E CONTROLE ESTOQUE)
 const { AutorizacaoService } = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
 const mongoose = require("mongoose");

@@ -10,7 +10,7 @@ module.exports = {
 
     const loginRouter = require("../routers/autenticacao.router");
     const clienteRouter = require("../routers/cliente.router");     
-    const vacinaRouter = createCrudRouter(VacinaController, true);
+    const vacinaRouter = require("../routers/vacina.router"); 
     const fornecedorRouter = createCrudRouter(FornecedorController, true);
     const usuarioRouter = createCrudRouter(UsuarioController, true);
     const compraVacinaRouter = createCrudRouter(CompraVacinaController, true);  

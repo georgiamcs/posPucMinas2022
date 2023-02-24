@@ -1,6 +1,8 @@
+const { AutorizacaoService } = require("../../services/autorizacao.service");
 const GenericCrudController = require("./generic-crud.controller");
 const Service = require("../../services/generic-crud.service");
 const Model = require("../../models/controle-estoque-vacina.model");
+const Acesso = require("../../setup/acesso");
 
 class ControleEstoqueVacinaController extends GenericCrudController {
   constructor() {
@@ -25,12 +27,41 @@ class ControleEstoqueVacinaController extends GenericCrudController {
     return cestoque;
   }
 
+  getByIdVacina = async (req, res) => {
+    const id = req.params.id;
+
+    if (
+      AutorizacaoService.checarPerfis(
+        req,
+        Acesso.getPerfisPorTema(Acesso.TEMA.VACINA)
+      )
+    ) {
+      const registros = await this.service.getAll(this.objectModel, undefined, {
+        "vacina._id": id,
+      });
+
+      try {
+        if (!registros) {
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json("Não existem registros cadastrados!");
+        }
+
+        res.json(registros);
+      } catch (err) {
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error: err.message });
+      }
+    } else {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+        .json({ error: "Acesso negado" });
+    }
+  };
+
   async inserirFromRecord(novoRegContEstoqueVacina, session) {
-    await this.service.add(
-      this.objectModel,
-      novoRegContEstoqueVacina,
-      session
-    );
+    await this.service.add(this.objectModel, novoRegContEstoqueVacina, session);
   }
 
   async excluirCascataVacina(idVacina, session) {

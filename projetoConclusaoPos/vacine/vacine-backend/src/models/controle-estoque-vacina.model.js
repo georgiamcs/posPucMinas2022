@@ -43,9 +43,9 @@ const ControleEstoqueVacinaSchema = Schema(
       type: String,
       required: false,
     },
-    justificativa_evento: {
+    id_entidade_relac_evento: {
       type: String,
-      required: false,
+      required: true,
     },
     qtd_estoque_antes: {
       type: Number,

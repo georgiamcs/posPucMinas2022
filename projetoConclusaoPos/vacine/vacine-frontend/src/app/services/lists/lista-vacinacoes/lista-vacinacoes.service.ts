@@ -24,9 +24,7 @@ export class ListaVacinacoesService extends GenericCrudService<ListaVacinacoes> 
 
     novo._id = vacinacao._id;
     novo.codigo = vacinacao.codigo;
-    novo.data_aplicacao = new Date(vacinacao.data_aplicacao).toLocaleDateString(
-      'pt-BR'
-    );
+    novo.data_aplicacao = vacinacao.data_aplicacao;
     novo.cliente = vacinacao.usuario_cliente.nome;
     novo.aplicador_vacina = vacinacao.usuario_aplicador_vacina.nome;
     novo.vl_total = vacinacao.vl_total.toLocaleString('pt-br', {

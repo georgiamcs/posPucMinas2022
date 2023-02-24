@@ -97,9 +97,9 @@ class VacinaController extends GenericCrudController {
       cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.ENTRADA,
       cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.CADASTRO_INICIAL,
       null,
-      null,
+      regAdicionado._id,
       0,
-      regAdicionado.qtd_doses_estoque //qtd_estoque_depois
+      regAdicionado.qtd_doses_estoque
     );
     await estoqueController.inserirFromRecord(regContEstoque, session);
   }
@@ -145,15 +145,15 @@ class VacinaController extends GenericCrudController {
           let estoqueController = new ControleEstoqueVacinaController();
 
           const regContEstoque = new ControleEstoqueVacina(
-            { _id: regAdicionado._id, nome: regAdicionado.nome }, //vacina
+            { _id: regAlterado._id, nome: regAlterado.nome }, //vacina
             { _id: req.user._id, nome: req.user.nome }, //usuario
             new Date(), // data_evento
             tipoEvento, //tipo_evento
             cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.AJUSTE_ESTOQUE, //tipo_motivo,
             null, //descricao_evento
-            null, //justificativa_evento
+            regAlterado._id, //id_entidade_relac_evento
             qtd_estoque_antes, //qtd_estoque_antes
-            regAdicionado.qtd_doses_estoque //qtd_estoque_depois
+            regAlterado.qtd_doses_estoque //qtd_estoque_depois
           );
 
           await estoqueController.inserirFromRecord(regContEstoque, session);

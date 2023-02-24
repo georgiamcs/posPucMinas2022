@@ -92,6 +92,7 @@ import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 import { FORMATO_DATA_APP } from './variables/constantes';
+import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 
 registerLocaleData(ptBr);
 
@@ -145,6 +146,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     ListarComprasVacinaComponent,
     ListarVacinacoesComponent,
     CrudVacinacaoComponent,
+    ListarControleEstoqueVacinaComponent,
   ],
   imports: [
     BrowserModule,
