@@ -251,6 +251,19 @@ export class CrudVacinacaoComponent extends GenericCrudComLookupComponent<Vacina
         )
       )
     );
+
+    this.subscription = this.formItem.valueChanges.subscribe((value) => {
+      if (this.getFormControl('vacina', this.formItem).valid) {
+        this.getFormControl('vl_item', this.formItem)?.patchValue(
+          value.vacina.vl_atual_unit_dose,
+          {
+            emitEvent: false,
+          }
+        );
+      } else {
+        this.getFormControl('vl_item', this.formItem)?.patchValue(null, {emitEvent: false});
+      }
+    });
   }
 
   protected exibirTextoLookup(v: any): string {
@@ -277,8 +290,9 @@ export class CrudVacinacaoComponent extends GenericCrudComLookupComponent<Vacina
     vacinacao._id = this.getValorCampoForm('_id');
     vacinacao.codigo = this.getValorCampoForm('codigo');
     vacinacao.data_aplicacao = this.getValorCampoForm('data_aplicacao');
-    vacinacao.usuario_cliente = this.getValorCampoForm('cliente');
-    vacinacao.usuario_aplicador_vacina = this.getValorCampoForm('aplicador');
+    vacinacao.usuario_cliente = this.getValorCampoForm('usuario_cliente');
+    vacinacao.usuario_aplicador_vacina =
+      this.getValorCampoForm('usuario_aplicador_vacina');
     vacinacao.vl_total = this.calcularTotal();
     vacinacao.itens_vacinacao = this.itens;
 
