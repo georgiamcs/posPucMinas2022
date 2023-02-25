@@ -4,15 +4,17 @@ export enum TipoEventoControleEstoque {
 }
 
 export enum TipoMotivoControleEstoqueVacina {
-  CADASTRO_INICIAL =  'I',
-  DESCARTE =  'D',
-  VACINACAO =  'V',
-  COMPRA =  'C',
-  AJUSTE_ESTOQUE =  'A',
-  ALTERACAO_COMPRA =  'AC',
-  ALTERACAO_VACINACAO =  'AV',
-  EXCLUSAO_COMPRA =  'EC',
-  EXCLUSAO_VACINACAO =  'EV',
+  CADASTRO_INICIAL = 'I',
+  DESCARTE = 'D',
+  VACINACAO = 'V',
+  COMPRA = 'C',
+  AJUSTE_ESTOQUE = 'A',
+  ALTERACAO_COMPRA = 'AC',
+  ALTERACAO_VACINACAO = 'AV',
+  ALTERACAO_DESCARTE = 'AD',
+  EXCLUSAO_COMPRA = 'EC',
+  EXCLUSAO_VACINACAO = 'EV',
+  EXCLUSAO_DESCARTE = 'ED',
 }
 
 export function getDescTipoEventoContEstoque(tpEvento: string): string {
@@ -49,13 +51,19 @@ export function getDescTpMotivoControleEstVacina(
       return 'Alteração da compra';
 
     case TipoMotivoControleEstoqueVacina.ALTERACAO_VACINACAO:
-      return 'Alteração das informações de vacinação';
+      return 'Alteração dos itens de vacinação';
+
+    case TipoMotivoControleEstoqueVacina.ALTERACAO_DESCARTE:
+      return 'Alteração dos itens de descarte';
 
     case TipoMotivoControleEstoqueVacina.EXCLUSAO_COMPRA:
       return 'Exclusão de compra';
 
     case TipoMotivoControleEstoqueVacina.EXCLUSAO_VACINACAO:
       return 'Exclusão de vacinação';
+
+    case TipoMotivoControleEstoqueVacina.EXCLUSAO_DESCARTE:
+      return 'Exclusão de descarte';
   }
   return '';
 }
