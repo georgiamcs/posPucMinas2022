@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESTADOS } from '../../../variables/constantes';
@@ -34,11 +34,9 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       _dialogoConf,
       _service
     );
-    this.definirIdentificadoresEntidade();
-    this.preencherAtributosGenericosCrud();
   }
 
-  private definirIdentificadoresEntidade() {
+  protected override definirIdentificadoresEntidade() {
     this.nomeEntidade = 'fornecedor';
     this.pluralEntidade = 'fornecedores';
     this.artigoEntidade = 'o';

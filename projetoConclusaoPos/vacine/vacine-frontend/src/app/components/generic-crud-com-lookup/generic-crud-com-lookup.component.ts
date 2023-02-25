@@ -1,3 +1,4 @@
+import { EntityNomeModel } from './../../shared/models/entity-nome.model';
 import { Component } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
@@ -11,7 +12,7 @@ import { Util } from 'src/app/shared/utils/util.util';
   templateUrl: './generic-crud-com-lookup.component.html',
   styleUrls: ['./generic-crud-com-lookup.component.scss'],
 })
-export class GenericCrudComLookupComponent<
+export abstract class GenericCrudComLookupComponent<
   T extends EntityModel
 > extends GenericCrudComponent<T> {
   protected isCarregando: boolean = false;
@@ -72,4 +73,15 @@ export class GenericCrudComLookupComponent<
       : lista.slice();
   }
 
+  protected exibirTextoLookup(v: any): string {
+    if (v) {
+      return v.nome ? v.nome : '';
+    } else {
+      return '';
+    }
+  }
+
+  protected ordenarLookup(lista: any[]) {
+    lista.sort((a, b) => a.nome.localeCompare(b.nome));
+  }
 }

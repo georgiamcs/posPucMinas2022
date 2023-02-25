@@ -312,7 +312,7 @@
               *ngIf="temBotaoAcao()"
               mat-raised-button
               color="primary"
-              (click)="adicionarItem()"
+              (click)="adicionarItemDetalhe()"
               [disabled]="!habilitarBotaoAcaoForm(formItem)"
             >
               Adicionar
@@ -320,7 +320,7 @@
             <button
               class="crudbutton"
               mat-raised-button
-              (click)="fecharAdicionarItem()"
+              (click)="fecharAdicionarItemDetalhe()"
             >
               Concluir
             </button>
@@ -377,7 +377,7 @@
             <td mat-cell *matCellDef="let item">
               <button
                 mat-icon-button
-                (click)="excluirItem(item)"
+                (click)="excluirItemDetalhe(item)"
                 [disabled]="somenteLeitura()"
                 matTooltip="Excluir"
               >

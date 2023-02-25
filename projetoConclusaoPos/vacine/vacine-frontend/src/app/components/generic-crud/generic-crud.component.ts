@@ -1,11 +1,10 @@
-import { TipoOrigemRota } from './../../shared/enums/tipo-rota.enum';
 import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,24 +16,25 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario,
+  ModoFormulario
 } from 'src/app/shared/enums/modo-formulario.enum';
+import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
+import { MENSAGEM_REGISTRO_DUPLICADO } from 'src/app/variables/constantes';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
-import { MENSAGEM_REGISTRO_DUPLICADO } from 'src/app/variables/constantes';
-import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
+import { TipoOrigemRota } from './../../shared/enums/tipo-rota.enum';
 
 @Component({
   selector: 'vacine-generic-crud',
   templateUrl: './generic-crud.component.html',
   styleUrls: ['./generic-crud.component.scss'],
 })
-export class GenericCrudComponent<
+export abstract class GenericCrudComponent<
   T extends EntityModel
 > extends GenericPageComponent {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
@@ -63,9 +63,9 @@ export class GenericCrudComponent<
     protected service: GenericCrudService<T>
   ) {
     super(_router, _deviceService);
+    this.definirIdentificadoresEntidade();
+    this.preencherAtributosGenericosCrud();
   }
-
-  protected buildForm() {}
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -74,7 +74,22 @@ export class GenericCrudComponent<
     this.definirHabilitacaoFormulario();
   }
 
-  private definirHabilitacaoFormulario() {
+  protected abstract buildForm(): void;
+
+  protected abstract definirIdentificadoresEntidade(): void;
+
+  protected preencherAtributosGenericosCrud() {
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.modoFormulario = definirModoFormulario(this.id, this.router.url);
+    this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
+      this.modoFormulario
+    );
+    this.lbBotaoFechar = definirLabelBotaoFecharModoFormulario(
+      this.modoFormulario
+    );
+  }
+
+  protected definirHabilitacaoFormulario() {
     this.somenteLeitura() ? this.form.disable() : this.form.enable();
   }
 
@@ -114,14 +129,15 @@ export class GenericCrudComponent<
       if (this.id) {
         this.subscription = this.service.getById(this.id).subscribe({
           next: (regBusca) => this.preencherFormComRegistroId(regBusca),
-          error: (erro) => this.tratarErro(`Erro ao carregar dados => ${erro.message}`),
+          error: (erro) =>
+            this.tratarErro(`Erro ao carregar dados => ${erro.message}`),
         });
       }
     }
   }
 
   protected carregarRegistros(msgFeedback: MensagemFeedback) {
-    this.carregarListaRegistros(
+    this.irParaListaRegistros(
       this.getCaminhoRelativoListaRegistros(),
       msgFeedback
     );
@@ -163,7 +179,7 @@ export class GenericCrudComponent<
   }
 
   protected registrar() {
-    throwError(() => 'Registro não implementado.');
+    throwError(() => 'Função de registrar() não implementada.');
   }
 
   protected alterarRegistro() {
@@ -182,7 +198,9 @@ export class GenericCrudComponent<
         if (erro.status === RetornoHttp.HTTP_CONFLIT) {
           msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
         } else {
-          const textoErro = !!erro.error?.error ? erro.error.error : erro.message;
+          const textoErro = !!erro.error?.error
+            ? erro.error.error
+            : erro.message;
           msgErro = `Erro ao alterar registro => ${textoErro}`;
         }
         const msgFeedbackErro = new MensagemFeedback(
@@ -274,17 +292,6 @@ export class GenericCrudComponent<
     } else this.router.navigate(['/home']);
   }
 
-  protected preencherAtributosGenericosCrud() {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.modoFormulario = definirModoFormulario(this.id, this.router.url);
-    this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
-      this.modoFormulario
-    );
-    this.lbBotaoFechar = definirLabelBotaoFecharModoFormulario(
-      this.modoFormulario
-    );
-  }
-
   protected preencherFormComRegistroId(registro: any): void {
     this.registro = registro;
     this.form.patchValue(registro);
@@ -315,7 +322,7 @@ export class GenericCrudComponent<
     formControl?.updateValueAndValidity();
   }
 
-  protected carregarListaRegistros(
+  protected irParaListaRegistros(
     caminhoRelativo: string,
     msgFeedback: MensagemFeedback
   ) {

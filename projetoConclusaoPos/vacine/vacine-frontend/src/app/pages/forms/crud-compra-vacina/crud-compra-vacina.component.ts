@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { map, Observable, startWith } from 'rxjs';
-import { GenericCrudComLookupComponent } from 'src/app/components/generic-crud-com-lookup/generic-crud-com-lookup.component';
+import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { FornecedorService } from '../../../services/crud/fornecedor/fornecedor.service';
@@ -19,14 +19,15 @@ import { ItemCompraVacina } from './../../../shared/models/item-compra-vacina.mo
   templateUrl: './crud-compra-vacina.component.html',
   styleUrls: ['./crud-compra-vacina.component.scss'],
 })
-export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<CompraVacina> {
+export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent<
+  CompraVacina,
+  ItemCompraVacina
+> {
   protected readonly nomeCtrlFornecedor = 'fornecedor';
   protected readonly nomeCtrlVacina = 'vacina';
 
   protected readonly nomeAtributoExibirFornecedor = 'nome';
   protected readonly nomeAtributoExibirVacina = 'nome';
-
-  protected formItem: FormGroup;
 
   protected fornecedores: RelacionamentoFornecedor[] = [];
   protected fornecedoresFiltrados!: Observable<RelacionamentoFornecedor[]>;
@@ -34,41 +35,36 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
   protected vacinas: RelacionamentoVacina[] = [];
   protected vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
 
-  protected itens: ItemCompraVacina[] = [];
-
-  protected adicionando = false;
-
-  protected defColunasExibidas = [
-    'vacina',
-    'lote',
-    'qtd_frascos',
-    'qtd_doses',
-    'data_validade',
-    'vl_total_item_compra',
-    'acoes',
-  ];
-
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute,
-    private _dialogoConf: MatDialog,
-    private _service: CompraVacinaService,
+    private ___router: Router,
+    private ___deviceService: DeviceDetectorService,
+    private __formBuilder: FormBuilder,
+    private __activatedRoute: ActivatedRoute,
+    private __dialogoConf: MatDialog,
+    private __service: CompraVacinaService,
     private serviceVacina: VacinaService,
     private serviceFornecedor: FornecedorService
   ) {
     super(
-      __router,
-      __deviceService,
-      _activatedRoute,
-      _formBuilder,
-      _dialogoConf,
-      _service
+      ___router,
+      ___deviceService,
+      __formBuilder,
+      __activatedRoute,
+      __dialogoConf,
+      __service
     );
+  }
 
-    this.definirIdentificadoresEntidade();
-    this.preencherAtributosGenericosCrud();
+  protected definirColItensExibidas() {
+    this.defColunasExibidas = [
+      'vacina',
+      'lote',
+      'qtd_frascos',
+      'qtd_doses',
+      'data_validade',
+      'vl_total_item_compra',
+      'acoes',
+    ];
   }
 
   protected override preencherFormComRegistroId(registro: any): void {
@@ -76,19 +72,14 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
     this.itens = registro.itens_compra;
   }
 
-  private definirIdentificadoresEntidade() {
+  protected definirIdentificadoresEntidade() {
     this.nomeEntidade = 'compra';
     this.pluralEntidade = 'compras-vacina';
     this.artigoEntidade = 'a';
     this.nomeCampoFormIdentificaEntidade = 'nota_fiscal';
   }
 
-  protected override buildForm() {
-    this.buildFormCompra();
-    this.buildFormItens();
-  }
-
-  private buildFormItens() {
+  protected buildFormDetalhe() {
     this.formItem = this.formBuilder.group({
       vacina: [
         null,
@@ -123,7 +114,7 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
     this.setLookupVacina();
   }
 
-  private buildFormCompra() {
+  protected buildFormMestre() {
     this.form = this.formBuilder.group({
       _id: [null],
       nota_fiscal: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
@@ -148,6 +139,7 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
       .subscribe({
         next: (listaFornecedor) => {
           this.fornecedores = listaFornecedor;
+          this.ordenarLookup(this.fornecedores);
           this.setChangeFornecedorParaFiltrarValores();
         },
         error: (e) => {
@@ -164,6 +156,7 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
       .subscribe({
         next: (listaVacina) => {
           this.vacinas = listaVacina;
+          this.ordenarLookup(this.vacinas);
           this.setChangeVacinaParaFiltrarValores();
         },
         error: (e) => {
@@ -214,15 +207,7 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
     );
   }
 
-  protected exibirTextoLookup(v: any): string {
-    if (v) {
-      return v.nome ? v.nome : '';
-    } else {
-      return '';
-    }
-  }
-
-  protected getItemCompraForm() {
+  protected getItemDetalheForm(): ItemCompraVacina {
     const item: ItemCompraVacina = {
       vacina: this.getValorCampoForm('vacina', this.formItem),
       lote: this.getValorCampoForm('lote', this.formItem),
@@ -238,7 +223,7 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
     return item;
   }
 
-  protected override getRegistroForm() {
+  protected override getRegistroForm(): CompraVacina {
     let compraVacina: CompraVacina = new CompraVacina();
     compraVacina._id = this.getValorCampoForm('_id');
     compraVacina.nota_fiscal = this.getValorCampoForm('nota_fiscal');
@@ -250,46 +235,11 @@ export class CrudCompraVacinaComponent extends GenericCrudComLookupComponent<Com
     return compraVacina;
   }
 
-  protected adicionarItem() {
-    const novoItem = this.getItemCompraForm();
-    this.itens.push(novoItem);
-    this.atualizarListaItens();
-    this.limparFormItens();
-  }
-
-  protected limparFormItens() {
-    this.formItem.reset();
-  }
-
-  protected setAdicionando(v: boolean) {
-    this.adicionando = v;
-  }
-
-  protected fecharAdicionarItem() {
-    this.setAdicionando(false);
-    this.limparFormItens();
-  }
-
-  protected excluirItem(registro: ItemCompraVacina) {
-    this.itens.splice(this.itens.indexOf(registro), 1);
-    this.atualizarListaItens();
-  }
-
   protected calcularTotalCompra(): number {
     const vlTotCompra = this.itens
       .map((i) => i.vl_total_item_compra)
       .reduce((acum, v) => acum + v, 0);
 
     return vlTotCompra;
-  }
-
-  protected atualizarListaItens() {
-    this.itens = [...this.itens];
-  }
-
-  protected override limparFormulario(): void {
-    super.limparFormulario();
-    this.limparFormItens();
-    this.itens = [];
   }
 }

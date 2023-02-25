@@ -1,11 +1,11 @@
-import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErroComponent } from './pages/content/erro/erro.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
 import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
-import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacina/listar-compras-vacina.component';
+import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
+import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
 import { Tema } from './shared/enums/tema.enum';
 
@@ -13,9 +13,11 @@ import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { LoginComponent } from './pages/acess/login/login.component';
 import { LogoutComponent } from './pages/acess/logout/logout.component';
 import { HomeComponent } from './pages/content/home/home.component';
+import { CrudDescarteVacinaComponent } from './pages/forms/crud-descarte-vacina/crud-descarte-vacina.component';
 import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
 import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.component';
 import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
+import { ListarDescarteVacinasComponent } from './pages/lists/listar-descartes-vacinas/listar-descartes-vacinas.component';
 import { ListarFornecedoresComponent } from './pages/lists/listar-fornecedores/listar-fornecedores.component';
 import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-usuarios.component';
 import { ListarVacinasComponent } from './pages/lists/listar-vacinas/listar-vacinas.component';
@@ -176,7 +178,7 @@ const routes: Routes = [
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
   },
 
-  // COMPRAS
+  // COMPRAS VACINAS
   {
     path: 'compras-vacina',
     component: ListarComprasVacinaComponent,
@@ -193,19 +195,51 @@ const routes: Routes = [
     path: 'compra-vacina/:id',
     component: CrudCompraVacinaComponent,
     canActivate: [AuthenticatedGuard],
-    data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA) },
   },
   {
     path: `compra-vacina/${TipoRota.ALTERACAO}/:id`,
     component: CrudCompraVacinaComponent,
     canActivate: [AuthenticatedGuard],
-    data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA) },
   },
   {
     path: `compra-vacina/${TipoRota.EXCLUSAO}/:id`,
     component: CrudCompraVacinaComponent,
     canActivate: [AuthenticatedGuard],
-    data: { perfis: Acesso.getListaPerfilPorTema(Tema.USUARIO) },
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA) },
+  },
+
+  // DESCARTE VACINAS
+  {
+    path: 'descartes-vacinas',
+    component: ListarDescarteVacinasComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+  {
+    path: 'descarte-vacina',
+    component: CrudDescarteVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+  {
+    path: 'descarte-vacina/:id',
+    component: CrudDescarteVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+  {
+    path: `descarte-vacina/${TipoRota.ALTERACAO}/:id`,
+    component: CrudDescarteVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+  {
+    path: `descarte-vacina/${TipoRota.EXCLUSAO}/:id`,
+    component: CrudDescarteVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
   },
 ];
 

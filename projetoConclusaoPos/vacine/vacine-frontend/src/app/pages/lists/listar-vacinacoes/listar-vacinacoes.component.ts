@@ -17,19 +17,9 @@ export class ListarVacinacoesComponent extends GenericListarRegistrosComponent<L
     private _service: ListaVacinacoesService
   ) {
     super(__router, __deviceService, _service);
-
-    this.pathCrudUrl = 'compras-vacina';
-
     this.definirColunasExibidas();
     this.definirAtributosSuperClasse();
   }
-
-  codigo: string | undefined | null;
-  data_aplicacao: string | undefined | null;
-  cliente: string | undefined | null;
-  aplicador_vacina: string | undefined | null;
-  vacinas: string | undefined | null;
-  vl_total: string | undefined | null;
 
   protected definirColunasExibidas() {
     this.defColunasExibidas = [

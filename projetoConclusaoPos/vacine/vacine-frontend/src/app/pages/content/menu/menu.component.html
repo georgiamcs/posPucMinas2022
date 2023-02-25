@@ -27,6 +27,19 @@
       </button>
     </li>
 
+    <li class="mb-1" *ngIf = "servicoAcesso.isCadastradorVacina()">
+      <button
+        routerLink="/descartes-vacinas"
+        routerLinkActive="active"
+        class="btn btn-toggle align-items-center rounded collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#orders-collapse"
+        aria-expanded="false"
+      >
+        Descartes Vacinas
+      </button>
+    </li>
+
     <li class="mb-1" *ngIf="servicoAcesso.isCadastradorUsuario()">
       <button
         routerLink="/usuarios"
@@ -49,7 +62,7 @@
         data-bs-target="#dashboard-collapse"
         aria-expanded="false"
       >
-        Compras de Vacinas
+        Compras Vacinas
       </button>
     </li>
 

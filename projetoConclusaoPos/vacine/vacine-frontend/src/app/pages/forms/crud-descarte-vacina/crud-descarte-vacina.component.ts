@@ -7,35 +7,31 @@ import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
+import { RelacionamentoUsuario } from 'src/app/shared/classes/relacionamento-usuario.class';
 import { RelacionamentoVacina } from 'src/app/shared/classes/relacionamento-vacina.class';
-import { Vacinacao } from 'src/app/shared/models/vacinacao.model';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
-import { VacinacaoService } from './../../../services/crud/vacinacao/vacinacao.service';
-import { RelacionamentoUsuario } from './../../../shared/classes/relacionamento-usuario.class';
+import { DescarteVacinaService } from './../../../services/crud/descarte-vacina/descarte-vacina.service';
 import { TipoUsuario } from './../../../shared/enums/tipo-usuario.enum';
-import { ItemVacinacao } from './../../../shared/models/item-vacinacao.model';
+import { DescarteVacina } from './../../../shared/models/descarte-vacina.model';
+import { ItemDescarteVacina } from './../../../shared/models/item-descarte.model';
 
 @Component({
-  selector: 'vacine-crud-vacinacao',
-  templateUrl: './crud-vacinacao.component.html',
-  styleUrls: ['./crud-vacinacao.component.scss'],
+  selector: 'vacine-crud-descarte-vacina',
+  templateUrl: './crud-descarte-vacina.component.html',
+  styleUrls: ['./crud-descarte-vacina.component.scss'],
 })
-export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
-  Vacinacao,
-  ItemVacinacao
+export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheComponent<
+  DescarteVacina,
+  ItemDescarteVacina
 > {
-  protected readonly nomeCtrlCliente = 'usuario_cliente';
-  protected readonly nomeCtrlAplicador = 'usuario_aplicador_vacina';
+  protected readonly nomeCtrlResponsavel = 'usuario_resp_descarte';
   protected readonly nomeCtrlVacina = 'vacina';
 
   protected readonly nomeAtributoExibirUsuario = 'nome';
   protected readonly nomeAtributoExibirVacina = 'nome';
 
-  protected clientes: RelacionamentoUsuario[] = [];
-  protected clientesFiltrados!: Observable<RelacionamentoUsuario[]>;
-
-  protected aplicadores: RelacionamentoUsuario[] = [];
-  protected aplicadoresFiltrados!: Observable<RelacionamentoUsuario[]>;
+  protected responsaveis: RelacionamentoUsuario[] = [];
+  protected responsaveisFiltrados!: Observable<RelacionamentoUsuario[]>;
 
   protected vacinas: RelacionamentoVacina[] = [];
   protected vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
@@ -46,7 +42,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     private __formBuilder: FormBuilder,
     private __activatedRoute: ActivatedRoute,
     private __dialogoConf: MatDialog,
-    private __service: VacinacaoService,
+    private __service: DescarteVacinaService,
     private serviceVacina: VacinaService,
     private serviceUsuario: UsuarioService
   ) {
@@ -64,22 +60,43 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     this.defColunasExibidas = [
       'vacina',
       'lote',
-      'data_validade',
-      'vl_item',
+      'qtd_doses_descarte',
+      'justificativa_descarte',
       'acoes',
     ];
   }
 
-  protected override preencherFormComRegistroId(registro: Vacinacao): void {
+  protected override preencherFormComRegistroId(registro: any): void {
     super.preencherFormComRegistroId(registro);
-    this.itens = registro.itens_vacinacao;
+    this.itens = registro.itens_descarte;
   }
 
   protected definirIdentificadoresEntidade() {
-    this.nomeEntidade = 'vacinação';
-    this.pluralEntidade = 'vacinacoes';
-    this.artigoEntidade = 'a';
+    this.nomeEntidade = 'descarte de vacina';
+    this.pluralEntidade = 'descartes-vacinas';
+    this.artigoEntidade = 'o';
     this.nomeCampoFormIdentificaEntidade = 'codigo';
+  }
+
+  protected buildFormMestre() {
+    this.form = this.formBuilder.group({
+      _id: [null],
+      codigo: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      usuario_resp_descarte: [
+        null,
+        Validators.compose([
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+          ValidatorsUtil.getValidatorValorExisteInpuAutoComplete(),
+        ]),
+      ],
+      data_descarte: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      local_descarte: [
+        null,
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+      ],
+    });
+    this.setLookupResponsavel();
+    this.itens = [];
   }
 
   protected buildFormDetalhe() {
@@ -92,71 +109,39 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
         ]),
       ],
       lote: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      data_validade: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      vl_item: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      qtd_doses_descarte: [
+        null,
+        Validators.compose([
+          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+          Validators.pattern('^[0-9]*$'),
+          Validators.min(0),
+        ]),
+      ],
+      justificativa_descarte: [
+        null,
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+      ],
     });
     this.setLookupVacina();
   }
 
-  protected buildFormMestre() {
-    this.form = this.formBuilder.group({
-      _id: [null],
-      codigo: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
-      data_aplicacao: [
-        null,
-        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-      ],
-      usuario_cliente: [
-        null,
-        Validators.compose([
-          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-          ValidatorsUtil.getValidatorValorExisteInpuAutoComplete(),
-        ]),
-      ],
-      usuario_aplicador_vacina: [
-        null,
-        Validators.compose([
-          ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-          ValidatorsUtil.getValidatorValorExisteInpuAutoComplete(),
-        ]),
-      ],
-    });
-    this.setLookupCliente();
-    this.setLookupAplicador();
-    this.itens = [];
-  }
-
-  private setLookupCliente() {
+  private setLookupResponsavel() {
     this.subscription = this.serviceUsuario
       .getAllConverted<RelacionamentoUsuario>(
         RelacionamentoUsuario.usuarioToRelacionamentoUsuario
       )
       .subscribe({
         next: (lista) => {
-          this.clientes = lista;
-          this.ordenarLookup(this.clientes);
-          this.setChangeClienteParaFiltrarValores();
+          this.responsaveis = lista;
+          this.responsaveis = lista.filter(
+            (e) => e.tipo != TipoUsuario.CLIENTE
+          );
+          this.ordenarLookup(this.responsaveis);
+          this.responsaveis.sort((a, b) => a.nome.localeCompare(b.nome));
+          this.setChangeRespParaFiltrarValores();
         },
         error: (e) => {
-          this.tratarErroCarregarLookup(e, this.nomeCtrlCliente);
-        },
-      });
-  }
-
-  private setLookupAplicador() {
-    this.subscription = this.serviceUsuario
-      .getAllByTipoConverted<RelacionamentoUsuario>(
-        TipoUsuario.TECNICO_ENFERMAGEM,
-        RelacionamentoUsuario.usuarioToRelacionamentoUsuario
-      )
-      .subscribe({
-        next: (lista) => {
-          this.aplicadores = lista;
-          this.ordenarLookup(this.aplicadores);
-          this.setChangeAplicadorParaFiltrarValores();
-        },
-        error: (e) => {
-          this.tratarErroCarregarLookup(e, this.nomeCtrlAplicador);
+          this.tratarErroCarregarLookup(e, this.nomeCtrlResponsavel);
         },
       });
   }
@@ -178,53 +163,28 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
       });
   }
 
-  private setChangeClienteParaFiltrarValores() {
-    this.clientesFiltrados = this.getFormControl(
-      this.nomeCtrlCliente
-    ).valueChanges.pipe(
-      startWith(''),
-      map((value) =>
-        this.filtrarPeloValorAtributo(
-          this.clientes,
-          value,
-          this.nomeCtrlCliente,
-          this.nomeAtributoExibirUsuario
-        )
-      )
-    );
-  }
-
-  private setChangeAplicadorParaFiltrarValores() {
-    this.aplicadoresFiltrados = this.getFormControl(
-      this.nomeCtrlAplicador
-    ).valueChanges.pipe(
-      startWith(''),
-      map((value) =>
-        this.filtrarPeloValorAtributo(
-          this.aplicadores,
-          value,
-          this.nomeCtrlAplicador,
-          this.nomeAtributoExibirUsuario
-        )
-      )
-    );
-  }
-
-  protected filtrarCliente(value: any) {
+  protected filtrarResponsavel(value: any) {
     this.filtrarPeloValorAtributo(
-      this.clientes,
+      this.responsaveis,
       value,
-      this.nomeCtrlCliente,
+      this.nomeCtrlResponsavel,
       this.nomeAtributoExibirUsuario
     );
   }
 
-  protected filtrarAplicador(value: any) {
-    this.filtrarPeloValorAtributo(
-      this.aplicadores,
-      value,
-      this.nomeCtrlAplicador,
-      this.nomeAtributoExibirUsuario
+  private setChangeRespParaFiltrarValores() {
+    this.responsaveisFiltrados = this.getFormControl(
+      this.nomeCtrlResponsavel
+    ).valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        this.filtrarPeloValorAtributo(
+          this.responsaveis,
+          value,
+          this.nomeCtrlResponsavel,
+          this.nomeAtributoExibirUsuario
+        )
+      )
     );
   }
 
@@ -260,35 +220,39 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     });
   }
 
-  protected getItemDetalheForm(): ItemVacinacao {
-    const item: ItemVacinacao = {
+  protected getItemDetalheForm() {
+    const item: ItemDescarteVacina = {
       vacina: this.getValorCampoForm('vacina', this.formItem),
       lote: this.getValorCampoForm('lote', this.formItem),
-      data_validade: this.getValorCampoForm('data_validade', this.formItem),
-      vl_item: this.getValorCampoForm('vl_item', this.formItem),
+      qtd_doses_descarte: this.getValorCampoForm(
+        'qtd_doses_descarte',
+        this.formItem
+      ),
+      justificativa_descarte: this.getValorCampoForm(
+        'justificativa_descarte',
+        this.formItem
+      ),
     };
 
     return item;
   }
 
-  protected override getRegistroForm(): Vacinacao {
-    let vacinacao: Vacinacao = new Vacinacao();
-    vacinacao._id = this.getValorCampoForm('_id');
-    vacinacao.codigo = this.getValorCampoForm('codigo');
-    vacinacao.data_aplicacao = this.getValorCampoForm('data_aplicacao');
-    vacinacao.usuario_cliente = this.getValorCampoForm('usuario_cliente');
-    vacinacao.usuario_aplicador_vacina = this.getValorCampoForm(
-      'usuario_aplicador_vacina'
+  protected override getRegistroForm() {
+    let descarte: DescarteVacina = new DescarteVacina();
+    descarte._id = this.getValorCampoForm('_id');
+    descarte.codigo = this.getValorCampoForm('codigo');
+    descarte.data_descarte = this.getValorCampoForm('data_descarte');
+    descarte.usuario_resp_descarte = this.getValorCampoForm(
+      'usuario_resp_descarte'
     );
-    vacinacao.vl_total = this.calcularTotal();
-    vacinacao.itens_vacinacao = this.itens;
+    descarte.itens_descarte = this.itens;
 
-    return vacinacao;
+    return descarte;
   }
 
   protected calcularTotal(): number {
     const vlTot = this.itens
-      .map((i) => i.vl_item)
+      .map((i) => i.qtd_doses_descarte)
       .reduce((acum, v) => acum + v, 0);
 
     return vlTot;

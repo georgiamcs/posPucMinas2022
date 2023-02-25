@@ -52,11 +52,9 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       _dialogoConf,
       _service
     );
-    this.definirIdentificadoresEntidade();
-    this.preencherAtributosGenericosCrud();
   }
 
-  private definirIdentificadoresEntidade() {
+  protected definirIdentificadoresEntidade() {
     this.nomeEntidade = 'usuario';
     this.pluralEntidade = 'usuarios';
     this.artigoEntidade = 'o';
@@ -100,7 +98,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
     this.router.navigate(['/home'], state);
   }
 
-  protected override buildForm() {
+  protected buildForm() {
     this.form = this.formBuilder.group(
       {
         _id: [null],

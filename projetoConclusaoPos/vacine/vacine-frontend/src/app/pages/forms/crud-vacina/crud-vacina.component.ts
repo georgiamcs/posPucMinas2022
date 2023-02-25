@@ -35,16 +35,13 @@ export class CrudVacinaComponent
       _dialogoConf,
       _service
     );
-
-    this.definirIdentificadoresEntidade();
-    this.preencherAtributosGenericosCrud();
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
   }
 
-  private definirIdentificadoresEntidade() {
+  protected definirIdentificadoresEntidade() {
     this.nomeEntidade = 'vacina';
     this.pluralEntidade = 'vacinas';
     this.artigoEntidade = 'a';

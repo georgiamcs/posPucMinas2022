@@ -1,4 +1,3 @@
-import { PaginatorPortugues } from './shared/utils/paginator-portugues';
 import { DecimalPipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import ptBr from '@angular/common/locales/pt';
@@ -28,11 +27,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
   MatPaginatorIntl,
-  MatPaginatorModule,
+  MatPaginatorModule
 } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
@@ -44,6 +43,7 @@ import { environment } from 'src/app/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { httpInterceptorProviders } from './interceptors/http-request.interceptor';
+import { PaginatorPortugues } from './shared/utils/paginator-portugues';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -62,8 +62,6 @@ import {
 } from '@abacritt/angularx-social-login';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
-import { GenericCrudComLookupComponent } from './components/generic-crud-com-lookup/generic-crud-com-lookup.component';
-import { GenericCrudComponent } from './components/generic-crud/generic-crud.component';
 import { GenericListarRegistrosComponent } from './components/generic-listar-registros/generic-listar-registros.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
@@ -76,12 +74,15 @@ import { HomeComponent } from './pages/content/home/home.component';
 import { MenuComponent } from './pages/content/menu/menu.component';
 import { SemRegistrosComponent } from './pages/content/sem-registros/sem-registros.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
+import { CrudDescarteVacinaComponent } from './pages/forms/crud-descarte-vacina/crud-descarte-vacina.component';
 import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
 import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.component';
 import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
 import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
-import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacina/listar-compras-vacina.component';
+import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
+import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
+import { ListarDescarteVacinasComponent } from './pages/lists/listar-descartes-vacinas/listar-descartes-vacinas.component';
 import { ListarFornecedoresComponent } from './pages/lists/listar-fornecedores/listar-fornecedores.component';
 import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-usuarios.component';
 import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
@@ -92,7 +93,6 @@ import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 import { FORMATO_DATA_APP } from './variables/constantes';
-import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 
 registerLocaleData(ptBr);
 
@@ -124,7 +124,6 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     ListarVacinasComponent,
     SemRegistrosComponent,
     DialogoConfirmacaoComponent,
-    GenericCrudComponent,
     MensagemFeedbackComponent,
     GenericListarRegistrosComponent,
     ListarFornecedoresComponent,
@@ -141,12 +140,13 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     ErroComponent,
     TrocarSenhaComponent,
     CrudCompraVacinaComponent,
-    GenericCrudComLookupComponent,
     TruncstrPipe,
     ListarComprasVacinaComponent,
     ListarVacinacoesComponent,
     CrudVacinacaoComponent,
     ListarControleEstoqueVacinaComponent,
+    ListarDescarteVacinasComponent,
+    CrudDescarteVacinaComponent,
   ],
   imports: [
     BrowserModule,
