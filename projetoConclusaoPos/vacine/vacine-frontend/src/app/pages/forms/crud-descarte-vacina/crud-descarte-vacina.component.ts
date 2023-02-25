@@ -242,6 +242,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
     descarte._id = this.getValorCampoForm('_id');
     descarte.codigo = this.getValorCampoForm('codigo');
     descarte.data_descarte = this.getValorCampoForm('data_descarte');
+    descarte.local_descarte = this.getValorCampoForm('local_descarte');
     descarte.usuario_resp_descarte = this.getValorCampoForm(
       'usuario_resp_descarte'
     );

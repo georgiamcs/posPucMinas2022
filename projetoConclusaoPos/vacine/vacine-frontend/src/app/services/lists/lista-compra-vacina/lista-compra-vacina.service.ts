@@ -32,9 +32,10 @@ export class ListaCompraVacinaService extends GenericCrudService<ListaComprasVac
 
     novo._id = compraVacina._id;
     novo.nota_fiscal = compraVacina.nota_fiscal;
-    novo.data_compra = new Date(compraVacina.data_compra).toLocaleDateString(
-      'pt-BR'
-    );
+    // novo.data_compra = new Date(compraVacina.data_compra).toLocaleDateString(
+    //   'pt-BR'
+    // );
+    novo.data_compra = compraVacina.data_compra;
     novo.fornecedor_nome = compraVacina.fornecedor.nome;
     novo.itens = compraVacina.itens_compra
       .map((i) => i.vacina.nome)

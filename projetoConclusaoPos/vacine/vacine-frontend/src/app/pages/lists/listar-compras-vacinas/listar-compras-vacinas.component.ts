@@ -1,4 +1,3 @@
-//TODO: PROBLEMA COM ORDENACAO DE DATA DA COMPRA
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';

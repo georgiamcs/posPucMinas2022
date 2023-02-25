@@ -243,6 +243,25 @@
             </mat-error>
           </mat-form-field>
 
+          <mat-form-field class="crudfield" id="fJustDescarte">
+            <mat-label id="lbJustDescarte">Justificativa do descarte*</mat-label>
+            <input id="inJustDescarte" formControlName="justificativa_descarte" matInput type="text" />
+            <mat-hint *ngIf="exibeHint('justificativa_descarte', formItem)"
+              >Digite a justificativa do descarte</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'justificativa_descarte',
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+          </mat-form-field>
+
           <div class="barrabuttondetalhe">
             <button
               class="crudbutton"

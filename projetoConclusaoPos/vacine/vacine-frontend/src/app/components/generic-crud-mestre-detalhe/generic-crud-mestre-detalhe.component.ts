@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
+import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { GenericCrudComLookupComponent } from '../generic-crud-com-lookup/generic-crud-com-lookup.component';
 
@@ -39,6 +40,10 @@ export abstract class GenericCrudMestreDetalheComponent<
       _service
     );
     this.definirColItensExibidas();
+  }
+
+  protected override habilitarBotaoAcao(): boolean {
+    return (this.form.valid && this.itens.length > 0) || this.modoFormulario == ModoFormulario.EXCLUSAO;
   }
 
   protected abstract definirColItensExibidas(): void;

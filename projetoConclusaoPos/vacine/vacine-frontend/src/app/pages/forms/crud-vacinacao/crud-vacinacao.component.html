@@ -1,4 +1,3 @@
-<!-- //TODO: ERRO COMPONENTES DATA QND DIGITA 01/05/2012 ALTERA ARA 05/01/2012 -->
 <div class="container">
   <vacine-mensagem-feedback
     class="barramsg"
@@ -12,15 +11,8 @@
     <form class="crudform" [formGroup]="form">
       <mat-form-field class="crudfield" id="fCodigo">
         <mat-label id="lbCodigo">Código*</mat-label>
-        <input
-          id="inCodigo"
-          formControlName="codigo"
-          matInput
-          type="text"
-        />
-        <mat-hint *ngIf="exibeHint('codigo')"
-          >Digite o Código</mat-hint
-        >
+        <input id="inCodigo" formControlName="codigo" matInput type="text" />
+        <mat-hint *ngIf="exibeHint('codigo')">Digite o Código</mat-hint>
         <mat-error
           *ngIf="hasErroValidacao('codigo', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
@@ -91,9 +83,7 @@
           >Digite ou selecione na lista o nome do cliente</mat-hint
         >
         <mat-error
-          *ngIf="
-            hasErroValidacao(nomeCtrlCliente, TipoErroValForm.OBRIGATORIO)
-          "
+          *ngIf="hasErroValidacao(nomeCtrlCliente, TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
         <mat-error
@@ -149,7 +139,6 @@
           >Aplicador informado não está cadastrado
         </mat-error>
       </mat-form-field>
-
     </form>
 
     <button
@@ -235,7 +224,11 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="crudfield" id="fDataValidade" appearance="fill">
+          <mat-form-field
+            class="crudfield"
+            id="fDataValidade"
+            appearance="fill"
+          >
             <mat-label>Data de validade</mat-label>
             <input
               matInput
