@@ -16,18 +16,18 @@
       </mat-form-field>
 
       <div class="tablistagem mat-elevation-z10">
-        <table mat-table [dataSource]="dataSourceMatTable" matSort matSortActive="data_evento" matSortDirection="asc" arrowPosition="before">
+        <table mat-table [dataSource]="dataSourceMatTable">
           <!-- Data do evento -->
           <ng-container matColumnDef="data_evento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data do evento</th>
+            <th mat-header-cell *matHeaderCellDef>Data do evento</th>
             <td mat-cell *matCellDef="let registro">
-              {{ registro.data_evento | date : "dd/MM/yyyy"  }}
+              {{ registro.data_evento | date:'short'  }}
             </td>
           </ng-container>
 
           <!-- Coluna Tipo do Evento  -->
           <ng-container matColumnDef="tipo_evento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo do Evento</th>
+            <th mat-header-cell *matHeaderCellDef>Tipo do Evento</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.tipo_evento }}
             </td>
@@ -35,7 +35,7 @@
 
           <!-- Motivo -->
           <ng-container matColumnDef="tipo_motivo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo</th>
+            <th mat-header-cell *matHeaderCellDef>Motivo</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.tipo_motivo }}
             </td>
@@ -43,7 +43,7 @@
 
           <!-- Descrição do evento -->
           <ng-container matColumnDef="descricao_evento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Descrição do evento</th>
+            <th mat-header-cell *matHeaderCellDef>Descrição do evento</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.descricao_evento }}
             </td>
@@ -51,7 +51,7 @@
 
           <!-- Qtd Itens -->
           <ng-container matColumnDef="qtd_itens">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Qtd Itens</th>
+            <th mat-header-cell *matHeaderCellDef>Qtd Itens</th>
             <td mat-cell *matCellDef="let registro">
               {{ calcularQtdItens(registro) }}
             </td>
@@ -59,7 +59,7 @@
 
           <!-- Qtd Estoque Antes  -->
           <ng-container matColumnDef="qtd_estoque_antes">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Qtd. Estoque Antes</th>
+            <th mat-header-cell *matHeaderCellDef>Qtd. Estoque Antes</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.qtd_estoque_antes | number }}
             </td>
@@ -67,7 +67,7 @@
 
           <!-- Qtd Estoque Depois  -->
           <ng-container matColumnDef="qtd_estoque_depois">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Qtd. Estoque Depois</th>
+            <th mat-header-cell *matHeaderCellDef>Qtd. Estoque Depois</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.qtd_estoque_depois | number }}
             </td>

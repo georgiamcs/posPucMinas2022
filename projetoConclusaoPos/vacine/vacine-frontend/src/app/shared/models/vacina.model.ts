@@ -4,4 +4,5 @@ export class Vacina extends EntityNomeModel {
   composicao: string;
   qtd_doses_estoque: number;
   vl_atual_unit_dose: number;
+  justificativa_alt_estoque?: string;
 }

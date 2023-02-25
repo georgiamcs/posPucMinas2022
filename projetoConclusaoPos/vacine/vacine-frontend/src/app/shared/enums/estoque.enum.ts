@@ -36,6 +36,9 @@ export function getDescTpMotivoControleEstVacina(
     case TipoMotivoControleEstoqueVacina.DESCARTE:
       return 'Descarte';
 
+    case TipoMotivoControleEstoqueVacina.VACINACAO:
+      return 'Vacinação';
+
     case TipoMotivoControleEstoqueVacina.COMPRA:
       return 'Compra';
 

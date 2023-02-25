@@ -40,6 +40,10 @@ export class CrudVacinaComponent
     this.preencherAtributosGenericosCrud();
   }
 
+  override ngOnInit(): void {
+    super.ngOnInit();
+  }
+
   private definirIdentificadoresEntidade() {
     this.nomeEntidade = 'vacina';
     this.pluralEntidade = 'vacinas';
@@ -75,10 +79,27 @@ export class CrudVacinaComponent
           Validators.min(0),
         ]),
       ],
+      justificativa_alt_estoque: [null, null],
     });
   }
 
-  protected habilitarEstoque() {
-      return this.modoFormulario === ModoFormulario.INCLUSAO;
+  protected exibirJustEstoque() {
+    const exibir =
+      this.modoFormulario === ModoFormulario.ALTERACAO &&
+      this.registro?.qtd_doses_estoque !=
+        this.getValorCampoForm('qtd_doses_estoque');
+
+    const ctrlJust = this.getFormControl('justificativa_alt_estoque');
+
+    if (exibir) {
+      ctrlJust.setValidators(
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos()
+      );
+    } else {
+      ctrlJust.setValidators(null);
+      ctrlJust.setValue(null);
+    }
+
+    return exibir;
   }
 }

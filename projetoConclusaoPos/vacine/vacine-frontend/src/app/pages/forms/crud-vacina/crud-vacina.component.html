@@ -5,6 +5,7 @@
       &nbsp;Cadastro de Vacinas&nbsp;
     </legend>
     <form class="crudform" [formGroup]="form">
+
       <mat-form-field class="crudfield" id="fNome" class="crudfield">
         <mat-label id="lbNome">Nome*</mat-label>
         <input id="inNome" formControlName="nome" matInput type="text" />
@@ -16,6 +17,7 @@
           >Tamanho mínimo do campo é de 3 caracteres e máximo de 100
         </mat-error>
       </mat-form-field>
+
       <mat-form-field class="crudfield" id="fProtecaoContra">
         <mat-label id="lbProtecaoContra">Proteção contra*</mat-label>
         <input
@@ -83,7 +85,6 @@
           formControlName="qtd_doses_estoque"
           matInput
           type="number"
-          [readonly]="!habilitarEstoque()"
         />
         <mat-hint *ngIf="exibeHint('qtd_doses_estoque')"
           >Digite a quantidade de doses atual no estoque</mat-hint
@@ -97,6 +98,25 @@
         <mat-error
           *ngIf="hasErroValidacao('qtd_doses_estoque', TipoErroValForm.LIMITE)"
           >Valor mínimo do campo é 0
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="exibirJustEstoque()" class="crudfield" id="fJustAltEstoque"   >
+        <mat-label id="lbJustAltEstoque">Justificativa de alteração do estoque*</mat-label>
+        <input
+          id="inJustAltEstoque"
+          formControlName="justificativa_alt_estoque"
+          matInput
+          type="text"
+        />
+        <mat-hint *ngIf="exibeHint('justificativa_alt_estoque')"
+          >Quando o estoque é alterado, é preciso justificar a mudança</mat-hint
+        >
+        <mat-error
+          *ngIf="
+            hasErroValidacao('justificativa_alt_estoque', TipoErroValForm.OBRIGATORIO)
+          "
+          >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
       </mat-form-field>
 

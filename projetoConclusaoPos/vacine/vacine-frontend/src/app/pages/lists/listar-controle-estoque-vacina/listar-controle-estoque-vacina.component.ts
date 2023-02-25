@@ -3,7 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { ListaControleEstoqueVacinaService } from 'src/app/services/lists/lista-controle-estoque-vacina/lista-controle-estoque-vacina.service';
-import { getDescTipoEventoContEstoque, getDescTpMotivoControleEstVacina } from 'src/app/shared/enums/estoque.enum';
+import {
+  getDescTipoEventoContEstoque,
+  getDescTpMotivoControleEstVacina,
+} from 'src/app/shared/enums/estoque.enum';
 import { ControleEstoqueVacina } from './../../../shared/models/controle-estoque-vacina.model';
 
 @Component({
@@ -43,17 +46,22 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
       i.tipo_evento = getDescTipoEventoContEstoque(i.tipo_evento);
       i.tipo_motivo = getDescTpMotivoControleEstVacina(i.tipo_motivo);
     });
+
+    lista.sort((a, b) => {
+      return -(a.data_evento.valueOf() - b.data_evento.valueOf());
+    });
     return lista;
   }
 
   calcularQtdItens(registro: ControleEstoqueVacina): number {
-
-    const vl_est_antes = !!registro.qtd_estoque_antes ? registro.qtd_estoque_antes: 0;
+    const vl_est_antes = !!registro.qtd_estoque_antes
+      ? registro.qtd_estoque_antes
+      : 0;
     const vl_est_depois = !!registro.qtd_estoque_depois
       ? registro.qtd_estoque_depois
       : 0;
 
-    return (vl_est_depois - vl_est_antes);
+    return vl_est_depois - vl_est_antes;
   }
 
   protected override carregarRegistros() {

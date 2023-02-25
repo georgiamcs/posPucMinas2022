@@ -286,6 +286,7 @@ export class GenericCrudComponent<
   }
 
   protected preencherFormComRegistroId(registro: any): void {
+    this.registro = registro;
     this.form.patchValue(registro);
   }
 

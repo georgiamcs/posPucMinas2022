@@ -190,7 +190,7 @@ class CompraVacinaController extends GenericCrudController {
         id,
         objBeforeUpdate.nota_fiscal,
         cnst.TIPO_OPERACAO.UPDATE,
-        req.user
+        user
       );
 
       // atualizar estoque, adicionando o estoque dos itens da compra apos a mudanca
@@ -201,7 +201,7 @@ class CompraVacinaController extends GenericCrudController {
         id,
         objUpdated.nota_fiscal,
         cnst.TIPO_OPERACAO.UPDATE,
-        req.user
+        user
       );
     }
   }

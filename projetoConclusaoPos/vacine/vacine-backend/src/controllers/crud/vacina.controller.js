@@ -20,7 +20,9 @@ class VacinaController extends GenericCrudController {
     vacina.nome = obj.nome;
     vacina.protecao_contra = obj.protecao_contra;
     vacina.composicao = obj.composicao;
+    vacina.qtd_doses_estoque = obj.qtd_doses_estoque;
     vacina.vl_atual_unit_dose = obj.vl_atual_unit_dose;
+    vacina.justificativa_alt_estoque = obj.justificativa_alt_estoque; //vai ser usado no controle de estoque
 
     // se id for nulo ou undefined, i.e, obj sendo criado, define o estoque
     // caso contrario, so pela funcionalidade de atualizar estoque
@@ -109,72 +111,33 @@ class VacinaController extends GenericCrudController {
     await estoqueController.excluirCascataVacina(id, session);
   }
 
-  atualizarEstoque = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
-      let id = req.params.id;
+  async doOnUpdate(id, objBeforeUpdate, objUpdated, user, session) {
 
-      const session = await mongoose.startSession();
-      session.startTransaction();
+    if (objBeforeUpdate.qtd_doses_estoque != objUpdated.qtd_doses_estoque) {
+      const tipoEvento =
+        objBeforeUpdate.qtd_doses_estoque <= objUpdated.qtd_doses_estoque
+          ? cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.ENTRADA
+          : cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.SAIDA;
 
-      try {
-        const qtd_estoque_antes = await await this.service.getById(
-          VacinaModel,
-          id,
-          session,
-          "qtd_doses_estoque"
-        );
-        let regAlterado = createObjAtualizaEstoque(req.body);
-        const regAtualizado = await this.service.update(
-          this.objectModel,
-          id,
-          regAlterado,
-          session
-        );
+      // insere registro de controle de estoque
+      let estoqueController = new ControleEstoqueVacinaController();
 
-        if (regAtualizado.modifiedCount === 0) {
-          return res.status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND).json({
-            error: `Estoque de vacina com id ${id} não foi atualizado.`,
-          });
-        } else {
-          const tipoEvento =
-            qtd_estoque_antes <= regAdicionado.qtd_doses_estoque
-              ? cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.ENTRADA
-              : cnst.TIPO_EVENTO_CONTROLE_ESTOQUE.SAIDA;
+      const regContEstoque = new ControleEstoqueVacina(
+        { _id: id, nome: objUpdated.nome }, //vacina
+        { _id: user._id, nome: user.nome }, //usuario
+        new Date(), // data_evento
+        tipoEvento, //tipo_evento
+        cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.AJUSTE_ESTOQUE, //tipo_motivo,
+        objUpdated.justificativa_alt_estoque, //descricao_evento
+        id, //id_entidade_relac_evento
+        objBeforeUpdate.qtd_doses_estoque, //qtd_estoque_antes
+        objUpdated.qtd_doses_estoque //qtd_estoque_depois
+      );
 
-          // insere registro de controle de estoque
-          let estoqueController = new ControleEstoqueVacinaController();
-
-          const regContEstoque = new ControleEstoqueVacina(
-            { _id: regAlterado._id, nome: regAlterado.nome }, //vacina
-            { _id: req.user._id, nome: req.user.nome }, //usuario
-            new Date(), // data_evento
-            tipoEvento, //tipo_evento
-            cnst.TIPO_MOTIVO_CONTROLE_ESTOQUE.AJUSTE_ESTOQUE, //tipo_motivo,
-            null, //descricao_evento
-            regAlterado._id, //id_entidade_relac_evento
-            qtd_estoque_antes, //qtd_estoque_antes
-            regAlterado.qtd_doses_estoque //qtd_estoque_depois
-          );
-
-          await estoqueController.inserirFromRecord(regContEstoque, session);
-
-          await session.commitTransaction();
-          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
-        }
-      } catch (error) {
-        await session.abortTransaction();
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
-      } finally {
-        session.endSession();
-      }
-    } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+      await estoqueController.inserirFromRecord(regContEstoque, session);
     }
-  };
+  }
+
 }
 
 module.exports = VacinaController;
