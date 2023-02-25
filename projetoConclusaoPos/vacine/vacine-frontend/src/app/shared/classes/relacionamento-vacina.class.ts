@@ -5,6 +5,7 @@ export class RelacionamentoVacina {
   nome: string | null | undefined;
   protecao_contra: string | null | undefined;
   vl_atual_unit_dose: number | null | undefined;
+  qtd_doses_estoque: number;
 
   static vacinaToRelacionamentoVacina(v: Vacina): RelacionamentoVacina {
     let novo = new RelacionamentoVacina();
@@ -13,6 +14,7 @@ export class RelacionamentoVacina {
     novo.nome = v.nome;
     novo.protecao_contra = v.protecao_contra;
     novo.vl_atual_unit_dose = v.vl_atual_unit_dose;
+    novo.qtd_doses_estoque = v.qtd_doses_estoque;
 
     return novo;
   }

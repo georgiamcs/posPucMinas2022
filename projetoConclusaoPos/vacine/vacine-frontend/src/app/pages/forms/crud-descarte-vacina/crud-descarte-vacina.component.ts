@@ -36,6 +36,8 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
   protected vacinas: RelacionamentoVacina[] = [];
   protected vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
 
+  protected qtdMaxDoseDescartar: number | undefined;
+
   constructor(
     private ___router: Router,
     private ___deviceService: DeviceDetectorService,
@@ -114,7 +116,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
         Validators.compose([
           ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.pattern('^[0-9]*$'),
-          Validators.min(0),
+          Validators.min(1),
         ]),
       ],
       justificativa_descarte: [
@@ -154,6 +156,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
       .subscribe({
         next: (listaVacina) => {
           this.vacinas = listaVacina;
+          this.vacinas = this.vacinas.filter((e) => e.qtd_doses_estoque > 0);
           this.ordenarLookup(this.vacinas);
           this.setChangeVacinaParaFiltrarValores();
         },
@@ -205,17 +208,31 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
     );
 
     this.subscription = this.formItem.valueChanges.subscribe((value) => {
+      const ctrlDoseDescarte = this.getFormControl(
+        'qtd_doses_descarte',
+        this.formItem
+      );
       if (this.getFormControl('vacina', this.formItem).valid) {
-        this.getFormControl('vl_item', this.formItem)?.patchValue(
-          value.vacina.vl_atual_unit_dose,
-          {
-            emitEvent: false,
-          }
+        this.qtdMaxDoseDescartar = value.vacina.qtd_doses_estoque;
+        this.atualizarValidadores(
+          ctrlDoseDescarte,
+          Validators.compose([
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+            Validators.pattern('^[0-9]*$'),
+            Validators.min(1),
+            Validators.max(this.qtdMaxDoseDescartar!),
+          ])
         );
       } else {
-        this.getFormControl('vl_item', this.formItem)?.patchValue(null, {
-          emitEvent: false,
-        });
+        this.qtdMaxDoseDescartar = undefined;
+        this.atualizarValidadores(
+          ctrlDoseDescarte,
+          Validators.compose([
+            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+            Validators.pattern('^[0-9]*$'),
+            Validators.min(1),
+          ])
+        );
       }
     });
   }

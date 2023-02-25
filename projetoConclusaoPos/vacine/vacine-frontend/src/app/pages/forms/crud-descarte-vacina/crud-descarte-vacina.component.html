@@ -11,15 +11,8 @@
     <form class="crudform" [formGroup]="form">
       <mat-form-field class="crudfield" id="fCodigo">
         <mat-label id="lbCodigo">Código*</mat-label>
-        <input
-          id="inCodigo"
-          formControlName="codigo"
-          matInput
-          type="text"
-        />
-        <mat-hint *ngIf="exibeHint('codigo')"
-          >Digite o código</mat-hint
-        >
+        <input id="inCodigo" formControlName="codigo" matInput type="text" />
+        <mat-hint *ngIf="exibeHint('codigo')">Digite o código</mat-hint>
         <mat-error
           *ngIf="hasErroValidacao('codigo', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
@@ -87,7 +80,8 @@
           </mat-option>
         </mat-autocomplete>
         <mat-hint *ngIf="exibeHint(nomeCtrlResponsavel)"
-          >Digite ou selecione na lista o nome do responsável pelo descarte</mat-hint
+          >Digite ou selecione na lista o nome do responsável pelo
+          descarte</mat-hint
         >
         <mat-error
           *ngIf="
@@ -119,7 +113,9 @@
           >Digite o local onde a vacina foi descartada</mat-hint
         >
         <mat-error
-          *ngIf="hasErroValidacao('local_descarte', TipoErroValForm.OBRIGATORIO)"
+          *ngIf="
+            hasErroValidacao('local_descarte', TipoErroValForm.OBRIGATORIO)
+          "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
       </mat-form-field>
@@ -177,7 +173,12 @@
               >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
             </mat-error>
             <mat-error
-              *ngIf="
+              *ngIf="!hasErroValidacao(
+                  nomeCtrlVacina,
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                ) &&
                 hasErroValidacao(
                   nomeCtrlVacina,
                   TipoErroValForm.DEFINIDA_USUARIO,
@@ -185,7 +186,57 @@
                   formItem
                 )
               "
-              >Vacina informada não está cadastrada
+              >Vacina informada não está cadastrada ou não tem estoque
+              disponível
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="crudfield" id="fQtdDoses">
+            <mat-label id="lbQtdDoses">Qtd de doses descarte*</mat-label>
+            <input
+              id="qtddoses"
+              formControlName="qtd_doses_descarte"
+              matInput
+              type="number"
+            />
+            <mat-hint *ngIf="exibeHint('qtd_doses_descarte', formItem) && !!!qtdMaxDoseDescartar"
+              >Digite a quantidade de doses a ser descartada.</mat-hint
+            >
+            <mat-hint *ngIf="exibeHint('qtd_doses_descarte', formItem) && !!qtdMaxDoseDescartar"
+              >Digite a quantidade de doses a ser descartada. Máx {{qtdMaxDoseDescartar | number}}.</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_doses_descarte',
+                  TipoErroValForm.OBRIGATORIO,
+                  '',
+                  formItem
+                )
+              "
+              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_doses_descarte',
+                  TipoErroValForm.LIMITE,
+                  '',
+                  formItem
+                ) && !!!qtdMaxDoseDescartar
+              "
+              >Valor mínimo é 1
+            </mat-error>
+            <mat-error
+              *ngIf="
+                hasErroValidacao(
+                  'qtd_doses_descarte',
+                  TipoErroValForm.LIMITE,
+                  '',
+                  formItem
+                ) && !!qtdMaxDoseDescartar
+              "
+              >Valor mínimo é 1 e máximo é {{qtdMaxDoseDescartar | number}}
             </mat-error>
           </mat-form-field>
 
@@ -208,44 +259,16 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="crudfield" id="fQtdDoses">
-            <mat-label id="lbQtdDoses">Qtd de doses*</mat-label>
-            <input
-              id="qtddoses"
-              formControlName="qtd_doses_descarte"
-              matInput
-              type="number"
-            />
-            <mat-hint *ngIf="exibeHint('qtd_doses_descarte', formItem)"
-              >Digite a quantidade de doses</mat-hint
-            >
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'qtd_doses_descarte',
-                  TipoErroValForm.OBRIGATORIO,
-                  '',
-                  formItem
-                )
-              "
-              >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
-            </mat-error>
-            <mat-error
-              *ngIf="
-                hasErroValidacao(
-                  'qtd_doses_descarte',
-                  TipoErroValForm.LIMITE,
-                  '',
-                  formItem
-                )
-              "
-              >Valor mínimo do campo é 0
-            </mat-error>
-          </mat-form-field>
-
           <mat-form-field class="crudfield" id="fJustDescarte">
-            <mat-label id="lbJustDescarte">Justificativa do descarte*</mat-label>
-            <input id="inJustDescarte" formControlName="justificativa_descarte" matInput type="text" />
+            <mat-label id="lbJustDescarte"
+              >Justificativa do descarte*</mat-label
+            >
+            <input
+              id="inJustDescarte"
+              formControlName="justificativa_descarte"
+              matInput
+              type="text"
+            />
             <mat-hint *ngIf="exibeHint('justificativa_descarte', formItem)"
               >Digite a justificativa do descarte</mat-hint
             >
@@ -300,9 +323,11 @@
 
           <ng-container matColumnDef="qtd_doses_descarte">
             <th mat-header-cell *matHeaderCellDef>Qtd Doses Descarte</th>
-            <td mat-cell *matCellDef="let item">{{ item.qtd_doses_descarte }}</td>
+            <td mat-cell *matCellDef="let item">
+              {{ item.qtd_doses_descarte | number }}
+            </td>
             <td mat-footer-cell *matFooterCellDef>
-              {{ calcularTotal() }}
+              {{ calcularTotal() | number }}
             </td>
           </ng-container>
 

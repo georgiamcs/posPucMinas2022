@@ -169,6 +169,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
       .subscribe({
         next: (listaVacina) => {
           this.vacinas = listaVacina;
+          this.vacinas = this.vacinas.filter(e => e.qtd_doses_estoque > 0);
           this.ordenarLookup(this.vacinas);
           this.setChangeVacinaParaFiltrarValores();
         },

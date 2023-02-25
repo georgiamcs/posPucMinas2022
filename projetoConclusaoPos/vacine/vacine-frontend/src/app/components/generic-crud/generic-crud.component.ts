@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  ValidatorFn
+  ValidatorFn,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario
+  ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
@@ -305,9 +305,8 @@ export abstract class GenericCrudComponent<
   }
 
   protected exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
-    return (
-      !this.somenteLeitura() && !this.getValorCampoForm(nomeFormControl, form)
-    );
+    const vlCampo = this.getValorCampoForm(nomeFormControl, form);
+    return !this.somenteLeitura() && (vlCampo == null || vlCampo == undefined || vlCampo == '');
   }
 
   protected temBotaoAcao(): boolean {
@@ -319,7 +318,9 @@ export abstract class GenericCrudComponent<
     validators: ValidatorFn | ValidatorFn[] | null
   ): void {
     formControl?.setValidators(validators);
-    formControl?.updateValueAndValidity();
+    // codigo comentado porque estava dando erro recursivo qnd atualiza validadores no onchange
+    // remover apos testes mais exaustivos
+    // formControl?.updateValueAndValidity();
   }
 
   protected irParaListaRegistros(
