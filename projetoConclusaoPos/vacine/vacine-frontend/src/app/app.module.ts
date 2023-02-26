@@ -67,11 +67,9 @@ import { GenericPageComponent } from './components/generic-page/generic-page.com
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
 import { LoginComponent } from './pages/acess/login/login.component';
 import { LogoutComponent } from './pages/acess/logout/logout.component';
-import { CabecalhoComponent } from './pages/content/cabecalho/cabecalho.component';
 import { ConteudoPrincipalComponent } from './pages/content/conteudo-principal/conteudo-principal.component';
 import { ErroComponent } from './pages/content/erro/erro.component';
 import { HomeComponent } from './pages/content/home/home.component';
-import { MenuComponent } from './pages/content/menu/menu.component';
 import { SemRegistrosComponent } from './pages/content/sem-registros/sem-registros.component';
 import { PageContainerComponent } from './pages/content/site-container/site-container.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
@@ -118,8 +116,6 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
 @NgModule({
   declarations: [
     AppComponent,
-    CabecalhoComponent,
-    MenuComponent,
     ConteudoPrincipalComponent,
     CrudVacinaComponent,
     ListarVacinasComponent,
