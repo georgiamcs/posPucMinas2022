@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
+import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { FornecedorService } from '../../../services/crud/fornecedor/fornecedor.service';
 import { RelacionamentoFornecedor } from '../../../shared/classes/relacionamento-fornecedor.class';
@@ -57,17 +58,18 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
     );
   }
 
-  protected definirColItensExibidas() {
-    this.defColunasExibidas = [
-      'vacina',
-      'lote',
-      'qtd_frascos',
-      'qtd_doses',
-      'data_validade',
-      'vl_total_item_compra',
-      'acoes',
+  protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
+    return [
+      { def: 'vacina' },
+      { def: 'lote' },
+      { def: 'qtd_frascos', showMobileResolution: false },
+      { def: 'qtd_doses' },
+      { def: 'data_validade', showMobileResolution: false },
+      { def: 'vl_total_item_compra', showMobileResolution: false },
+      { def: 'acoes' },
     ];
   }
+
 
   protected override preencherFormComRegistroId(registro: any): void {
     super.preencherFormComRegistroId(registro);

@@ -5,7 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
+import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { EntityModel } from 'src/app/shared/models/entity.model';
+import { Util } from 'src/app/shared/utils/util.util';
 import { GenericCrudComLookupComponent } from '../generic-crud-com-lookup/generic-crud-com-lookup.component';
 
 @Component({
@@ -22,6 +24,8 @@ export abstract class GenericCrudMestreDetalheComponent<
   protected defColunasExibidas: string[];
 
   protected adicionando = false;
+
+  protected abstract getDefColDetalheExibidas(): DefinicaoColunasExibidas[];
 
   constructor(
     protected override changeDetectorRef: ChangeDetectorRef,
@@ -41,7 +45,6 @@ export abstract class GenericCrudMestreDetalheComponent<
       dialogoConf,
       service
     );
-    this.definirColItensExibidas();
   }
 
   protected override habilitarBotaoAcao(): boolean {
@@ -50,8 +53,6 @@ export abstract class GenericCrudMestreDetalheComponent<
       this.modoFormulario == ModoFormulario.EXCLUSAO
     );
   }
-
-  protected abstract definirColItensExibidas(): void;
 
   protected abstract buildFormMestre(): void;
 
@@ -103,5 +104,30 @@ export abstract class GenericCrudMestreDetalheComponent<
     super.limparFormulario();
     this.limparFormDetalhe();
     this.itens = [];
+  }
+
+  protected getDisplayedColumnsMediaType(): string[] {
+    let ret = this.getDefColDetalheExibidas()
+      .filter((cd) => {
+        const condMobile =
+          Util.converterUndefinedEmTrue(cd.showMobileResolution) &&
+          this.isMobileResolution();
+        const condDesktop =
+          Util.converterUndefinedEmTrue(cd.showDesktopResolution) &&
+          this.isDesktopResolution();
+        const condTabletLow =
+          Util.converterUndefinedEmTrue(cd.showTabletLowResolution) &&
+          this.isTabletLowResolution();
+        const condTabletHigh =
+          Util.converterUndefinedEmTrue(cd.showTabletHighResolution) &&
+          this.isTabletHighResolution();
+
+        const exibeColuna =
+          condMobile || condDesktop || condTabletLow || condTabletHigh;
+        return exibeColuna;
+      })
+      .map((cd) => cd.def);
+
+    return ret;
   }
 }

@@ -9,6 +9,7 @@ import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
 import { RelacionamentoUsuario } from 'src/app/shared/classes/relacionamento-usuario.class';
 import { RelacionamentoVacina } from 'src/app/shared/classes/relacionamento-vacina.class';
+import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { DescarteVacinaService } from './../../../services/crud/descarte-vacina/descarte-vacina.service';
 import { TipoUsuario } from './../../../shared/enums/tipo-usuario.enum';
@@ -65,8 +66,18 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
       'vacina',
       'lote',
       'qtd_doses_descarte',
-      'justificativa_descarte',
+      '',
       'acoes',
+    ];
+  }
+
+  protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
+    return [
+      { def: 'vacina' },
+      { def: 'lote' },
+      { def: 'qtd_doses_descarte' },
+      { def: 'justificativa_descarte', showMobileResolution: false },
+      { def: 'acoes' },
     ];
   }
 

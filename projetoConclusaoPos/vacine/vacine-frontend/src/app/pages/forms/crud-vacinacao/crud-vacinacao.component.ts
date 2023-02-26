@@ -8,6 +8,7 @@ import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-cr
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
 import { RelacionamentoVacina } from 'src/app/shared/classes/relacionamento-vacina.class';
+import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { Vacinacao } from 'src/app/shared/models/vacinacao.model';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { VacinacaoService } from './../../../services/crud/vacinacao/vacinacao.service';
@@ -62,13 +63,17 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     );
   }
 
-  protected definirColItensExibidas() {
-    this.defColunasExibidas = [
-      'vacina',
-      'lote',
-      'data_validade',
-      'vl_item',
-      'acoes',
+  protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
+    return [
+      { def: 'vacina' },
+      { def: 'lote' },
+      {
+        def: 'data_validade',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      { def: 'vl_item', showMobileResolution: false },
+      { def: 'acoes' },
     ];
   }
 
@@ -295,5 +300,13 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
       .reduce((acum, v) => acum + v, 0);
 
     return vlTot;
+  }
+
+  protected getTextFooterTotal() {
+    if (!this.isMobileResolution()) {
+      return 'Total'
+    } else {
+      return '';
+    }
   }
 }

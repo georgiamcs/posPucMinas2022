@@ -1,44 +1,44 @@
-#fCodigo {
-  width: 30%;
-  min-width: 150px;
+@media (min-width: 1025px) {
+  #fCodigo {
+    width: 30%;
+    min-width: 150px;
+  }
+
+  #fDataAplicacao {
+    width: 30%;
+    min-width: 150px;
+  }
+
+  #fCliente {
+    width: 45%;
+    min-width: 200px;
+  }
+
+  #fAplicador {
+    width: 45%;
+    min-width: 200px;
+  }
+
+  #fLote {
+    width: 40%;
+    min-width: 150px;
+  }
+
+  #fDataValidade {
+    width: 30%;
+    min-width: 150px;
+  }
+
+  #fVacina {
+    width: 55%;
+    min-width: 150px;
+  }
+
+  #fVlItem {
+    width: 30%;
+    min-width: 150px;
+  }
 }
-
-#fDataAplicacao {
-  width: 30%;
-  min-width: 150px;
-}
-
-#fCliente {
-  width: 45%;
-  min-width: 200px;
-}
-
-#fAplicador {
-  width: 45%;
-  min-width: 200px;
-}
-
-
-#fLote {
-  width: 40%;
-  min-width: 150px;
-}
-
-#fDataValidade {
-  width: 30%;
-  min-width: 150px;
-}
-
-#fVacina {
-  width: 55%;
-  min-width: 150px;
-}
-
-#fVlItem {
-  width: 30%;
-  min-width: 150px;
-}
-
 .mat-column-vl_item {
   text-align: right;
 }
