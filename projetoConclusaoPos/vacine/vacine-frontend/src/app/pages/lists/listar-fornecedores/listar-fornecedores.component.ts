@@ -44,9 +44,18 @@ export class ListarFornecedoresComponent extends GenericListarRegistrosComponent
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'nome' },
-      { def: 'cnpj', showMobileResolution: false },
-      { def: 'email', showMobileResolution: false },
-      { def: 'tel_celular' },
+      {
+        def: 'cnpj',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      {
+        def: 'email',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
+      { def: 'tel_celular', showMobileResolution: false },
       { def: 'acoes' },
     ];
   }
