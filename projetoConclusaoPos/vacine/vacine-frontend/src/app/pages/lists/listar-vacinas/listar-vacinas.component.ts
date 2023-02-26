@@ -26,9 +26,9 @@ export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vaci
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'nome' },
-      { def: 'protecaoContra', showMobileResolution: false },
-      { def: 'qtd_doses_estoque' },
-      { def: 'vl_atual_unit_dose' },
+      { def: 'protecaoContra', showMobileResolution: false, showTabletLowResolution:false },
+      { def: 'qtd_doses_estoque', showMobileResolution: false },
+      { def: 'vl_atual_unit_dose', showMobileResolution: false },
       { def: 'acoes' },
     ];
   }
