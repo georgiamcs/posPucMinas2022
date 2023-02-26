@@ -44,7 +44,6 @@ export abstract class GenericCrudComponent<
   protected modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;
   protected lbBotaoSalvar: string | null;
   protected lbBotaoFechar: string | null;
-  TipoErroValForm = TipoErroValidacaoFormulario;
 
   protected id: string | null;
   protected registro: T;
@@ -305,7 +304,7 @@ export abstract class GenericCrudComponent<
     );
   }
 
-  protected exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
+  protected override exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
     const vlCampo = this.getValorCampoForm(nomeFormControl, form);
     return (
       !this.somenteLeitura() &&
@@ -333,43 +332,6 @@ export abstract class GenericCrudComponent<
   ) {
     const state = UtilRota.gerarStateMsgFeedbackRota(msgFeedback);
     this.router.navigate([caminhoRelativo], state);
-  }
-
-  protected getValorCampoForm(formControlName: string, form?: FormGroup): any {
-    return this.getFormControl(formControlName, form)?.value;
-  }
-
-  protected getFormControl(formControlName: string, form?: FormGroup): any {
-    let nomesCampos = formControlName.split('.');
-
-    let formulario = Util.converterUndefinedEmNulo(form) ? form : this.form;
-
-    switch (nomesCampos.length) {
-      case 1:
-        return formulario!.get(formControlName);
-
-      case 2:
-        return formulario!.get(nomesCampos[0])?.get(nomesCampos[1]);
-
-      case 3:
-        return formulario!
-          .get(nomesCampos[0])
-          ?.get(nomesCampos[1])
-          ?.get(nomesCampos[2]);
-
-      case 4:
-        return formulario!
-          .get(nomesCampos[0])
-          ?.get(nomesCampos[1])
-          ?.get(nomesCampos[2])
-          ?.get(nomesCampos[3]);
-
-      default:
-        throwError(
-          () =>
-            'Condição não esperada. Control com aninhamento maior do que 4 níveis'
-        );
-    }
   }
 
   protected setValorCampoForm(formControlName: string, valor: any): any {
@@ -435,111 +397,6 @@ export abstract class GenericCrudComponent<
         rotuloRejeitar: this.ROTULO_BOTAO_REJEITAR,
       },
     };
-  }
-
-  protected campoFormFoiEditado(
-    formControlName: string,
-    form?: FormGroup
-  ): boolean {
-    return !!this.getFormControl(formControlName, form)?.touched;
-  }
-
-  protected recuperarErroCampoForm(
-    formControlName: string,
-    nomeErroValidador?: string | null,
-    form?: FormGroup
-  ): ValidationErrors | null {
-    if (!!nomeErroValidador) {
-      return Util.converterUndefinedEmNulo(
-        this.getFormControl(formControlName, form)?.errors?.[nomeErroValidador]
-      );
-    } else
-      return Util.converterUndefinedEmNulo(
-        this.getFormControl(formControlName, form)?.errors
-      );
-  }
-
-  protected hasErroValidacao(
-    nomeFormControl: string,
-    tipoErroValidacao: TipoErroValidacaoFormulario,
-    validacaoDefinidaUsuario?: string,
-    form?: FormGroup
-  ): boolean {
-    let exibe = false;
-
-    if (this.campoFormFoiEditado(nomeFormControl, form)) {
-      switch (tipoErroValidacao) {
-        case TipoErroValidacaoFormulario.OBRIGATORIO:
-          exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
-              null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
-              null;
-          break;
-
-        case TipoErroValidacaoFormulario.REQUERIDO:
-          exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
-            null;
-          break;
-
-        case TipoErroValidacaoFormulario.FORMATO:
-          exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'minlength', form) !=
-              null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'maxlength', form) !=
-              null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
-              null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'mask', form) != null;
-          break;
-
-        case TipoErroValidacaoFormulario.LIMITE:
-          exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'min', form) != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'max', form) != null;
-          break;
-
-        case TipoErroValidacaoFormulario.EMAIL:
-          exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'email', form) != null;
-          break;
-
-        case TipoErroValidacaoFormulario.QUALQUER:
-          exibe =
-            this.recuperarErroCampoForm(nomeFormControl, null, form) != null;
-          break;
-
-        default: //QUALQUER e DEFINIDA_USUARIO
-          exibe =
-            this.recuperarErroCampoForm(
-              nomeFormControl,
-              validacaoDefinidaUsuario,
-              form
-            ) != null;
-          break;
-      }
-    }
-    return exibe;
-  }
-
-  protected getMsgErroValidacaoTipo(tipo: TipoErroValidacaoFormulario): string {
-    switch (tipo) {
-      case TipoErroValidacaoFormulario.OBRIGATORIO:
-        return 'Campo obrigatório com caracteres válidos';
-      case TipoErroValidacaoFormulario.REQUERIDO:
-        return 'Campo obrigatório';
-      case TipoErroValidacaoFormulario.FORMATO:
-        return 'Formato inválido';
-      case TipoErroValidacaoFormulario.LIMITE:
-        return 'Valor fora do lmite de valores do campo';
-      case TipoErroValidacaoFormulario.QUALQUER:
-        return 'Preenchimento inválido';
-      case TipoErroValidacaoFormulario.EMAIL:
-        return 'Email inválido';
-      default:
-        return '';
-    }
   }
 
   protected limparFormulario() {

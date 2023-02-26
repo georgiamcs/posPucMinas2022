@@ -9,6 +9,7 @@ import { ControleAcessoService } from 'src/app/services/authentication/controle-
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
+import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 
 import { LoginUsuario } from '../../../shared/interfaces/login-usuario.interface';
 
@@ -59,8 +60,8 @@ export class LoginComponent extends GenericPageComponent {
 
   protected buildForm() {
     this.form = this.formBuilder.group({
-      email: [{ value: '', disabled: this.readOnly() }, Validators.required],
-      senha: [{ value: '', disabled: this.readOnly() }, Validators.required],
+      email: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      senha: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
     });
   }
 

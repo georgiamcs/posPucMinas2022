@@ -1,8 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
+import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Util } from 'src/app/shared/utils/util.util';
 import { browserRefresh } from '../../app.component';
@@ -25,6 +27,8 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   private _mediaQueryListener: () => void;
 
   protected origemRotaNavegacao: string;
+
+  TipoErroValForm = TipoErroValidacaoFormulario;
 
   constructor(
     protected changeDetectorRef: ChangeDetectorRef,
@@ -130,6 +134,151 @@ export class GenericPageComponent implements OnInit, OnDestroy {
       return Util.formatarValorDecimal(v);
     } else {
       return '';
+    }
+  }
+
+  protected getValorCampoForm(formControlName: string, form?: FormGroup): any {
+    return this.getFormControl(formControlName, form)?.value;
+  }
+
+  protected getFormControl(formControlName: string, form?: FormGroup): any {
+    let nomesCampos = formControlName.split('.');
+
+    switch (nomesCampos.length) {
+      case 1:
+        return form!.get(formControlName);
+
+      case 2:
+        return form!.get(nomesCampos[0])?.get(nomesCampos[1]);
+
+      case 3:
+        return form!
+          .get(nomesCampos[0])
+          ?.get(nomesCampos[1])
+          ?.get(nomesCampos[2]);
+
+      case 4:
+        return form!
+          .get(nomesCampos[0])
+          ?.get(nomesCampos[1])
+          ?.get(nomesCampos[2])
+          ?.get(nomesCampos[3]);
+
+      default:
+        throwError(
+          () =>
+            'Condição não esperada. Control com aninhamento maior do que 4 níveis'
+        );
+    }
+  }
+
+  protected exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
+    const vlCampo = this.getValorCampoForm(nomeFormControl, form);
+    return vlCampo == null || vlCampo == undefined || vlCampo == '';
+  }
+
+  protected campoFormFoiEditado(
+    formControlName: string,
+    form?: FormGroup
+  ): boolean {
+    return !!this.getFormControl(formControlName, form)?.touched;
+  }
+
+  protected recuperarErroCampoForm(
+    formControlName: string,
+    nomeErroValidador?: string | null,
+    form?: FormGroup
+  ): ValidationErrors | null {
+    if (!!nomeErroValidador) {
+      return Util.converterUndefinedEmNulo(
+        this.getFormControl(formControlName, form)?.errors?.[nomeErroValidador]
+      );
+    } else
+      return Util.converterUndefinedEmNulo(
+        this.getFormControl(formControlName, form)?.errors
+      );
+  }
+
+  protected hasErroValidacao(
+    nomeFormControl: string,
+    tipoErroValidacao: TipoErroValidacaoFormulario,
+    validacaoDefinidaUsuario?: string,
+    form?: FormGroup
+  ): boolean {
+    let exibe = false;
+
+    if (this.campoFormFoiEditado(nomeFormControl, form)) {
+      switch (tipoErroValidacao) {
+        case TipoErroValidacaoFormulario.OBRIGATORIO:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
+              null;
+          break;
+
+        case TipoErroValidacaoFormulario.REQUERIDO:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
+            null;
+          break;
+
+        case TipoErroValidacaoFormulario.FORMATO:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'minlength', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'maxlength', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
+              null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'mask', form) != null;
+          break;
+
+        case TipoErroValidacaoFormulario.LIMITE:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'min', form) != null ||
+            this.recuperarErroCampoForm(nomeFormControl, 'max', form) != null;
+          break;
+
+        case TipoErroValidacaoFormulario.EMAIL:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, 'email', form) != null;
+          break;
+
+        case TipoErroValidacaoFormulario.QUALQUER:
+          exibe =
+            this.recuperarErroCampoForm(nomeFormControl, null, form) != null;
+          break;
+
+        default: //QUALQUER e DEFINIDA_USUARIO
+          exibe =
+            this.recuperarErroCampoForm(
+              nomeFormControl,
+              validacaoDefinidaUsuario,
+              form
+            ) != null;
+          break;
+      }
+    }
+    return exibe;
+  }
+
+  protected getMsgErroValidacaoTipo(tipo: TipoErroValidacaoFormulario): string {
+    switch (tipo) {
+      case TipoErroValidacaoFormulario.OBRIGATORIO:
+        return 'Campo obrigatório com caracteres válidos';
+      case TipoErroValidacaoFormulario.REQUERIDO:
+        return 'Campo obrigatório';
+      case TipoErroValidacaoFormulario.FORMATO:
+        return 'Formato inválido';
+      case TipoErroValidacaoFormulario.LIMITE:
+        return 'Valor fora do lmite de valores do campo';
+      case TipoErroValidacaoFormulario.QUALQUER:
+        return 'Preenchimento inválido';
+      case TipoErroValidacaoFormulario.EMAIL:
+        return 'Email inválido';
+      default:
+        return '';
     }
   }
 }

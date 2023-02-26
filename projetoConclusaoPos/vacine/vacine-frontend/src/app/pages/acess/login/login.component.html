@@ -4,43 +4,60 @@
       [mensagens]="mensagens"
     ></vacine-mensagem-feedback>
 
-    <fieldset class="crudfieldset gap-3 border rounded px-3 pb-3 pt-3" aria-disabled>
+    <fieldset
+      class="crudfieldset gap-3 border rounded px-3 pb-3 pt-3"
+      aria-disabled
+    >
       <legend class="float-none w-auto h4">
         <i class="bi bi-person-fill"></i> Login do Usuário
       </legend>
 
       <form class="crudform" [formGroup]="form" #formDirective="ngForm">
-        <div class="mb-3">
-          <mat-form-field>
-            <mat-label>Login</mat-label>
-            <input
-              formControlName="email"
-              matInput
-              placeholder="Digite o email do usuário"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="email"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-        </div>
-        <div>
-          <mat-form-field class="crudfield" class="me-3 mb-3">
-            <mat-label>Senha</mat-label>
-            <input
-              formControlName="senha"
-              type="password"
-              matInput
-              placeholder="Digite a senha"
-            />
-          </mat-form-field>
-          <vacine-msg-erro-input
-            [form]="form"
-            campo="senha"
-            validacao="obrigatorio"
-          ></vacine-msg-erro-input>
-        </div>
+        <mat-form-field class="crudfield" id="fLogin">
+          <mat-label>Login</mat-label>
+          <input
+            formControlName="email"
+            matInput
+            placeholder="Digite o email do usuário"
+          />
+          <mat-hint *ngIf="exibeHint('email', form)">
+            Digite o email cadastrado
+          </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao(
+                'email',
+                TipoErroValForm.OBRIGATORIO,
+                undefined,
+                form
+              )
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="crudfield" id="fSenha">
+          <mat-label>Senha</mat-label>
+          <input
+            formControlName="senha"
+            type="password"
+            matInput
+            placeholder="Digite a senha"
+          />
+          <mat-hint *ngIf="exibeHint('senha', form)">
+            Digite a senha cadastrada
+          </mat-hint>
+          <mat-error
+            *ngIf="
+              hasErroValidacao(
+                'senha',
+                TipoErroValForm.OBRIGATORIO,
+                undefined,
+                form
+              )
+            "
+            >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
+          </mat-error>
+        </mat-form-field>
         <div class="acoes">
           <button
             (click)="$event.preventDefault(); login()"
@@ -64,10 +81,7 @@
         <div class="pt-3">
           <span
             >Não possui cadastro?
-            <a
-              href="#"
-              routerLink="/registrar"
-              routerLinkActive="active"
+            <a href="#" routerLink="/registrar" routerLinkActive="active"
               >Registre-se</a
             >.</span
           >

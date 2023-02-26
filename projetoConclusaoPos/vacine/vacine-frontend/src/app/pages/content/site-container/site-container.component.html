@@ -28,7 +28,7 @@
   >
     <mat-sidenav
       #snav
-      [opened]="isDesktopResolution()"
+      [opened]="isDesktopResolution() && servicoAcesso.isLogado()"
       [mode]="isMobileResolution() ? 'over' : 'side'"
       [fixedInViewport]="isMobileResolution()"
       fixedTopGap="56"

@@ -1,0 +1,13 @@
+@media (max-width:767px) {
+  #fLogin,
+  #fSenha {
+    width: 80%;
+  }
+}
+
+@media (min-width:768px) {
+  #fLogin,
+  #fSenha {
+    width: 40%;
+  }
+}

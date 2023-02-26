@@ -309,9 +309,10 @@
         </mat-error>
       </fieldset>
     </form>
-    <div class="botoes-crud">
+    <div class="barrabutton">
       <button
         *ngIf="temBotaoAcao()"
+        class="crudbutton"
         mat-raised-button
         color="primary"
         (click)="salvar()"
@@ -319,7 +320,7 @@
       >
         {{ lbBotaoSalvar }}
       </button>
-      <button mat-raised-button (click)="fechar()">
+      <button mat-raised-button class="crudbutton" (click)="fechar()">
         {{ lbBotaoFechar }}
       </button>
     </div>
