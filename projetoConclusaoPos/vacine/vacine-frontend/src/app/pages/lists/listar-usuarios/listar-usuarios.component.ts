@@ -1,4 +1,3 @@
-import { CpfPipe } from './../../../shared/pipes/cpf/cpf.pipe';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -7,6 +6,10 @@ import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { TelefonePipe } from 'src/app/shared/pipes/telefone/telefone.pipe';
+import { ClienteService } from './../../../services/crud/cliente/cliente.service';
+import { MensagemFeedback } from './../../../shared/classes/mensagem-feedback.class';
+import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
+import { CpfPipe } from './../../../shared/pipes/cpf/cpf.pipe';
 
 @Component({
   selector: 'vacine-listar-usuarios',
@@ -17,7 +20,8 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
   constructor(
     private __router: Router,
     private __deviceService: DeviceDetectorService,
-    private _service: UsuarioService
+    private _service: UsuarioService,
+    private clienteService: ClienteService
   ) {
     super(__router, __deviceService, _service);
   }
@@ -49,4 +53,22 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     ];
   }
 
+  protected exportarVacinacao(idCliente: string) {
+    this.clienteService
+      .getArquivoVacinaoUsuario(idCliente)
+      .then(() => {
+        const msgFeedbackSucesso = new MensagemFeedback(
+          TipoMensagemFeedback.SUCESSO,
+          'Arquivo gerado com sucesso'
+        );
+        this.addMensagem(msgFeedbackSucesso);
+      })
+      .catch((erro: Error) => {
+        const msgFeedbackSucesso = new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          'Erro ao gerar arquivo'
+        );
+        this.addMensagem(msgFeedbackSucesso);
+      });
+  }
 }

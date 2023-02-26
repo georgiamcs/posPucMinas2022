@@ -1,3 +1,4 @@
+const { AutorizacaoService } = require("../../services/autorizacao.service");
 const GenericCrudController = require("./generic-crud.controller");
 const ControleEstoqueVacinaController = require("./controle-estoque-vacina.controller");
 const genericService = require("../../services/generic-crud.service");
@@ -189,7 +190,7 @@ class VacinacaoController extends GenericCrudController {
         cnst.TIPO_OPERACAO.UPDATE,
         user
       );
-    
+
       // atualizar estoque, removendo do estoque os itens da vacinacao depois da mudanca
       await this.atualizarEstoqueVacina(
         cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER,
@@ -202,6 +203,36 @@ class VacinacaoController extends GenericCrudController {
       );
     }
   }
+
+  getVacinacoesUsuario = async (req, res) => {
+    const id = req.params.id;
+    if (
+      AutorizacaoService.checarPerfis(req, this.perfisRequeridos) ||
+      AutorizacaoService.isMesmoUsuario(req, id)
+    ) {
+      const registros = await this.service.getAll(this.objectModel, undefined, {
+        "usuario_cliente._id": id,
+      });
+
+      try {
+        if (!registros) {
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json("Não existem registros cadastrados!");
+        }
+
+        res.json(registros);
+      } catch (err) {
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error: err.message });
+      }
+    } else {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+        .json({ error: "Acesso negado" });
+    }
+  };
 }
 
 module.exports = VacinacaoController;

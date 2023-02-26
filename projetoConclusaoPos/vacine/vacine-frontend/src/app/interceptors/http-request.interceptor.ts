@@ -71,9 +71,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               // erro http nao tratado, melhorar mensagem de retorno
               console.error('Erro http', error);
               throw error;
-              // return throwError(
-              //   () => `Mensagem: ${error.message} Erro: ${error.error.error}`
-              // );
             }
           }
         }
