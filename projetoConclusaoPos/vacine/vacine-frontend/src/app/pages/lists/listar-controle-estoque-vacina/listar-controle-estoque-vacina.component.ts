@@ -56,10 +56,23 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'data_evento' },
-      { def: 'tipo_evento' },
-      { def: 'tipo_motivo' },
-      { def: 'descricao_evento' },
-      { def: 'qtd_itens' },
+      {
+        def: 'tipo_evento',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      { def: 'tipo_motivo', showMobileResolution: false },
+      {
+        def: 'descricao_evento',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
+      {
+        def: 'qtd_itens',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
       { def: 'qtd_estoque_antes' },
       { def: 'qtd_estoque_depois' },
     ];
