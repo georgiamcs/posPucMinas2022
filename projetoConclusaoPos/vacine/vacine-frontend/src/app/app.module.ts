@@ -61,6 +61,7 @@ import {
   SocialLoginModule
 } from '@abacritt/angularx-social-login';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
@@ -72,6 +73,7 @@ import { ErroComponent } from './pages/content/erro/erro.component';
 import { HomeComponent } from './pages/content/home/home.component';
 import { MenuComponent } from './pages/content/menu/menu.component';
 import { SemRegistrosComponent } from './pages/content/sem-registros/sem-registros.component';
+import { PageContainerComponent } from './pages/content/site-container/site-container.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
 import { CrudDescarteVacinaComponent } from './pages/forms/crud-descarte-vacina/crud-descarte-vacina.component';
 import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
@@ -145,6 +147,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     ListarControleEstoqueVacinaComponent,
     ListarDescarteVacinasComponent,
     CrudDescarteVacinaComponent,
+    PageContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -178,6 +181,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     CurrencyMaskModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSidenavModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

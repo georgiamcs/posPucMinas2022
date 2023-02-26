@@ -1,0 +1,172 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <div class="barramenu">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <img
+      *ngIf="!mobileQuery.matches"
+      src="../../../assets/imagens/logo-horizontal.jpg"
+      alt="Logo da aplicação Vacine - Clínica de Imunização"
+    />
+    <img
+      *ngIf="mobileQuery.matches"
+      src="../../../assets/imagens/logo-horizontal-p.jpg"
+      alt="Logo da aplicação Vacine - Clínica de Imunização"
+    />
+  </mat-toolbar>
+  </div>
+
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+    >
+      <mat-nav-list>
+        <div class="flex-shrink-0 p-3 bg-white" style="width: 220px">
+          <ul class="list-unstyled ps-0">
+            <li mat-list-item mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorVacinacao()">
+              <button
+                routerLink="/vacinacoes"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Vacinação
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorVacina()">
+              <button
+                routerLink="/vacinas"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Vacinas
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorVacina()">
+              <button
+                routerLink="/descartes-vacinas"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Descartes Vacinas
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorUsuario()">
+              <button
+                routerLink="/usuarios"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#usuarios-collapse"
+                aria-expanded="true"
+              >
+                Usuários
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorCompra()">
+              <button
+                routerLink="/compras-vacina"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#dashboard-collapse"
+                aria-expanded="false"
+              >
+                Compras Vacinas
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorFornecedor()">
+              <button
+                routerLink="/fornecedores"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#dashboard-collapse"
+                aria-expanded="false"
+              >
+                Fornecedor
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
+              <button
+                routerLink="/"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Relatórios
+              </button>
+            </li>
+
+            <li mat-list-item class="border-top my-3"></li>
+
+            <li mat-list-item class="mb-1" *ngIf="!servicoAcesso.isLogado()">
+              <button
+                routerLink="/login"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#account-collapse"
+                aria-expanded="false"
+              >
+                Login
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
+              <button
+                routerLink="/logout"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#account-collapse"
+                aria-expanded="false"
+              >
+                Logout
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
+              <button
+                (click)="trocarSenha()"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#account-collapse"
+                aria-expanded="false"
+              >
+                Trocar Senha
+              </button>
+            </li>
+          </ul>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <vacine-conteudo-principal></vacine-conteudo-principal>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
