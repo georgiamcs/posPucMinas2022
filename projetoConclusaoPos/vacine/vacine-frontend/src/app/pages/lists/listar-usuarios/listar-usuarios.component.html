@@ -105,6 +105,7 @@
                 mat-icon-button
                 (click)="exportarVacinacao(registro._id)"
                 matTooltip="Vacinações"
+                *ngIf="!isMobileResolution()"
               >
                 <mat-icon
                   ><span class="material-icons"> vaccines </span></mat-icon

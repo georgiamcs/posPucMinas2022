@@ -47,8 +47,17 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'nome' },
-      { def: 'cpf' },
-      { def: 'email', showMobileResolution: false },
+      {
+        def: 'cpf',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
+      {
+        def: 'email',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
       { def: 'tel_celular', showMobileResolution: false },
       { def: 'acoes' },
     ];
