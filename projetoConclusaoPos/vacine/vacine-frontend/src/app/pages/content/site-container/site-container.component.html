@@ -1,20 +1,20 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-  <div class="barramenu">
-  <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <img
-      *ngIf="!mobileQuery.matches"
-      src="../../../assets/imagens/logo-horizontal.jpg"
-      alt="Logo da aplicação Vacine - Clínica de Imunização"
-    />
-    <img
-      *ngIf="mobileQuery.matches"
-      src="../../../assets/imagens/logo-horizontal-p.jpg"
-      alt="Logo da aplicação Vacine - Clínica de Imunização"
-    />
-  </mat-toolbar>
+  <div class="barramenu" *ngIf="servicoAcesso.isLogado(); else naologado">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <img
+        *ngIf="!mobileQuery.matches"
+        src="../../../assets/imagens/logo-horizontal.jpg"
+        alt="Logo da aplicação Vacine - Clínica de Imunização"
+      />
+      <img
+        *ngIf="mobileQuery.matches"
+        src="../../../assets/imagens/logo-horizontal-p.jpg"
+        alt="Logo da aplicação Vacine - Clínica de Imunização"
+      />
+    </mat-toolbar>
   </div>
 
   <mat-sidenav-container
@@ -23,6 +23,7 @@
   >
     <mat-sidenav
       #snav
+      [opened]="!mobileQuery.matches"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56"
@@ -30,7 +31,12 @@
       <mat-nav-list>
         <div class="flex-shrink-0 p-3 bg-white" style="width: 220px">
           <ul class="list-unstyled ps-0">
-            <li mat-list-item mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorVacinacao()">
+            <li
+              mat-list-item
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorVacinacao()"
+            >
               <button
                 routerLink="/vacinacoes"
                 routerLinkActive="active"
@@ -43,7 +49,11 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorVacina()">
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorVacina()"
+            >
               <button
                 routerLink="/vacinas"
                 routerLinkActive="active"
@@ -56,7 +66,11 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorVacina()">
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorVacina()"
+            >
               <button
                 routerLink="/descartes-vacinas"
                 routerLinkActive="active"
@@ -69,7 +83,11 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorUsuario()">
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorUsuario()"
+            >
               <button
                 routerLink="/usuarios"
                 routerLinkActive="active"
@@ -82,7 +100,11 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorCompra()">
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorCompra()"
+            >
               <button
                 routerLink="/compras-vacina"
                 routerLinkActive="active"
@@ -95,7 +117,11 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isCadastradorFornecedor()">
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorFornecedor()"
+            >
               <button
                 routerLink="/fornecedores"
                 routerLinkActive="active"
@@ -170,3 +196,17 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
+<ng-template #naologado>
+  <div class="barramenu">
+      <img
+        *ngIf="!mobileQuery.matches"
+        src="../../../assets/imagens/logo-horizontal.jpg"
+        alt="Logo da aplicação Vacine - Clínica de Imunização"
+      />
+      <img
+        *ngIf="mobileQuery.matches"
+        src="../../../assets/imagens/logo-horizontal-p.jpg"
+        alt="Logo da aplicação Vacine - Clínica de Imunização"
+      />
+  </div>
+</ng-template>
