@@ -76,7 +76,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
       { def: 'vacina' },
       { def: 'lote', showMobileResolution: false },
       { def: 'qtd_doses_descarte' },
-      { def: 'justificativa_descarte', showMobileResolution: false },
+      { def: 'justificativa_descarte', showMobileResolution: false, showTabletLowResolution: false },
       { def: 'acoes' },
     ];
   }
