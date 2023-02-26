@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
@@ -18,12 +18,13 @@ import { CpfPipe } from './../../../shared/pipes/cpf/cpf.pipe';
 })
 export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usuario> {
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _service: UsuarioService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override service: UsuarioService,
     private clienteService: ClienteService
   ) {
-    super(__router, __deviceService, _service);
+    super(changeDetectorRef, media, router, service);
   }
 
   protected getTituloPagina(): string {
@@ -47,8 +48,8 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     return [
       { def: 'nome' },
       { def: 'cpf' },
-      { def: 'email', showMobile: false },
-      { def: 'tel_celular', showMobile: false },
+      { def: 'email', showLowResolution: false },
+      { def: 'tel_celular', showLowResolution: false },
       { def: 'acoes' },
     ];
   }

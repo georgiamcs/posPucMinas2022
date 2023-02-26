@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
   FormBuilder,
@@ -7,7 +8,6 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
@@ -35,15 +35,16 @@ export class TrocarSenhaComponent extends GenericPageComponent {
   protected nomeUsuario?: string;
 
   constructor(
-    private _router: Router,
-    private _deviceService: DeviceDetectorService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private serviceCliente: ClienteService,
     private securityProvider: SecurityProvider,
     public dialogoConf: MatDialog
   ) {
-    super(_router, _deviceService);
+    super(changeDetectorRef, media, router);
     this.id = Util.converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );

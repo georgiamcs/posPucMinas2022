@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESTADOS } from '../../../variables/constantes';
 
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { FornecedorService } from 'src/app/services/crud/fornecedor/fornecedor.service';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
@@ -19,20 +19,22 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
   protected estados = ESTADOS;
 
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _activatedRoute: ActivatedRoute,
-    private _formBuilder: FormBuilder,
-    private _dialogoConf: MatDialog,
-    private _service: FornecedorService
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override formBuilder: FormBuilder,
+    protected override activatedRoute: ActivatedRoute,
+    protected override dialogoConf: MatDialog,
+    protected override service: FornecedorService
   ) {
     super(
-      __router,
-      __deviceService,
-      _activatedRoute,
-      _formBuilder,
-      _dialogoConf,
-      _service
+      changeDetectorRef,
+      media,
+      router,
+      activatedRoute,
+      formBuilder,
+      dialogoConf,
+      service
     );
   }
 

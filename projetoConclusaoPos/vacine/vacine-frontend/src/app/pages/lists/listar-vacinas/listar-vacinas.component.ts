@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -14,17 +15,18 @@ import { VacinaService } from '../../../services/crud/vacina/vacina.service';
 })
 export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vacina> {
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _service: VacinaService
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override service: VacinaService
   ) {
-    super(__router, __deviceService, _service);
+    super(changeDetectorRef, media, router, service);
   }
 
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'nome' },
-      { def: 'protecaoContra', showMobile: false },
+      { def: 'protecaoContra', showLowResolution: false },
       { def: 'qtd_doses_estoque' },
       { def: 'vl_atual_unit_dose' },
       { def: 'acoes' },

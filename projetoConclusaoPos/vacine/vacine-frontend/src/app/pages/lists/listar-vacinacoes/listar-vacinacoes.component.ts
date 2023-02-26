@@ -1,10 +1,10 @@
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
+import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ListaVacinacoesService } from './../../../services/lists/lista-vacinacoes/lista-vacinacoes.service';
 import { ListaVacinacoes } from './../../../shared/classes/lista-vacinacoes.class';
-import { Component } from '@angular/core';
-import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
-import { Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 
 @Component({
   selector: 'vacine-listar-vacinacoes',
@@ -13,11 +13,12 @@ import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-col
 })
 export class ListarVacinacoesComponent extends GenericListarRegistrosComponent<ListaVacinacoes> {
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _service: ListaVacinacoesService
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override service: ListaVacinacoesService
   ) {
-    super(__router, __deviceService, _service);
+    super(changeDetectorRef, media, router, service);
   }
 
   protected getTituloPagina(): string {
@@ -47,9 +48,9 @@ export class ListarVacinacoesComponent extends GenericListarRegistrosComponent<L
       { def: 'codigo' },
       { def: 'data_aplicacao' },
       { def: 'cliente' },
-      { def: 'aplicador_vacina', showMobile: false },
+      { def: 'aplicador_vacina', showLowResolution: false },
       { def: 'vacinas' },
-      { def: 'vl_total', showMobile: false },
+      { def: 'vl_total', showLowResolution: false },
       { def: 'acoes' },
     ];
   }

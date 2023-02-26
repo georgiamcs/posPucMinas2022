@@ -1,8 +1,8 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
@@ -22,13 +22,14 @@ export class LoginComponent extends GenericPageComponent {
   logado: boolean = false;
 
   constructor(
-    private _router: Router,
-    private _deviceService: DeviceDetectorService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
     private formBuilder: FormBuilder,
     private serviceAcesso: ControleAcessoService,
     private serviceAutRedeSocial: SocialAuthService
   ) {
-    super(_router, _deviceService);
+    super(changeDetectorRef, media, router);
   }
 
   override ngOnInit(): void {

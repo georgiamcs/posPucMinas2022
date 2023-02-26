@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 
 @Component({
@@ -10,9 +10,10 @@ import { GenericPageComponent } from 'src/app/components/generic-page/generic-pa
 })
 export class ErroComponent extends GenericPageComponent {
   constructor(
-    private _router: Router,
-    private __deviceService: DeviceDetectorService
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router
   ) {
-    super(_router, __deviceService);
+    super(changeDetectorRef, media, router);
   }
 }

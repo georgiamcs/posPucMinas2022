@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
@@ -13,11 +14,12 @@ import { ListaDescarteVacinas } from './../../../shared/classes/lista-descarte-v
 })
 export class ListarDescarteVacinasComponent extends GenericListarRegistrosComponent<ListaDescarteVacinas> {
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _service: ListaDescarteVacinaService
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override service: ListaDescarteVacinaService
   ) {
-    super(__router, __deviceService, _service);
+    super(changeDetectorRef, media, router, service);
   }
 
   protected getTituloPagina(): string {
@@ -45,7 +47,7 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
     return [
       { def: 'codigo' },
       { def: 'data_descarte' },
-      { def: 'resp_descarte', showMobile: false },
+      { def: 'resp_descarte', showLowResolution: false },
       { def: 'vacinas' },
       { def: 'acoes' },
     ];

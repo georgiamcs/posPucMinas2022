@@ -1,12 +1,17 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ViewChild
+} from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 import { GenericGetterService } from './../../services/generic/generic-getter/generic-getter.service';
 
+import { MediaMatcher } from '@angular/cdk/layout';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { TipoOrigemRota } from 'src/app/shared/enums/tipo-rota.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { EntityModel } from 'src/app/shared/models/entity.model';
@@ -36,11 +41,12 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
   protected abstract getDefColunasExibidas(): DefinicaoColunasExibidas[];
 
   constructor(
-    private _router: Router,
-    private _deviceService: DeviceDetectorService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
     protected service: GenericGetterService<T>
   ) {
-    super(_router, _deviceService);
+    super(changeDetectorRef, media, router);
   }
 
   override ngOnInit(): void {
@@ -88,11 +94,14 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
     let ret = this.getDefColunasExibidas()
       .filter((cd) => {
         let condMobile =
-          Util.converterUndefinedEmTrue(cd.showMobile) && this.isMobile();
+          Util.converterUndefinedEmTrue(cd.showLowResolution) &&
+          this.isLowResolution();
         let condDesktop =
-          Util.converterUndefinedEmTrue(cd.showDesktop) && this.isDesktop();
+          Util.converterUndefinedEmTrue(cd.showHighResolution) &&
+          this.isHighResolution();
         let condTablet =
-          Util.converterUndefinedEmTrue(cd.showTablet) && this.isTablet();
+          Util.converterUndefinedEmTrue(cd.showMediumResolution) &&
+          this.isMediumResolution();
         let exibeColuna =
           Util.converterUndefinedEmTrue(condMobile) ||
           condDesktop ||

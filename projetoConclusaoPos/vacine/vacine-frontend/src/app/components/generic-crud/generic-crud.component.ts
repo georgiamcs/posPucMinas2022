@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { throwError } from 'rxjs';
 import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
@@ -16,7 +16,7 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario,
+  ModoFormulario
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
@@ -55,14 +55,15 @@ export abstract class GenericCrudComponent<
   private _nomeCampoFormIdentificaEntidade: string;
 
   constructor(
-    private _router: Router,
-    protected _deviceService: DeviceDetectorService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
     protected activatedRoute: ActivatedRoute,
     protected formBuilder: FormBuilder,
     protected dialogoConf: MatDialog,
     protected service: GenericCrudService<T>
   ) {
-    super(_router, _deviceService);
+    super(changeDetectorRef, media, router);
     this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud();
   }
@@ -306,7 +307,10 @@ export abstract class GenericCrudComponent<
 
   protected exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
     const vlCampo = this.getValorCampoForm(nomeFormControl, form);
-    return !this.somenteLeitura() && (vlCampo == null || vlCampo == undefined || vlCampo == '');
+    return (
+      !this.somenteLeitura() &&
+      (vlCampo == null || vlCampo == undefined || vlCampo == '')
+    );
   }
 
   protected temBotaoAcao(): boolean {

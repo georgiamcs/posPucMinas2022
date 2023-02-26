@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
@@ -36,22 +36,24 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
   protected vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
 
   constructor(
-    private ___router: Router,
-    private ___deviceService: DeviceDetectorService,
-    private __formBuilder: FormBuilder,
-    private __activatedRoute: ActivatedRoute,
-    private __dialogoConf: MatDialog,
-    private __service: CompraVacinaService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override formBuilder: FormBuilder,
+    protected override activatedRoute: ActivatedRoute,
+    protected override dialogoConf: MatDialog,
+    protected override service: CompraVacinaService,
     private serviceVacina: VacinaService,
     private serviceFornecedor: FornecedorService
   ) {
     super(
-      ___router,
-      ___deviceService,
-      __formBuilder,
-      __activatedRoute,
-      __dialogoConf,
-      __service
+      changeDetectorRef,
+      media,
+      router,
+      formBuilder,
+      activatedRoute,
+      dialogoConf,
+      service
     );
   }
 

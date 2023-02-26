@@ -1,7 +1,7 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { Component, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { ControleAcessoService } from '../../../services/authentication/controle-acesso/controle-acesso.service';
 
@@ -12,12 +12,13 @@ import { ControleAcessoService } from '../../../services/authentication/controle
 })
 export class LogoutComponent extends GenericPageComponent implements OnInit {
   constructor(
-    private _router: Router,
-    private __deviceService: DeviceDetectorService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
     private serviceAutRedeSocial: SocialAuthService,
     private serviceAcesso: ControleAcessoService
   ) {
-    super(_router, __deviceService);
+    super(changeDetectorRef, media, router);
   }
 
   logadoGoogle = false;

@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
@@ -24,26 +24,31 @@ export abstract class GenericCrudMestreDetalheComponent<
   protected adicionando = false;
 
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute,
-    private _dialogoConf: MatDialog,
-    private _service: GenericCrudService<T>
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override formBuilder: FormBuilder,
+    protected override activatedRoute: ActivatedRoute,
+    protected override dialogoConf: MatDialog,
+    protected override service: GenericCrudService<T>
   ) {
     super(
-      __router,
-      __deviceService,
-      _activatedRoute,
-      _formBuilder,
-      _dialogoConf,
-      _service
+      changeDetectorRef,
+      media,
+      router,
+      activatedRoute,
+      formBuilder,
+      dialogoConf,
+      service
     );
     this.definirColItensExibidas();
   }
 
   protected override habilitarBotaoAcao(): boolean {
-    return (this.form.valid && this.itens.length > 0) || this.modoFormulario == ModoFormulario.EXCLUSAO;
+    return (
+      (this.form.valid && this.itens.length > 0) ||
+      this.modoFormulario == ModoFormulario.EXCLUSAO
+    );
   }
 
   protected abstract definirColItensExibidas(): void;

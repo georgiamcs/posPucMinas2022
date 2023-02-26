@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
@@ -20,20 +20,22 @@ export class CrudVacinaComponent
   implements OnInit
 {
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute,
-    private _dialogoConf: MatDialog,
-    private _service: VacinaService
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override formBuilder: FormBuilder,
+    protected override activatedRoute: ActivatedRoute,
+    protected override dialogoConf: MatDialog,
+    protected override service: VacinaService
   ) {
     super(
-      __router,
-      __deviceService,
-      _activatedRoute,
-      _formBuilder,
-      _dialogoConf,
-      _service
+      changeDetectorRef,
+      media,
+      router,
+      activatedRoute,
+      formBuilder,
+      dialogoConf,
+      service
     );
   }
 

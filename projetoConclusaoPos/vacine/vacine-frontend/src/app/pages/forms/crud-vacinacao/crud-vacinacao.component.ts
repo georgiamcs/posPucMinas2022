@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
@@ -41,22 +41,24 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
   protected vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
 
   constructor(
-    private ___router: Router,
-    private ___deviceService: DeviceDetectorService,
-    private __formBuilder: FormBuilder,
-    private __activatedRoute: ActivatedRoute,
-    private __dialogoConf: MatDialog,
-    private __service: VacinacaoService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override formBuilder: FormBuilder,
+    protected override activatedRoute: ActivatedRoute,
+    protected override dialogoConf: MatDialog,
+    protected override service: VacinacaoService,
     private serviceVacina: VacinaService,
     private serviceUsuario: UsuarioService
   ) {
     super(
-      ___router,
-      ___deviceService,
-      __formBuilder,
-      __activatedRoute,
-      __dialogoConf,
-      __service
+      changeDetectorRef,
+      media,
+      router,
+      formBuilder,
+      activatedRoute,
+      dialogoConf,
+      service
     );
   }
 
@@ -169,7 +171,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
       .subscribe({
         next: (listaVacina) => {
           this.vacinas = listaVacina;
-          this.vacinas = this.vacinas.filter(e => e.qtd_doses_estoque > 0);
+          this.vacinas = this.vacinas.filter((e) => e.qtd_doses_estoque > 0);
           this.ordenarLookup(this.vacinas);
           this.setChangeVacinaParaFiltrarValores();
         },

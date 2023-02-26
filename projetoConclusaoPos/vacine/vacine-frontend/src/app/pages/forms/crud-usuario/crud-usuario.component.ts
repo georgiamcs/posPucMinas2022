@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
-  FormBuilder,
-  FormGroup,
-  Validators
+  FormBuilder, Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
@@ -36,21 +34,23 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
   protected estados = ESTADOS;
 
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute,
-    public _dialogoConf: MatDialog,
-    private _service: UsuarioService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override formBuilder: FormBuilder,
+    protected override activatedRoute: ActivatedRoute,
+    protected override dialogoConf: MatDialog,
+    protected override service: UsuarioService,
     private serviceCliente: ClienteService
   ) {
     super(
-      __router,
-      __deviceService,
-      _activatedRoute,
-      _formBuilder,
-      _dialogoConf,
-      _service
+      changeDetectorRef,
+      media,
+      router,
+      activatedRoute,
+      formBuilder,
+      dialogoConf,
+      service
     );
   }
 

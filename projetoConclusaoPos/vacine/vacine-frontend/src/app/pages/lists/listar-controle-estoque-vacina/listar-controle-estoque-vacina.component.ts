@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { ListaControleEstoqueVacinaService } from 'src/app/services/lists/lista-controle-estoque-vacina/lista-controle-estoque-vacina.service';
 import {
   getDescTipoEventoContEstoque,
-  getDescTpMotivoControleEstVacina,
+  getDescTpMotivoControleEstVacina
 } from 'src/app/shared/enums/estoque.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ControleEstoqueVacina } from './../../../shared/models/controle-estoque-vacina.model';
@@ -20,12 +20,13 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
   protected nomeVacina: string | null;
 
   constructor(
-    private __router: Router,
-    private __deviceService: DeviceDetectorService,
-    private _service: ListaControleEstoqueVacinaService,
+    protected override changeDetectorRef: ChangeDetectorRef,
+    protected override media: MediaMatcher,
+    protected override router: Router,
+    protected override service: ListaControleEstoqueVacinaService,
     private activatedRoute: ActivatedRoute
   ) {
-    super(__router, __deviceService, _service);
+    super(changeDetectorRef, media, router, service);
     this.idVacina = this.activatedRoute.snapshot.paramMap.get('idVacina');
   }
 
@@ -88,7 +89,7 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
   }
 
   protected override carregarRegistros() {
-    this.subscription = this._service.getByIdVacina(this.idVacina!).subscribe({
+    this.subscription = this.service.getByIdVacina(this.idVacina!).subscribe({
       next: (listaReg) => {
         if (listaReg.length > 0 && !!listaReg[0].vacina.nome) {
           this.nomeVacina = listaReg[0].vacina.nome;
