@@ -46,9 +46,13 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'codigo' },
-      { def: 'data_descarte' },
-      { def: 'resp_descarte', showMobileResolution: false },
-      { def: 'vacinas' },
+      { def: 'data_descarte', showMobileResolution: false },
+      {
+        def: 'resp_descarte',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      { def: 'vacinas', showMobileResolution: false },
       { def: 'acoes' },
     ];
   }
