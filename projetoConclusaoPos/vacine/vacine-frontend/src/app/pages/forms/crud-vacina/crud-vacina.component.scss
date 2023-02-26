@@ -1,22 +1,32 @@
 #fNome {
-   width: 90%;
-   min-width: 200px;
+  width: 90%;
+  min-width: 200px;
 }
 #fProtecaoContra {
-   width: 90%;
-   min-width: 200px;
+  width: 90%;
+  min-width: 200px;
 }
 #fComposicao {
-   width: 90%;
-   min-width: 200px;
+  width: 90%;
+  min-width: 200px;
 }
 
-#fEstoque {
-   width: 25%;
-   min-width: 120px;
+@media (min-width: 1025px) {
+  #fEstoque {
+    width: 25%;
+  }
+
+  #fVlAtualDose {
+    width: 25%;
+  }
 }
 
-#fVlAtualDose {
-  width: 25%;
-  min-width: 150px;
+@media (min-width: 481px) and (max-width: 1024px) {
+  #fEstoque {
+    width: 40%;
+  }
+
+  #fVlAtualDose {
+    width: 40%;
+  }
 }

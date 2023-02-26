@@ -20,29 +20,10 @@ body {
   border: 1px gray solid;
 }
 
-.mobile-indicator,
-.desktop-indicator {
-  display: none;
-}
-
-@media (min-width: 1025px) {
-  .desktop-indicator {
-    display: block;
-  }
-}
-
 .tabdetalhe {
   margin-top: 20px;
   margin-bottom: 20px;
   padding-left: 10px;
-}
-
-/* mobile and tablet */
-@media (max-width: 1024px) {
-  .mobile-indicator {
-    display: block;
-    background-color: blue;
-  }
 }
 
 .msg_err {
@@ -73,7 +54,7 @@ body {
 }
 
 .tablistagem {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .tittable {
@@ -93,7 +74,7 @@ body {
 .fieldsetinterna {
   @extend .crudfieldset;
   border: 1px gray solid;
-  margin-top: 10px
+  margin-top: 10px;
 }
 
 .crudfield {
@@ -114,11 +95,9 @@ body {
 }
 
 .barrabuttondetalhe {
-  // background-color: #e8f5f5;
   display: flex;
   flex-direction: row;
-justify-content: flex-end;
-//  justify-content: space-evenly;
+  justify-content: flex-end;
 }
 
 .crudbutton {
@@ -151,7 +130,7 @@ justify-content: flex-end;
 
 .semregistros {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   flex-wrap: wrap;
   align-content: center;
 }
@@ -159,5 +138,3 @@ justify-content: flex-end;
 .tabpag {
   width: 100%;
 }
-
-
