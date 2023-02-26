@@ -17,9 +17,10 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   protected subscription: Subscription;
   protected mensagens: MensagemFeedback[] = [];
 
-  private lowResolutionQuery: MediaQueryList;
-  private mediumResolutionQuery: MediaQueryList;
-  private highResolutionQuery: MediaQueryList;
+  private mobileResolutionQuery: MediaQueryList;
+  private tabletLowResolutionQuery: MediaQueryList;
+  private tabletHighResolutionQuery: MediaQueryList;
+  private desktopResolutionQuery: MediaQueryList;
 
   private _mediaQueryListener: () => void;
 
@@ -37,16 +38,20 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   }
 
   private setWidthDeviceDetector() {
-    this.lowResolutionQuery = this.media.matchMedia('(max-width: 480px)'); //mobile
-    this.mediumResolutionQuery = this.media.matchMedia(
-      '(min-width: 481px) and (max-width: 1024px)'
+    this.mobileResolutionQuery = this.media.matchMedia('(max-width: 480px)'); //mobile
+    this.tabletLowResolutionQuery = this.media.matchMedia(
+      '(min-width: 481px) and (max-width: 767px)'
     ); //tablet
-    this.highResolutionQuery = this.media.matchMedia('(min-width: 1025px)'); //desktop
+    this.tabletHighResolutionQuery = this.media.matchMedia(
+      '(min-width: 768px) and (max-width: 1024px)'
+    ); //tablet
+    this.desktopResolutionQuery = this.media.matchMedia('(min-width: 1025px)'); //desktop
     this._mediaQueryListener = () => this.changeDetectorRef.detectChanges();
 
-    this.lowResolutionQuery.addListener(this._mediaQueryListener);
-    this.mediumResolutionQuery.addListener(this._mediaQueryListener);
-    this.highResolutionQuery.addListener(this._mediaQueryListener);
+    this.mobileResolutionQuery.addListener(this._mediaQueryListener);
+    this.tabletLowResolutionQuery.addListener(this._mediaQueryListener);
+    this.tabletHighResolutionQuery.addListener(this._mediaQueryListener);
+    this.desktopResolutionQuery.addListener(this._mediaQueryListener);
   }
 
   ngOnInit(): void {
@@ -59,21 +64,25 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     if (!!this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.lowResolutionQuery.removeListener(this._mediaQueryListener);
-    this.mediumResolutionQuery.removeListener(this._mediaQueryListener);
-    this.highResolutionQuery.removeListener(this._mediaQueryListener);
+    this.mobileResolutionQuery.removeListener(this._mediaQueryListener);
+    this.tabletLowResolutionQuery.removeListener(this._mediaQueryListener);
+    this.desktopResolutionQuery.removeListener(this._mediaQueryListener);
   }
 
-  protected isLowResolution() {
-    return this.lowResolutionQuery.matches;
+  protected isMobileResolution() {
+    return this.mobileResolutionQuery.matches;
   }
 
-  protected isMediumResolution() {
-    return this.mediumResolutionQuery.matches;
+  protected isTabletLowResolution() {
+    return this.tabletLowResolutionQuery.matches;
   }
 
-  protected isHighResolution() {
-    return this.highResolutionQuery.matches;
+  protected isTabletHighResolution() {
+    return this.tabletHighResolutionQuery.matches;
+  }
+
+  protected isDesktopResolution() {
+    return this.desktopResolutionQuery.matches;
   }
 
   protected tratarErro(erro: string, irParaPaginaErro = true) {

@@ -93,19 +93,24 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
   protected getDisplayedColumnsMediaType(): string[] {
     let ret = this.getDefColunasExibidas()
       .filter((cd) => {
-        let condMobile =
-          Util.converterUndefinedEmTrue(cd.showLowResolution) &&
-          this.isLowResolution();
-        let condDesktop =
-          Util.converterUndefinedEmTrue(cd.showHighResolution) &&
-          this.isHighResolution();
-        let condTablet =
-          Util.converterUndefinedEmTrue(cd.showMediumResolution) &&
-          this.isMediumResolution();
-        let exibeColuna =
-          Util.converterUndefinedEmTrue(condMobile) ||
+        const condMobile =
+          Util.converterUndefinedEmTrue(cd.showMobileResolution) &&
+          this.isMobileResolution();
+        const condDesktop =
+          Util.converterUndefinedEmTrue(cd.showDesktopResolution) &&
+          this.isDesktopResolution();
+        const condTabletLow =
+          Util.converterUndefinedEmTrue(cd.showTabletLowResolution) &&
+          this.isTabletLowResolution();
+        const condTabletHigh =
+          Util.converterUndefinedEmTrue(cd.showTabletHighResolution) &&
+          this.isTabletHighResolution();
+
+        const exibeColuna =
+          condMobile ||
           condDesktop ||
-          condTablet;
+          condTabletLow ||
+          condTabletHigh;
         return exibeColuna;
       })
       .map((cd) => cd.def);

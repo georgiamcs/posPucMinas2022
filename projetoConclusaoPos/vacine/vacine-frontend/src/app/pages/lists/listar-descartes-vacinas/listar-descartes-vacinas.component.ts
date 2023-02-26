@@ -47,7 +47,7 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
     return [
       { def: 'codigo' },
       { def: 'data_descarte' },
-      { def: 'resp_descarte', showLowResolution: false },
+      { def: 'resp_descarte', showMobileResolution: false },
       { def: 'vacinas' },
       { def: 'acoes' },
     ];

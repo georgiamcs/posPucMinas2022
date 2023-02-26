@@ -46,11 +46,29 @@ export class ListarVacinacoesComponent extends GenericListarRegistrosComponent<L
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'codigo' },
-      { def: 'data_aplicacao' },
-      { def: 'cliente' },
-      { def: 'aplicador_vacina', showLowResolution: false },
-      { def: 'vacinas' },
-      { def: 'vl_total', showLowResolution: false },
+      { def: 'data_aplicacao', showMobileResolution: false },
+      {
+        def: 'cliente',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      {
+        def: 'aplicador_vacina',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
+      {
+        def: 'vacinas',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      {
+        def: 'vl_total',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
       { def: 'acoes' },
     ];
   }

@@ -1,6 +1,7 @@
 export interface DefinicaoColunasExibidas {
   def: string;
-  showLowResolution?: boolean;
-  showHighResolution?: boolean;
-  showMediumResolution?: boolean;
+  showMobileResolution?: boolean;
+  showTabletLowResolution?: boolean;
+  showTabletHighResolution?: boolean;
+  showDesktopResolution?: boolean;
 }

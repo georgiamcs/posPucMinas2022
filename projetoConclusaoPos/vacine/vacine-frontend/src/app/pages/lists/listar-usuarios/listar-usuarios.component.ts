@@ -48,8 +48,8 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     return [
       { def: 'nome' },
       { def: 'cpf' },
-      { def: 'email', showLowResolution: false },
-      { def: 'tel_celular', showLowResolution: false },
+      { def: 'email', showMobileResolution: false },
+      { def: 'tel_celular', showMobileResolution: false },
       { def: 'acoes' },
     ];
   }

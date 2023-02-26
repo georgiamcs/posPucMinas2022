@@ -1,21 +1,21 @@
-<div class="example-container" [class.example-is-mobile]="isLowResolution()">
+<div class="example-container" [class.example-is-mobile]="isMobileResolution()">
   <div class="barramenu" *ngIf="servicoAcesso.isLogado(); else naologado">
     <mat-toolbar color="primary" class="example-toolbar">
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <img
-        *ngIf="isHighResolution()"
+        *ngIf="isDesktopResolution()"
         src="../../../assets/imagens/logo-horizontal-g.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <img
-        *ngIf="isMediumResolution()"
+        *ngIf="isTabletHighResolution()"
         src="../../../assets/imagens/logo-horizontal-m.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <img
-        *ngIf="isLowResolution()"
+        *ngIf="isMobileResolution() || isTabletLowResolution()"
         src="../../../assets/imagens/logo-horizontal-p.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
@@ -24,13 +24,13 @@
 
   <mat-sidenav-container
     class="example-sidenav-container"
-    [style.marginTop.px]="isLowResolution() ? 56 : 0"
+    [style.marginTop.px]="isMobileResolution() ? 56 : 0"
   >
     <mat-sidenav
       #snav
-      [opened]="isHighResolution()"
-      [mode]="isLowResolution() ? 'over' : 'side'"
-      [fixedInViewport]="isLowResolution()"
+      [opened]="isDesktopResolution()"
+      [mode]="isMobileResolution() ? 'over' : 'side'"
+      [fixedInViewport]="isMobileResolution()"
       fixedTopGap="56"
     >
       <mat-nav-list>
@@ -204,12 +204,12 @@
 <ng-template #naologado>
   <div class="barramenu">
       <img
-        *ngIf="!isLowResolution()"
+        *ngIf="!isMobileResolution()"
         src="../../../assets/imagens/logo-horizontal.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <img
-        *ngIf="isLowResolution()"
+        *ngIf="isMobileResolution()"
         src="../../../assets/imagens/logo-horizontal-p.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />

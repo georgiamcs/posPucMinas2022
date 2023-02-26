@@ -26,7 +26,7 @@ export class ListarComprasVacinaComponent extends GenericListarRegistrosComponen
       { def: 'nota_fiscal' },
       { def: 'data_compra' },
       { def: 'fornecedor_nome' },
-      { def: 'itens', showLowResolution: false },
+      { def: 'itens', showMobileResolution: false },
       { def: 'vl_total_compra' },
       { def: 'acoes' },
     ];
