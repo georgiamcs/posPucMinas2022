@@ -27,7 +27,7 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
   }
 
   protected getPathCrudUrl(): string | null {
-    return 'descartes-vacina';
+    return 'descarte-vacina';
   }
   protected getRegistrosExportar(): any[] {
     let ret = this.registros.map((r) => {

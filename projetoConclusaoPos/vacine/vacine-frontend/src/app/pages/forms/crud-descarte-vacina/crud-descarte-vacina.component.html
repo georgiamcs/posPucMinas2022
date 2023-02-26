@@ -354,9 +354,9 @@
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="defColunasExibidas"></tr>
-          <tr mat-row *matRowDef="let row; columns: defColunasExibidas"></tr>
-          <tr mat-footer-row *matFooterRowDef="defColunasExibidas"></tr>
+          <tr mat-header-row *matHeaderRowDef="getDisplayedColumnsMediaType()"></tr>
+          <tr mat-row *matRowDef="let row; columns: getDisplayedColumnsMediaType()"></tr>
+          <tr mat-footer-row *matFooterRowDef="getDisplayedColumnsMediaType()"></tr>
         </table>
       </div>
     </div>

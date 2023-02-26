@@ -1,40 +1,79 @@
-#fCodigo {
-  width: 20%;
-  min-width: 100px;
+@media (min-width: 768px) and (max-width: 1024px) {
+  #fCodigo {
+    width: 30%;
+  }
+
+  #fDataDescarte {
+    width: 40%;
+  }
+
+  #fResponsavel {
+    width: 45%;
+  }
+
+  #fLocalDescarte {
+    width: 45%;
+  }
+
+  #fLote {
+    width: 30%;
+  }
+
+  #fJustDescarte {
+    width: 60%;
+  }
+
+  #fVacina {
+    width: 50%;
+    min-width: 150px;
+  }
+
+
+  #fQtdDoses {
+    width: 35%;
+    min-width: 100px;
+  }
 }
 
-#fDataDescarte {
-  width: 22%;
-  min-width: 100px;
-}
+@media (min-width: 1025px) {
+  #fCodigo {
+    width: 20%;
+    min-width: 100px;
+  }
 
-#fResponsavel {
-  width: 45%;
-  min-width: 200px;
-}
+  #fDataDescarte {
+    width: 22%;
+    min-width: 100px;
+  }
 
-#fLocalDescarte {
-  width: 80%;
-  min-width: 150px;
-}
+  #fResponsavel {
+    width: 45%;
+    min-width: 200px;
+  }
 
-#fJustDescarte {
-  width: 80%;
-  min-width: 150px;
-}
+  #fLocalDescarte {
+    width: 80%;
+    min-width: 150px;
+  }
 
-#fVacina {
-  width: 40%;
-  min-width: 150px;
-}
-#fLote {
-  width: 20%;
-  min-width: 100px;
-}
+  #fJustDescarte {
+    width: 80%;
+    min-width: 150px;
+  }
 
-#fQtdDoses {
-  width: 25%;
-  min-width: 100px;
+  #fVacina {
+    width: 40%;
+    min-width: 150px;
+  }
+  #fLote {
+    width: 20%;
+    min-width: 100px;
+  }
+
+  #fQtdDoses {
+    width: 25%;
+    min-width: 100px;
+  }
 }
 
 .mat-column-qtd_doses_descarte {

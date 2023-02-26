@@ -74,7 +74,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
   protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'vacina' },
-      { def: 'lote' },
+      { def: 'lote', showMobileResolution: false },
       { def: 'qtd_doses_descarte' },
       { def: 'justificativa_descarte', showMobileResolution: false },
       { def: 'acoes' },
