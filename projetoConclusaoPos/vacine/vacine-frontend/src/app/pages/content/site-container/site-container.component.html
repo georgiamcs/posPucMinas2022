@@ -1,16 +1,21 @@
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+<div class="example-container" [class.example-is-mobile]="isLowResolution()">
   <div class="barramenu" *ngIf="servicoAcesso.isLogado(); else naologado">
     <mat-toolbar color="primary" class="example-toolbar">
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <img
-        *ngIf="!mobileQuery.matches"
-        src="../../../assets/imagens/logo-horizontal.jpg"
+        *ngIf="isHighResolution()"
+        src="../../../assets/imagens/logo-horizontal-g.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <img
-        *ngIf="mobileQuery.matches"
+        *ngIf="isMediumResolution()"
+        src="../../../assets/imagens/logo-horizontal-m.jpg"
+        alt="Logo da aplicação Vacine - Clínica de Imunização"
+      />
+      <img
+        *ngIf="isLowResolution()"
         src="../../../assets/imagens/logo-horizontal-p.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
@@ -19,13 +24,13 @@
 
   <mat-sidenav-container
     class="example-sidenav-container"
-    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+    [style.marginTop.px]="isLowResolution() ? 56 : 0"
   >
     <mat-sidenav
       #snav
-      [opened]="!mobileQuery.matches"
-      [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [fixedInViewport]="mobileQuery.matches"
+      [opened]="isHighResolution()"
+      [mode]="isLowResolution() ? 'over' : 'side'"
+      [fixedInViewport]="isLowResolution()"
       fixedTopGap="56"
     >
       <mat-nav-list>
@@ -199,12 +204,12 @@
 <ng-template #naologado>
   <div class="barramenu">
       <img
-        *ngIf="!mobileQuery.matches"
+        *ngIf="!isLowResolution()"
         src="../../../assets/imagens/logo-horizontal.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <img
-        *ngIf="mobileQuery.matches"
+        *ngIf="isLowResolution()"
         src="../../../assets/imagens/logo-horizontal-p.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />

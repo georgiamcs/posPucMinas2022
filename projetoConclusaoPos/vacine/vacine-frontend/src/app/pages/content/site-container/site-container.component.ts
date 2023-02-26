@@ -16,31 +16,56 @@ export class PageContainerComponent
   implements OnDestroy
 {
   private idUser: string | null | undefined;
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+
+  private lowResolutionQuery: MediaQueryList;
+  private mediumResolutionQuery: MediaQueryList;
+  private highResolutionQuery: MediaQueryList;
+
+  private _mediaQueryListener: () => void;
 
   constructor(
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected media: MediaMatcher,
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher,
     private _router: Router,
     private _deviceService: DeviceDetectorService,
     protected servicoAcesso: ControleAcessoService,
     private securityProvider: SecurityProvider
   ) {
     super(_router, _deviceService);
-    this.mobileQuery = media.matchMedia('(max-width: 480px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    this.lowResolutionQuery = media.matchMedia('(max-width: 480px)'); //mobile
+    this.mediumResolutionQuery = media.matchMedia(
+      '(min-width: 481px) and (max-width: 1024px)'
+    ); //tablet
+    this.highResolutionQuery = media.matchMedia('(min-width: 1025px)'); //desktop
+    this._mediaQueryListener = () => changeDetectorRef.detectChanges();
+
+    this.lowResolutionQuery.addListener(this._mediaQueryListener);
+    this.mediumResolutionQuery.addListener(this._mediaQueryListener);
+    this.highResolutionQuery.addListener(this._mediaQueryListener);
   }
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.lowResolutionQuery.removeListener(this._mediaQueryListener);
+    this.mediumResolutionQuery.removeListener(this._mediaQueryListener);
+    this.highResolutionQuery.removeListener(this._mediaQueryListener);
   }
 
   trocarSenha() {
     this.idUser = this.securityProvider.getUsuario()?._id;
     const link = `/trocar_minha_senha/${this.idUser}`;
     this.router.navigate([link]);
+  }
+
+  isLowResolution() {
+    return this.lowResolutionQuery.matches;
+  }
+
+  isMediumResolution() {
+    return this.mediumResolutionQuery.matches;
+  }
+
+  isHighResolution() {
+    return this.highResolutionQuery.matches;
   }
 }
