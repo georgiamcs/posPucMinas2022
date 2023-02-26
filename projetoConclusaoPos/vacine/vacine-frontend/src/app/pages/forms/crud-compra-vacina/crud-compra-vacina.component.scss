@@ -1,47 +1,48 @@
-#fNotaFiscal {
-  width: 25%;
-  min-width: 150px;
-}
+@media (min-width: 1025px) {
+  #fNotaFiscal {
+    width: 25%;
+    min-width: 150px;
+  }
 
-#fDataCompra {
-  width: 20%;
-  min-width: 150px;
-}
+  #fDataCompra {
+    width: 20%;
+    min-width: 150px;
+  }
 
-#fFornecedor {
-  width: 45%;
-  min-width: 200px;
-}
+  #fFornecedor {
+    width: 45%;
+    min-width: 200px;
+  }
 
+  #fLote {
+    width: 20%;
+    min-width: 150px;
+  }
 
-#fLote {
-  width: 20%;
-  min-width: 150px;
-}
+  #fDataValidade {
+    width: 20%;
+    min-width: 150px;
+  }
 
-#fDataValidade {
-  width: 20%;
-  min-width: 150px;
-}
+  #fVacina {
+    width: 40%;
+    min-width: 150px;
+  }
 
-#fVacina {
-  width: 40%;
-  min-width: 150px;
-}
+  #fQtdFrascos {
+    width: 18%;
+    min-width: 100px;
+  }
 
-#fQtdFrascos {
-  width: 18%;
-  min-width: 100px;
-}
+  #fQtdDoses {
+    width: 18%;
+    min-width: 100px;
+  }
 
-#fQtdDoses {
-  width: 18%;
-  min-width: 100px;
-}
-
-#fVlTotItem {
-  width: 20%;
-  min-width: 150px;
+  #fVlTotItem {
+    width: 20%;
+    min-width: 150px;
+  }
 }
 
 .mat-column-vl_total_item_compra,

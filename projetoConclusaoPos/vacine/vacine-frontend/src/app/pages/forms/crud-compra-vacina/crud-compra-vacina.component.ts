@@ -61,15 +61,26 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
   protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'vacina' },
-      { def: 'lote' },
-      { def: 'qtd_frascos', showMobileResolution: false },
+      {
+        def: 'lote',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
+      {
+        def: 'qtd_frascos',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
       { def: 'qtd_doses' },
-      { def: 'data_validade', showMobileResolution: false },
+      {
+        def: 'data_validade',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
       { def: 'vl_total_item_compra', showMobileResolution: false },
       { def: 'acoes' },
     ];
   }
-
 
   protected override preencherFormComRegistroId(registro: any): void {
     super.preencherFormComRegistroId(registro);
@@ -245,5 +256,13 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
       .reduce((acum, v) => acum + v, 0);
 
     return vlTotCompra;
+  }
+
+  protected getTextFooterTotal() {
+    if (!this.isMobileResolution()) {
+      return 'Total';
+    } else {
+      return '';
+    }
   }
 }
