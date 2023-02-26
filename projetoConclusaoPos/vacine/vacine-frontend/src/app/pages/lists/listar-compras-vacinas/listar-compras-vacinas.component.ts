@@ -24,10 +24,19 @@ export class ListarComprasVacinaComponent extends GenericListarRegistrosComponen
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
     return [
       { def: 'nota_fiscal' },
-      { def: 'data_compra' },
-      { def: 'fornecedor_nome' },
+      { def: 'data_compra', showMobileResolution: false },
+      {
+        def: 'fornecedor_nome',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
       { def: 'itens', showMobileResolution: false },
-      { def: 'vl_total_compra' },
+      {
+        def: 'vl_total_compra',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
       { def: 'acoes' },
     ];
   }
