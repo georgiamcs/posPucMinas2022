@@ -62,7 +62,6 @@ import {
 } from '@abacritt/angularx-social-login';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
-import { GenericListarRegistrosComponent } from './components/generic-listar-registros/generic-listar-registros.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
 import { LoginComponent } from './pages/acess/login/login.component';
@@ -125,7 +124,6 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     SemRegistrosComponent,
     DialogoConfirmacaoComponent,
     MensagemFeedbackComponent,
-    GenericListarRegistrosComponent,
     ListarFornecedoresComponent,
     CnpjPipe,
     TelefonePipe,

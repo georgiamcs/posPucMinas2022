@@ -1,10 +1,11 @@
 <div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <h1 class="titpage">Histórico do Controle de Estoque</h1>
-  <h2 *ngIf="!!nomeVacina"> Vacina: {{nomeVacina}}</h2>
+  <h1 class="titpage">{{ getTituloPagina() }}}</h1>
+  <h2 *ngIf="!!nomeVacina">Vacina: {{ nomeVacina }}</h2>
   <mat-progress-bar *ngIf="!carregado" mode="indeterminate"></mat-progress-bar>
   <div *ngIf="carregado">
     <div *ngIf="registros.length > 0; else semRegistros">
+      <button mat-raised-button (click)="exportarParaExcel()">Exportar</button>
       <mat-form-field class="filtlistagem">
         <mat-label>Filtro</mat-label>
         <input
@@ -21,7 +22,7 @@
           <ng-container matColumnDef="data_evento">
             <th mat-header-cell *matHeaderCellDef>Data do evento</th>
             <td mat-cell *matCellDef="let registro">
-              {{ registro.data_evento | date:'short'  }}
+              {{ registro.data_evento | date : "short" }}
             </td>
           </ng-container>
 
@@ -82,15 +83,18 @@
             *matRowDef="let row; columns: getDisplayedColumnsMediaType()"
           ></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Selecione a página"></mat-paginator>
+        <mat-paginator
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          aria-label="Selecione a página"
+        ></mat-paginator>
       </div>
     </div>
   </div>
-      <div class="barrabutton">
-        <button class="crudbutton" mat-raised-button (click)="voltar()" >
-          Voltar
-        </button>
-      </div>
+  <div class="barrabutton">
+    <button class="crudbutton" mat-raised-button (click)="voltar()">
+      Voltar
+    </button>
+  </div>
   <ng-template #semRegistros>
     <div class="semregistros">
       <vacine-sem-registros></vacine-sem-registros>

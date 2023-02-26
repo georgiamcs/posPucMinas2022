@@ -1,4 +1,4 @@
-import { ValidatorFn, Validators } from '@angular/forms';
+import * as XLSX from 'xlsx';
 
 export class Util {
   public static converterUndefinedEmNulo(valor: any): any {
@@ -15,7 +15,21 @@ export class Util {
     return value ? value : '';
   }
 
-  public static formatarValorDecimal(v: number): string {
-    return v.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+  public static formatarValorDecimal(v: number | null | undefined): string {
+
+    if (v !== null && v !== undefined) {
+      return v.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+    } else {
+      return '';
+    }
+
+  }
+
+  // Método para exportar os dados para Excel
+  public static exportToExcel(dados: any[], nomePlanilha: string, nomeArquivo: string): void {
+    const worksheet = XLSX.utils.json_to_sheet(dados, );
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, nomePlanilha);
+    XLSX.writeFile(workbook,  `${nomeArquivo}.xlsx`);
   }
 }

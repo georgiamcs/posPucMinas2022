@@ -18,12 +18,11 @@ import { Util } from 'src/app/shared/utils/util.util';
   templateUrl: './generic-listar-registros.component.html',
   styleUrls: ['./generic-listar-registros.component.scss'],
 })
-export class GenericListarRegistrosComponent<T extends EntityModel>
+export abstract class GenericListarRegistrosComponent<T extends EntityModel>
   extends GenericPageComponent
   implements AfterViewInit
 {
   protected registros: T[] = [];
-  protected defColunasExibidas: DefinicaoColunasExibidas[] = [];
   protected carregado: boolean = false;
 
   protected dataSourceMatTable: MatTableDataSource<T> =
@@ -31,7 +30,10 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   private paginator!: MatPaginator;
   private sort!: MatSort;
 
-  protected pathCrudUrl: string;
+  protected abstract getTituloPagina(): string;
+  protected abstract getRegistrosExportar(): any[];
+  protected abstract getPathCrudUrl(): string | null;
+  protected abstract getDefColunasExibidas(): DefinicaoColunasExibidas[];
 
   constructor(
     private _router: Router,
@@ -83,7 +85,7 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   }
 
   protected getDisplayedColumnsMediaType(): string[] {
-    let ret = this.defColunasExibidas
+    let ret = this.getDefColunasExibidas()
       .filter((cd) => {
         let condMobile =
           Util.converterUndefinedEmTrue(cd.showMobile) && this.isMobile();
@@ -114,24 +116,45 @@ export class GenericListarRegistrosComponent<T extends EntityModel>
   protected irParaTelaAdicionar() {
     const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
 
-    this.router.navigate([this.pathCrudUrl], state);
+    this.router.navigate([this.getPathCrudUrl()], state);
   }
 
   protected irParaTelaVisualizar(id: string) {
     const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
 
-    this.router.navigate([`${this.pathCrudUrl}/${id}`], state);
+    this.router.navigate([`${this.getPathCrudUrl()}/${id}`], state);
   }
 
   protected irParaTelaEditar(id: string) {
     const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
 
-    this.router.navigate([`${this.pathCrudUrl}/editar/${id}`], state);
+    this.router.navigate([`${this.getPathCrudUrl()}/editar/${id}`], state);
   }
 
   protected irParaTelaExcluir(id: string) {
     const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
 
-    this.router.navigate([`${this.pathCrudUrl}/excluir/${id}`], state);
+    this.router.navigate([`${this.getPathCrudUrl()}/excluir/${id}`], state);
+  }
+
+  protected exportarParaExcel() {
+    const dataAtual = new Date();
+    const ano = dataAtual.getFullYear().toString();
+    const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+    const dia = dataAtual.getDate().toString().padStart(2, '0');
+    const hora = dataAtual.getHours().toString().padStart(2, '0');
+    const minuto = dataAtual.getMinutes().toString().padStart(2, '0');
+    const segundo = dataAtual.getSeconds().toString().padStart(2, '0');
+    const dataFormatada = `${ano}${mes}${dia}-${hora}${minuto}${segundo}`;
+
+    const titulo = this.getTituloPagina()
+      .trim() // Remove espaços em branco do início e fim da string
+      .replace(/\s+/g, '-'); // Substitui múltiplos espaços por um -
+
+    Util.exportToExcel(
+      this.getRegistrosExportar(),
+      'DadosExportados',
+      `${dataFormatada}-${titulo}`
+    );
   }
 }

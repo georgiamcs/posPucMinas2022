@@ -7,6 +7,7 @@ import {
   getDescTipoEventoContEstoque,
   getDescTpMotivoControleEstVacina,
 } from 'src/app/shared/enums/estoque.enum';
+import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ControleEstoqueVacina } from './../../../shared/models/controle-estoque-vacina.model';
 
 @Component({
@@ -25,12 +26,34 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
     private activatedRoute: ActivatedRoute
   ) {
     super(__router, __deviceService, _service);
-    this.definirColunasExibidas();
     this.idVacina = this.activatedRoute.snapshot.paramMap.get('idVacina');
   }
 
-  protected definirColunasExibidas() {
-    this.defColunasExibidas = [
+  protected getTituloPagina(): string {
+    return 'Histórico do Controle de Estoque';
+  }
+
+  protected getPathCrudUrl(): string | null {
+    return '';
+  }
+
+  protected getRegistrosExportar(): any[] {
+    let ret = this.registros.map((r) => {
+      return {
+        DataEvento: new Date(r.data_evento + '').toLocaleDateString('pt-BR'),
+        TipoEvento: r.tipo_evento,
+        TipoMotivo: r.tipo_motivo,
+        DescricaoEvento: r.descricao_evento,
+        QtdItens: this.calcularQtdItens(r),
+        QtdEstoqueAntes: r.qtd_estoque_antes,
+        QtdEstoqueDepois: r.qtd_estoque_depois,
+      };
+    });
+    return ret;
+  }
+
+  protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
+    return [
       { def: 'data_evento' },
       { def: 'tipo_evento' },
       { def: 'tipo_motivo' },

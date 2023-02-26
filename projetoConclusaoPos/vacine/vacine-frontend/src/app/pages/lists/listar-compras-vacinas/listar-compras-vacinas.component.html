@@ -1,6 +1,6 @@
 <div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
-  <h1 class="titpage">Compras de Vacinas</h1>
+  <h1 class="titpage">{{getTituloPagina()}}</h1>
   <mat-progress-bar *ngIf="!carregado" mode="indeterminate"></mat-progress-bar>
   <div *ngIf="carregado">
     <div *ngIf="registros.length > 0; else semRegistros">
@@ -12,6 +12,8 @@
       >
         Adicionar Compra Vacina
       </button>
+
+      <button mat-raised-button (click)="exportarParaExcel()">Exportar</button>
 
       <mat-form-field class="filtlistagem">
         <mat-label>Filtro</mat-label>
