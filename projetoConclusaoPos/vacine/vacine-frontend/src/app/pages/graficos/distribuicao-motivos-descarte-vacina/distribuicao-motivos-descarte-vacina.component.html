@@ -3,48 +3,34 @@
     class="barramsg"
     [mensagens]="mensagens"
   ></vacine-mensagem-feedback>
-  <fieldset class="crudfieldset">
-    <legend class="titfiedlset float-none w-auto h3">
-      &nbsp;Filtro&nbsp;
-    </legend>
+  <h2 class="titpage">
+    Distribuição dos Motivos de Descarte de Vacinas
+  </h2>
 
-    <form class="crudform" [formGroup]="form">
-      <mat-form-field class="crudfield" id="fAno" appearance="fill">
-        <mat-label>Ano</mat-label>
-        <mat-select formControlName="ano">
-          <mat-option *ngFor="let a of anosDistintos" [value]="a">
-            {{ a }}
-          </mat-option>
-        </mat-select>
-        <mat-hint *ngIf="exibeHint(form, 'motivo_descarte')">
-          Selecione o ano do indicador
-        </mat-hint>
-        <mat-error
-          *ngIf="hasErroValidacao(form, 'ano', TipoErroValForm.OBRIGATORIO)"
-          >{{ getMsgErroValidacaoTipo(TipoErroValForm.REQUERIDO) }}
-        </mat-error>
-      </mat-form-field>
-      <button
-        class="btaddlistagem"
-        (click)="gerarGrafico(getValorCampoForm(form, 'ano'))"
-        mat-raised-button
-        color="primary"
-      >
-        Filtrar
-      </button>
-    </form>
-  </fieldset>
-  <div class="divgrafico">
-    <canvas
-      class="grafico"
-      baseChart
-      [type]="'pie'"
-      [datasets]="pieChartDatasets"
-      [labels]="pieChartLabels"
-      [options]="pieChartOptions"
-      [plugins]="pieChartPlugins"
-      [legend]="pieChartLegend"
-    >
-    </canvas>
-  </div>
+  <form class="crudform" [formGroup]="form">
+    <mat-form-field class="crudfield" id="fAno" appearance="fill">
+      <mat-label>Ano</mat-label>
+      <mat-select formControlName="ano" (selectionChange)="gerarGrafico()">
+        <mat-option *ngFor="let a of anosDistintos" [value]="a">
+          {{ a }}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="exibeHint(form, 'ano')">
+        Selecione o ano do indicador
+      </mat-hint>
+    </mat-form-field>
+  </form>
+</div>
+<div class="chart-wrapper">
+  <canvas
+    class="grafico"
+    baseChart
+    [type]="'pie'"
+    [datasets]="pieChartDatasets"
+    [labels]="pieChartLabels"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+    [legend]="pieChartLegend"
+  >
+  </canvas>
 </div>

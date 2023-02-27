@@ -44,11 +44,13 @@ export class DistribuicaoMotivosDescarteVacinaComponent
   registrosFiltrados: DescarteVacina[];
 
   dsDescarteSomaQtd: AgregaDescarteItens[];
-  anosDistintos: Set<number>;
+  anosDistintos: Set<string>;
   listaMotivos: string[];
   listaQtdDoses: number[];
   pieChartDatasets: any[];
   pieChartLabels: string[];
+
+  protected readonly TEXT_TODOS = "Todos";
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
@@ -64,7 +66,7 @@ export class DistribuicaoMotivosDescarteVacinaComponent
 
   protected buildForm(): void {
     this.form = this.formBuilder.group({
-      ano: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      ano: [this.TEXT_TODOS],
     });
   }
 
@@ -78,7 +80,7 @@ export class DistribuicaoMotivosDescarteVacinaComponent
       next: (lista) => {
         this.todosRegistros = lista;
         this.carregarAnos();
-        this.agregarDados();
+        this.gerarGrafico();
       },
       error: (erro) =>
         this.tratarErro(`Erro ao carregar dados => ${erro.message}`, false),
@@ -86,32 +88,34 @@ export class DistribuicaoMotivosDescarteVacinaComponent
   }
 
   protected carregarAnos() {
-    let ano: number;
+    let ano: string;
     let anosDescarte = this.todosRegistros.map((d) => {
       const data = new Date(d.data_descarte + '');
-      ano = data.getFullYear();
+      ano = data.getFullYear().toString();
       return ano;
     });
 
+    anosDescarte.unshift(this.TEXT_TODOS);
     this.anosDistintos = new Set(anosDescarte);
   }
 
-  protected gerarGrafico(ano: number) {
+  protected gerarGrafico() {
+    const ano = this.getValorCampoForm(this.form, 'ano');
     this.agregarDados(ano);
     this.chart.update();
   }
 
-  protected agregarDados(pAno?: number) {
+  protected agregarDados(pAno: string) {
     let ano: number;
     let mes: number;
     let qtdDosesDescarte: number;
     let dadoAgregadoItens: AgregaDescarteItens[] = [];
 
-    if (pAno) {
+    if (pAno != this.TEXT_TODOS) {
       this.registrosFiltrados = this.todosRegistros.filter((r) => {
         const data = new Date(r.data_descarte + '');
         ano = data.getFullYear();
-        return ano == pAno;
+        return ano == +pAno;
       });
     } else {
       this.registrosFiltrados = [...this.todosRegistros];
@@ -148,26 +152,43 @@ export class DistribuicaoMotivosDescarteVacinaComponent
       {}
     );
 
-    const agregacaoPorMotivoArray = Object.entries(agregacaoPorMotivo).map(
+    let agregacaoPorMotivoArray = Object.entries(agregacaoPorMotivo).map(
       ([motivo, qtd]) => ({
         motivo,
         qtd_doses_descarte: qtd,
       })
     );
 
-    this.listaMotivos = agregacaoPorMotivoArray.map((i) => i.motivo);
+    agregacaoPorMotivoArray = agregacaoPorMotivoArray.sort(
+      (a, b) => b.qtd_doses_descarte - a.qtd_doses_descarte
+    );
+
     this.listaQtdDoses = agregacaoPorMotivoArray.map(
       (i) => i.qtd_doses_descarte
     );
+    const totalDoses = this.listaQtdDoses.reduce((acum, i) => i + acum);
+
+    this.listaMotivos = agregacaoPorMotivoArray.map((i) => {
+      let percentMot = (i.qtd_doses_descarte / totalDoses) * 100;
+      return `${getDescMotivoDescarteVacina(i.motivo)} - ${percentMot.toFixed(
+        2
+      )}%`;
+    });
 
     this.pieChartDatasets = [{ data: this.listaQtdDoses }];
-    this.pieChartLabels = this.listaMotivos.map((i) =>
-      getDescMotivoDescarteVacina(i)
-    );
+    this.pieChartLabels = this.listaMotivos;
+    // this.pieChartLabels = this.listaMotivos.map((i) =>
+    //   getDescMotivoDescarteVacina(i)
+    // );
   }
 
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: false,
+    // plugins: {
+    //   legend: {
+    //     position: 'right',
+    //   },
+    // },
   };
 
   public pieChartLegend = true;
