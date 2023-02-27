@@ -2,7 +2,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
-  FormBuilder, Validators
+  FormBuilder,
+  Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -47,8 +48,8 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       changeDetectorRef,
       media,
       router,
-      activatedRoute,
       formBuilder,
+      activatedRoute,
       dialogoConf,
       service
     );

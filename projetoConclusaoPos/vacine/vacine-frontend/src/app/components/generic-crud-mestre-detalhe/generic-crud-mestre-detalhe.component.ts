@@ -40,8 +40,8 @@ export abstract class GenericCrudMestreDetalheComponent<
       changeDetectorRef,
       media,
       router,
-      activatedRoute,
       formBuilder,
+      activatedRoute,
       dialogoConf,
       service
     );

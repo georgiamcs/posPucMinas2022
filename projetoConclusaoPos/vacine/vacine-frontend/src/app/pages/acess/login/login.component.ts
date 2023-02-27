@@ -1,10 +1,10 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
 
-import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
@@ -18,19 +18,18 @@ import { LoginUsuario } from '../../../shared/interfaces/login-usuario.interface
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent extends GenericPageComponent {
-  form!: FormGroup;
+export class LoginComponent extends GenericPageFormComponent {
   logado: boolean = false;
 
   constructor(
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
-    private formBuilder: FormBuilder,
+    protected override formBuilder: FormBuilder,
     private serviceAcesso: ControleAcessoService,
     private serviceAutRedeSocial: SocialAuthService
   ) {
-    super(changeDetectorRef, media, router);
+    super(changeDetectorRef, media, router, formBuilder);
   }
 
   override ngOnInit(): void {

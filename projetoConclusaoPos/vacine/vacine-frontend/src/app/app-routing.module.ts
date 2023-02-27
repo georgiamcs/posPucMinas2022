@@ -4,6 +4,7 @@ import { ErroComponent } from './pages/content/erro/erro.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
 import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
+import { DistribuicaoMotivosDescarteVacinaComponent } from './pages/graficos/distribuicao-motivos-descarte-vacina/distribuicao-motivos-descarte-vacina.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
 import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
@@ -238,6 +239,14 @@ const routes: Routes = [
   {
     path: `descarte-vacina/${TipoRota.EXCLUSAO}/:id`,
     component: CrudDescarteVacinaComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+
+  //GRAFICOS
+  {
+    path: `graficos/dist-mot-desc-vacina`,
+    component: DistribuicaoMotivosDescarteVacinaComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
   },

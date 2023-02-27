@@ -62,6 +62,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { NgChartsModule } from 'ng2-charts';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
@@ -79,6 +80,7 @@ import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.co
 import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
 import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
+import { DistribuicaoMotivosDescarteVacinaComponent } from './pages/graficos/distribuicao-motivos-descarte-vacina/distribuicao-motivos-descarte-vacina.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
 import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { ListarDescarteVacinasComponent } from './pages/lists/listar-descartes-vacinas/listar-descartes-vacinas.component';
@@ -144,6 +146,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     ListarDescarteVacinasComponent,
     CrudDescarteVacinaComponent,
     PageContainerComponent,
+    DistribuicaoMotivosDescarteVacinaComponent,
   ],
   imports: [
     BrowserModule,
@@ -178,6 +181,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     MatSortModule,
     MatPaginatorModule,
     MatSidenavModule,
+    NgChartsModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

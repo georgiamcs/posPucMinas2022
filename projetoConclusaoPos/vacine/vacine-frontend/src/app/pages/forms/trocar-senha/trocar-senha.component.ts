@@ -2,19 +2,17 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
-  FormBuilder,
-  FormGroup,
-  Validators
+  FormBuilder, Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
+import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { GenericPageComponent } from '../../../components/generic-page/generic-page.component';
 import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../../../shared/enums/tipo-mensagem-feedback.enum';
@@ -25,11 +23,10 @@ import { UsuarioTrocaSenha } from '../../../shared/models/usuario-troca-senha.mo
   templateUrl: './trocar-senha.component.html',
   styleUrls: ['./trocar-senha.component.scss'],
 })
-export class TrocarSenhaComponent extends GenericPageComponent {
+export class TrocarSenhaComponent extends GenericPageFormComponent {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Cancelar';
 
-  protected form!: FormGroup;
   private registro: UsuarioTrocaSenha;
   private id?: string;
   protected nomeUsuario?: string;
@@ -38,13 +35,14 @@ export class TrocarSenhaComponent extends GenericPageComponent {
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
+
     private serviceCliente: ClienteService,
     private securityProvider: SecurityProvider,
     public dialogoConf: MatDialog
   ) {
-    super(changeDetectorRef, media, router);
+    super(changeDetectorRef, media, router, formBuilder);
     this.id = Util.converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );

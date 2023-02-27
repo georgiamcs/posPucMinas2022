@@ -1,11 +1,9 @@
-import { EntityNomeModel } from './../../shared/models/entity-nome.model';
 import { Component } from '@angular/core';
-import { AbstractControl, ValidatorFn, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
-import { Util } from 'src/app/shared/utils/util.util';
 
 @Component({
   selector: 'vacine-generic-crud-com-lookup',

@@ -31,8 +31,8 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       changeDetectorRef,
       media,
       router,
-      activatedRoute,
       formBuilder,
+      activatedRoute,
       dialogoConf,
       service
     );

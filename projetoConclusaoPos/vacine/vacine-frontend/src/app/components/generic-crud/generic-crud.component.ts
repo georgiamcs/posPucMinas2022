@@ -3,9 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn
+  FormGroup, ValidatorFn
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,14 +17,12 @@ import {
   ModoFormulario
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
-import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
-import { Util } from 'src/app/shared/utils/util.util';
 import { MENSAGEM_REGISTRO_DUPLICADO } from 'src/app/variables/constantes';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
-import { GenericPageComponent } from '../generic-page/generic-page.component';
+import { GenericPageFormComponent } from '../generic-page-form/generic-page-form.component';
 import { TipoOrigemRota } from './../../shared/enums/tipo-rota.enum';
 
 @Component({
@@ -36,11 +32,10 @@ import { TipoOrigemRota } from './../../shared/enums/tipo-rota.enum';
 })
 export abstract class GenericCrudComponent<
   T extends EntityModel
-> extends GenericPageComponent {
+> extends GenericPageFormComponent {
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
-  protected form: FormGroup;
   protected modoFormulario: ModoFormulario = ModoFormulario.INCLUSAO;
   protected lbBotaoSalvar: string | null;
   protected lbBotaoFechar: string | null;
@@ -57,25 +52,21 @@ export abstract class GenericCrudComponent<
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override formBuilder: FormBuilder,
     protected activatedRoute: ActivatedRoute,
-    protected formBuilder: FormBuilder,
     protected dialogoConf: MatDialog,
     protected service: GenericCrudService<T>
   ) {
-    super(changeDetectorRef, media, router);
+    super(changeDetectorRef, media, router, formBuilder);
     this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud();
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.buildForm();
     this.carregarDadosId();
     this.definirHabilitacaoFormulario();
   }
-
-  protected abstract buildForm(): void;
-
   protected abstract definirIdentificadoresEntidade(): void;
 
   protected preencherAtributosGenericosCrud() {
@@ -304,7 +295,10 @@ export abstract class GenericCrudComponent<
     );
   }
 
-  protected override exibeHint(form: FormGroup, nomeFormControl: string, ): boolean {
+  protected override exibeHint(
+    form: FormGroup,
+    nomeFormControl: string
+  ): boolean {
     const vlCampo = this.getValorCampoForm(form, nomeFormControl);
     return (
       !this.somenteLeitura() &&
