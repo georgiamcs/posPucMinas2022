@@ -185,7 +185,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
   }
 
   protected marcarPerfisDefaultTipoUsuario(): void {
-    const tpUser = this.getValorCampoForm('tipo');
+    const tpUser = this.getValorCampoForm(this.form, 'tipo');
     const obj = this.tiposUsuarios.find((o) => o.valor == tpUser);
     let perfisDefault;
 

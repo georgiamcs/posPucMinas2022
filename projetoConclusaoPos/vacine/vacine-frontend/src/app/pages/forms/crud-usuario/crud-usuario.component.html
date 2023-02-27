@@ -19,11 +19,11 @@
               {{ tipo.valorExibicao }}
             </mat-option>
           </mat-select>
-          <mat-hint *ngIf="exibeHint('tipo')"
+          <mat-hint *ngIf="exibeHint(form,'tipo')"
             >Selecione o tipo de usuário</mat-hint
           >
           <mat-error
-            *ngIf="hasErroValidacao('tipo', TipoErroValForm.OBRIGATORIO)"
+            *ngIf="hasErroValidacao(form,'tipo', TipoErroValForm.OBRIGATORIO)"
             >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
           </mat-error>
         </mat-form-field>
@@ -39,8 +39,8 @@
           type="text"
           mask="000.000.000-99"
         />
-        <mat-hint *ngIf="exibeHint('cpf')">Digite o CPF</mat-hint>
-        <mat-error *ngIf="hasErroValidacao('cpf', TipoErroValForm.FORMATO)"
+        <mat-hint *ngIf="exibeHint(form,'cpf')">Digite o CPF</mat-hint>
+        <mat-error *ngIf="hasErroValidacao(form,'cpf', TipoErroValForm.FORMATO)"
           >Digite o CPF com 11 dígitos
         </mat-error>
       </mat-form-field>
@@ -49,11 +49,11 @@
       <mat-form-field class="crudfield" id="fNome" appearance="fill">
         <mat-label id="lbNome">Nome*</mat-label>
         <input id="inNome" formControlName="nome" matInput type="text" />
-        <mat-hint *ngIf="exibeHint('nome')">Digite o nome</mat-hint>
-        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.OBRIGATORIO)"
+        <mat-hint *ngIf="exibeHint(form,'nome')">Digite o nome</mat-hint>
+        <mat-error *ngIf="hasErroValidacao(form,'nome', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
-        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.FORMATO)"
+        <mat-error *ngIf="hasErroValidacao(form,'nome', TipoErroValForm.FORMATO)"
           >Tamanho mínimo de 3 caracteres e máximo de 100 caracteres
         </mat-error>
       </mat-form-field>
@@ -62,12 +62,12 @@
       <mat-form-field class="crudfield" id="fEmail">
         <mat-label id="lbEmail">Email*</mat-label>
         <input id="inEmail" formControlName="email" matInput type="email" />
-        <mat-hint *ngIf="exibeHint('email')">Digite o email</mat-hint>
+        <mat-hint *ngIf="exibeHint(form,'email')">Digite o email</mat-hint>
         <mat-error
-          *ngIf="hasErroValidacao('email', TipoErroValForm.OBRIGATORIO)"
+          *ngIf="hasErroValidacao(form,'email', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
-        <mat-error *ngIf="hasErroValidacao('email', TipoErroValForm.EMAIL)"
+        <mat-error *ngIf="hasErroValidacao(form,'email', TipoErroValForm.EMAIL)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.EMAIL) }}
         </mat-error>
       </mat-form-field>
@@ -80,12 +80,12 @@
           [matDatepicker]="picker1"
           formControlName="data_nascimento"
         />
-        <mat-hint *ngIf="exibeHint('data_nascimento')"
+        <mat-hint *ngIf="exibeHint(form,'data_nascimento')"
           >Digite ou selecione a data</mat-hint
         >
         <mat-error
           *ngIf="
-            hasErroValidacao(
+            hasErroValidacao(form,
               'data_nascimento',
               TipoErroValForm.DEFINIDA_USUARIO,
               'matDatepickerParse'
@@ -96,8 +96,8 @@
         </mat-error>
         <mat-error
           *ngIf="
-            hasErroValidacao('data_compra', TipoErroValForm.REQUERIDO) &&
-            !hasErroValidacao(
+            hasErroValidacao(form,'data_compra', TipoErroValForm.REQUERIDO) &&
+            !hasErroValidacao(form,
               'data_compra',
               TipoErroValForm.DEFINIDA_USUARIO,
               'matDatepickerParse'
@@ -123,15 +123,15 @@
               matInput
               type="password"
             />
-            <mat-hint *ngIf="exibeHint('senha')"
+            <mat-hint *ngIf="exibeHint(form,'senha')"
               >Digite a senha (mínimo 5 e máximo 20 caracteres)</mat-hint
             >
             <mat-error
-              *ngIf="hasErroValidacao('senha', TipoErroValForm.OBRIGATORIO)"
+              *ngIf="hasErroValidacao(form,'senha', TipoErroValForm.OBRIGATORIO)"
               >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
             </mat-error>
             <mat-error
-              *ngIf="hasErroValidacao('senha', TipoErroValForm.FORMATO)"
+              *ngIf="hasErroValidacao(form,'senha', TipoErroValForm.FORMATO)"
               >Tamanho mínimo de 5 caracteres e máximo de 20 caracteres
             </mat-error>
           </mat-form-field>
@@ -147,20 +147,20 @@
               matInput
               type="password"
             />
-            <mat-hint *ngIf="exibeHint('confSenha')"
+            <mat-hint *ngIf="exibeHint(form,'confSenha')"
               >Digite novamente a senha</mat-hint
             >
             <mat-error
-              *ngIf="hasErroValidacao('confSenha', TipoErroValForm.OBRIGATORIO)"
+              *ngIf="hasErroValidacao(form,'confSenha', TipoErroValForm.OBRIGATORIO)"
               >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
             </mat-error>
             <mat-error
-              *ngIf="hasErroValidacao('confSenha', TipoErroValForm.FORMATO)"
+              *ngIf="hasErroValidacao(form,'confSenha', TipoErroValForm.FORMATO)"
               >Tamanho mínimo de 5 caracteres e máximo de 20 caracteres
             </mat-error>
             <mat-error
               *ngIf="
-                hasErroValidacao(
+                hasErroValidacao(form,
                   'confSenha',
                   TipoErroValForm.DEFINIDA_USUARIO,
                   'confirmasenha'
@@ -181,11 +181,11 @@
           type="text"
           mask="(00) 00000-0000"
         />
-        <mat-hint *ngIf="exibeHint('tel_celular')"
+        <mat-hint *ngIf="exibeHint(form,'tel_celular')"
           >Digite o número do celular</mat-hint
         >
         <mat-error
-          *ngIf="hasErroValidacao('tel_celular', TipoErroValForm.FORMATO)"
+          *ngIf="hasErroValidacao(form,'tel_celular', TipoErroValForm.FORMATO)"
           >O celular deve ter DD e 9 dígitos
         </mat-error>
       </mat-form-field>
@@ -200,10 +200,10 @@
           type="text"
           mask="(00) 0000-0000"
         />
-        <mat-hint *ngIf="exibeHint('tel_fixo')"
+        <mat-hint *ngIf="exibeHint(form,'tel_fixo')"
           >Digite o telefone fixo</mat-hint
         >
-        <mat-error *ngIf="hasErroValidacao('tel_fixo', TipoErroValForm.FORMATO)"
+        <mat-error *ngIf="hasErroValidacao(form,'tel_fixo', TipoErroValForm.FORMATO)"
           >O telefone deve ter DD e 8 dígitos
         </mat-error>
       </mat-form-field>
@@ -221,7 +221,7 @@
             matInput
             type="text"
           />
-          <mat-hint *ngIf="exibeHint('endereco.logradouro')"
+          <mat-hint *ngIf="exibeHint(form,'endereco.logradouro')"
             >Digite o nome (rua, avenida, etc)
           </mat-hint>
         </mat-form-field>
@@ -230,7 +230,7 @@
         <mat-form-field class="crudfield" id="fNumero">
           <mat-label id="lbNumero">Número</mat-label>
           <input id="inNumero" formControlName="numero" matInput type="text" />
-          <mat-hint *ngIf="exibeHint('endereco.numero')"
+          <mat-hint *ngIf="exibeHint(form,'endereco.numero')"
             >Digite o número
           </mat-hint>
         </mat-form-field>
@@ -244,7 +244,7 @@
             matInput
             type="text"
           />
-          <mat-hint *ngIf="exibeHint('endereco.complemento')"
+          <mat-hint *ngIf="exibeHint(form,'endereco.complemento')"
             >Digite o complemento
           </mat-hint>
         </mat-form-field>
@@ -253,7 +253,7 @@
         <mat-form-field class="crudfield" id="fCidade">
           <mat-label id="lbCidade">Cidade</mat-label>
           <input id="inCidade" formControlName="cidade" matInput type="text" />
-          <mat-hint *ngIf="exibeHint('endereco.cidade')"
+          <mat-hint *ngIf="exibeHint(form,'endereco.cidade')"
             >Digite a cidade
           </mat-hint>
         </mat-form-field>
@@ -265,7 +265,7 @@
               e
             }}</mat-option>
           </mat-select>
-          <mat-hint *ngIf="exibeHint('endereco.estado')"
+          <mat-hint *ngIf="exibeHint(form,'endereco.estado')"
             >Selecione o estado
           </mat-hint>
         </mat-form-field>
@@ -280,9 +280,9 @@
             type="text"
             mask="00000-000"
           />
-          <mat-hint *ngIf="exibeHint('endereco.cep')">Digite o CEP </mat-hint>
+          <mat-hint *ngIf="exibeHint(form,'endereco.cep')">Digite o CEP </mat-hint>
           <mat-error
-            *ngIf="hasErroValidacao('endereco.cep', TipoErroValForm.FORMATO)"
+            *ngIf="hasErroValidacao(form,'endereco.cep', TipoErroValForm.FORMATO)"
             >O CEP deve ter 8 dígitos
           </mat-error>
         </mat-form-field>
@@ -300,11 +300,11 @@
             {{ perfil.valorExibicao | titlecase }}
           </mat-list-option>
         </mat-selection-list>
-        <mat-hint *ngIf="exibeHint('perfis')"
+        <mat-hint *ngIf="exibeHint(form,'perfis')"
           >Selecione pelo menos um perfil
         </mat-hint>
         <mat-error
-          *ngIf="hasErroValidacao('perfis', TipoErroValForm.OBRIGATORIO)"
+          *ngIf="hasErroValidacao(form,'perfis', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
       </fieldset>

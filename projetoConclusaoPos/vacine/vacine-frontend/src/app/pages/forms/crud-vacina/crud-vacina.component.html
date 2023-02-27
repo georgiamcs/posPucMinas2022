@@ -9,11 +9,11 @@
       <mat-form-field class="crudfield" id="fNome" class="crudfield">
         <mat-label id="lbNome">Nome*</mat-label>
         <input id="inNome" formControlName="nome" matInput type="text" />
-        <mat-hint *ngIf="exibeHint('nome')">Digite o nome da vacina</mat-hint>
-        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.OBRIGATORIO)"
+        <mat-hint *ngIf="exibeHint(form,'nome')">Digite o nome da vacina</mat-hint>
+        <mat-error *ngIf="hasErroValidacao(form,'nome', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
-        <mat-error *ngIf="hasErroValidacao('nome', TipoErroValForm.FORMATO)"
+        <mat-error *ngIf="hasErroValidacao(form,'nome', TipoErroValForm.FORMATO)"
           >Tamanho mínimo do campo é de 3 caracteres e máximo de 100
         </mat-error>
       </mat-form-field>
@@ -26,12 +26,12 @@
           matInput
           type="text"
         />
-        <mat-hint *ngIf="exibeHint('protecao_contra')"
+        <mat-hint *ngIf="exibeHint(form,'protecao_contra')"
           >Descreva do que a vacina protege</mat-hint
         >
         <mat-error
           *ngIf="
-            hasErroValidacao('protecao_contra', TipoErroValForm.OBRIGATORIO)
+            hasErroValidacao(form,'protecao_contra', TipoErroValForm.OBRIGATORIO)
           "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
@@ -44,11 +44,11 @@
           matInput
           type="text"
         />
-        <mat-hint *ngIf="exibeHint('composicao')"
+        <mat-hint *ngIf="exibeHint(form,'composicao')"
           >Descreva de que a vacina é composta</mat-hint
         >
         <mat-error
-          *ngIf="hasErroValidacao('composicao', TipoErroValForm.OBRIGATORIO)"
+          *ngIf="hasErroValidacao(form,'composicao', TipoErroValForm.OBRIGATORIO)"
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
       </mat-form-field>
@@ -62,16 +62,15 @@
           type="text"
           currencyMask
         />
-        <mat-hint *ngIf="exibeHint('vl_atual_unit_dose', form)"
+        <mat-hint *ngIf="exibeHint(form,'vl_atual_unit_dose')"
           >Digite o valor total do item</mat-hint
         >
         <mat-error
           *ngIf="
-            hasErroValidacao(
+            hasErroValidacao(form,
               'vl_atual_unit_dose',
               TipoErroValForm.OBRIGATORIO,
-              '',
-              form
+              ''
             )
           "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
@@ -86,17 +85,17 @@
           matInput
           type="number"
         />
-        <mat-hint *ngIf="exibeHint('qtd_doses_estoque')"
+        <mat-hint *ngIf="exibeHint(form,'qtd_doses_estoque')"
           >Digite a quantidade de doses atual no estoque</mat-hint
         >
         <mat-error
           *ngIf="
-            hasErroValidacao('qtd_doses_estoque', TipoErroValForm.OBRIGATORIO)
+            hasErroValidacao(form,'qtd_doses_estoque', TipoErroValForm.OBRIGATORIO)
           "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>
         <mat-error
-          *ngIf="hasErroValidacao('qtd_doses_estoque', TipoErroValForm.LIMITE)"
+          *ngIf="hasErroValidacao(form,'qtd_doses_estoque', TipoErroValForm.LIMITE)"
           >Valor mínimo do campo é 0
         </mat-error>
       </mat-form-field>
@@ -109,12 +108,12 @@
           matInput
           type="text"
         />
-        <mat-hint *ngIf="exibeHint('justificativa_alt_estoque')"
+        <mat-hint *ngIf="exibeHint(form,'justificativa_alt_estoque')"
           >Quando o estoque é alterado, é preciso justificar a mudança</mat-hint
         >
         <mat-error
           *ngIf="
-            hasErroValidacao('justificativa_alt_estoque', TipoErroValForm.OBRIGATORIO)
+            hasErroValidacao(form,'justificativa_alt_estoque', TipoErroValForm.OBRIGATORIO)
           "
           >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
         </mat-error>

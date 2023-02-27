@@ -36,8 +36,9 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
         DataDescarte: new Date(r.data_descarte + '').toLocaleDateString(
           'pt-BR'
         ),
-        ResponsavelDescarte: r.resp_descarte,
+        MotivoDescarte: r.motivo_descarte,
         Vacinas: r.vacinas,
+        ResponsavelDescarte: r.resp_descarte,
       };
     });
     return ret;
@@ -48,11 +49,17 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
       { def: 'codigo' },
       { def: 'data_descarte', showMobileResolution: false },
       {
-        def: 'resp_descarte',
+        def: 'motivo_descarte',
         showMobileResolution: false,
         showTabletLowResolution: false,
       },
       { def: 'vacinas', showMobileResolution: false },
+      {
+        def: 'resp_descarte',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+        showTabletHighResolution: false,
+      },
       { def: 'acoes' },
     ];
   }

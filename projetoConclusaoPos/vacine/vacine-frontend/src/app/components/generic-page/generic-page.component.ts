@@ -137,11 +137,11 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected getValorCampoForm(formControlName: string, form?: FormGroup): any {
-    return this.getFormControl(formControlName, form)?.value;
+  protected getValorCampoForm(form: FormGroup, formControlName: string): any {
+    return this.getFormControl(form, formControlName)?.value;
   }
 
-  protected getFormControl(formControlName: string, form?: FormGroup): any {
+  protected getFormControl(form: FormGroup, formControlName: string): any {
     let nomesCampos = formControlName.split('.');
 
     switch (nomesCampos.length) {
@@ -172,90 +172,94 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected exibeHint(nomeFormControl: string, form?: FormGroup): boolean {
-    const vlCampo = this.getValorCampoForm(nomeFormControl, form);
+  protected exibeHint(form: FormGroup, nomeFormControl: string): boolean {
+    const vlCampo = this.getValorCampoForm(form, nomeFormControl);
     return vlCampo == null || vlCampo == undefined || vlCampo == '';
   }
 
   protected campoFormFoiEditado(
+    form: FormGroup,
     formControlName: string,
-    form?: FormGroup
   ): boolean {
-    return !!this.getFormControl(formControlName, form)?.touched;
+    return !!this.getFormControl(form, formControlName)?.touched;
   }
 
   protected recuperarErroCampoForm(
+    form: FormGroup,
     formControlName: string,
     nomeErroValidador?: string | null,
-    form?: FormGroup
   ): ValidationErrors | null {
     if (!!nomeErroValidador) {
       return Util.converterUndefinedEmNulo(
-        this.getFormControl(formControlName, form)?.errors?.[nomeErroValidador]
+        this.getFormControl(form, formControlName)?.errors?.[nomeErroValidador]
       );
     } else
       return Util.converterUndefinedEmNulo(
-        this.getFormControl(formControlName, form)?.errors
+        this.getFormControl(form, formControlName)?.errors
       );
   }
 
   protected hasErroValidacao(
+    form: FormGroup,
     nomeFormControl: string,
     tipoErroValidacao: TipoErroValidacaoFormulario,
     validacaoDefinidaUsuario?: string,
-    form?: FormGroup
+
   ): boolean {
     let exibe = false;
 
-    if (this.campoFormFoiEditado(nomeFormControl, form)) {
+    if (this.campoFormFoiEditado(form, nomeFormControl)) {
       switch (tipoErroValidacao) {
         case TipoErroValidacaoFormulario.OBRIGATORIO:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
+            this.recuperarErroCampoForm(form, nomeFormControl, 'required') !=
               null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
+            this.recuperarErroCampoForm(form, nomeFormControl, 'pattern') !=
               null;
           break;
 
         case TipoErroValidacaoFormulario.REQUERIDO:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'required', form) !=
+            this.recuperarErroCampoForm(form, nomeFormControl, 'required') !=
             null;
           break;
 
         case TipoErroValidacaoFormulario.FORMATO:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'minlength', form) !=
+            this.recuperarErroCampoForm(form, nomeFormControl, 'minlength') !=
               null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'maxlength', form) !=
+            this.recuperarErroCampoForm(form, nomeFormControl, 'maxlength') !=
               null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'pattern', form) !=
+            this.recuperarErroCampoForm(form, nomeFormControl, 'pattern') !=
               null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'mask', form) != null;
+            this.recuperarErroCampoForm(form, nomeFormControl, 'mask') != null;
           break;
 
         case TipoErroValidacaoFormulario.LIMITE:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'min', form) != null ||
-            this.recuperarErroCampoForm(nomeFormControl, 'max', form) != null;
+            this.recuperarErroCampoForm(form, nomeFormControl, 'min') !=
+              null ||
+            this.recuperarErroCampoForm(form, nomeFormControl, 'max') !=
+              null;
           break;
 
         case TipoErroValidacaoFormulario.EMAIL:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, 'email', form) != null;
+            this.recuperarErroCampoForm(form, nomeFormControl, 'email') !=
+            null;
           break;
 
         case TipoErroValidacaoFormulario.QUALQUER:
           exibe =
-            this.recuperarErroCampoForm(nomeFormControl, null, form) != null;
+            this.recuperarErroCampoForm(form, nomeFormControl, null) != null;
           break;
 
         default: //QUALQUER e DEFINIDA_USUARIO
           exibe =
             this.recuperarErroCampoForm(
+              form,
               nomeFormControl,
-              validacaoDefinidaUsuario,
-              form
+              validacaoDefinidaUsuario
             ) != null;
           break;
       }

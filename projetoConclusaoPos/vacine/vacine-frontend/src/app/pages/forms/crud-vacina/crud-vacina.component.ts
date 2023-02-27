@@ -86,9 +86,12 @@ export class CrudVacinaComponent
     const exibir =
       this.modoFormulario === ModoFormulario.ALTERACAO &&
       this.registro?.qtd_doses_estoque !=
-        this.getValorCampoForm('qtd_doses_estoque');
+        this.getValorCampoForm(this.form, 'qtd_doses_estoque');
 
-    const ctrlJust = this.getFormControl('justificativa_alt_estoque');
+    const ctrlJust = this.getFormControl(
+      this.form,
+      'justificativa_alt_estoque'
+    );
 
     if (exibir) {
       ctrlJust.setValidators(

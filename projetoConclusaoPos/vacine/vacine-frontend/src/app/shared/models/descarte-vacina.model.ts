@@ -7,5 +7,7 @@ export class DescarteVacina extends EntityModel {
   usuario_resp_descarte: RelacionamentoUsuario;
   data_descarte: Date;
   local_descarte: string;
+  motivo_descarte: string;
+  justificativa_descarte: string;
   itens_descarte: ItemDescarteVacina[];
 }

@@ -26,7 +26,13 @@
       </mat-form-field>
 
       <div class="tablistagem mat-elevation-z10">
-        <table mat-table [dataSource]="dataSourceMatTable" matSort matSortActive="data_descarte" matSortDirection="desc">
+        <table
+          mat-table
+          [dataSource]="dataSourceMatTable"
+          matSort
+          matSortActive="data_descarte"
+          matSortDirection="desc"
+        >
           <!-- Código -->
           <ng-container matColumnDef="codigo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
@@ -37,17 +43,21 @@
 
           <!-- Coluna Data Descarte  -->
           <ng-container matColumnDef="data_descarte">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data Descarte</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Data Descarte
+            </th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.data_descarte | date : "dd/MM/yyyy" }}
             </td>
           </ng-container>
 
-          <!-- Responsável Descarte -->
-          <ng-container matColumnDef="resp_descarte">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Responsável Descarte</th>
+          <!-- Coluna Motivo  -->
+          <ng-container matColumnDef="motivo_descarte">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Motivo Descarte
+            </th>
             <td mat-cell *matCellDef="let registro">
-              {{ registro.resp_descarte }}
+              {{ registro.motivo_descarte }}
             </td>
           </ng-container>
 
@@ -56,6 +66,16 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Vacinas</th>
             <td mat-cell *matCellDef="let registro">
               {{ registro.vacinas }}
+            </td>
+          </ng-container>
+
+          <!-- Responsável Descarte -->
+          <ng-container matColumnDef="resp_descarte">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Responsável Descarte
+            </th>
+            <td mat-cell *matCellDef="let registro">
+              {{ registro.resp_descarte }}
             </td>
           </ng-container>
 
@@ -96,7 +116,11 @@
             *matRowDef="let row; columns: getDisplayedColumnsMediaType()"
           ></tr>
         </table>
-        <mat-paginator class="tabpag" [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Selecione a página"></mat-paginator>
+        <mat-paginator
+          class="tabpag"
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          aria-label="Selecione a página"
+        ></mat-paginator>
       </div>
     </div>
   </div>

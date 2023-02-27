@@ -20,16 +20,16 @@
             matInput
             placeholder="Digite o email do usuário"
           />
-          <mat-hint *ngIf="exibeHint('email', form)">
+          <mat-hint *ngIf="exibeHint(form,'email')">
             Digite o email cadastrado
           </mat-hint>
           <mat-error
             *ngIf="
               hasErroValidacao(
+                form,
                 'email',
                 TipoErroValForm.OBRIGATORIO,
-                undefined,
-                form
+                undefined
               )
             "
             >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}
@@ -43,16 +43,16 @@
             matInput
             placeholder="Digite a senha"
           />
-          <mat-hint *ngIf="exibeHint('senha', form)">
+          <mat-hint *ngIf="exibeHint(form,'senha')">
             Digite a senha cadastrada
           </mat-hint>
           <mat-error
             *ngIf="
               hasErroValidacao(
+                form,
                 'senha',
                 TipoErroValForm.OBRIGATORIO,
-                undefined,
-                form
+                undefined
               )
             "
             >{{ getMsgErroValidacaoTipo(TipoErroValForm.OBRIGATORIO) }}

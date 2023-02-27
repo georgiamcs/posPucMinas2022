@@ -1,6 +1,6 @@
 import { EntityNomeModel } from './../../shared/models/entity-nome.model';
 import { Component } from '@angular/core';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidatorFn, FormGroup } from '@angular/forms';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -41,6 +41,7 @@ export abstract class GenericCrudComLookupComponent<
   }
 
   protected filtrarPeloValorAtributo(
+    form: FormGroup,
     lista: any[],
     valor: any,
     nomeFormControl: string,
@@ -63,7 +64,7 @@ export abstract class GenericCrudComLookupComponent<
           vlAtributo.trim().toLowerCase()
       );
       if (item) {
-        this.getFormControl(nomeFormControl)!.patchValue(item, {
+        this.getFormControl(form, nomeFormControl)!.patchValue(item, {
           emitEvent: false,
         });
       }

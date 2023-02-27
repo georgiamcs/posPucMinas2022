@@ -109,7 +109,7 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
         Validators.compose([
           ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
           Validators.pattern('^[0-9]*$'),
-          Validators.min(0),
+          Validators.min(1),
         ]),
       ],
       qtd_doses: [
@@ -181,12 +181,12 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
   }
 
   private setChangeFornecedorParaFiltrarValores() {
-    this.fornecedoresFiltrados = this.getFormControl(
+    this.fornecedoresFiltrados = this.getFormControl(this.form,
       this.nomeCtrlFornecedor
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
-        this.filtrarPeloValorAtributo(
+        this.filtrarPeloValorAtributo(this.form,
           this.fornecedores,
           value,
           this.nomeCtrlFornecedor,
@@ -198,6 +198,7 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
 
   protected filtrarFornecedor(value: any) {
     this.filtrarPeloValorAtributo(
+      this.form,
       this.fornecedores,
       value,
       this.nomeCtrlFornecedor,
@@ -207,12 +208,13 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
 
   private setChangeVacinaParaFiltrarValores() {
     this.vacinasFiltradas = this.getFormControl(
-      this.nomeCtrlVacina,
-      this.formItem
+      this.formItem,
+      this.nomeCtrlVacina
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
+          this.formItem,
           this.vacinas,
           value,
           this.nomeCtrlVacina,
@@ -224,14 +226,14 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
 
   protected getItemDetalheForm(): ItemCompraVacina {
     const item: ItemCompraVacina = {
-      vacina: this.getValorCampoForm('vacina', this.formItem),
-      lote: this.getValorCampoForm('lote', this.formItem),
-      qtd_frascos: this.getValorCampoForm('qtd_frascos', this.formItem),
-      qtd_doses: this.getValorCampoForm('qtd_doses', this.formItem),
-      data_validade: this.getValorCampoForm('data_validade', this.formItem),
+      vacina: this.getValorCampoForm(this.formItem, 'vacina'),
+      lote: this.getValorCampoForm(this.formItem, 'lote'),
+      qtd_frascos: this.getValorCampoForm(this.formItem, 'qtd_frascos'),
+      qtd_doses: this.getValorCampoForm(this.formItem, 'qtd_doses'),
+      data_validade: this.getValorCampoForm(this.formItem, 'data_validade'),
       vl_total_item_compra: this.getValorCampoForm(
-        'vl_total_item_compra',
-        this.formItem
+        this.formItem,
+        'vl_total_item_compra'
       ),
     };
 
@@ -240,10 +242,10 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
 
   protected override getRegistroForm(): CompraVacina {
     let compraVacina: CompraVacina = new CompraVacina();
-    compraVacina._id = this.getValorCampoForm('_id');
-    compraVacina.nota_fiscal = this.getValorCampoForm('nota_fiscal');
-    compraVacina.data_compra = this.getValorCampoForm('data_compra');
-    compraVacina.fornecedor = this.getValorCampoForm('fornecedor');
+    compraVacina._id = this.getValorCampoForm(this.form, '_id');
+    compraVacina.nota_fiscal = this.getValorCampoForm(this.form, 'nota_fiscal');
+    compraVacina.data_compra = this.getValorCampoForm(this.form, 'data_compra');
+    compraVacina.fornecedor = this.getValorCampoForm(this.form, 'fornecedor');
     compraVacina.vl_total_compra = this.calcularTotalCompra();
     compraVacina.itens_compra = this.itens;
 

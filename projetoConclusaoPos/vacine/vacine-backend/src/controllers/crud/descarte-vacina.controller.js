@@ -21,6 +21,8 @@ class DescarteVacinaController extends GenericCrudController {
     registro.codigo = obj.codigo;
     registro.usuario_resp_descarte = obj.usuario_resp_descarte;
     registro.data_descarte = obj.data_descarte;
+    registro.motivo_descarte = obj.motivo_descarte;    
+    registro.justificativa_descarte = obj.justificativa_descarte;          
     registro.local_descarte = obj.local_descarte;
     registro.itens_descarte = obj.itens_descarte;
 

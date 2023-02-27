@@ -9,6 +9,7 @@ import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
 import { RelacionamentoUsuario } from 'src/app/shared/classes/relacionamento-usuario.class';
 import { RelacionamentoVacina } from 'src/app/shared/classes/relacionamento-vacina.class';
+import { MOTIVOS_DESCARTES_VACINAS } from 'src/app/shared/enums/motivo-descarte-vacina.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { DescarteVacinaService } from './../../../services/crud/descarte-vacina/descarte-vacina.service';
@@ -38,6 +39,8 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
   protected vacinasFiltradas!: Observable<RelacionamentoVacina[]>;
 
   protected qtdMaxDoseDescartar: number | undefined;
+
+  protected motivosDescarte = MOTIVOS_DESCARTES_VACINAS;
 
   constructor(
     protected override changeDetectorRef: ChangeDetectorRef,
@@ -76,7 +79,6 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
       { def: 'vacina' },
       { def: 'lote', showMobileResolution: false },
       { def: 'qtd_doses_descarte' },
-      { def: 'justificativa_descarte', showMobileResolution: false, showTabletLowResolution: false },
       { def: 'acoes' },
     ];
   }
@@ -105,6 +107,11 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
         ]),
       ],
       data_descarte: [null, ValidatorsUtil.getValidadorObrigatorioSemEspacos()],
+      motivo_descarte: [null, Validators.required],
+      justificativa_descarte: [
+        null,
+        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+      ],
       local_descarte: [
         null,
         ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
@@ -131,10 +138,6 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
           Validators.pattern('^[0-9]*$'),
           Validators.min(1),
         ]),
-      ],
-      justificativa_descarte: [
-        null,
-        ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
       ],
     });
     this.setLookupVacina();
@@ -181,6 +184,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
   protected filtrarResponsavel(value: any) {
     this.filtrarPeloValorAtributo(
+      this.form,
       this.responsaveis,
       value,
       this.nomeCtrlResponsavel,
@@ -190,11 +194,13 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
   private setChangeRespParaFiltrarValores() {
     this.responsaveisFiltrados = this.getFormControl(
+      this.form,
       this.nomeCtrlResponsavel
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
+          this.form,
           this.responsaveis,
           value,
           this.nomeCtrlResponsavel,
@@ -206,12 +212,13 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
   private setChangeVacinaParaFiltrarValores() {
     this.vacinasFiltradas = this.getFormControl(
-      this.nomeCtrlVacina,
-      this.formItem
+      this.formItem,
+      this.nomeCtrlVacina
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
+          this.formItem,
           this.vacinas,
           value,
           this.nomeCtrlVacina,
@@ -222,10 +229,10 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
     this.subscription = this.formItem.valueChanges.subscribe((value) => {
       const ctrlDoseDescarte = this.getFormControl(
-        'qtd_doses_descarte',
-        this.formItem
+        this.formItem,
+        'qtd_doses_descarte'
       );
-      if (this.getFormControl('vacina', this.formItem).valid) {
+      if (this.getFormControl(this.formItem, 'vacina').valid) {
         this.qtdMaxDoseDescartar = value.vacina.qtd_doses_estoque;
         this.atualizarValidadores(
           ctrlDoseDescarte,
@@ -252,15 +259,11 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
   protected getItemDetalheForm() {
     const item: ItemDescarteVacina = {
-      vacina: this.getValorCampoForm('vacina', this.formItem),
-      lote: this.getValorCampoForm('lote', this.formItem),
+      vacina: this.getValorCampoForm(this.formItem, 'vacina'),
+      lote: this.getValorCampoForm(this.formItem, 'lote'),
       qtd_doses_descarte: this.getValorCampoForm(
-        'qtd_doses_descarte',
-        this.formItem
-      ),
-      justificativa_descarte: this.getValorCampoForm(
-        'justificativa_descarte',
-        this.formItem
+        this.formItem,
+        'qtd_doses_descarte'
       ),
     };
 
@@ -269,11 +272,23 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
   protected override getRegistroForm() {
     let descarte: DescarteVacina = new DescarteVacina();
-    descarte._id = this.getValorCampoForm('_id');
-    descarte.codigo = this.getValorCampoForm('codigo');
-    descarte.data_descarte = this.getValorCampoForm('data_descarte');
-    descarte.local_descarte = this.getValorCampoForm('local_descarte');
+    descarte._id = this.getValorCampoForm(this.form, '_id');
+    descarte.codigo = this.getValorCampoForm(this.form, 'codigo');
+    descarte.data_descarte = this.getValorCampoForm(this.form, 'data_descarte');
+    descarte.motivo_descarte = this.getValorCampoForm(
+      this.form,
+      'motivo_descarte'
+    );
+    descarte.justificativa_descarte = this.getValorCampoForm(
+      this.form,
+      'justificativa_descarte'
+    );
+    descarte.local_descarte = this.getValorCampoForm(
+      this.form,
+      'local_descarte'
+    );
     descarte.usuario_resp_descarte = this.getValorCampoForm(
+      this.form,
       'usuario_resp_descarte'
     );
     descarte.itens_descarte = this.itens;

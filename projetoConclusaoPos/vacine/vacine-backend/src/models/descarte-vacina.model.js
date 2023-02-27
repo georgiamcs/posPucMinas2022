@@ -25,6 +25,14 @@ const DescarteVacinaSchema = Schema(
       type: Date,
       required: true,
     },
+    motivo_descarte: {
+      type: String,
+      required: true,
+    },
+    justificativa_descarte: {
+      type: String,
+      required: true,
+    },
     local_descarte: {
       type: String,
       required: true,
@@ -60,10 +68,6 @@ const DescarteVacinaSchema = Schema(
         },
         qtd_doses_descarte: {
           type: Number,
-          required: true,
-        },
-        justificativa_descarte: {
-          type: String,
           required: true,
         },
       },

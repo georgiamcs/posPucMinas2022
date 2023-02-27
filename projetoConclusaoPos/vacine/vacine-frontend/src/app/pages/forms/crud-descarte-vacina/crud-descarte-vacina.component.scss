@@ -7,59 +7,61 @@
     width: 40%;
   }
 
+  #fMotivo {
+    width: 40%;
+  }
+
+  #fJustDescarte {
+    width: 50%;
+  }
+
   #fResponsavel {
     width: 45%;
   }
 
   #fLocalDescarte {
     width: 45%;
+  }
+
+  #fVacina {
+    width: 60%;
   }
 
   #fLote {
     width: 30%;
   }
 
-  #fJustDescarte {
-    width: 60%;
-  }
-
-  #fVacina {
-    width: 50%;
-    min-width: 150px;
-  }
-
-
   #fQtdDoses {
     width: 35%;
-    min-width: 100px;
   }
 }
 
 @media (min-width: 1025px) {
   #fCodigo {
     width: 20%;
-    min-width: 100px;
   }
 
   #fDataDescarte {
     width: 22%;
-    min-width: 100px;
   }
 
-  #fResponsavel {
-    width: 45%;
-    min-width: 200px;
-  }
-
-  #fLocalDescarte {
-    width: 80%;
-    min-width: 150px;
+  #fMotivo {
+    width: 30%;
   }
 
   #fJustDescarte {
-    width: 80%;
-    min-width: 150px;
+    width: 50%;
   }
+
+  #fResponsavel {
+    width: 40%;
+  }
+
+  #fLocalDescarte {
+    width: 45%;
+  }
+
+
 
   #fVacina {
     width: 40%;

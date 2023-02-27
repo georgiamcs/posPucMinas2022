@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListaDescarteVacinas } from 'src/app/shared/classes/lista-descarte-vacinas.class';
+import { getDescMotivoDescarteVacina } from 'src/app/shared/enums/motivo-descarte-vacina.enum';
 import { DescarteVacina } from 'src/app/shared/models/descarte-vacina.model';
 import { DescarteVacinaService } from '../../crud/descarte-vacina/descarte-vacina.service';
 import { GenericCrudService } from '../../generic/generic-crud/generic-crud.service';
@@ -27,6 +28,7 @@ export class ListaDescarteVacinaService extends GenericCrudService<ListaDescarte
     novo.data_descarte = descarteVacina.data_descarte;
     novo.local_descarte = descarteVacina.local_descarte;
     novo.resp_descarte = descarteVacina.usuario_resp_descarte.nome;
+    novo.motivo_descarte = getDescMotivoDescarteVacina(descarteVacina.motivo_descarte);
     novo.vacinas = descarteVacina.itens_descarte
       .map((i) => i.vacina.nome)
       .sort((a, b) => a!.localeCompare(b!))

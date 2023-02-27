@@ -188,11 +188,13 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   private setChangeClienteParaFiltrarValores() {
     this.clientesFiltrados = this.getFormControl(
+      this.form,
       this.nomeCtrlCliente
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
+          this.form,
           this.clientes,
           value,
           this.nomeCtrlCliente,
@@ -204,11 +206,12 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   private setChangeAplicadorParaFiltrarValores() {
     this.aplicadoresFiltrados = this.getFormControl(
+      this.form,
       this.nomeCtrlAplicador
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
-        this.filtrarPeloValorAtributo(
+        this.filtrarPeloValorAtributo(this.form,
           this.aplicadores,
           value,
           this.nomeCtrlAplicador,
@@ -220,6 +223,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   protected filtrarCliente(value: any) {
     this.filtrarPeloValorAtributo(
+      this.form,
       this.clientes,
       value,
       this.nomeCtrlCliente,
@@ -228,7 +232,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
   }
 
   protected filtrarAplicador(value: any) {
-    this.filtrarPeloValorAtributo(
+    this.filtrarPeloValorAtributo(this.form,
       this.aplicadores,
       value,
       this.nomeCtrlAplicador,
@@ -238,12 +242,13 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   private setChangeVacinaParaFiltrarValores() {
     this.vacinasFiltradas = this.getFormControl(
-      this.nomeCtrlVacina,
-      this.formItem
+      this.formItem,
+      this.nomeCtrlVacina
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
         this.filtrarPeloValorAtributo(
+          this.formItem,
           this.vacinas,
           value,
           this.nomeCtrlVacina,
@@ -253,15 +258,15 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     );
 
     this.subscription = this.formItem.valueChanges.subscribe((value) => {
-      if (this.getFormControl('vacina', this.formItem).valid) {
-        this.getFormControl('vl_item', this.formItem)?.patchValue(
+      if (this.getFormControl(this.formItem, 'vacina').valid) {
+        this.getFormControl(this.formItem, 'vl_item')?.patchValue(
           value.vacina.vl_atual_unit_dose,
           {
             emitEvent: false,
           }
         );
       } else {
-        this.getFormControl('vl_item', this.formItem)?.patchValue(null, {
+        this.getFormControl(this.formItem, 'vl_item')?.patchValue(null, {
           emitEvent: false,
         });
       }
@@ -270,10 +275,10 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   protected getItemDetalheForm(): ItemVacinacao {
     const item: ItemVacinacao = {
-      vacina: this.getValorCampoForm('vacina', this.formItem),
-      lote: this.getValorCampoForm('lote', this.formItem),
-      data_validade: this.getValorCampoForm('data_validade', this.formItem),
-      vl_item: this.getValorCampoForm('vl_item', this.formItem),
+      vacina: this.getValorCampoForm(this.formItem, 'vacina'),
+      lote: this.getValorCampoForm(this.formItem, 'lote'),
+      data_validade: this.getValorCampoForm(this.formItem, 'data_validade'),
+      vl_item: this.getValorCampoForm(this.formItem, 'vl_item'),
     };
 
     return item;
@@ -281,11 +286,18 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   protected override getRegistroForm(): Vacinacao {
     let vacinacao: Vacinacao = new Vacinacao();
-    vacinacao._id = this.getValorCampoForm('_id');
-    vacinacao.codigo = this.getValorCampoForm('codigo');
-    vacinacao.data_aplicacao = this.getValorCampoForm('data_aplicacao');
-    vacinacao.usuario_cliente = this.getValorCampoForm('usuario_cliente');
+    vacinacao._id = this.getValorCampoForm(this.form, '_id');
+    vacinacao.codigo = this.getValorCampoForm(this.form, 'codigo');
+    vacinacao.data_aplicacao = this.getValorCampoForm(
+      this.form,
+      'data_aplicacao'
+    );
+    vacinacao.usuario_cliente = this.getValorCampoForm(
+      this.form,
+      'usuario_cliente'
+    );
     vacinacao.usuario_aplicador_vacina = this.getValorCampoForm(
+      this.form,
       'usuario_aplicador_vacina'
     );
     vacinacao.vl_total = this.calcularTotal();
