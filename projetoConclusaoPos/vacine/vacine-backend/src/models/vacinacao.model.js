@@ -90,6 +90,11 @@ const VacinacaSchema = Schema(
           type: Date,
           required: true,
         },
+        qtd_doses: {
+          type: Number,
+          required: true,
+          default: 1
+        },
         vl_item: {
           type: Number,
           required: true,

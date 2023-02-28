@@ -1,0 +1,33 @@
+<div class="container">
+  <vacine-mensagem-feedback
+    class="barramsg"
+    [mensagens]="mensagens"
+  ></vacine-mensagem-feedback>
+  <h2 class="titpage">
+    Doses Descartadas x Compradas x Aplicadas
+  </h2>
+
+  <form class="crudform" [formGroup]="form">
+    <mat-form-field class="crudfield" id="fAno" appearance="fill">
+      <mat-label>Ano</mat-label>
+      <mat-select formControlName="ano" (selectionChange)="gerarGrafico()">
+        <mat-option *ngFor="let a of anosDistintos" [value]="a">
+          {{ a }}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="exibeHint(form, 'ano')">
+        Selecione o ano do indicador
+      </mat-hint>
+    </mat-form-field>
+  </form>
+</div>
+<div class="chart-wrapper">
+<div style="display: block;">
+  <canvas baseChart class = 'grafico'
+    [type]="'line'"
+    [data]="getLineChartData()"
+    [options]="lineChartOptions"
+    [legend]="lineChartLegend">
+  </canvas>
+</div>
+</div>

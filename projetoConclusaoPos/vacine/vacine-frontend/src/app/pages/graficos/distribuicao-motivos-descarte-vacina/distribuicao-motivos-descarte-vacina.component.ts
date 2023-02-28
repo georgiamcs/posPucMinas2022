@@ -1,10 +1,8 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
   ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
+  Component, OnInit,
+  ViewChild
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +10,6 @@ import { ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
 import { getDescMotivoDescarteVacina } from 'src/app/shared/enums/motivo-descarte-vacina.enum';
-import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { DescarteVacinaService } from './../../../services/crud/descarte-vacina/descarte-vacina.service';
 import { DescarteVacina } from './../../../shared/models/descarte-vacina.model';
 
@@ -23,11 +20,7 @@ class AgregaDescarteItens {
   qtd_doses_descarte: number;
 }
 
-class AgregaQtdDescartePorMotivo {
-  [motivo: string]: number;
-}
-
-interface AgregacaoPorMotivo {
+interface AgregaQtdDescartePorMotivo {
   [motivo: string]: number;
 }
 
@@ -38,7 +31,7 @@ interface AgregacaoPorMotivo {
 })
 export class DistribuicaoMotivosDescarteVacinaComponent
   extends GenericPageFormComponent
-  implements OnInit, OnDestroy
+  implements OnInit
 {
   todosRegistros: DescarteVacina[];
   registrosFiltrados: DescarteVacina[];
@@ -50,7 +43,7 @@ export class DistribuicaoMotivosDescarteVacinaComponent
   pieChartDatasets: any[];
   pieChartLabels: string[];
 
-  protected readonly TEXT_TODOS = "Todos";
+  protected readonly TEXT_TODOS = 'Todos';
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
@@ -63,6 +56,18 @@ export class DistribuicaoMotivosDescarteVacinaComponent
   ) {
     super(changeDetectorRef, media, router, formBuilder);
   }
+
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: false,
+    // plugins: {
+    //   legend: {
+    //     position: 'right',
+    //   },
+    // },
+  };
+
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
 
   protected buildForm(): void {
     this.form = this.formBuilder.group({
@@ -142,7 +147,7 @@ export class DistribuicaoMotivosDescarteVacinaComponent
     }
 
     const agregacaoPorMotivo = dadoAgregadoItens.reduce(
-      (agregacao: AgregacaoPorMotivo, item) => {
+      (agregacao: AgregaQtdDescartePorMotivo, item) => {
         if (!agregacao[item.motivo]) {
           agregacao[item.motivo] = 0;
         }
@@ -181,16 +186,4 @@ export class DistribuicaoMotivosDescarteVacinaComponent
     //   getDescMotivoDescarteVacina(i)
     // );
   }
-
-  public pieChartOptions: ChartOptions<'pie'> = {
-    responsive: false,
-    // plugins: {
-    //   legend: {
-    //     position: 'right',
-    //   },
-    // },
-  };
-
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
 }

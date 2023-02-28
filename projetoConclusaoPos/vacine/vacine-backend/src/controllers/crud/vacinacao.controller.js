@@ -105,9 +105,11 @@ class VacinacaoController extends GenericCrudController {
         let qtd_estoque_antes = vacina.qtd_doses_estoque;
 
         if (tipoAtualizacao == cnst.TIPO_ATUALIZACAO_ESTOQUE.ADICIONAR) {
-          vacina.qtd_doses_estoque = vacina.qtd_doses_estoque + 1;
+          vacina.qtd_doses_estoque =
+            vacina.qtd_doses_estoque + element.qtd_doses;
         } else if (tipoAtualizacao == cnst.TIPO_ATUALIZACAO_ESTOQUE.REMOVER) {
-          vacina.qtd_doses_estoque = vacina.qtd_doses_estoque - 1;
+          vacina.qtd_doses_estoque =
+            vacina.qtd_doses_estoque - element.qtd_doses;
         } else {
           throw new Error(
             `Tipo de atualização de estoque inválida: ${tipoAtualizacao}`

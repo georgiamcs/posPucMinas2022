@@ -1,0 +1,49 @@
+.chart-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5%;
+}
+
+.fieldset-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#fAno {
+  width: 250px;
+}
+
+@media (max-width: 467px) {
+  .grafico {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (min-width: 468px) and (max-width: 767px) {
+  .grafico {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grafico {
+    width: 600px;
+    height: 600px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .grafico {
+    width: 800px;
+    height: 800px;
+  }
+}
+
+

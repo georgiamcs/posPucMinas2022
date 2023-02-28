@@ -4,4 +4,5 @@ export class ItemVacinacao {
   lote: string;
   data_validade: Date;
   vl_item: number;
+  qtd_doses?: number;
 }

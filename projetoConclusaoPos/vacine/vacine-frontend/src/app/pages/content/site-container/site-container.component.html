@@ -140,14 +140,27 @@
 
             <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
               <button
-                routerLink="/graficos/dist-mot-desc-vacina/"
+                routerLink="/graficos/dist-mot-desc-vacina"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
-                Relatórios
+                Gráfico Motivos Descarte
+              </button>
+            </li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
+              <button
+                routerLink="/graficos/relac-doses-vacina"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Gráfico Doses Vacinas
               </button>
             </li>
 
