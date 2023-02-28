@@ -81,6 +81,7 @@ import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.compo
 import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
 import { DistribuicaoMotivosDescarteVacinaComponent } from './pages/graficos/distribuicao-motivos-descarte-vacina/distribuicao-motivos-descarte-vacina.component';
+import { RelacaoDosesCompradasAplicadasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-aplicadas-descartadas/relacao-doses-compradas-aplicadas-descartadas.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
 import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { ListarDescarteVacinasComponent } from './pages/lists/listar-descartes-vacinas/listar-descartes-vacinas.component';
@@ -94,7 +95,6 @@ import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 import { FORMATO_DATA_APP } from './variables/constantes';
-import { RelacaoDosesCompradasVendidasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-vendidas-descartadas/relacao-doses-compradas-vendidas-descartadas.component';
 
 registerLocaleData(ptBr);
 
@@ -148,7 +148,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     CrudDescarteVacinaComponent,
     PageContainerComponent,
     DistribuicaoMotivosDescarteVacinaComponent,
-    RelacaoDosesCompradasVendidasDescartadasComponent,
+    RelacaoDosesCompradasAplicadasDescartadasComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
-import { Vacinacao } from './../../../shared/models/vacinacao.model';
-import { VacinacaoService } from './../../../services/crud/vacinacao/vacinacao.service';
-import { CompraVacina } from './../../../shared/models/compra-vacina.model';
-import { CompraVacinaService } from './../../../services/crud/compra-vacina/compra-vacina.service';
+import { Vacinacao } from '../../../shared/models/vacinacao.model';
+import { VacinacaoService } from '../../../services/crud/vacinacao/vacinacao.service';
+import { CompraVacina } from '../../../shared/models/compra-vacina.model';
+import { CompraVacinaService } from '../../../services/crud/compra-vacina/compra-vacina.service';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -22,11 +22,11 @@ interface KeyMesValueQtdDose {
 }
 
 @Component({
-  selector: 'vacine-relacao-doses-compradas-vendidas-descartadas',
-  templateUrl: './relacao-doses-compradas-vendidas-descartadas.component.html',
-  styleUrls: ['./relacao-doses-compradas-vendidas-descartadas.component.scss'],
+  selector: 'vacine-relacao-doses-compradas-aplicadas-descartadas',
+  templateUrl: './relacao-doses-compradas-aplicadas-descartadas.component.html',
+  styleUrls: ['./relacao-doses-compradas-aplicadas-descartadas.component.scss'],
 })
-export class RelacaoDosesCompradasVendidasDescartadasComponent extends GenericPageFormComponent {
+export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericPageFormComponent {
   // private readonly arrayVazioMeses = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   todosDescartes: DescarteVacina[] = [];

@@ -24,7 +24,7 @@ import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-us
 import { ListarVacinasComponent } from './pages/lists/listar-vacinas/listar-vacinas.component';
 import { Acesso } from './shared/classes/acesso.class';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
-import { RelacaoDosesCompradasVendidasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-vendidas-descartadas/relacao-doses-compradas-vendidas-descartadas.component';
+import { RelacaoDosesCompradasAplicadasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-aplicadas-descartadas/relacao-doses-compradas-aplicadas-descartadas.component';
 
 const routes: Routes = [
   //HOME
@@ -253,7 +253,7 @@ const routes: Routes = [
   },
   {
     path: `graficos/relac-doses-vacina`,
-    component: RelacaoDosesCompradasVendidasDescartadasComponent,
+    component: RelacaoDosesCompradasAplicadasDescartadasComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
   },
