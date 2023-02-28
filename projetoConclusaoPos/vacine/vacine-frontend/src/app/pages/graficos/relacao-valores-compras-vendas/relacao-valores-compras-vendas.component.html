@@ -3,9 +3,7 @@
     class="barramsg"
     [mensagens]="mensagens"
   ></vacine-mensagem-feedback>
-  <h2 class="titpage">
-    Valores de Compras x Vendas de Vacinas
-  </h2>
+  <h2 class="titpage">Valores de Compras x Vendas de Vacinas</h2>
 
   <form class="crudform" [formGroup]="form">
     <mat-form-field class="crudfield" id="fAno" appearance="fill">
@@ -20,14 +18,17 @@
       </mat-hint>
     </mat-form-field>
   </form>
-</div>
-<div class="chart-wrapper">
-<div style="display: block;">
-  <canvas baseChart class = 'grafico'
-    [type]="'line'"
-    [data]="getLineChartData()"
-    [options]="lineChartOptions"
-    [legend]="lineChartLegend">
-  </canvas>
-</div>
+  <div class="chart-wrapper">
+    <div style="display: block">
+      <canvas
+        baseChart
+        class="grafico"
+        [type]="'line'"
+        [data]="getLineChartData()"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"
+      >
+      </canvas>
+    </div>
+  </div>
 </div>

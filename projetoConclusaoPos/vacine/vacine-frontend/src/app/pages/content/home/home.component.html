@@ -1,9 +1,9 @@
 <!-- //TODO: Fazer cars explicando os menus e dando acesso aos itens de menu de acordo com o perfil do usuario -->
-<div>
+<div class="container-home">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
   <vacine-login *ngIf="!servicoAcesso.isLogado()"></vacine-login>
   <br />
-  <span *ngIf="servicoAcesso.isLogado()"
+  <!-- <span *ngIf="servicoAcesso.isLogado()"
     ><p class="ms-5">
       Bem vindo(a)
       <span class="fw-bold text-capitalize">{{
@@ -11,5 +11,5 @@
       }}</span
       >!
     </p></span
-  >
+  > -->
 </div>

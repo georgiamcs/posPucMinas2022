@@ -20,16 +20,6 @@ module.exports = {
     // Apply strategy to passport
     PassportStrategy.applyPassportStrategy(passport);
 
-    //Levantando o angular
-    app.use(
-      express.static(
-        path.join(__dirname, "../../../vacine-frontend/dist", "vacine")
-      )
-    );
-    app.get("/*", function (req, res) {
-      res.sendFile(
-        path.join(__dirname, "../../../vacine-frontend/dist", "vacine", "index.html")
-      );
-    });
+
   },
 };

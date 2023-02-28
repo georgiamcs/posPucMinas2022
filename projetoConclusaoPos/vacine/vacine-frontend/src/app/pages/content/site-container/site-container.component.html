@@ -1,9 +1,9 @@
-<div class="example-container" [class.example-is-mobile]="isMobileResolution()">
+<div class="site-container" [class.site-is-mobile]="isMobileResolution()">
   <div
     class="barramenu border-bottom my-3"
     *ngIf="servicoAcesso.isLogado(); else naologado"
   >
-    <mat-toolbar color="primary" class="example-toolbar">
+    <mat-toolbar color="primary" class="site-toolbar">
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
@@ -22,10 +22,54 @@
         src="../../../assets/imagens/logo-horizontal-p.jpg"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
+      <ul class="navbar-nav navbar-right ms-auto wrapper-conta">
+        <li class="nav-item" ngbDropdown>
+          <a
+            class="nav-link"
+            tabindex="0"
+            ngbDropdownToggle
+            id="navbarDropdown1"
+            role="button"
+          >
+            <button
+              mat-fab
+              color="primary"
+              aria-label="Example icon button with a delete icon"
+            >
+              <mat-icon>account_circle</mat-icon>
+            </button>
+          </a>
+          <span
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdown1"
+            class="dropdown-menu dropdown-menu-end"
+            display="dynamic"
+          >
+            <a
+              *ngIf="!servicoAcesso.isLogado()"
+              routerLink="/login"
+              ngbDropdownItem
+              >&nbsp;Login
+            </a>
+            <a
+              *ngIf="servicoAcesso.isLogado()"
+              ngbDropdownItem
+              (click)="trocarSenha()"
+              >&nbsp;Alterar Senha
+            </a>
+            <a
+              *ngIf="servicoAcesso.isLogado()"
+              ngbDropdownItem
+              routerLink="/logout/"
+              ><i class="bi bi-door-open-fill"></i>&nbsp;Sair do Sistema</a
+            >
+          </span>
+        </li>
+      </ul>
     </mat-toolbar>
   </div>
 
-  <mat-sidenav-container class="example-sidenav-container">
+  <mat-sidenav-container class="site-sidenav-container">
     <mat-sidenav
       #snav
       [opened]="isDesktopResolution() && servicoAcesso.isLogado()"
@@ -181,6 +225,7 @@
               >
                 Gráfico Valores Vacinas
               </button>
+            </li>
 
             <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
               <button
@@ -194,48 +239,11 @@
                 Gráfico Doses Vacinas
               </button>
             </li>
-
-            <li *ngIf="servicoAcesso.isAdmin()" mat-list-item class="border-top my-3"></li>
-
-            <li mat-list-item class="mb-1" *ngIf="!servicoAcesso.isLogado()">
-              <button
-                routerLink="/login"
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#account-collapse"
-                aria-expanded="false"
-              >
-                Login
-              </button>
-            </li>
-
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
-              <button
-                routerLink="/logout"
-                routerLinkActive="active"
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#account-collapse"
-                aria-expanded="false"
-              >
-                Logout
-              </button>
-            </li>
-
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
-              <button
-                (click)="trocarSenha()"
-                routerLinkActive="active"
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#account-collapse"
-                aria-expanded="false"
-              >
-                Trocar Senha
-              </button>
-            </li>
-
-            <li *ngIf="servicoAcesso.isAdmin()" mat-list-item class="border-top my-3"></li>
+            <li
+              *ngIf="servicoAcesso.isAdmin()"
+              mat-list-item
+              class="border-top my-3"
+            ></li>
 
             <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
               <button
@@ -249,7 +257,6 @@
                 Minhas Vacinações
               </button>
             </li>
-
           </ul>
         </div>
       </mat-nav-list>

@@ -3,9 +3,7 @@
     class="barramsg"
     [mensagens]="mensagens"
   ></vacine-mensagem-feedback>
-  <h2 class="titpage">
-    Distribuição dos Motivos de Descarte de Vacinas
-  </h2>
+  <h2 class="titpage">Distribuição dos Motivos de Descarte de Vacinas</h2>
 
   <form class="crudform" [formGroup]="form">
     <mat-form-field class="crudfield" id="fAno" appearance="fill">
@@ -20,17 +18,17 @@
       </mat-hint>
     </mat-form-field>
   </form>
-</div>
-<div class="chart-wrapper">
-  <canvas
-    class="grafico"
-    baseChart
-    [type]="'pie'"
-    [datasets]="pieChartDatasets"
-    [labels]="pieChartLabels"
-    [options]="pieChartOptions"
-    [plugins]="pieChartPlugins"
-    [legend]="pieChartLegend"
-  >
-  </canvas>
+  <div class="chart-wrapper">
+    <canvas
+      class="grafico"
+      baseChart
+      [type]="'pie'"
+      [datasets]="pieChartDatasets"
+      [labels]="pieChartLabels"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend"
+    >
+    </canvas>
+  </div>
 </div>

@@ -10,7 +10,6 @@ export let browserRefresh = false;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
-  title = 'vacine-frontend';
   subscription: Subscription;
 
   constructor(private router: Router) {
