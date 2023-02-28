@@ -4,8 +4,8 @@
   "description": "Projeto de Conclusão da Pós Graduação na PUC-Minas - Desenvolvimento Full Stack - Clínica de Vacinação Vacine",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Geórgia Maria Carvalho de Sousa Galvão",
