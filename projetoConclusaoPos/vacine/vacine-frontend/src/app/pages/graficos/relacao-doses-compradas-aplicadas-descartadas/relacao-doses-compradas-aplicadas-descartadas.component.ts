@@ -27,7 +27,6 @@ interface KeyMesValueQtdDose {
   styleUrls: ['./relacao-doses-compradas-aplicadas-descartadas.component.scss'],
 })
 export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericPageFormComponent {
-  // private readonly arrayVazioMeses = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   todosDescartes: DescarteVacina[] = [];
   descartesFiltrados: DescarteVacina[] = [];
@@ -315,86 +314,5 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
     Object.entries(vacinacoesAgregMes).forEach(([mes, qtd]) => {
       this.dataVacinacoes[+mes] = qtd;
     });
-
-    // this.descartesFiltrados = this.todosDescartes.filter((r) => {
-    //   const data = new Date(r.data_descarte + '');
-    //   ano = data.getFullYear();
-    //   return ano == pAno;
-    // });
-
-    // this.comprasFiltradas = this.todasCompras.filter((r) => {
-    //   const data = new Date(r.data_compra + '');
-    //   ano = data.getFullYear();
-    //   return ano == pAno;
-    // });
-
-    // this.vacinacoesFiltradas = this.todasVacinacoes.filter((r) => {
-    //   const data = new Date(r.data_aplicacao + '');
-    //   ano = data.getFullYear();
-    //   return ano == pAno;
-    // });
-
-    // for (let index = 0; index < this.descartesFiltrados.length; index++) {
-    //   const r = this.descartesFiltrados[index];
-    //   const data = new Date(r.data_descarte + '');
-
-    //   ano = data.getFullYear();
-    //   mes = data.getMonth();
-    //   qtdTotalDoses = r.itens_descarte.reduce(
-    //     (soma, i) => soma + i.qtd_doses_descarte,
-    //     0
-    //   );
-
-    //   const i = new AgregaQtdDoses();
-    //   i.ano = ano;
-    //   i.mes = mes;
-    //   i.qtd_doses = qtdTotalDoses;
-
-    //   descartesAgregItens.push(i);
-    // }
-
-    // const descartesAgregMes = descartesAgregQtdDoses.reduce(
-    //   (agregacao: KeyMesValconst descartesAgregMes = ueQtdDose, item) => {
-    //     if (!agregacao[item.mes]) {
-    //       agregacao[item.mes] = 0;
-    //     }
-    //     agregacao[item.mes] += item.qtd_doses;
-    //     return agregacao;
-    //   },
-    //   {}
-    // );
-
-    // let descartesAgregMesArray = Object.entries(descartesAgregMes).map(
-    //   ([mes, qtd]) => ({
-    //     mes,
-    //     qtd_doses: qtd,
-    //   })
-    // );
-
-    // descartesAgregMesArray.forEach((e) => {});
-
-    // descartesAgregMesArray = descartesAgregMesArray.sort(
-    //   (a, b) => +a.mes - +b.mes
-    // );
-
-    // this.dataDescartes = [...descartesAgregMesArray];
-
-    // this.listaQtdDoses = agregacaoPorMotivoArray.map(
-    //   (i) => i.qtd_doses_descarte
-    // );
-    // const totalDoses = this.listaQtdDoses.reduce((acum, i) => i + acum);
-
-    // this.listaMotivos = agregacaoPorMotivoArray.map((i) => {
-    //   let percentMot = (i.qtd_doses_descarte / totalDoses) * 100;
-    //   return `${getDescMotivoDescarteVacina(i.motivo)} - ${percentMot.toFixed(
-    //     2
-    //   )}%`;
-    // });
-
-    // this.pieChartDatasets = [{ data: this.listaQtdDoses }];
-    // this.pieChartLabels = this.listaMotivos;
-    // this.pieChartLabels = this.listaMotivos.map((i) =>
-    //   getDescMotivoDescarteVacina(i)
-    // );
   }
 }
