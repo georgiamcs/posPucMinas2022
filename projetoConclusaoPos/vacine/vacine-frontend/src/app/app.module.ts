@@ -95,6 +95,7 @@ import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 import { FORMATO_DATA_APP } from './variables/constantes';
+import { RelacaoValoresComprasVendasComponent } from './pages/graficos/relacao-valores-compras-vendas/relacao-valores-compras-vendas.component';
 
 registerLocaleData(ptBr);
 
@@ -149,6 +150,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     PageContainerComponent,
     DistribuicaoMotivosDescarteVacinaComponent,
     RelacaoDosesCompradasAplicadasDescartadasComponent,
+    RelacaoValoresComprasVendasComponent,
   ],
   imports: [
     BrowserModule,

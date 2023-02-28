@@ -1,3 +1,4 @@
+import { RelacaoValoresComprasVendasComponent } from './pages/graficos/relacao-valores-compras-vendas/relacao-valores-compras-vendas.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErroComponent } from './pages/content/erro/erro.component';
@@ -217,19 +218,19 @@ const routes: Routes = [
     path: 'descartes-vacinas',
     component: ListarDescarteVacinasComponent,
     canActivate: [AuthenticatedGuard],
-    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },
   {
     path: 'descarte-vacina',
     component: CrudDescarteVacinaComponent,
     canActivate: [AuthenticatedGuard],
-    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },
   {
     path: 'descarte-vacina/:id',
     component: CrudDescarteVacinaComponent,
     canActivate: [AuthenticatedGuard],
-    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINACAO) },
   },
   {
     path: `descarte-vacina/${TipoRota.ALTERACAO}/:id`,
@@ -254,6 +255,12 @@ const routes: Routes = [
   {
     path: `graficos/relac-doses-vacina`,
     component: RelacaoDosesCompradasAplicadasDescartadasComponent,
+    canActivate: [AuthenticatedGuard],
+    data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
+  },
+  {
+    path: `graficos/relac-valores-vacina`,
+    component: RelacaoValoresComprasVendasComponent,
     canActivate: [AuthenticatedGuard],
     data: { perfis: Acesso.getListaPerfilPorTema(Tema.VACINA) },
   },

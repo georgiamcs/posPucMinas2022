@@ -1,5 +1,8 @@
 <div class="example-container" [class.example-is-mobile]="isMobileResolution()">
-  <div class="barramenu border-bottom my-3" *ngIf="servicoAcesso.isLogado(); else naologado">
+  <div
+    class="barramenu border-bottom my-3"
+    *ngIf="servicoAcesso.isLogado(); else naologado"
+  >
     <mat-toolbar color="primary" class="example-toolbar">
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
@@ -22,9 +25,7 @@
     </mat-toolbar>
   </div>
 
-  <mat-sidenav-container
-    class="example-sidenav-container"
-  >
+  <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav
       #snav
       [opened]="isDesktopResolution() && servicoAcesso.isLogado()"
@@ -33,10 +34,26 @@
       fixedTopGap="56"
     >
       <mat-nav-list>
-        <div class="flex-shrink-0 p-3 bg-white" style="width: 220px">
+        <div class="flex-shrink-0 p-3 bg-white" style="width: 250px">
           <ul class="list-unstyled ps-0">
             <li
               mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorUsuario()"
+            >
+              <button
+                routerLink="/usuarios"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#usuarios-collapse"
+                aria-expanded="true"
+              >
+                Usuários
+              </button>
+            </li>
+
+            <li
               mat-list-item
               class="mb-1"
               *ngIf="servicoAcesso.isCadastradorVacinacao()"
@@ -52,6 +69,32 @@
                 Vacinação
               </button>
             </li>
+
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorVacinacao()"
+            >
+              <button
+                routerLink="/descartes-vacinas"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Descartes Vacinas
+              </button>
+            </li>
+
+            <li
+              *ngIf="
+                servicoAcesso.isCadastradorUsuario() ||
+                servicoAcesso.isCadastradorVacinacao()
+              "
+              mat-list-item
+              class="border-top my-3"
+            ></li>
 
             <li
               mat-list-item
@@ -73,34 +116,17 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorVacina()"
+              *ngIf="servicoAcesso.isCadastradorFornecedor()"
             >
               <button
-                routerLink="/descartes-vacinas"
+                routerLink="/fornecedores"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
+                data-bs-target="#dashboard-collapse"
                 aria-expanded="false"
               >
-                Descartes Vacinas
-              </button>
-            </li>
-
-            <li
-              mat-list-item
-              class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorUsuario()"
-            >
-              <button
-                routerLink="/usuarios"
-                routerLinkActive="active"
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#usuarios-collapse"
-                aria-expanded="true"
-              >
-                Usuários
+                Fornecedor
               </button>
             </li>
 
@@ -122,21 +148,14 @@
             </li>
 
             <li
+              *ngIf="
+                servicoAcesso.isCadastradorVacina() ||
+                servicoAcesso.isCadastradorFornecedor() ||
+                servicoAcesso.isCadastradorCompra()
+              "
               mat-list-item
-              class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorFornecedor()"
-            >
-              <button
-                routerLink="/fornecedores"
-                routerLinkActive="active"
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#dashboard-collapse"
-                aria-expanded="false"
-              >
-                Fornecedor
-              </button>
-            </li>
+              class="border-top my-3"
+            ></li>
 
             <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
               <button
@@ -153,6 +172,18 @@
 
             <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
               <button
+                routerLink="/graficos/relac-valores-vacina"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Gráfico Valores Vacinas
+              </button>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
+              <button
                 routerLink="/graficos/relac-doses-vacina"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
@@ -164,7 +195,7 @@
               </button>
             </li>
 
-            <li mat-list-item class="border-top my-3"></li>
+            <li *ngIf="servicoAcesso.isAdmin()" mat-list-item class="border-top my-3"></li>
 
             <li mat-list-item class="mb-1" *ngIf="!servicoAcesso.isLogado()">
               <button
@@ -203,6 +234,22 @@
                 Trocar Senha
               </button>
             </li>
+
+            <li *ngIf="servicoAcesso.isAdmin()" mat-list-item class="border-top my-3"></li>
+
+            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
+              <button
+                (click)="downloadMinhasVacinacoes()"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#account-collapse"
+                aria-expanded="false"
+              >
+                Minhas Vacinações
+              </button>
+            </li>
+
           </ul>
         </div>
       </mat-nav-list>
@@ -215,15 +262,15 @@
 </div>
 <ng-template #naologado>
   <div class="barramenu">
-      <img
-        *ngIf="!isMobileResolution()"
-        src="../../../assets/imagens/logo-horizontal.jpg"
-        alt="Logo da aplicação Vacine - Clínica de Imunização"
-      />
-      <img
-        *ngIf="isMobileResolution()"
-        src="../../../assets/imagens/logo-horizontal-p.jpg"
-        alt="Logo da aplicação Vacine - Clínica de Imunização"
-      />
+    <img
+      *ngIf="!isMobileResolution()"
+      src="../../../assets/imagens/logo-horizontal.jpg"
+      alt="Logo da aplicação Vacine - Clínica de Imunização"
+    />
+    <img
+      *ngIf="isMobileResolution()"
+      src="../../../assets/imagens/logo-horizontal-p.jpg"
+      alt="Logo da aplicação Vacine - Clínica de Imunização"
+    />
   </div>
 </ng-template>

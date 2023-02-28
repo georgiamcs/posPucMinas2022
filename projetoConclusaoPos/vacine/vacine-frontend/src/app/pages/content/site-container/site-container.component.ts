@@ -25,9 +25,11 @@ export class PageContainerComponent
     super(changeDetectorRef, media, router);
   }
 
-  trocarSenha() {
+  protected trocarSenha() {
     this.idUser = this.securityProvider.getUsuario()?._id;
     const link = `/trocar_minha_senha/${this.idUser}`;
     this.router.navigate([link]);
   }
+
+  protected downloadMinhasVacinacoes() {}
 }

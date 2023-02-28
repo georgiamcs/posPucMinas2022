@@ -1,37 +1,30 @@
-import { Vacinacao } from '../../../shared/models/vacinacao.model';
-import { VacinacaoService } from '../../../services/crud/vacinacao/vacinacao.service';
-import { CompraVacina } from '../../../shared/models/compra-vacina.model';
-import { CompraVacinaService } from '../../../services/crud/compra-vacina/compra-vacina.service';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
-import { DescarteVacinaService } from 'src/app/services/crud/descarte-vacina/descarte-vacina.service';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { DescarteVacina } from 'src/app/shared/models/descarte-vacina.model';
+import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
+import { CompraVacinaService } from 'src/app/services/crud/compra-vacina/compra-vacina.service';
+import { VacinacaoService } from 'src/app/services/crud/vacinacao/vacinacao.service';
+import { CompraVacina } from 'src/app/shared/models/compra-vacina.model';
+import { Vacinacao } from 'src/app/shared/models/vacinacao.model';
 
-class QtdDosesMes {
+class ValorMes {
   mes: number;
-  qtd_doses: number;
+  valor: number;
 }
 
-interface KeyMesValueQtdDose {
+interface KeyMesValue {
   [mes: number]: number;
 }
 
 @Component({
-  selector: 'vacine-relacao-doses-compradas-aplicadas-descartadas',
-  templateUrl: './relacao-doses-compradas-aplicadas-descartadas.component.html',
-  styleUrls: ['./relacao-doses-compradas-aplicadas-descartadas.component.scss'],
+  selector: 'vacine-relacao-valores-compras-vendas',
+  templateUrl: './relacao-valores-compras-vendas.component.html',
+  styleUrls: ['./relacao-valores-compras-vendas.component.scss'],
 })
-export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericPageFormComponent {
-
-  todosDescartes: DescarteVacina[] = [];
-  descartesFiltrados: DescarteVacina[] = [];
-  dataDescartes: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+export class RelacaoValoresComprasVendasComponent extends GenericPageFormComponent {
   todasCompras: CompraVacina[] = [];
   comprasFiltradas: CompraVacina[] = [];
   dataCompras: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -49,7 +42,6 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
     protected override media: MediaMatcher,
     protected override router: Router,
     protected override formBuilder: FormBuilder,
-    private serviceDescarte: DescarteVacinaService,
     private serviceCompra: CompraVacinaService,
     private serviceVacinacao: VacinacaoService
   ) {
@@ -80,16 +72,8 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
       ],
       datasets: [
         {
-          data: this.dataDescartes,
-          label: 'Qtd. Doses Descartadas',
-          fill: false,
-          tension: 0.5,
-          // backgroundColor: 'rgba(114, 37, 128, 0.8)',
-          // borderColor: 'rgba(114, 37, 128, 0.8)',
-        },
-        {
           data: this.dataCompras,
-          label: 'Qtd. Doses Compradas',
+          label: 'Compras (R$)',
           fill: false,
           tension: 0.5,
           // backgroundColor: 'rgba(22, 22, 134, 0.8)',
@@ -97,7 +81,7 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
         },
         {
           data: this.dataVacinacoes,
-          label: 'Qtd. Doses Aplicadas',
+          label: 'Vendas (R$)',
           fill: false,
           tension: 0.5,
           // backgroundColor: 'rgba(0, 164, 0, 0.96)',
@@ -112,31 +96,17 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
   public lineChartOptions: ChartOptions<'line'> = {
     responsive: false,
   };
+
   public lineChartLegend = true;
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.carregarTodosDescartes();
-    console.log('dataDescartes', this.dataDescartes);
-    console.log('dataCompras', this.dataCompras);
-    console.log('dataVacinacoes', this.dataVacinacoes);
+    this.carregarTodasCompras();
   }
 
   private limparDataSets() {
     this.dataCompras = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.dataDescartes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     this.dataVacinacoes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  }
-
-  private carregarTodosDescartes() {
-    this.subscription = this.serviceDescarte.getAll().subscribe({
-      next: (lista) => {
-        this.todosDescartes = lista;
-        this.carregarTodasCompras();
-      },
-      error: (erro) =>
-        this.tratarErro(`Erro ao carregar descartes => ${erro.message}`, false),
-    });
   }
 
   private carregarTodasCompras() {
@@ -166,11 +136,6 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
 
   protected carregarAnos() {
     let ano: number;
-    let anosDescarte = this.todosDescartes.map((d) => {
-      const data = new Date(d.data_descarte + '');
-      ano = data.getFullYear();
-      return ano;
-    });
 
     let anosCompras = this.todasCompras.map((d) => {
       const data = new Date(d.data_compra + '');
@@ -184,8 +149,7 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
       return ano;
     });
 
-    let setAnosDistintos = new Set(anosDescarte);
-    anosCompras.forEach((a) => setAnosDistintos.add(a));
+    let setAnosDistintos = new Set(anosCompras);
     anosVacinacao.forEach((a) => setAnosDistintos.add(a));
 
     this.anosDistintos = Array.from(setAnosDistintos).sort((a, b) => b - a);
@@ -197,7 +161,6 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
     if (anoSelecionado) {
       this.limparDataSets();
       this.agregarDados(anoSelecionado);
-      this.dataDescartes = [...this.dataDescartes];
       this.dataCompras = [...this.dataCompras];
       this.dataVacinacoes = [...this.dataVacinacoes];
       this.chart.update();
@@ -218,26 +181,22 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
     return ret;
   }
 
-  private convertToArrayQtdDosesMes(
+  private convertToArrayValorMes(
     array: any[],
     nomCampoData: string,
-    nomCampoItens: string,
-    nomCampoQtdDoses: string
-  ): QtdDosesMes[] {
-    let ret: QtdDosesMes[] = [];
+    nomCampoValor: string
+  ): ValorMes[] {
+    let ret: ValorMes[] = [];
 
     for (let index = 0; index < array.length; index++) {
       const elem = array[index];
       const dt = new Date(elem[nomCampoData] + '');
       const mes = dt.getMonth();
-      const qtdTotalDoses = elem[nomCampoItens].reduce(
-        (soma: number, i: any) => soma + i[nomCampoQtdDoses],
-        0
-      );
+      const vl = elem[nomCampoValor];
 
-      let i = new QtdDosesMes();
+      let i = new ValorMes();
       i.mes = mes;
-      i.qtd_doses = qtdTotalDoses;
+      i.valor = vl;
 
       ret.push(i);
     }
@@ -245,14 +204,14 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
     return ret;
   }
 
-  private agregaQtdDosesPorMes(array: QtdDosesMes[]): KeyMesValueQtdDose {
-    let ret: KeyMesValueQtdDose;
+  private agregaValoresPorMes(array: ValorMes[]): KeyMesValue {
+    let ret: KeyMesValue;
 
-    ret = array.reduce((agregacao: KeyMesValueQtdDose, item) => {
+    ret = array.reduce((agregacao: KeyMesValue, item) => {
       if (!agregacao[item.mes]) {
         agregacao[item.mes] = 0;
       }
-      agregacao[item.mes] += item.qtd_doses;
+      agregacao[item.mes] += item.valor;
       return agregacao;
     }, {});
 
@@ -260,15 +219,9 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
   }
 
   protected agregarDados(pAno: number) {
-    let descartesAgregQtdDoses: QtdDosesMes[] = [];
-    let comprasAgregQtdDoses: QtdDosesMes[] = [];
-    let vacinacoesAgregQtdDoses: QtdDosesMes[] = [];
+    let comprasAgregQtdDoses: ValorMes[] = [];
+    let vacinacoesAgregQtdDoses: ValorMes[] = [];
 
-    this.descartesFiltrados = this.filtrarDadosAno(
-      this.todosDescartes,
-      'data_descarte',
-      pAno
-    );
     this.comprasFiltradas = this.filtrarDadosAno(
       this.todasCompras,
       'data_compra',
@@ -280,35 +233,22 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
       pAno
     );
 
-    descartesAgregQtdDoses = this.convertToArrayQtdDosesMes(
-      this.descartesFiltrados,
-      'data_descarte',
-      'itens_descarte',
-      'qtd_doses_descarte'
-    );
-    const descartesAgregMes = this.agregaQtdDosesPorMes(descartesAgregQtdDoses);
-    Object.entries(descartesAgregMes).forEach(([mes, qtd]) => {
-      this.dataDescartes[+mes] = qtd;
-    });
-
-    comprasAgregQtdDoses = this.convertToArrayQtdDosesMes(
+    comprasAgregQtdDoses = this.convertToArrayValorMes(
       this.comprasFiltradas,
       'data_compra',
-      'itens_compra',
-      'qtd_doses'
+      'vl_total_compra'
     );
-    const comprasAgregMes = this.agregaQtdDosesPorMes(comprasAgregQtdDoses);
+    const comprasAgregMes = this.agregaValoresPorMes(comprasAgregQtdDoses);
     Object.entries(comprasAgregMes).forEach(([mes, qtd]) => {
       this.dataCompras[+mes] = qtd;
     });
 
-    vacinacoesAgregQtdDoses = this.convertToArrayQtdDosesMes(
+    vacinacoesAgregQtdDoses = this.convertToArrayValorMes(
       this.vacinacoesFiltradas,
       'data_aplicacao',
-      'itens_vacinacao',
-      'qtd_doses'
+      'vl_total'
     );
-    const vacinacoesAgregMes = this.agregaQtdDosesPorMes(
+    const vacinacoesAgregMes = this.agregaValoresPorMes(
       vacinacoesAgregQtdDoses
     );
     Object.entries(vacinacoesAgregMes).forEach(([mes, qtd]) => {
