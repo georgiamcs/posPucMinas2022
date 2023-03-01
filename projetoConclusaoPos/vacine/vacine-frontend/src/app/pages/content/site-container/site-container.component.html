@@ -8,7 +8,13 @@
         <mat-icon>menu</mat-icon>
       </button>
       <img
-        [src]="getNomeArqParaResolucaoTela('../../../assets/imagens/', 'logo-horizontal','jpg')"
+        [src]="
+          getNomeArqParaResolucaoTela(
+            '../../../assets/imagens/',
+            'logo-horizontal',
+            'jpg'
+          )
+        "
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <ul class="navbar-nav navbar-right ms-auto wrapper-conta">
@@ -99,6 +105,32 @@
             <li
               mat-list-item
               class="mb-1"
+              *ngIf="servicoAcesso.isCadastradorVacina()"
+            >
+              <button
+                routerLink="/vacinas"
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse"
+                aria-expanded="false"
+              >
+                Vacinas
+              </button>
+            </li>
+
+            <li
+              *ngIf="
+                servicoAcesso.isCadastradorUsuario() ||
+                servicoAcesso.isCadastradorVacina()
+              "
+              mat-list-item
+              class="border-top my-3"
+            ></li>
+
+            <li
+              mat-list-item
+              class="mb-1"
               *ngIf="servicoAcesso.isCadastradorVacinacao()"
             >
               <button
@@ -131,30 +163,10 @@
             </li>
 
             <li
-              *ngIf="
-                servicoAcesso.isCadastradorUsuario() ||
-                servicoAcesso.isCadastradorVacinacao()
-              "
+              *ngIf="servicoAcesso.isCadastradorVacinacao()"
               mat-list-item
               class="border-top my-3"
             ></li>
-
-            <li
-              mat-list-item
-              class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorVacina()"
-            >
-              <button
-                routerLink="/vacinas"
-                routerLinkActive="active"
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
-                aria-expanded="false"
-              >
-                Vacinas
-              </button>
-            </li>
 
             <li
               mat-list-item
