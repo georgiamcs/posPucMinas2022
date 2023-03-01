@@ -1,5 +1,4 @@
 .chart-wrapper {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,4 +14,28 @@
 
 #fAno {
   width: 250px;
+}
+
+@media (max-width: 467px) {
+  .grafico {
+    width: 90%;
+  }
+}
+
+@media (min-width: 468px) and (max-width: 767px) {
+  .grafico {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grafico {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .grafico {
+    width: 50%;
+  }
 }

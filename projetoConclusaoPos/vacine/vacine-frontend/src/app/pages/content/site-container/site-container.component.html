@@ -8,18 +8,7 @@
         <mat-icon>menu</mat-icon>
       </button>
       <img
-        *ngIf="isDesktopResolution()"
-        src="../../../assets/imagens/logo-horizontal-g.jpg"
-        alt="Logo da aplicação Vacine - Clínica de Imunização"
-      />
-      <img
-        *ngIf="isTabletHighResolution()"
-        src="../../../assets/imagens/logo-horizontal-m.jpg"
-        alt="Logo da aplicação Vacine - Clínica de Imunização"
-      />
-      <img
-        *ngIf="isMobileResolution() || isTabletLowResolution()"
-        src="../../../assets/imagens/logo-horizontal-p.jpg"
+        [src]="getNomeArqParaResolucaoTela('../../../assets/imagens/', 'logo-horizontal','jpg')"
         alt="Logo da aplicação Vacine - Clínica de Imunização"
       />
       <ul class="navbar-nav navbar-right ms-auto wrapper-conta">
@@ -33,7 +22,7 @@
           >
             <button
               mat-fab
-              color="primary"
+              style="background-color: #7abfc7"
               aria-label="Example icon button with a delete icon"
             >
               <mat-icon>account_circle</mat-icon>
@@ -45,24 +34,34 @@
             class="dropdown-menu dropdown-menu-end"
             display="dynamic"
           >
+            <span *ngIf="servicoAcesso.isLogado()">
+              <p ngbDropdownItem>
+                &nbsp;{{ servicoAcesso.getUsuario()?.nome }}
+              </p>
+              <li class="border-top my-3"></li>
+              <p ngbDropdownItem>
+                &nbsp;{{ servicoAcesso.getUsuario()?.email }}
+              </p>
+              <li mat-list-item class="border-top my-3"></li>
+              <a
+                *ngIf="servicoAcesso.isLogado()"
+                ngbDropdownItem
+                (click)="trocarSenha()"
+                >&nbsp;Alterar Senha
+              </a>
+              <a
+                *ngIf="servicoAcesso.isLogado()"
+                ngbDropdownItem
+                routerLink="/logout/"
+                ><i class="bi bi-door-open-fill"></i>&nbsp;Sair do Sistema</a
+              >
+            </span>
             <a
               *ngIf="!servicoAcesso.isLogado()"
               routerLink="/login"
               ngbDropdownItem
               >&nbsp;Login
             </a>
-            <a
-              *ngIf="servicoAcesso.isLogado()"
-              ngbDropdownItem
-              (click)="trocarSenha()"
-              >&nbsp;Alterar Senha
-            </a>
-            <a
-              *ngIf="servicoAcesso.isLogado()"
-              ngbDropdownItem
-              routerLink="/logout/"
-              ><i class="bi bi-door-open-fill"></i>&nbsp;Sair do Sistema</a
-            >
           </span>
         </li>
       </ul>
@@ -263,6 +262,9 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+      <vacine-mensagem-feedback
+        [mensagens]="mensagens"
+      ></vacine-mensagem-feedback>
       <vacine-conteudo-principal></vacine-conteudo-principal>
     </mat-sidenav-content>
   </mat-sidenav-container>

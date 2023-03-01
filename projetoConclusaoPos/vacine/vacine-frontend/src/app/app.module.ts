@@ -66,6 +66,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
+import { AcessoProibidoComponent } from './pages/acess/acesso-proibido/acesso-proibido.component';
 import { LoginComponent } from './pages/acess/login/login.component';
 import { LogoutComponent } from './pages/acess/logout/logout.component';
 import { ConteudoPrincipalComponent } from './pages/content/conteudo-principal/conteudo-principal.component';
@@ -82,6 +83,7 @@ import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacina
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
 import { DistribuicaoMotivosDescarteVacinaComponent } from './pages/graficos/distribuicao-motivos-descarte-vacina/distribuicao-motivos-descarte-vacina.component';
 import { RelacaoDosesCompradasAplicadasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-aplicadas-descartadas/relacao-doses-compradas-aplicadas-descartadas.component';
+import { RelacaoValoresComprasVendasComponent } from './pages/graficos/relacao-valores-compras-vendas/relacao-valores-compras-vendas.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
 import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { ListarDescarteVacinasComponent } from './pages/lists/listar-descartes-vacinas/listar-descartes-vacinas.component';
@@ -95,7 +97,6 @@ import { CpfPipe } from './shared/pipes/cpf/cpf.pipe';
 import { TelefonePipe } from './shared/pipes/telefone/telefone.pipe';
 import { TruncstrPipe } from './shared/pipes/truncstr/truncstr.pipe';
 import { FORMATO_DATA_APP } from './variables/constantes';
-import { RelacaoValoresComprasVendasComponent } from './pages/graficos/relacao-valores-compras-vendas/relacao-valores-compras-vendas.component';
 
 registerLocaleData(ptBr);
 
@@ -151,6 +152,7 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     DistribuicaoMotivosDescarteVacinaComponent,
     RelacaoDosesCompradasAplicadasDescartadasComponent,
     RelacaoValoresComprasVendasComponent,
+    AcessoProibidoComponent,
   ],
   imports: [
     BrowserModule,

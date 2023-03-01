@@ -38,13 +38,7 @@ export class AuthenticatedGuard implements CanActivate {
       return false;
     } else if (!this.servicoAcesso.verificaExistePerfil(route.data['perfis'])) {
       this.router.navigate(
-        ['home'],
-        UtilRota.gerarStateMsgFeedbackRota(
-          new MensagemFeedback(
-            TipoMensagemFeedback.ERRO,
-            'Usuário sem permissão para acessar essa funcionalidade'
-          )
-        )
+        ['acesso-proibido']
       );
       return false;
     }

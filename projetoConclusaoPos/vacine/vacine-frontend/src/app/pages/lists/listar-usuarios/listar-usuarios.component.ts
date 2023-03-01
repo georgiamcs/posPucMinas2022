@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { Usuario } from 'src/app/shared/models/usuario.model';
 import { TelefonePipe } from 'src/app/shared/pipes/telefone/telefone.pipe';
+import { Util } from 'src/app/shared/utils/util.util';
 import { ClienteService } from './../../../services/crud/cliente/cliente.service';
 import { MensagemFeedback } from './../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
@@ -63,22 +64,45 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     ];
   }
 
-  protected exportarVacinacao(idCliente: string) {
-    this.clienteService
-      .getArquivoVacinaoUsuario(idCliente)
-      .then(() => {
-        const msgFeedbackSucesso = new MensagemFeedback(
-          TipoMensagemFeedback.SUCESSO,
-          'Arquivo gerado com sucesso'
-        );
-        this.addMensagem(msgFeedbackSucesso);
-      })
-      .catch((erro: Error) => {
-        const msgFeedbackSucesso = new MensagemFeedback(
-          TipoMensagemFeedback.ERRO,
-          'Erro ao gerar arquivo'
-        );
-        this.addMensagem(msgFeedbackSucesso);
-      });
+  protected async exportarVacinacao(idCliente: string) {
+    let dados = [];
+    await this.clienteService.getVacinacoes(idCliente).subscribe({
+      next: (r) => {
+        dados = r.flatMap((v) => {
+          return v.itens_vacinacao.map((item) => {
+            return {
+              'Data de Aplicação': new Date(
+                v.data_aplicacao + ''
+              ).toLocaleDateString('pt-BR'),
+              Código: v.codigo,
+              Vacina: item.vacina.nome,
+              Lote: item.lote,
+              Validade: new Date(item.data_validade + '').toLocaleDateString(
+                'pt-BR'
+              ),
+              Valor: item.vl_item,
+            };
+          });
+        });
+
+        if (dados.length > 0) {
+          Util.exportToExcel(dados, 'VacinacoesUsuario', 'VacinacoesUsuario');
+          const msgFeedback = new MensagemFeedback(
+            TipoMensagemFeedback.SUCESSO,
+            'Arquivo gerado com sucesso.'
+          );
+          this.addMensagem(msgFeedback);
+        } else {
+          const msgFeedback = new MensagemFeedback(
+            TipoMensagemFeedback.INFORMACAO,
+            'Não existem vacinações registradas para o usuário.'
+          );
+          this.addMensagem(msgFeedback);
+        }
+      },
+      error: (err) => {
+        throw err;
+      },
+    });
   }
 }

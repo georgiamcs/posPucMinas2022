@@ -1,11 +1,12 @@
-import { RelacaoValoresComprasVendasComponent } from './pages/graficos/relacao-valores-compras-vendas/relacao-valores-compras-vendas.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AcessoProibidoComponent } from './pages/acess/acesso-proibido/acesso-proibido.component';
 import { ErroComponent } from './pages/content/erro/erro.component';
 import { CrudCompraVacinaComponent } from './pages/forms/crud-compra-vacina/crud-compra-vacina.component';
 import { CrudVacinacaoComponent } from './pages/forms/crud-vacinacao/crud-vacinacao.component';
 import { TrocarSenhaComponent } from './pages/forms/trocar-senha/trocar-senha.component';
 import { DistribuicaoMotivosDescarteVacinaComponent } from './pages/graficos/distribuicao-motivos-descarte-vacina/distribuicao-motivos-descarte-vacina.component';
+import { RelacaoValoresComprasVendasComponent } from './pages/graficos/relacao-valores-compras-vendas/relacao-valores-compras-vendas.component';
 import { ListarComprasVacinaComponent } from './pages/lists/listar-compras-vacinas/listar-compras-vacinas.component';
 import { ListarControleEstoqueVacinaComponent } from './pages/lists/listar-controle-estoque-vacina/listar-controle-estoque-vacina.component';
 import { ListarVacinacoesComponent } from './pages/lists/listar-vacinacoes/listar-vacinacoes.component';
@@ -19,13 +20,13 @@ import { CrudDescarteVacinaComponent } from './pages/forms/crud-descarte-vacina/
 import { CrudFornecedorComponent } from './pages/forms/crud-fornecedor/crud-fornecedor.component';
 import { CrudUsuarioComponent } from './pages/forms/crud-usuario/crud-usuario.component';
 import { CrudVacinaComponent } from './pages/forms/crud-vacina/crud-vacina.component';
+import { RelacaoDosesCompradasAplicadasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-aplicadas-descartadas/relacao-doses-compradas-aplicadas-descartadas.component';
 import { ListarDescarteVacinasComponent } from './pages/lists/listar-descartes-vacinas/listar-descartes-vacinas.component';
 import { ListarFornecedoresComponent } from './pages/lists/listar-fornecedores/listar-fornecedores.component';
 import { ListarUsuariosComponent } from './pages/lists/listar-usuarios/listar-usuarios.component';
 import { ListarVacinasComponent } from './pages/lists/listar-vacinas/listar-vacinas.component';
 import { Acesso } from './shared/classes/acesso.class';
 import { TipoRota } from './shared/enums/tipo-rota.enum';
-import { RelacaoDosesCompradasAplicadasDescartadasComponent } from './pages/graficos/relacao-doses-compradas-aplicadas-descartadas/relacao-doses-compradas-aplicadas-descartadas.component';
 
 const routes: Routes = [
   //HOME
@@ -43,7 +44,7 @@ const routes: Routes = [
     component: CrudUsuarioComponent,
   },
   { path: 'erro', component: ErroComponent },
-
+  { path: 'acesso-proibido', component: AcessoProibidoComponent },
   // VACINAS
   {
     path: 'vacinas',

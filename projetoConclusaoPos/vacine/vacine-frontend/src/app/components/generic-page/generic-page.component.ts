@@ -110,6 +110,8 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected addMensagem(msg: MensagemFeedback) {
     this.mensagens.push(msg);
+    this.mensagens = [...this.mensagens];
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   protected deleteAllMensagem() {
@@ -130,5 +132,17 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     } else {
       return '';
     }
+  }
+
+  protected getNomeArqParaResolucaoTela(path: string, nomeArqSemExtensao: string, extensao: string): string {
+    let tam: string;
+    if (this.isDesktopResolution()) {
+      tam = 'g';
+    } else if (this.isTabletHighResolution()) {
+      tam = 'm'
+    } else {
+      tam = 'p'
+    }
+    return `${path}${nomeArqSemExtensao}-${tam}.${extensao}`;
   }
 }
