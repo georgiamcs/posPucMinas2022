@@ -11,6 +11,8 @@ import { GenericPageFormComponent } from 'src/app/components/generic-page-form/g
 import { DescarteVacinaService } from 'src/app/services/crud/descarte-vacina/descarte-vacina.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { DescarteVacina } from 'src/app/shared/models/descarte-vacina.model';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 
 class QtdDosesMes {
   mes: number;
@@ -27,7 +29,6 @@ interface KeyMesValueQtdDose {
   styleUrls: ['./relacao-doses-compradas-aplicadas-descartadas.component.scss'],
 })
 export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericPageFormComponent {
-
   todosDescartes: DescarteVacina[] = [];
   descartesFiltrados: DescarteVacina[] = [];
   dataDescartes: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -48,18 +49,23 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     private serviceDescarte: DescarteVacinaService,
     private serviceCompra: CompraVacinaService,
     private serviceVacinacao: VacinacaoService
   ) {
-    super(changeDetectorRef, media, router, formBuilder);
+    super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
   }
 
   protected buildForm(): void {
     this.form = this.formBuilder.group({
       ano: [null],
     });
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.INDICADORES;
   }
 
   protected getLineChartData() {

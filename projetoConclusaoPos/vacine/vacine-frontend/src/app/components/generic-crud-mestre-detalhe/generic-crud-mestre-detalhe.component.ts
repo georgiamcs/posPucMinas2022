@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
@@ -31,6 +32,7 @@ export abstract class GenericCrudMestreDetalheComponent<
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -40,6 +42,7 @@ export abstract class GenericCrudMestreDetalheComponent<
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,

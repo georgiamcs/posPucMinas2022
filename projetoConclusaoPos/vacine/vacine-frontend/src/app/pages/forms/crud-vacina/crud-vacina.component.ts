@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { VacinaService } from '../../../services/crud/vacina/vacina.service';
@@ -23,6 +25,7 @@ export class CrudVacinaComponent
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -32,11 +35,16 @@ export class CrudVacinaComponent
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,
       service
     );
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.VACINA;
   }
 
   override ngOnInit(): void {

@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirmacao/dialogo-confirmacao.component';
 import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
@@ -35,6 +37,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
 
@@ -42,11 +45,15 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
     private securityProvider: SecurityProvider,
     public dialogoConf: MatDialog
   ) {
-    super(changeDetectorRef, media, router, formBuilder);
+    super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
     this.id = Util.converterUndefinedEmNulo(
       this.activatedRoute.snapshot.paramMap.get('id')
     );
     this.preencherNomeUsuario();
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.USUARIO;
   }
 
   private preencherNomeUsuario() {

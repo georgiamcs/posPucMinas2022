@@ -8,7 +8,9 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-crud.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
@@ -36,6 +38,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -46,11 +49,16 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,
       service
     );
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.USUARIO;
   }
 
   protected definirIdentificadoresEntidade() {
@@ -178,5 +186,4 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
         : null
     );
   }
-
 }

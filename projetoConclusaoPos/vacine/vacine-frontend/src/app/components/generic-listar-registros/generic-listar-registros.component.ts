@@ -17,6 +17,7 @@ import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-col
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 
 @Component({
   selector: 'vacine-generic-listar-registros',
@@ -44,9 +45,10 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected service: GenericGetterService<T>
   ) {
-    super(changeDetectorRef, media, router);
+    super(changeDetectorRef, media, router, serviceAcesso);
   }
 
   override ngOnInit(): void {
@@ -107,10 +109,7 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
           this.isTabletHighResolution();
 
         const exibeColuna =
-          condMobile ||
-          condDesktop ||
-          condTabletLow ||
-          condTabletHigh;
+          condMobile || condDesktop || condTabletLow || condTabletHigh;
         return exibeColuna;
       })
       .map((cd) => cd.def);

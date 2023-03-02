@@ -2,8 +2,15 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import {
+  Acesso,
+  TemaAcessoUsuario,
+  TipoAcessoUsuario
+} from 'src/app/shared/classes/acesso.class';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
+import { ItemAutorizacaoUsuario } from 'src/app/shared/models/item-autorizacao-usuario.model';
 import { Util } from 'src/app/shared/utils/util.util';
 import { browserRefresh } from '../../app.component';
 import { UtilRota } from './../../shared/utils/rota.util';
@@ -13,7 +20,7 @@ import { UtilRota } from './../../shared/utils/rota.util';
   templateUrl: './generic-page.component.html',
   styleUrls: ['./generic-page.component.scss'],
 })
-export class GenericPageComponent implements OnInit, OnDestroy {
+export abstract class GenericPageComponent implements OnInit, OnDestroy {
   protected subscription: Subscription;
   protected mensagens: MensagemFeedback[] = [];
 
@@ -26,15 +33,21 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   protected origemRotaNavegacao: string;
 
+  protected autorizacoesUsuario?: ItemAutorizacaoUsuario[];
+
   constructor(
     protected changeDetectorRef: ChangeDetectorRef,
     protected media: MediaMatcher,
-    protected router: Router
+    protected router: Router,
+    protected serviceAcesso: ControleAcessoService
   ) {
     this.mensagens = [];
+    this.autorizacoesUsuario = this.serviceAcesso.getUsuario()?.autorizacoes;
     this.carregarStateAoIniciar();
     this.setWidthDeviceDetector();
   }
+
+  protected abstract getTemaAcesso(): TemaAcessoUsuario;
 
   private setWidthDeviceDetector() {
     this.mobileResolutionQuery = this.media.matchMedia('(max-width: 480px)'); //mobile
@@ -134,15 +147,43 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected getNomeArqParaResolucaoTela(path: string, nomeArqSemExtensao: string, extensao: string): string {
+  protected getNomeArqParaResolucaoTela(
+    path: string,
+    nomeArqSemExtensao: string,
+    extensao: string
+  ): string {
     let tam: string;
     if (this.isDesktopResolution()) {
       tam = 'g';
     } else if (this.isTabletHighResolution()) {
-      tam = 'm'
+      tam = 'm';
     } else {
-      tam = 'p'
+      tam = 'p';
     }
     return `${path}${nomeArqSemExtensao}-${tam}.${extensao}`;
+  }
+
+  protected temAcessoAdicionar(): boolean {
+    return Acesso.temAcessoFuncionalidade(
+      this.getTemaAcesso(),
+      [TipoAcessoUsuario.INCLUIR],
+      this.autorizacoesUsuario
+    );
+  }
+
+  protected temAcessoAlterar(): boolean {
+    return Acesso.temAcessoFuncionalidade(
+      this.getTemaAcesso(),
+      [TipoAcessoUsuario.ALTERAR],
+      this.autorizacoesUsuario
+    );
+  }
+
+  protected temAcessoExcluir(): boolean {
+    return Acesso.temAcessoFuncionalidade(
+      this.getTemaAcesso(),
+      [TipoAcessoUsuario.EXCLUIR],
+      this.autorizacoesUsuario
+    );
   }
 }

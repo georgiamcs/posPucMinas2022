@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { getDescMotivoDescarteVacina } from 'src/app/shared/enums/motivo-descarte-vacina.enum';
 import { DescarteVacinaService } from './../../../services/crud/descarte-vacina/descarte-vacina.service';
 import { DescarteVacina } from './../../../shared/models/descarte-vacina.model';
@@ -51,19 +53,19 @@ export class DistribuicaoMotivosDescarteVacinaComponent
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     private service: DescarteVacinaService
   ) {
-    super(changeDetectorRef, media, router, formBuilder);
+    super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.INDICADORES;
   }
 
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: false,
-    // plugins: {
-    //   legend: {
-    //     position: 'right',
-    //   },
-    // },
   };
 
   public pieChartLegend = true;

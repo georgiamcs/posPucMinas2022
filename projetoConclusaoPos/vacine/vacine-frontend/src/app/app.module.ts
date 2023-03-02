@@ -64,7 +64,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NgChartsModule } from 'ng2-charts';
 import { DialogoConfirmacaoComponent } from './components/dialogo-confirmacao/dialogo-confirmacao.component';
-import { GenericPageComponent } from './components/generic-page/generic-page.component';
 import { MensagemFeedbackComponent } from './components/mensagem-feedback/mensagem-feedback.component';
 import { AcessoProibidoComponent } from './pages/acess/acesso-proibido/acesso-proibido.component';
 import { LoginComponent } from './pages/acess/login/login.component';
@@ -137,7 +136,6 @@ export class CustomMaterialFormsMatcher implements ErrorStateMatcher {
     HomeComponent,
     LoginComponent,
     LogoutComponent,
-    GenericPageComponent,
     ErroComponent,
     TrocarSenhaComponent,
     CrudCompraVacinaComponent,

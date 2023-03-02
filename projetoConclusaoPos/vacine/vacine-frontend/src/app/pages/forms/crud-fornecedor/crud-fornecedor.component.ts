@@ -9,6 +9,8 @@ import { GenericCrudComponent } from 'src/app/components/generic-crud/generic-cr
 import { FornecedorService } from 'src/app/services/crud/fornecedor/fornecedor.service';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { Fornecedor } from '../../../shared/models/fornecedor.model';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 
 @Component({
   selector: 'vacine-crud-fornecedor',
@@ -22,6 +24,7 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -31,11 +34,16 @@ export class CrudFornecedorComponent extends GenericCrudComponent<Fornecedor> {
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,
       service
     );
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.FORNECEDOR_VACINA;
   }
 
   protected override definirIdentificadoresEntidade() {

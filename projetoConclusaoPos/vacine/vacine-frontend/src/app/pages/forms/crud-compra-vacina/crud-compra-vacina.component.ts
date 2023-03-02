@@ -1,3 +1,4 @@
+import { TemaAcessoUsuario } from './../../../shared/classes/acesso.class';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -5,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
@@ -40,6 +42,7 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -51,11 +54,16 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,
       service
     );
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.COMPRA_VACINA;
   }
 
   protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
@@ -181,12 +189,14 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
   }
 
   private setChangeFornecedorParaFiltrarValores() {
-    this.fornecedoresFiltrados = this.getFormControl(this.form,
+    this.fornecedoresFiltrados = this.getFormControl(
+      this.form,
       this.nomeCtrlFornecedor
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
-        this.filtrarPeloValorAtributo(this.form,
+        this.filtrarPeloValorAtributo(
+          this.form,
           this.fornecedores,
           value,
           this.nomeCtrlFornecedor,

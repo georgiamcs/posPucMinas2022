@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
 
 import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -25,11 +26,15 @@ export class LoginComponent extends GenericPageFormComponent {
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
-    private serviceAcesso: ControleAcessoService,
     private serviceAutRedeSocial: SocialAuthService
   ) {
-    super(changeDetectorRef, media, router, formBuilder);
+    super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    throw new Error('Página "Login" não tem checagem de acesso.');
   }
 
   override ngOnInit(): void {

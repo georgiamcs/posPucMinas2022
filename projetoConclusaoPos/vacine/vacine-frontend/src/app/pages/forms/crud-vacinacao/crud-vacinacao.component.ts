@@ -5,8 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { RelacionamentoVacina } from 'src/app/shared/classes/relacionamento-vacina.class';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { Vacinacao } from 'src/app/shared/models/vacinacao.model';
@@ -45,6 +47,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -56,11 +59,16 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,
       service
     );
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.VACINACAO;
   }
 
   protected getDefColDetalheExibidas(): DefinicaoColunasExibidas[] {
@@ -211,7 +219,8 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
     ).valueChanges.pipe(
       startWith(''),
       map((value) =>
-        this.filtrarPeloValorAtributo(this.form,
+        this.filtrarPeloValorAtributo(
+          this.form,
           this.aplicadores,
           value,
           this.nomeCtrlAplicador,
@@ -232,7 +241,8 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
   }
 
   protected filtrarAplicador(value: any) {
-    this.filtrarPeloValorAtributo(this.form,
+    this.filtrarPeloValorAtributo(
+      this.form,
       this.aplicadores,
       value,
       this.nomeCtrlAplicador,
@@ -316,7 +326,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
 
   protected getTextFooterTotal() {
     if (!this.isMobileResolution()) {
-      return 'Total'
+      return 'Total';
     } else {
       return '';
     }

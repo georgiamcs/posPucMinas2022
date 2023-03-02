@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { TipoErroValidacaoFormulario } from 'src/app/shared/enums/tipo-erro-validacao-formulario.enum';
 import { Util } from 'src/app/shared/utils/util.util';
 import { GenericPageComponent } from './../generic-page/generic-page.component';
@@ -20,9 +21,10 @@ export abstract class GenericPageFormComponent extends GenericPageComponent {
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected formBuilder: FormBuilder
   ) {
-    super(changeDetectorRef, media, router);
+    super(changeDetectorRef, media, router, serviceAcesso);
   }
 
   override ngOnInit(): void {

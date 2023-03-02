@@ -8,6 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { throwError } from 'rxjs';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { GenericCrudService } from 'src/app/services/generic/generic-crud/generic-crud.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import {
@@ -52,12 +53,13 @@ export abstract class GenericCrudComponent<
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected activatedRoute: ActivatedRoute,
     protected dialogoConf: MatDialog,
     protected service: GenericCrudService<T>
   ) {
-    super(changeDetectorRef, media, router, formBuilder);
+    super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
     this.definirIdentificadoresEntidade();
     this.preencherAtributosGenericosCrud();
   }

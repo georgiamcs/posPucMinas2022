@@ -5,8 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { GenericCrudMestreDetalheComponent } from 'src/app/components/generic-crud-mestre-detalhe/generic-crud-mestre-detalhe.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { VacinaService } from 'src/app/services/crud/vacina/vacina.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { RelacionamentoUsuario } from 'src/app/shared/classes/relacionamento-usuario.class';
 import { RelacionamentoVacina } from 'src/app/shared/classes/relacionamento-vacina.class';
 import { MOTIVOS_DESCARTES_VACINAS } from 'src/app/shared/enums/motivo-descarte-vacina.enum';
@@ -46,6 +48,7 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     protected override activatedRoute: ActivatedRoute,
     protected override dialogoConf: MatDialog,
@@ -57,11 +60,16 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
       changeDetectorRef,
       media,
       router,
+      serviceAcesso,
       formBuilder,
       activatedRoute,
       dialogoConf,
       service
     );
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.DESCARTE_VACINA;
   }
 
   protected definirColItensExibidas() {

@@ -8,6 +8,8 @@ import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-col
 import { CnpjPipe } from 'src/app/shared/pipes/cnpj/cnpj.pipe';
 import { TelefonePipe } from 'src/app/shared/pipes/telefone/telefone.pipe';
 import { Fornecedor } from '../../../shared/models/fornecedor.model';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 
 @Component({
   selector: 'vacine-listar-fornecedores',
@@ -19,9 +21,14 @@ export class ListarFornecedoresComponent extends GenericListarRegistrosComponent
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override service: FornecedorService
   ) {
-    super(changeDetectorRef, media, router, service);
+    super(changeDetectorRef, media, router, serviceAcesso, service);
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.FORNECEDOR_VACINA;
   }
 
   protected getTituloPagina(): string {

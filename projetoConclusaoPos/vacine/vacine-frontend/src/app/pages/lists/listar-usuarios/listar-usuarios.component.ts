@@ -11,6 +11,8 @@ import { ClienteService } from './../../../services/crud/cliente/cliente.service
 import { MensagemFeedback } from './../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
 import { CpfPipe } from './../../../shared/pipes/cpf/cpf.pipe';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 
 @Component({
   selector: 'vacine-listar-usuarios',
@@ -22,10 +24,15 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override service: UsuarioService,
     private clienteService: ClienteService
   ) {
-    super(changeDetectorRef, media, router, service);
+    super(changeDetectorRef, media, router, serviceAcesso, service);
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.USUARIO;
   }
 
   protected getTituloPagina(): string {

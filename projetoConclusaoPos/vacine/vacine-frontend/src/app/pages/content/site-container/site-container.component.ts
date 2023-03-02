@@ -32,11 +32,16 @@ export class PageContainerComponent
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected servicoAcesso: ControleAcessoService,
     protected securityProvider: SecurityProvider,
     private clienteService: ClienteService
   ) {
-    super(changeDetectorRef, media, router);
+    super(changeDetectorRef, media, router, serviceAcesso);
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    throw new Error('Página "Container" não tem checagem de acesso.');
   }
 
   protected trocarSenha() {

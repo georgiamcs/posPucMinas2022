@@ -5,8 +5,10 @@ import { Router } from '@angular/router';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { CompraVacinaService } from 'src/app/services/crud/compra-vacina/compra-vacina.service';
 import { VacinacaoService } from 'src/app/services/crud/vacinacao/vacinacao.service';
+import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { CompraVacina } from 'src/app/shared/models/compra-vacina.model';
 import { Vacinacao } from 'src/app/shared/models/vacinacao.model';
 
@@ -41,17 +43,22 @@ export class RelacaoValoresComprasVendasComponent extends GenericPageFormCompone
     protected override changeDetectorRef: ChangeDetectorRef,
     protected override media: MediaMatcher,
     protected override router: Router,
+    protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
     private serviceCompra: CompraVacinaService,
     private serviceVacinacao: VacinacaoService
   ) {
-    super(changeDetectorRef, media, router, formBuilder);
+    super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
   }
 
   protected buildForm(): void {
     this.form = this.formBuilder.group({
       ano: [null],
     });
+  }
+
+  protected getTemaAcesso(): TemaAcessoUsuario {
+    return TemaAcessoUsuario.INDICADORES;
   }
 
   protected getLineChartData() {
