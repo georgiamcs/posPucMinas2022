@@ -17,7 +17,7 @@ exports.applyPassportStrategy = (passport) => {
             email: user.email,
             nome: user.nome,
             cpf: user.cpf,
-            perfis: user.perfis,
+            perfil_acesso: user.perfil_acesso,
           });
         }
         return done(null, false);

@@ -1,4 +1,3 @@
-//TODO: criar pagina de sem permissao. Colocar aqui e verificar se vai precisa no http interceptor
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -36,10 +35,13 @@ export class AuthenticatedGuard implements CanActivate {
         )
       );
       return false;
-    } else if (!this.servicoAcesso.verificaExistePerfil(route.data['perfis'])) {
-      this.router.navigate(
-        ['acesso-proibido']
-      );
+    } else if (
+      !this.servicoAcesso.verificaExistePerfil(
+        route.data['tema'],
+        route.data['tipoAcesso']
+      )
+    ) {
+      this.router.navigate(['acesso-proibido']);
       return false;
     }
     return true;

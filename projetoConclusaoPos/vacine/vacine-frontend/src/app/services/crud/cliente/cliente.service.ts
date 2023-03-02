@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/app/environment';
 import { UsuarioTrocaSenha } from '../../../shared/models/usuario-troca-senha.model';
-import { Usuario } from '../../../shared/models/usuario.model';
+import { Usuario } from '../../../shared/classes/usuario.class';
 import { Vacinacao } from './../../../shared/models/vacinacao.model';
 
 @Injectable({

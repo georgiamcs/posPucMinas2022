@@ -35,6 +35,7 @@ export class LoginComponent extends GenericPageFormComponent {
   override ngOnInit(): void {
     super.ngOnInit();
     this.buildForm();
+    this.deleteAllMensagens();
 
     this.subscription = this.serviceAutRedeSocial.authState.subscribe(
       (user) => {
@@ -68,7 +69,7 @@ export class LoginComponent extends GenericPageFormComponent {
     this.subscription = this.serviceAcesso.loginJwt(loginUsuario).subscribe({
       next: (result) => {
         this.serviceAcesso.setTokenUsuario(result);
-        this.deleteAllMensagem();
+        this.deleteAllMensagens();
         this.router.navigate(['/home']);
       },
       error: (err) => {
@@ -82,7 +83,7 @@ export class LoginComponent extends GenericPageFormComponent {
     this.subscription = this.serviceAcesso.loginGoogle(usuario).subscribe({
       next: (result) => {
         this.serviceAcesso.setTokenUsuario(result);
-        this.deleteAllMensagem();
+        this.deleteAllMensagens();
         this.router.navigate(['/home']);
       },
       error: (err) => {

@@ -1,7 +1,7 @@
 const cnst = require("../constantes");
 const config = require("../setup/config");
 const jwt = require("jsonwebtoken");
-const { AutorizacaoService } = require("../services/autorizacao.service");
+const AutorizacaoService = require("../services/autorizacao.service");
 const UsuarioModel = require("../models/usuario.model");
 const UsuarioService = require("../services/generic-crud.service");
 const Acesso = require("../setup/acesso");
@@ -15,10 +15,10 @@ function gerarToken(login) {
   });
 }
 
-exports.login = async (req, res) => {
+exports.loginJwt = async (req, res) => {
   try {
     let { email, senha } = req.body;
-    const usuario = await UsuarioService.getOne(UsuarioModel, {
+    let usuario = await UsuarioService.getOne(UsuarioModel, {
       email: email,
     });
 
@@ -29,8 +29,10 @@ exports.login = async (req, res) => {
     ) {
       // Sign token
       const token = gerarToken(email);
+      let autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
+      usuario = { ...usuario.toObject(), autorizacoes: autorizacoes };
 
-      let retorno = { usuario: usuario.toObject() };
+      let retorno = { usuario };
       retorno.token = token;
       delete retorno.usuario.senha;
       res.status(cnst.RETORNO_HTTP.HTTP_OK).json(retorno);
@@ -53,14 +55,13 @@ function criarUsuarioGoogle(obj) {
   usuario.nome = obj.name;
   usuario.email = obj.email;
   usuario.senha = AutorizacaoService.criptografar(usuario.email);
-  usuario.perfis = [Acesso.PERFIL.CLIENTE];
+  usuario.perfil_acesso = Acesso.PERFIL.CLIENTE;
 
   return usuario;
 }
 
 exports.loginGoogle = async (req, res) => {
   try {
-    let usuarioAdicionado = null;
     let token = null;
 
     const ticket = await client.verifyIdToken({
@@ -77,16 +78,13 @@ exports.loginGoogle = async (req, res) => {
     // Se não tem cadastra
     if (!usuario) {
       const novo = criarUsuarioGoogle(payload);
-      let fCriarNovoUser = criarUsuarioGoogle;
-      usuario = await UsuarioService.add(
-        UsuarioModel,
-        fCriarNovoUser,
-        payload
-      );
+      usuario = await UsuarioService.add(UsuarioModel, novo, undefined);
     }
     token = gerarToken(usuario.email);
+    let autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
+    usuario = { ...usuario.toObject(), autorizacoes: autorizacoes };
 
-    let retorno = { usuario: usuario.toObject() };
+    let retorno = { usuario };
     retorno.token = token;
     delete retorno.usuario.senha;
     res.status(200).json(retorno);

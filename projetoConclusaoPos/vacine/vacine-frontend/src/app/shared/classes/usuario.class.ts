@@ -1,6 +1,6 @@
-import { TipoPerfil } from '../classes/acesso.class';
-import { TipoUsuario } from './../enums/tipo-usuario.enum';
-import { EntityNomeModel } from './entity-nome.model';
+import { ItemAutorizacaoUsuario } from './../models/item-autorizacao-usuario.model';
+import { TipoUsuario } from '../enums/tipo-usuario.enum';
+import { EntityNomeModel } from '../models/entity-nome.model';
 
 export class Usuario extends EntityNomeModel {
   tipo: TipoUsuario;
@@ -18,5 +18,6 @@ export class Usuario extends EntityNomeModel {
   tel_celular?: string;
   tel_fixo?: string;
   senha: string;
-  perfis: TipoPerfil[];
+  perfil_acesso?: string;
+  autorizacoes?: ItemAutorizacaoUsuario[];
 }

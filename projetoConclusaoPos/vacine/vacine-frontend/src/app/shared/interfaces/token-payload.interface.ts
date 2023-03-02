@@ -1,4 +1,4 @@
-import { Usuario } from '../models/usuario.model';
+import { Usuario } from '../classes/usuario.class';
 
 export interface TokenPayload {
   usuario: Usuario;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TokenPayload } from '../shared/interfaces/token-payload.interface';
-import { Usuario } from '../shared/models/usuario.model';
+import { Usuario } from '../shared/classes/usuario.class';
 
 @Injectable()
 export class SecurityProvider {

@@ -1,3 +1,4 @@
+const cnst = require("../../constantes");
 const GenericCrudController = require("./generic-crud.controller");
 const GenericService = require("../../services/generic-crud.service");
 const FornecedorModel = require("../../models/fornecedor.model");
@@ -6,11 +7,11 @@ const Acesso = require("../../setup/acesso");
 
 class FornecedorController extends GenericCrudController {
   constructor() {
-    const perfisRequeridosFornecedor = Acesso.getPerfisPorTema(
-      Acesso.TEMA.FORNECEDOR
+    super(
+      GenericService,
+      FornecedorModel,
+      Acesso.TEMA_ACESSO.FORNECEDOR_VACINA
     );
-
-    super(GenericService, FornecedorModel, perfisRequeridosFornecedor);
   }
 
   createObj(obj, user) {

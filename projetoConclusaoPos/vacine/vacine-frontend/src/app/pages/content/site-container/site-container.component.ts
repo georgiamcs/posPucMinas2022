@@ -1,5 +1,14 @@
+import {
+  TemaAcessoUsuario,
+  TipoAcessoUsuario,
+} from './../../../shared/classes/acesso.class';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
@@ -34,6 +43,60 @@ export class PageContainerComponent
     this.idUser = this.securityProvider.getUsuario()?._id;
     const link = `/trocar_minha_senha/${this.idUser}`;
     this.router.navigate([link]);
+  }
+
+  protected podeAcessarMenuUsuario(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(TemaAcessoUsuario.USUARIO, [
+      TipoAcessoUsuario.VISUALIZAR_TODOS,
+    ]);
+  }
+
+  protected podeAcessarMenuVacina(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(TemaAcessoUsuario.VACINA, [
+      TipoAcessoUsuario.VISUALIZAR_TODOS,
+    ]);
+  }
+
+  protected podeAcessarMenuVacinacao(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(
+      TemaAcessoUsuario.VACINACAO,
+      [TipoAcessoUsuario.VISUALIZAR_TODOS]
+    );
+  }
+
+  protected podeAcessarMenuDescarteVacina(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(
+      TemaAcessoUsuario.DESCARTE_VACINA,
+      [TipoAcessoUsuario.VISUALIZAR_TODOS]
+    );
+  }
+
+  protected podeAcessarMenuFornecedorVacina(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(
+      TemaAcessoUsuario.FORNECEDOR_VACINA,
+      [TipoAcessoUsuario.VISUALIZAR_TODOS]
+    );
+  }
+
+  protected podeAcessarMenuCompraVacina(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(
+      TemaAcessoUsuario.COMPRA_VACINA,
+      [TipoAcessoUsuario.VISUALIZAR_TODOS]
+    );
+  }
+
+  protected podeAcessarMenuGraficos(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(
+      TemaAcessoUsuario.INDICADORES,
+      [TipoAcessoUsuario.VISUALIZAR_TODOS]
+    );
+  }
+
+  protected podeAcessarMenuMinhasVacinacoes(): boolean {
+    return this.servicoAcesso.verificaExistePerfil(
+      TemaAcessoUsuario.VACINACAO,
+      [TipoAcessoUsuario.VISUALIZAR_PROPRIO]
+    );
   }
 
   protected async downloadMinhasVacinacoes() {
@@ -75,7 +138,9 @@ export class PageContainerComponent
         }
       },
       error: (erro) => {
-        this.tratarErro(`Erro ao recuperar as vacinações do usuário => ${erro.message}`);
+        this.tratarErro(
+          `Erro ao recuperar as vacinações do usuário => ${erro.message}`
+        );
       },
     });
   }

@@ -1,4 +1,4 @@
-const { AutorizacaoService } = require("../../services/autorizacao.service");
+const AutorizacaoService = require("../../services/autorizacao.service");
 const GenericCrudController = require("./generic-crud.controller");
 const Service = require("../../services/generic-crud.service");
 const Model = require("../../models/controle-estoque-vacina.model");
@@ -6,9 +6,7 @@ const Acesso = require("../../setup/acesso");
 
 class ControleEstoqueVacinaController extends GenericCrudController {
   constructor() {
-    const perfisRequeridos = [];
-
-    super(Service, Model, perfisRequeridos);
+    super(Service, Model, Acesso.TEMA_ACESSO.VACINA);
   }
 
   createObj(obj, user) {
@@ -31,10 +29,10 @@ class ControleEstoqueVacinaController extends GenericCrudController {
     const id = req.params.id;
 
     if (
-      AutorizacaoService.checarPerfis(
-        req,
-        Acesso.getPerfisPorTema(Acesso.TEMA.VACINA)
-      )
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
     ) {
       const registros = await this.service.getAll(this.objectModel, undefined, {
         "vacina._id": id,

@@ -61,12 +61,10 @@ const UsuarioSchema = Schema(
       type: String,
       required: true,
     },
-    perfis: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    perfil_acesso: {
+      type: String,
+      required: true,
+    },
     dt_inclusao: {
       type: Date,
       required: true,

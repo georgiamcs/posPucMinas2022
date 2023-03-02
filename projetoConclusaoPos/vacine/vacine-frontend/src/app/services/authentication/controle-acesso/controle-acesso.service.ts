@@ -1,12 +1,12 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TemaAcessoUsuario, TipoAcessoUsuario } from './../../../shared/classes/acesso.class';
 
 import { environment } from 'src/app/environment';
-import { Tema } from 'src/app/shared/enums/tema.enum';
+import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { TokenPayload } from 'src/app/shared/interfaces/token-payload.interface';
-import { Usuario } from 'src/app/shared/models/usuario.model';
-import { Acesso, TipoPerfil } from '../../../shared/classes/acesso.class';
+import { Acesso } from '../../../shared/classes/acesso.class';
 import { SecurityProvider } from './../../../providers/security.provider';
 import { LoginUsuario } from './../../../shared/interfaces/login-usuario.interface';
 
@@ -40,7 +40,7 @@ export class ControleAcessoService {
     return this.security.autenticado();
   }
 
-  getUsuario(){
+  getUsuario() {
     return this.security.getUsuario();
   }
 
@@ -52,56 +52,8 @@ export class ControleAcessoService {
     this.security.armazenaTokenUsuario(tokenPayload);
   }
 
-  verificaExistePerfil(listaPerfil: TipoPerfil[]): boolean {
-    let retorno = false;
-
-    if (this.isLogado()) {
-      let usuario = this.getUsuario();
-
-      if (usuario && usuario.perfis) {
-        for (let i = 0; i < listaPerfil.length; i++) {
-          if (usuario.perfis.indexOf(listaPerfil[i]) > -1) {
-            retorno = true;
-            break;
-          }
-        }
-      }
-    }
-
-    return retorno;
+  verificaExistePerfil(tema: TemaAcessoUsuario, tiposAcesso: TipoAcessoUsuario[]): boolean {
+    return this.isLogado() && Acesso.temAcessoFuncionalidade(tema, tiposAcesso, this.getUsuario()?.autorizacoes);
   }
 
-  isAdmin(): boolean {
-    return this.verificaExistePerfil([TipoPerfil.ADMINISTRADOR]);
-  }
-
-  isCadastradorVacina(): boolean {
-    return this.verificaExistePerfil(Acesso.getListaPerfilPorTema(Tema.VACINA));
-  }
-
-  isCadastradorVacinacao(): boolean {
-    return this.verificaExistePerfil(
-      Acesso.getListaPerfilPorTema(Tema.VACINACAO)
-    );
-  }
-
-  isCadastradorUsuario(): boolean {
-    return this.verificaExistePerfil(
-      Acesso.getListaPerfilPorTema(Tema.USUARIO)
-    );
-  }
-
-  isCadastradorCompra(): boolean {
-    return this.verificaExistePerfil(Acesso.getListaPerfilPorTema(Tema.COMPRA_VACINA));
-  }
-
-  isCadastradorFornecedor(): boolean {
-    return this.verificaExistePerfil(
-      Acesso.getListaPerfilPorTema(Tema.FORNECEDOR)
-    );
-  }
-
-  isCliente(): boolean {
-    return this.verificaExistePerfil([TipoPerfil.CLIENTE]);
-  }
 }

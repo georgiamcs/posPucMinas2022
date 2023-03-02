@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { GenericListarRegistrosComponent } from 'src/app/components/generic-listar-registros/generic-listar-registros.component';
 import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
-import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { TelefonePipe } from 'src/app/shared/pipes/telefone/telefone.pipe';
 import { Util } from 'src/app/shared/utils/util.util';
 import { ClienteService } from './../../../services/crud/cliente/cliente.service';

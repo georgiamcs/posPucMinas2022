@@ -1,4 +1,4 @@
-const { AutorizacaoService } = require("../../services/autorizacao.service");
+const AutorizacaoService = require("../../services/autorizacao.service");
 const GenericCrudController = require("./generic-crud.controller");
 const UsuarioService = require("../../services/generic-crud.service");
 const UsuarioModel = require("../../models/usuario.model");
@@ -7,17 +7,13 @@ const cnst = require("../../constantes");
 
 class UsuarioController extends GenericCrudController {
   constructor() {
-    const perfisRequeridosUsuario = Acesso.getPerfisPorTema(
-      Acesso.TEMA.USUARIO
-    );
-
-    super(UsuarioService, UsuarioModel, perfisRequeridosUsuario);
+    super(UsuarioService, UsuarioModel, Acesso.TEMA_ACESSO.USUARIO);
   }
 
   createUsuarioCliente(obj) {
     let usuario = createUsuario(obj);
     usuario.tipo = cnst.TIPO_USUARIO.CLIENTE;
-    usuario.perfis = [Acesso.PERFIL.CLIENTE];
+    usuario.perfil_acesso = Acesso.PERFIL.CLIENTE;
     return usuario;
   }
 
@@ -30,6 +26,7 @@ class UsuarioController extends GenericCrudController {
   createObj(obj, user) {
     let usuario = {};
     usuario.tipo = obj.tipo;
+    usuario.perfil_acesso = Acesso.getPerfilPorTipoUsuario(obj.tipo);
     usuario.nome = obj.nome;
     usuario.email = obj.email;
     usuario.cpf = obj.cpf;
@@ -41,11 +38,12 @@ class UsuarioController extends GenericCrudController {
       //caso de alteracao em que nao envia a senha
       usuario.senha = AutorizacaoService.criptografar(obj.senha);
     }
-    usuario.perfis = obj.perfis;
     return usuario;
   }
 
   async temDuplicado(obj, session, tipoOperacao) {
+
+    if (!!obj.nome && !!obj.email) {
     const searchNome = obj.nome.trim();
     const searchEmail = obj.email.trim();
     let regBase = [];
@@ -71,16 +69,27 @@ class UsuarioController extends GenericCrudController {
       );
     }
     return regBase.length > 0;
+    } else {
+      return false;
+    }
   }
 
   getNomeById = async (req, res) => {
     const id = req.params.id;
     if (
-      AutorizacaoService.checarPerfis(req, this.perfisRequeridos) ||
-      AutorizacaoService.isMesmoUsuario(req, id)
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
     ) {
       try {
-        const registro = await this.service.getById(this.objectModel, id, undefined, "nome");
+        const registro = await this.service.getById(
+          this.objectModel,
+          id,
+          undefined,
+          "nome"
+        );
         res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro.nome);
       } catch (error) {
         res
@@ -95,7 +104,13 @@ class UsuarioController extends GenericCrudController {
   };
 
   getAll = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
+    ) {
       const tipo = req.query.tipo;
       let registros;
 

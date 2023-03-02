@@ -1,4 +1,4 @@
-import { Usuario } from './../models/usuario.model';
+import { Usuario } from './usuario.class';
 
 export class RelacionamentoUsuario {
   _id: string | null | undefined;

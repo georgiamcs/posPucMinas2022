@@ -2,7 +2,7 @@ import { GenericCrudService } from '../../generic/generic-crud/generic-crud.serv
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { map, Observable } from 'rxjs';
 
 @Injectable({

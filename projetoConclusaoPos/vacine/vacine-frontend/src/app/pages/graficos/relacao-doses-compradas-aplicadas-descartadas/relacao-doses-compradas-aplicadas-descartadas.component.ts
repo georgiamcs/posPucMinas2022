@@ -117,9 +117,6 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
   override ngOnInit(): void {
     super.ngOnInit();
     this.carregarTodosDescartes();
-    console.log('dataDescartes', this.dataDescartes);
-    console.log('dataCompras', this.dataCompras);
-    console.log('dataVacinacoes', this.dataVacinacoes);
   }
 
   private limparDataSets() {

@@ -9,9 +9,13 @@ const cnst = require("../../constantes");
 
 class DescarteVacinaController extends GenericCrudController {
   constructor() {
-    const perfisRequeridos = Acesso.getPerfisPorTema(Acesso.TEMA.VACINACAO);
 
-    super(genericService, DescarteVacinaModel, perfisRequeridos);
+
+    super(
+      genericService,
+      DescarteVacinaModel,
+      Acesso.TEMA_ACESSO.DESCARTE_VACINA
+    );
   }
 
   createObj(obj, user) {

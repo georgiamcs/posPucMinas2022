@@ -1,12 +1,13 @@
-const { AutorizacaoService } = require("../../services/autorizacao.service");
+const AutorizacaoService = require("../../services/autorizacao.service");
 const cnst = require("../../constantes");
 const mongoose = require("mongoose");
+const Acesso = require("../../setup/acesso");
 
 class GenericCrudController {
-  constructor(service, objectModel, perfisRequeridos) {
+  constructor(service, objectModel, temaAcesso) {
     this.service = service;
     this.objectModel = objectModel;
-    this.perfisRequeridos = perfisRequeridos;
+    this.temaAcesso = temaAcesso;
   }
 
   async createObj(obj, user) {
@@ -34,7 +35,13 @@ class GenericCrudController {
   }
 
   getById = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
+    ) {
       const id = req.params.id;
 
       try {
@@ -58,8 +65,13 @@ class GenericCrudController {
     }
   };
 
-  getAll = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+  getAll = async (req, res) => { 
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
+    ) {  
       const registros = await this.service.getAll(this.objectModel);
 
       try {
@@ -67,8 +79,7 @@ class GenericCrudController {
           return res
             .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
             .json("Não existem registros cadastrados!");
-        }
-
+        } 
         res.json(registros);
       } catch (err) {
         return res
@@ -83,7 +94,11 @@ class GenericCrudController {
   };
 
   add = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.INCLUIR,
+      ])
+    ) {
       const session = await mongoose.startSession();
       session.startTransaction();
       try {
@@ -126,7 +141,11 @@ class GenericCrudController {
   };
 
   update = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.ALTERAR,
+      ])
+    ) {
       let id = req.params.id;
 
       const session = await mongoose.startSession();
@@ -188,7 +207,11 @@ class GenericCrudController {
   };
 
   delete = async (req, res) => {
-    if (AutorizacaoService.checarPerfis(req, this.perfisRequeridos)) {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.EXCLUIR,
+      ])
+    ) {
       let id = req.params.id;
 
       const session = await mongoose.startSession();
@@ -212,7 +235,6 @@ class GenericCrudController {
             id,
             session
           );
-
           await this.doOnDelete(
             id,
             objBeforeDelete,

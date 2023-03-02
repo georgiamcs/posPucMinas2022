@@ -1,18 +1,16 @@
-const { AutorizacaoService } = require("../../services/autorizacao.service");
+
 const GenericCrudController = require("./generic-crud.controller");
 const GenericCrudService = require("../../services/generic-crud.service");
 const VacinaModel = require("../../models/vacina.model");
+const CompraVacinaModel = require("../../models/compra-vacina.model");
 const ControleEstoqueVacinaController = require("../../controllers/crud/controle-estoque-vacina.controller");
 const Acesso = require("../../setup/acesso");
 const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
-const mongoose = require("mongoose");
 const cnst = require("../../constantes");
 
 class VacinaController extends GenericCrudController {
   constructor() {
-    const perfisRequeridosVacina = Acesso.getPerfisPorTema(Acesso.TEMA.VACINA);
-
-    super(GenericCrudService, VacinaModel, perfisRequeridosVacina);
+    super(GenericCrudService, VacinaModel, Acesso.TEMA_ACESSO.VACINA);
   }
 
   createObj(obj, user) {

@@ -114,7 +114,7 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  protected deleteAllMensagem() {
+  protected deleteAllMensagens() {
     this.mensagens = [];
   }
 

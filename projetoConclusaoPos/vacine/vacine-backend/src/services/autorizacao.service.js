@@ -2,26 +2,23 @@ const SHAJS = require("sha.js");
 const cnstAcesso = require("../setup/acesso");
 
 class AutorizacaoService {
-  static checarPerfis = (req, perfis) => {
-    let usuario = req.user;
-    let retorno = false;
+  static checarTemPerfil = (req, tema, tiposAcessoExigidos) => {
+    const usuario = req.user;
+    const autorizacoesPerfil = cnstAcesso.getAutorizacoesPorPerfil(
+      req.user.perfil_acesso
+    );
 
-    if (perfis && perfis.length > 0) {
-      if (usuario && usuario.perfis) {
-        for (let i in perfis) {
-          retorno = retorno || usuario.perfis.indexOf(perfis[i]) > -1;
-        }
-      }
-    } else if (perfis.length == 0) {
-      retorno = true;
-    }
-
+    const retorno = autorizacoesPerfil.some(
+      (iAut) =>
+        iAut.tema == tema &&
+        iAut.tiposAcesso.some((tp) => tiposAcessoExigidos.includes(tp))
+    );
     return retorno;
   };
 
   static temAlgumPerfil = (req) => {
     let usuario = req.user;
-    return usuario && usuario.perfis.length > 0;
+    return usuario && !!usuario.perfil_acesso;
   };
 
   static isMesmoUsuario = (req, id) => {
@@ -31,9 +28,9 @@ class AutorizacaoService {
   };
 
   static isReqNovoUsuario = (body) => {
-    let perfis = body.perfis;
+    let pAcesso = body.perfil_acesso;
 
-    return perfis == cnstAcesso.PERFIL.CLIENTE;
+    return pAcesso == cnstAcesso.PERFIL.CLIENTE;
   };
 
   static criptografar = (dado) => {
@@ -41,6 +38,4 @@ class AutorizacaoService {
   };
 }
 
-module.exports = {
-  AutorizacaoService: AutorizacaoService,
-};
+module.exports = AutorizacaoService;

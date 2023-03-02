@@ -73,7 +73,6 @@
       </ul>
     </mat-toolbar>
   </div>
-
   <mat-sidenav-container class="site-sidenav-container">
     <mat-sidenav
       #snav
@@ -88,7 +87,7 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorUsuario()"
+              *ngIf="podeAcessarMenuUsuario()"
             >
               <button
                 routerLink="/usuarios"
@@ -105,7 +104,7 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorVacina()"
+              *ngIf="podeAcessarMenuVacina()"
             >
               <button
                 routerLink="/vacinas"
@@ -120,10 +119,7 @@
             </li>
 
             <li
-              *ngIf="
-                servicoAcesso.isCadastradorUsuario() ||
-                servicoAcesso.isCadastradorVacina()
-              "
+              *ngIf="podeAcessarMenuUsuario() || podeAcessarMenuVacina()"
               mat-list-item
               class="border-top my-3"
             ></li>
@@ -131,7 +127,7 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorVacinacao()"
+              *ngIf="podeAcessarMenuVacinacao()"
             >
               <button
                 routerLink="/vacinacoes"
@@ -148,7 +144,7 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorVacinacao()"
+              *ngIf="podeAcessarMenuDescarteVacina()"
             >
               <button
                 routerLink="/descartes-vacinas"
@@ -163,7 +159,7 @@
             </li>
 
             <li
-              *ngIf="servicoAcesso.isCadastradorVacinacao()"
+              *ngIf="podeAcessarMenuDescarteVacina() || podeAcessarMenuVacinacao()"
               mat-list-item
               class="border-top my-3"
             ></li>
@@ -171,7 +167,7 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorFornecedor()"
+              *ngIf="podeAcessarMenuFornecedorVacina()"
             >
               <button
                 routerLink="/fornecedores"
@@ -188,7 +184,7 @@
             <li
               mat-list-item
               class="mb-1"
-              *ngIf="servicoAcesso.isCadastradorCompra()"
+              *ngIf="podeAcessarMenuCompraVacina()"
             >
               <button
                 routerLink="/compras-vacina"
@@ -204,15 +200,14 @@
 
             <li
               *ngIf="
-                servicoAcesso.isCadastradorVacina() ||
-                servicoAcesso.isCadastradorFornecedor() ||
-                servicoAcesso.isCadastradorCompra()
+                podeAcessarMenuFornecedorVacina() ||
+                podeAcessarMenuCompraVacina()
               "
               mat-list-item
               class="border-top my-3"
             ></li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuGraficos()">
               <button
                 routerLink="/graficos/dist-mot-desc-vacina"
                 routerLinkActive="active"
@@ -225,7 +220,7 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuGraficos()">
               <button
                 routerLink="/graficos/relac-valores-vacina"
                 routerLinkActive="active"
@@ -238,7 +233,7 @@
               </button>
             </li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isAdmin()">
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuGraficos()">
               <button
                 routerLink="/graficos/relac-doses-vacina"
                 routerLinkActive="active"
@@ -251,12 +246,12 @@
               </button>
             </li>
             <li
-              *ngIf="servicoAcesso.isAdmin()"
+              *ngIf="podeAcessarMenuGraficos()"
               mat-list-item
               class="border-top my-3"
             ></li>
 
-            <li mat-list-item class="mb-1" *ngIf="servicoAcesso.isLogado()">
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuMinhasVacinacoes()">
               <button
                 (click)="downloadMinhasVacinacoes()"
                 routerLinkActive="active"
