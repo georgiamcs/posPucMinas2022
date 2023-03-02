@@ -1,5 +1,6 @@
 const SHAJS = require("sha.js");
 const cnstAcesso = require("../setup/acesso");
+const cnst = require("../constantes");
 
 class AutorizacaoService {
   static checarTemPerfil = (req, tema, tiposAcessoExigidos) => {
@@ -28,9 +29,9 @@ class AutorizacaoService {
   };
 
   static isReqNovoUsuario = (body) => {
-    let pAcesso = body.perfil_acesso;
+    let tipoUser = body.tipo;
 
-    return pAcesso == cnstAcesso.PERFIL.CLIENTE;
+    return tipoUser == cnst.TIPO_USUARIO.CLIENTE;
   };
 
   static criptografar = (dado) => {

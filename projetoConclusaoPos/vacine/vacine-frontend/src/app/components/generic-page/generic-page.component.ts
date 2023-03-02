@@ -110,6 +110,18 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected tratarErroAcesso(irParaPaginaErro: boolean) {
+    if (!!this.router && irParaPaginaErro) {
+      this.router.navigate(['/acesso-proibido']);
+    } else {
+      const msg = new MensagemFeedback(
+        TipoMensagemFeedback.ERRO,
+        'Usuário não tem acesso a essa funcionalidade. Caso esse acesso seja necessário, entre em contato com o administrador admin@vacine.com'
+      );
+      this.addMensagem(msg);
+    }
+  }
+
   protected carregarStateAoIniciar() {
     let msg = this.getStateRota(UtilRota.NOME_STATE_ROTA_MSG_FEEDBACK);
     if (!!msg) {
@@ -161,6 +173,14 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
       tam = 'p';
     }
     return `${path}${nomeArqSemExtensao}-${tam}.${extensao}`;
+  }
+
+  protected temAcessoVisualizarTodos(): boolean {
+    return Acesso.temAcessoFuncionalidade(
+      this.getTemaAcesso(),
+      [TipoAcessoUsuario.VISUALIZAR_TODOS],
+      this.autorizacoesUsuario
+    );
   }
 
   protected temAcessoAdicionar(): boolean {

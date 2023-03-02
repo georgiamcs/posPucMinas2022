@@ -3,7 +3,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormGroup, ValidatorFn
+  FormGroup,
+  ValidatorFn,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +16,7 @@ import {
   definirLabelBotaoAcaoModoFormulario,
   definirLabelBotaoFecharModoFormulario,
   definirModoFormulario,
-  ModoFormulario
+  ModoFormulario,
 } from 'src/app/shared/enums/modo-formulario.enum';
 import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -71,9 +72,25 @@ export abstract class GenericCrudComponent<
   }
   protected abstract definirIdentificadoresEntidade(): void;
 
+  protected verificarAcessoModoFormulario() {
+    if (
+      (this.modoFormulario == ModoFormulario.INCLUSAO &&
+        !this.temAcessoAdicionar()) ||
+      (this.modoFormulario == ModoFormulario.ALTERACAO &&
+        !this.temAcessoAlterar()) ||
+      (this.modoFormulario == ModoFormulario.EXCLUSAO &&
+        !this.temAcessoExcluir()) ||
+      (this.modoFormulario == ModoFormulario.CONSULTA &&
+        !this.temAcessoVisualizarTodos())
+    ) {
+      this.tratarErroAcesso(true);
+    }
+  }
+
   protected preencherAtributosGenericosCrud() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.modoFormulario = definirModoFormulario(this.id, this.router.url);
+    this.verificarAcessoModoFormulario();
     this.lbBotaoSalvar = definirLabelBotaoAcaoModoFormulario(
       this.modoFormulario
     );

@@ -48,6 +48,10 @@
               <p ngbDropdownItem>
                 &nbsp;{{ servicoAcesso.getUsuario()?.email }}
               </p>
+              <li class="border-top my-3"></li>
+              <p ngbDropdownItem>
+                &nbsp;Perfil: {{ getDescricaoPerfil() }}
+              </p>
               <li mat-list-item class="border-top my-3"></li>
               <a
                 *ngIf="servicoAcesso.isLogado()"

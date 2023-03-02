@@ -1,4 +1,5 @@
 import {
+  Acesso,
   TemaAcessoUsuario,
   TipoAcessoUsuario,
 } from './../../../shared/classes/acesso.class';
@@ -102,6 +103,10 @@ export class PageContainerComponent
       TemaAcessoUsuario.VACINACAO,
       [TipoAcessoUsuario.VISUALIZAR_PROPRIO]
     );
+  }
+
+  protected getDescricaoPerfil(): string {
+    return Acesso.getDescricaoPerfil(this.serviceAcesso.getUsuario()?.perfil_acesso);
   }
 
   protected async downloadMinhasVacinacoes() {

@@ -11,7 +11,7 @@ class UsuarioController extends GenericCrudController {
   }
 
   createUsuarioCliente(obj) {
-    let usuario = createUsuario(obj);
+    let usuario = this.createObj(obj);
     usuario.tipo = cnst.TIPO_USUARIO.CLIENTE;
     usuario.perfil_acesso = Acesso.PERFIL.CLIENTE;
     return usuario;
@@ -148,10 +148,11 @@ class UsuarioController extends GenericCrudController {
   registrar = async (req, res) => {
     if (AutorizacaoService.isReqNovoUsuario(req.body)) {
       try {
+        const novoUsuario = this.createUsuarioCliente(req.body);
         const regAdicionado = await this.service.add(
           this.objectModel,
-          this.createUsuarioCliente,
-          req.body
+          novoUsuario,
+          undefined
         );
         res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
       } catch (error) {

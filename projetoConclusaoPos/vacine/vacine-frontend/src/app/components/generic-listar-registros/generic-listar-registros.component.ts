@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { GenericPageComponent } from '../generic-page/generic-page.component';
 import { GenericGetterService } from './../../services/generic/generic-getter/generic-getter.service';
@@ -12,12 +12,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 import { TipoOrigemRota } from 'src/app/shared/enums/tipo-rota.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { EntityModel } from 'src/app/shared/models/entity.model';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
-import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
 
 @Component({
   selector: 'vacine-generic-listar-registros',
@@ -53,6 +53,9 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
 
   override ngOnInit(): void {
     super.ngOnInit();
+    if (!this.temAcessoVisualizarTodos()) {
+      this.tratarErroAcesso(true);
+    }
     this.carregarRegistros();
   }
 
@@ -127,27 +130,39 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
   }
 
   protected irParaTelaAdicionar() {
-    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-
-    this.router.navigate([this.getPathCrudUrl()], state);
+    if (!this.temAcessoAdicionar()) {
+      this.tratarErroAcesso(false);
+    } else {
+      const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+      this.router.navigate([this.getPathCrudUrl()], state);
+    }
   }
 
   protected irParaTelaVisualizar(id: string) {
-    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-
-    this.router.navigate([`${this.getPathCrudUrl()}/${id}`], state);
+    if (!this.temAcessoVisualizarTodos()) {
+      this.tratarErroAcesso(false);
+    } else {
+      const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+      this.router.navigate([`${this.getPathCrudUrl()}/${id}`], state);
+    }
   }
 
   protected irParaTelaEditar(id: string) {
-    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-
-    this.router.navigate([`${this.getPathCrudUrl()}/editar/${id}`], state);
+    if (!this.temAcessoAlterar()) {
+      this.tratarErroAcesso(false);
+    } else {
+      const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+      this.router.navigate([`${this.getPathCrudUrl()}/editar/${id}`], state);
+    }
   }
 
   protected irParaTelaExcluir(id: string) {
-    const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-
-    this.router.navigate([`${this.getPathCrudUrl()}/excluir/${id}`], state);
+    if (!this.temAcessoExcluir()) {
+      this.tratarErroAcesso(false);
+    } else {
+      const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
+      this.router.navigate([`${this.getPathCrudUrl()}/excluir/${id}`], state);
+    }
   }
 
   protected exportarParaExcel() {
