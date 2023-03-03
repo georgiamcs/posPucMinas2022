@@ -14,10 +14,6 @@ export enum MotivoDescarteVacina {
 
 export const MOTIVOS_DESCARTES_VACINAS: ListaSelect[] = [
   {
-    valor: MotivoDescarteVacina.EXPIRACAO,
-    valorExibicao: 'Expiração',
-  },
-  {
     valor: MotivoDescarteVacina.ARMAZENAMENTO,
     valorExibicao: 'Armazenamento',
   },
@@ -30,16 +26,20 @@ export const MOTIVOS_DESCARTES_VACINAS: ListaSelect[] = [
     valorExibicao: 'Dano físico',
   },
   {
-    valor: MotivoDescarteVacina.USO_IMPROPRIO,
-    valorExibicao: 'Uso impróprio',
-  },
-  {
     valor: MotivoDescarteVacina.DESPERDICIO,
     valorExibicao: 'Desperdício',
   },
   {
+    valor: MotivoDescarteVacina.EXPIRACAO,
+    valorExibicao: 'Expiração',
+  },
+  {
     valor: MotivoDescarteVacina.RECUSA_PACIENTE,
     valorExibicao: 'Recusa paciente',
+  },
+  {
+    valor: MotivoDescarteVacina.USO_IMPROPRIO,
+    valorExibicao: 'Uso impróprio',
   },
   {
     valor: MotivoDescarteVacina.OUTRO,

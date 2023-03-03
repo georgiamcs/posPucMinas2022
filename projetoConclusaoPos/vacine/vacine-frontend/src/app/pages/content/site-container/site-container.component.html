@@ -49,22 +49,26 @@
                 &nbsp;{{ servicoAcesso.getUsuario()?.email }}
               </p>
               <li class="border-top my-3"></li>
-              <p ngbDropdownItem>
-                &nbsp;Perfil: {{ getDescricaoPerfil() }}
-              </p>
+              <p ngbDropdownItem>&nbsp;Perfil: {{ getDescricaoPerfil() }}</p>
               <li mat-list-item class="border-top my-3"></li>
-              <a
+              <button
                 *ngIf="servicoAcesso.isLogado()"
                 ngbDropdownItem
                 (click)="trocarSenha()"
-                >&nbsp;Alterar Senha
-              </a>
-              <a
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
+              >
+                Alterar Senha
+              </button>
+              <button
                 *ngIf="servicoAcesso.isLogado()"
                 ngbDropdownItem
                 routerLink="/logout/"
-                ><i class="bi bi-door-open-fill"></i>&nbsp;Sair do Sistema</a
+                routerLinkActive="active"
+                class="btn btn-toggle align-items-center rounded collapsed"
               >
+                Sair do Sistema
+              </button>
             </span>
             <a
               *ngIf="!servicoAcesso.isLogado()"
@@ -86,36 +90,26 @@
       fixedTopGap="56"
     >
       <mat-nav-list>
-        <div class="flex-shrink-0 p-3 bg-white" style="width: 250px">
+        <div class="flex-shrink-0 p-3 bg-white" style="width: 280px">
           <ul class="list-unstyled ps-0">
-            <li
-              mat-list-item
-              class="mb-1"
-              *ngIf="podeAcessarMenuUsuario()"
-            >
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuUsuario()">
               <button
                 routerLink="/usuarios"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#usuarios-collapse"
-                aria-expanded="true"
+                aria-expanded="false"
               >
                 Usuários
               </button>
             </li>
 
-            <li
-              mat-list-item
-              class="mb-1"
-              *ngIf="podeAcessarMenuVacina()"
-            >
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuVacina()">
               <button
                 routerLink="/vacinas"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
                 Vacinas
@@ -128,20 +122,15 @@
               class="border-top my-3"
             ></li>
 
-            <li
-              mat-list-item
-              class="mb-1"
-              *ngIf="podeAcessarMenuVacinacao()"
-            >
+            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuVacinacao()">
               <button
                 routerLink="/vacinacoes"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
-                Vacinação
+                Vacinações
               </button>
             </li>
 
@@ -155,7 +144,6 @@
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
                 Descartes Vacinas
@@ -163,7 +151,9 @@
             </li>
 
             <li
-              *ngIf="podeAcessarMenuDescarteVacina() || podeAcessarMenuVacinacao()"
+              *ngIf="
+                podeAcessarMenuDescarteVacina() || podeAcessarMenuVacinacao()
+              "
               mat-list-item
               class="border-top my-3"
             ></li>
@@ -178,10 +168,9 @@
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#dashboard-collapse"
                 aria-expanded="false"
               >
-                Fornecedor
+                Fornecedores
               </button>
             </li>
 
@@ -195,7 +184,6 @@
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#dashboard-collapse"
                 aria-expanded="false"
               >
                 Compras Vacinas
@@ -217,7 +205,6 @@
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
                 Gráfico Motivos Descarte
@@ -230,7 +217,6 @@
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
                 Gráfico Valores Vacinas
@@ -243,7 +229,6 @@
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
                 aria-expanded="false"
               >
                 Gráfico Doses Vacinas
@@ -255,13 +240,16 @@
               class="border-top my-3"
             ></li>
 
-            <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuMinhasVacinacoes()">
+            <li
+              mat-list-item
+              class="mb-1"
+              *ngIf="podeAcessarMenuMinhasVacinacoes()"
+            >
               <button
                 (click)="downloadMinhasVacinacoes()"
                 routerLinkActive="active"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
-                data-bs-target="#account-collapse"
                 aria-expanded="false"
               >
                 Minhas Vacinações

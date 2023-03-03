@@ -129,7 +129,7 @@ class CompraVacinaController extends GenericCrudController {
             new Date(), // data_evento
             tpEventoControleEstoque, //tipo_evento
             tpMotControleEstoque, //tipo_motivo,
-            `Compra Nota Fiscal: ${nfCompra}`, //descricao_evento
+            `Compra nota fiscal: ${nfCompra}`, //descricao_evento
             idCompra, //justificativa_evento
             qtd_estoque_antes, //qtd_estoque_antes
             vacina.qtd_doses_estoque //qtd_estoque_depois

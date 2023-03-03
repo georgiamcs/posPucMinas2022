@@ -130,7 +130,7 @@ class VacinacaoController extends GenericCrudController {
             new Date(), // data_evento
             tpEventoControleEstoque, //tipo_evento
             tpMotControleEstoque, //tipo_motivo,
-            `Vacinação Código: ${codigoVacinacao}`, //descricao_evento
+            `Vacinação código: ${codigoVacinacao}`, //descricao_evento
             idVacinacao, //id_entidade_relac_evento
             qtd_estoque_antes, //qtd_estoque_antes
             vacina.qtd_doses_estoque //qtd_estoque_depois

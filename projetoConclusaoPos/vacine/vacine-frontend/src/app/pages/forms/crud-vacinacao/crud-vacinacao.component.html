@@ -20,7 +20,7 @@
       </mat-form-field>
 
       <mat-form-field class="crudfield" id="fDataAplicacao" appearance="fill">
-        <mat-label>Data da aplicação</mat-label>
+        <mat-label>Data da aplicação*</mat-label>
         <input
           matInput
           [matDatepicker]="picker1"
@@ -59,7 +59,7 @@
       </mat-form-field>
 
       <mat-form-field class="crudfield" id="fCliente">
-        <mat-label>Cliente</mat-label>
+        <mat-label>Cliente*</mat-label>
         <input
           type="text"
           [formControlName]="nomeCtrlCliente"
@@ -99,7 +99,7 @@
       </mat-form-field>
 
       <mat-form-field class="crudfield" id="fAplicador">
-        <mat-label>Aplicador da vacina</mat-label>
+        <mat-label>Aplicador da vacina*</mat-label>
         <input
           type="text"
           [formControlName]="nomeCtrlAplicador"
@@ -158,7 +158,7 @@
           </legend>
 
           <mat-form-field class="crudfield" id="fVacina">
-            <mat-label>Vacina</mat-label>
+            <mat-label>Vacina*</mat-label>
             <input
               type="text"
               [formControlName]="nomeCtrlVacina"
@@ -226,7 +226,7 @@
             id="fDataValidade"
             appearance="fill"
           >
-            <mat-label>Data de validade</mat-label>
+            <mat-label>Data de validade*</mat-label>
             <input
               matInput
               [matDatepicker]="picker2"
