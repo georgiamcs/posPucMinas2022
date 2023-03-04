@@ -40,7 +40,6 @@ export class LoginComponent extends GenericPageFormComponent {
   override ngOnInit(): void {
     super.ngOnInit();
     this.buildForm();
-    this.deleteAllMensagens();
 
     this.subscription = this.serviceAutRedeSocial.authState.subscribe(
       (user) => {

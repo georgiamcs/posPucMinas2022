@@ -67,9 +67,6 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (browserRefresh) {
-      this.mensagens = [];
-    }
   }
 
   ngOnDestroy(): void {
