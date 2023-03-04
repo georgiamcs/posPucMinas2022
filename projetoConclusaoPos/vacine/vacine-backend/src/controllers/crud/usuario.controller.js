@@ -94,12 +94,9 @@ class UsuarioController extends GenericCrudController {
       { "usuario_resp_descarte._id": id },
       session,
       "_id"
-    ); 
-
-    return (
-      regVacinacao.length === 0 && regDescarte.length === 0
     );
 
+    return regVacinacao.length === 0 && regDescarte.length === 0;
   }
 
   getNomeById = async (req, res) => {
@@ -176,13 +173,25 @@ class UsuarioController extends GenericCrudController {
   registrar = async (req, res) => {
     if (AutorizacaoService.isReqNovoUsuario(req.body)) {
       try {
-        const novoUsuario = this.createUsuarioCliente(req.body);
-        const regAdicionado = await this.service.add(
-          this.objectModel,
-          novoUsuario,
-          undefined
+        const regDuplicado = await this.temDuplicado(
+          req.body,
+          undefined,
+          cnst.TIPO_OPERACAO.INSERT
         );
-        res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
+
+        if (!!regDuplicado) {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
+            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
+        } else {
+          const novoUsuario = this.createUsuarioCliente(req.body);
+          const regAdicionado = await this.service.add(
+            this.objectModel,
+            novoUsuario,
+            undefined
+          );
+          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
+        }
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)

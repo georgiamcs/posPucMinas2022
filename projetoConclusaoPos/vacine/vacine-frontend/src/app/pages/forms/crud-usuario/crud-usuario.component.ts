@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
   FormBuilder,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,15 +14,16 @@ import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { ModoFormulario } from 'src/app/shared/enums/modo-formulario.enum';
+import { RetornoHttp } from 'src/app/shared/enums/retorno-http.enum';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { ESTADOS } from 'src/app/variables/constantes';
+import { ESTADOS, MENSAGEM_REGISTRO_DUPLICADO } from 'src/app/variables/constantes';
 import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import {
   TIPOS_USUARIOS,
-  TipoUsuario
+  TipoUsuario,
 } from '../../../shared/enums/tipo-usuario.enum';
 
 @Component({
@@ -87,13 +88,30 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
   }
 
   protected override registrar() {
-    this.subscription = this.serviceCliente
-      .registrar(this.form.value)
-      .subscribe({
-        next: () => this.registroComSucesso(),
-        error: (erro) =>
-          this.tratarErro(`Erro ao registrar usuário => ${erro}`),
-      });
+    const novoRegistro = this.getRegistroForm();
+
+    this.subscription = this.serviceCliente.registrar(novoRegistro).subscribe({
+      next: () => {
+        this.registroComSucesso();
+      },
+      error: (erro) => {
+        let msgErro: string;
+
+        if (erro.status === RetornoHttp.HTTP_CONFLIT) {
+          msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
+        } else {
+          const textoErro = !!erro.error?.error
+            ? erro.error.error
+            : erro.message;
+          msgErro = `Erro ao registrar usuário => ${textoErro}`;
+        }
+        const msgFeedbackErro = new MensagemFeedback(
+          TipoMensagemFeedback.ERRO,
+          msgErro
+        );
+        this.addMensagem(msgFeedbackErro);
+      },
+    });
   }
 
   private registroComSucesso() {
@@ -102,7 +120,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       'Usuário registrado com sucesso!'
     );
     const state = UtilRota.gerarStateMsgFeedbackRota(msgFeedback);
-    this.irParaPagina('/home', state);
+    this.irParaPagina('/login', state);
   }
 
   protected buildForm() {
