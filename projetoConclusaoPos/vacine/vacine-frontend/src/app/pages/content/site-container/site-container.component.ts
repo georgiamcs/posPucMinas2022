@@ -48,7 +48,7 @@ export class PageContainerComponent
   protected trocarSenha() {
     this.idUser = this.securityProvider.getUsuario()?._id;
     const link = `/trocar_minha_senha/${this.idUser}`;
-    this.router.navigate([link]);
+    this.irParaPagina(link);
   }
 
   protected podeAcessarMenuUsuario(): boolean {
@@ -106,10 +106,13 @@ export class PageContainerComponent
   }
 
   protected getDescricaoPerfil(): string {
-    return Acesso.getDescricaoPerfil(this.serviceAcesso.getUsuario()?.perfil_acesso);
+    return Acesso.getDescricaoPerfil(
+      this.serviceAcesso.getUsuario()?.perfil_acesso
+    );
   }
 
   protected async downloadMinhasVacinacoes() {
+    this.deleteAllMensagens();
     let dados = [];
     const idCliente = this.securityProvider.getUsuario()?._id;
 
@@ -154,4 +157,5 @@ export class PageContainerComponent
       },
     });
   }
+
 }

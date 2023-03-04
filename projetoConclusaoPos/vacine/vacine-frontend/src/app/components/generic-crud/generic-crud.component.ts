@@ -296,10 +296,10 @@ export abstract class GenericCrudComponent<
 
   protected fechar() {
     if (this.modoFormulario == ModoFormulario.REGISTRAR) {
-      this.router.navigate(['/login']);
+      this.irParaPagina('/login');
     } else if (this.origemRotaNavegacao == TipoOrigemRota.LISTAGEM) {
-      this.router.navigate([this.getCaminhoRelativoListaRegistros()]);
-    } else this.router.navigate(['/home']);
+      this.irParaPagina(this.getCaminhoRelativoListaRegistros());
+    } else this.irParaPagina('/home');
   }
 
   protected preencherFormComRegistroId(registro: any): void {
@@ -344,7 +344,7 @@ export abstract class GenericCrudComponent<
     msgFeedback: MensagemFeedback
   ) {
     const state = UtilRota.gerarStateMsgFeedbackRota(msgFeedback);
-    this.router.navigate([caminhoRelativo], state);
+    this.irParaPagina(caminhoRelativo, state);
   }
 
   protected setValorCampoForm(formControlName: string, valor: any): any {

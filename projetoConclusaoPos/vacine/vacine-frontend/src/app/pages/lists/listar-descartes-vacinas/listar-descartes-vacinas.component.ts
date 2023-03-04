@@ -32,7 +32,7 @@ export class ListarDescarteVacinasComponent extends GenericListarRegistrosCompon
     return 'Descartes de Vacinas';
   }
 
-  protected getPathCrudUrl(): string | null {
+  protected getPathCrudUrl(): string {
     return 'descarte-vacina';
   }
   protected getRegistrosExportar(): any[] {

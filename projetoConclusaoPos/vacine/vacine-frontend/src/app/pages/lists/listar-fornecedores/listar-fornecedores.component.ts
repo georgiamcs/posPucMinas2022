@@ -45,7 +45,7 @@ export class ListarFornecedoresComponent extends GenericListarRegistrosComponent
     });
     return ret;
   }
-  protected getPathCrudUrl(): string | null {
+  protected getPathCrudUrl(): string {
     return 'fornecedor';
   }
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {

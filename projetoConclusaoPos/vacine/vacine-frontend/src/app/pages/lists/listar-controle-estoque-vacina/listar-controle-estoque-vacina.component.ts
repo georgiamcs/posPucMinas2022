@@ -41,7 +41,7 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
     return 'Histórico do Controle de Estoque';
   }
 
-  protected getPathCrudUrl(): string | null {
+  protected getPathCrudUrl(): string {
     return '';
   }
 
@@ -128,6 +128,6 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
   }
 
   protected voltar() {
-    this.router.navigate(['vacinas']);
+    this.irParaPagina('vacinas');
   }
 }

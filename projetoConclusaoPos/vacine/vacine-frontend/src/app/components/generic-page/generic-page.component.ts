@@ -103,7 +103,7 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
         new MensagemFeedback(TipoMensagemFeedback.ERRO, erro)
       );
 
-      this.router.navigate(['/erro'], state);
+      this.irParaPagina('/erro', state);
     } else {
       const msg = new MensagemFeedback(TipoMensagemFeedback.ERRO, erro);
       this.addMensagem(msg);
@@ -112,7 +112,7 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
 
   protected tratarErroAcesso(irParaPaginaErro: boolean) {
     if (!!this.router && irParaPaginaErro) {
-      this.router.navigate(['/acesso-proibido']);
+      this.irParaPagina('/acesso-proibido');
     } else {
       const msg = new MensagemFeedback(
         TipoMensagemFeedback.ERRO,
@@ -205,5 +205,10 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
       [TipoAcessoUsuario.EXCLUIR],
       this.autorizacoesUsuario
     );
+  }
+
+  irParaPagina(urlRelativa: string, state?: Object) {
+    this.deleteAllMensagens();
+    this.router.navigate([urlRelativa], state);
   }
 }

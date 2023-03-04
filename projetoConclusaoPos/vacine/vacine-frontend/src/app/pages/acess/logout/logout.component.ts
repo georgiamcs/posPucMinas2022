@@ -41,6 +41,6 @@ export class LogoutComponent extends GenericPageComponent implements OnInit {
     }
 
     this.serviceAcesso.logout();
-    this.router.navigate(['/home']);
+    this.irParaPagina('/home');
   }
 }

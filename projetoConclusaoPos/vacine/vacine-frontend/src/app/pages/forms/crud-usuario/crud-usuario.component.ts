@@ -102,7 +102,7 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
       'Usuário registrado com sucesso!'
     );
     const state = UtilRota.gerarStateMsgFeedbackRota(msgFeedback);
-    this.router.navigate(['/home'], state);
+    this.irParaPagina('/home', state);
   }
 
   protected buildForm() {

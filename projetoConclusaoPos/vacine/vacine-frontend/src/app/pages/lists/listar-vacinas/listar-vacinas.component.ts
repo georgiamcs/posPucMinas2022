@@ -64,6 +64,6 @@ export class ListarVacinasComponent extends GenericListarRegistrosComponent<Vaci
   }
 
   protected irParaTelaControleEstoque(id: string) {
-    this.router.navigate([`/controle-estoque-vacina/${id}`]);
+   this.irParaPagina(`/controle-estoque-vacina/${id}`);
   }
 }

@@ -32,7 +32,7 @@ export class ListarVacinacoesComponent extends GenericListarRegistrosComponent<L
     return 'Vacinações';
   }
 
-  protected getPathCrudUrl(): string | null {
+  protected getPathCrudUrl(): string {
     return 'vacinacao';
   }
 

@@ -74,8 +74,7 @@ export class LoginComponent extends GenericPageFormComponent {
     this.subscription = this.serviceAcesso.loginJwt(loginUsuario).subscribe({
       next: (result) => {
         this.serviceAcesso.setTokenUsuario(result);
-        this.deleteAllMensagens();
-        this.router.navigate(['/home']);
+        this.irParaPagina('/home');
       },
       error: (err) => {
         this.logandoFormulario(false);
@@ -88,8 +87,7 @@ export class LoginComponent extends GenericPageFormComponent {
     this.subscription = this.serviceAcesso.loginGoogle(usuario).subscribe({
       next: (result) => {
         this.serviceAcesso.setTokenUsuario(result);
-        this.deleteAllMensagens();
-        this.router.navigate(['/home']);
+        this.irParaPagina('/home');
       },
       error: (err) => {
         this.logandoFormulario(false);

@@ -156,7 +156,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
       this.router.url.indexOf('trocar_minha_senha') > -1
         ? '/home'
         : '/usuarios';
-    this.router.navigate([urlRet], state);
+    this.irParaPagina(urlRet, state);
   }
 
   protected fechar() {

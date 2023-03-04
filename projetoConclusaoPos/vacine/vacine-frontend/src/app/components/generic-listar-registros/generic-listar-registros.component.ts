@@ -38,7 +38,7 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
 
   protected abstract getTituloPagina(): string;
   protected abstract getRegistrosExportar(): any[];
-  protected abstract getPathCrudUrl(): string | null;
+  protected abstract getPathCrudUrl(): string;
   protected abstract getDefColunasExibidas(): DefinicaoColunasExibidas[];
 
   constructor(
@@ -134,7 +134,7 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
       this.tratarErroAcesso(false);
     } else {
       const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-      this.router.navigate([this.getPathCrudUrl()], state);
+      this.irParaPagina(this.getPathCrudUrl(), state);
     }
   }
 
@@ -143,7 +143,7 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
       this.tratarErroAcesso(false);
     } else {
       const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-      this.router.navigate([`${this.getPathCrudUrl()}/${id}`], state);
+      this.irParaPagina(`${this.getPathCrudUrl()}/${id}`, state);
     }
   }
 
@@ -152,7 +152,7 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
       this.tratarErroAcesso(false);
     } else {
       const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-      this.router.navigate([`${this.getPathCrudUrl()}/editar/${id}`], state);
+      this.irParaPagina(`${this.getPathCrudUrl()}/editar/${id}`, state);
     }
   }
 
@@ -161,7 +161,7 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
       this.tratarErroAcesso(false);
     } else {
       const state = UtilRota.gerarStateOrigemRota(TipoOrigemRota.LISTAGEM);
-      this.router.navigate([`${this.getPathCrudUrl()}/excluir/${id}`], state);
+      this.irParaPagina(`${this.getPathCrudUrl()}/excluir/${id}`, state);
     }
   }
 

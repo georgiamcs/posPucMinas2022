@@ -52,7 +52,6 @@
               <p ngbDropdownItem>&nbsp;Perfil: {{ getDescricaoPerfil() }}</p>
               <li mat-list-item class="border-top my-3"></li>
               <button
-                *ngIf="servicoAcesso.isLogado()"
                 ngbDropdownItem
                 (click)="trocarSenha()"
                 routerLinkActive="active"
@@ -61,21 +60,22 @@
                 Alterar Senha
               </button>
               <button
-                *ngIf="servicoAcesso.isLogado()"
                 ngbDropdownItem
-                routerLink="/logout/"
-                routerLinkActive="active"
+                (click)="irParaPagina('/logout/')"
                 class="btn btn-toggle align-items-center rounded collapsed"
               >
                 Sair do Sistema
               </button>
             </span>
-            <a
-              *ngIf="!servicoAcesso.isLogado()"
-              routerLink="/login"
-              ngbDropdownItem
-              >&nbsp;Login
-            </a>
+            <span *ngIf="!servicoAcesso.isLogado()">
+              <button
+                ngbDropdownItem
+                (click)="irParaPagina('/login')"
+                class="btn btn-toggle align-items-center rounded collapsed"
+              >
+                Sair do Sistema
+              </button>
+            </span>
           </span>
         </li>
       </ul>
@@ -94,8 +94,7 @@
           <ul class="list-unstyled ps-0">
             <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuUsuario()">
               <button
-                routerLink="/usuarios"
-                routerLinkActive="active"
+                (click)="irParaPagina('/usuarios')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -106,8 +105,7 @@
 
             <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuVacina()">
               <button
-                routerLink="/vacinas"
-                routerLinkActive="active"
+                (click)="irParaPagina('/vacinas')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -124,8 +122,7 @@
 
             <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuVacinacao()">
               <button
-                routerLink="/vacinacoes"
-                routerLinkActive="active"
+                (click)="irParaPagina('/vacinacoes')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -140,8 +137,7 @@
               *ngIf="podeAcessarMenuDescarteVacina()"
             >
               <button
-                routerLink="/descartes-vacinas"
-                routerLinkActive="active"
+                (click)="irParaPagina('/descartes-vacinas')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -164,8 +160,7 @@
               *ngIf="podeAcessarMenuFornecedorVacina()"
             >
               <button
-                routerLink="/fornecedores"
-                routerLinkActive="active"
+                (click)="irParaPagina('/fornecedores')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -180,8 +175,7 @@
               *ngIf="podeAcessarMenuCompraVacina()"
             >
               <button
-                routerLink="/compras-vacina"
-                routerLinkActive="active"
+                (click)="irParaPagina('/compras-vacina')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -201,8 +195,7 @@
 
             <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuGraficos()">
               <button
-                routerLink="/graficos/dist-mot-desc-vacina"
-                routerLinkActive="active"
+                (click)="irParaPagina('/graficos/dist-mot-desc-vacina')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -213,8 +206,7 @@
 
             <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuGraficos()">
               <button
-                routerLink="/graficos/relac-valores-vacina"
-                routerLinkActive="active"
+                (click)="irParaPagina('/graficos/relac-valores-vacina')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
@@ -225,8 +217,7 @@
 
             <li mat-list-item class="mb-1" *ngIf="podeAcessarMenuGraficos()">
               <button
-                routerLink="/graficos/relac-doses-vacina"
-                routerLinkActive="active"
+                (click)="irParaPagina('/graficos/relac-doses-vacina')"
                 class="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 aria-expanded="false"

@@ -120,12 +120,11 @@
             *matRowDef="let row; columns: getDisplayedColumnsMediaType()"
           ></tr>
         </table>
-        <div class="tabpag">
-          <mat-paginator
-            [pageSizeOptions]="[10, 25, 50, 100]"
-            aria-label="Selecione a página"
-          ></mat-paginator>
-        </div>
+        <mat-paginator
+          class="tabpag"
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          aria-label="Selecione a página"
+        ></mat-paginator>
       </div>
     </div>
   </div>

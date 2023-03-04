@@ -49,7 +49,7 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     });
     return ret;
   }
-  protected getPathCrudUrl(): string | null {
+  protected getPathCrudUrl(): string {
     return 'usuario';
   }
   protected getDefColunasExibidas(): DefinicaoColunasExibidas[] {
