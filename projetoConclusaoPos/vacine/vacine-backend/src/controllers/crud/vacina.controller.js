@@ -1,8 +1,9 @@
-
 const GenericCrudController = require("./generic-crud.controller");
 const GenericCrudService = require("../../services/generic-crud.service");
 const VacinaModel = require("../../models/vacina.model");
 const CompraVacinaModel = require("../../models/compra-vacina.model");
+const VacinacaoModel = require("../../models/vacinacao.model");
+const DescarteVacinaModel = require("../../models/descarte-vacina.model");
 const ControleEstoqueVacinaController = require("../../controllers/crud/controle-estoque-vacina.controller");
 const Acesso = require("../../setup/acesso");
 const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
@@ -84,7 +85,25 @@ class VacinaController extends GenericCrudController {
       "_id"
     );
 
-    return comprasDaVacina.length == 0;
+    const vacinacaoDaVacina = await GenericCrudService.find(
+      VacinacaoModel,
+      { "itens_vacinacao.vacina._id": id },
+      session,
+      "_id"
+    );
+
+    const descarteDaVacina = await GenericCrudService.find(
+      DescarteVacinaModel,
+      { "itens_descarte.vacina._id": id },
+      session,
+      "_id"
+    );
+
+    return (
+      comprasDaVacina.length === 0 &&
+      vacinacaoDaVacina.length === 0 &&
+      descarteDaVacina.length === 0
+    );
   }
 
   async doOnAdd(regAdicionado, user, session) {
@@ -110,7 +129,6 @@ class VacinaController extends GenericCrudController {
   }
 
   async doOnUpdate(id, objBeforeUpdate, objUpdated, user, session) {
-
     if (objBeforeUpdate.qtd_doses_estoque != objUpdated.qtd_doses_estoque) {
       const tipoEvento =
         objBeforeUpdate.qtd_doses_estoque <= objUpdated.qtd_doses_estoque
@@ -135,7 +153,6 @@ class VacinaController extends GenericCrudController {
       await estoqueController.inserirFromRecord(regContEstoque, session);
     }
   }
-
 }
 
 module.exports = VacinaController;

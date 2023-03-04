@@ -1,13 +1,15 @@
 const AutorizacaoService = require("../../services/autorizacao.service");
 const GenericCrudController = require("./generic-crud.controller");
-const UsuarioService = require("../../services/generic-crud.service");
+const GenericService = require("../../services/generic-crud.service");
 const UsuarioModel = require("../../models/usuario.model");
+const VacinacaoModel = require("../../models/vacinacao.model");
+const DescarteVacinaModel = require("../../models/descarte-vacina.model");
 const Acesso = require("../../setup/acesso");
 const cnst = require("../../constantes");
 
 class UsuarioController extends GenericCrudController {
   constructor() {
-    super(UsuarioService, UsuarioModel, Acesso.TEMA_ACESSO.USUARIO);
+    super(GenericService, UsuarioModel, Acesso.TEMA_ACESSO.USUARIO);
   }
 
   createUsuarioCliente(obj) {
@@ -42,36 +44,62 @@ class UsuarioController extends GenericCrudController {
   }
 
   async temDuplicado(obj, session, tipoOperacao) {
-
     if (!!obj.nome && !!obj.email) {
-    const searchNome = obj.nome.trim();
-    const searchEmail = obj.email.trim();
-    let regBase = [];
+      const searchNome = obj.nome.trim();
+      const searchEmail = obj.email.trim();
+      let regBase = [];
 
-    if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
-      regBase = await UsuarioService.find(
-        UsuarioModel,
-        {
-          $or: [{ nome: searchNome }, { email: searchEmail }],
-          _id: { $ne: obj._id },
-        },
-        session,
-        "_id"
-      );
-    } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
-      regBase = await UsuarioService.find(
-        UsuarioModel,
-        {
-          $or: [{ nome: searchNome }, { email: searchEmail }],
-        },
-        session,
-        "_id"
-      );
-    }
-    return regBase.length > 0;
+      if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
+        regBase = await GenericService.find(
+          UsuarioModel,
+          {
+            $or: [{ nome: searchNome }, { email: searchEmail }],
+            _id: { $ne: obj._id },
+          },
+          session,
+          "_id"
+        );
+      } else if (tipoOperacao === cnst.TIPO_OPERACAO.UPDATE) {
+        regBase = await GenericService.find(
+          UsuarioModel,
+          {
+            $or: [{ nome: searchNome }, { email: searchEmail }],
+          },
+          session,
+          "_id"
+        );
+      }
+      return regBase.length > 0;
     } else {
       return false;
     }
+  }
+
+  async podeExcluir(id, session) {
+    const regVacinacao = await GenericService.find(
+      VacinacaoModel,
+      {
+        $or: [
+          { "usuario_resp_cadastro._id": id },
+          { "usuario_cliente._id": id },
+          { "usuario_aplicador_vacina._id": id },
+        ],
+      },
+      session,
+      "_id"
+    );
+
+    const regDescarte = await GenericService.find(
+      DescarteVacinaModel,
+      { "usuario_resp_descarte._id": id },
+      session,
+      "_id"
+    ); 
+
+    return (
+      regVacinacao.length === 0 && regDescarte.length === 0
+    );
+
   }
 
   getNomeById = async (req, res) => {
