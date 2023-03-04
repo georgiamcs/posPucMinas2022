@@ -252,9 +252,11 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <vacine-mensagem-feedback
-        [mensagens]="mensagens"
-      ></vacine-mensagem-feedback>
+      <div class="container">
+        <vacine-mensagem-feedback
+          [mensagens]="mensagens"
+        ></vacine-mensagem-feedback>
+      </div>
       <vacine-conteudo-principal></vacine-conteudo-principal>
     </mat-sidenav-content>
   </mat-sidenav-container>

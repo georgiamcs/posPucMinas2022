@@ -154,7 +154,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
   private voltarParaJanelaAnterior(state: Object) {
     let urlRet =
       this.router.url.indexOf('trocar_minha_senha') > -1
-        ? '/home'
+        ? '/login'
         : '/usuarios';
     this.irParaPagina(urlRet, state);
   }
