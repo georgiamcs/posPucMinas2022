@@ -1,6 +1,6 @@
-import { Usuario } from '../classes/usuario.class';
+import { UsuarioAutenticado } from './../classes/usuario-autenticado.class';
 
 export interface TokenPayload {
-  usuario: Usuario;
+  usuario: UsuarioAutenticado;
   token: string;
 }

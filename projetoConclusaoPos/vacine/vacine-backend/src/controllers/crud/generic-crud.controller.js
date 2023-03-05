@@ -124,10 +124,14 @@ class GenericCrudController {
           cnst.TIPO_OPERACAO.INSERT
         );
 
-        if (!!regDuplicado) {
+        if (regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
+        } else if (regDuplicado == null || regDuplicado == undefined){
+        res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error:"Não foi possível verififcar se registro está duplicado"});
         } else {
           const novoRegistro = this.createObj(req.body, req.user);
           const regAdicionado = await this.service.add(
@@ -140,6 +144,7 @@ class GenericCrudController {
 
           await session.commitTransaction();
           res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
+
         }
       } catch (error) {
         await session.abortTransaction();
@@ -175,10 +180,16 @@ class GenericCrudController {
           cnst.TIPO_OPERACAO.UPDATE
         );
 
-        if (!!regDuplicado) {
+        if (regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
+        } else if (regDuplicado == null || regDuplicado == undefined) {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+            .json({
+              error: "Não foi possível verififcar se registro está duplicado",
+            });
         } else {
           const objBeforeUpdate = await this.service.getById(
             this.objectModel,

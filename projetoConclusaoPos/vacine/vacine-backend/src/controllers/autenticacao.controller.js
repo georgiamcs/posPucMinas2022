@@ -29,12 +29,18 @@ exports.loginJwt = async (req, res) => {
     ) {
       // Sign token
       const token = gerarToken(email);
-      let autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
-      usuario = { ...usuario.toObject(), autorizacoes: autorizacoes };
+      const autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
+      const usuarioObj = usuario.toObject();
+      usuario = {
+        _id: usuarioObj._id,
+        nome: usuarioObj.nome,
+        email: usuarioObj.email,
+        perfil_acesso: usuarioObj.perfil_acesso,
+        autorizacoes: autorizacoes,
+      };
 
       let retorno = { usuario };
       retorno.token = token;
-      delete retorno.usuario.senha;
       res.status(cnst.RETORNO_HTTP.HTTP_OK).json(retorno);
     } else {
       res
@@ -82,11 +88,18 @@ exports.loginGoogle = async (req, res) => {
     }
     token = gerarToken(usuario.email);
     let autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
-    usuario = { ...usuario.toObject(), autorizacoes: autorizacoes };
+
+    const usuarioObj = usuario.toObject();
+    usuario = {
+      _id: usuarioObj._id,
+      nome: usuarioObj.nome,
+      email: usuarioObj.email,
+      perfil_acesso: usuarioObj.perfil_acesso,
+      autorizacoes: autorizacoes,
+    };
 
     let retorno = { usuario };
     retorno.token = token;
-    delete retorno.usuario.senha;
     res.status(200).json(retorno);
   } catch (error) {
     res.status(500).json({

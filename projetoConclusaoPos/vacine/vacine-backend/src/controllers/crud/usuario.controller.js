@@ -13,9 +13,8 @@ class UsuarioController extends GenericCrudController {
   }
 
   createUsuarioCliente(obj) {
-    let usuario = this.createObj(obj);
-    usuario.tipo = cnst.TIPO_USUARIO.CLIENTE;
-    usuario.perfil_acesso = Acesso.PERFIL.CLIENTE;
+    let objComTipo = { tipo: cnst.TIPO_USUARIO.CLIENTE, ...obj };
+    const usuario = this.createObj(objComTipo);
     return usuario;
   }
 
@@ -75,6 +74,7 @@ class UsuarioController extends GenericCrudController {
           "_id"
         );
       }
+      console.log('regBase', regBase);
       return regBase.length > 0;
     } else {
       return false;
@@ -269,7 +269,6 @@ class UsuarioController extends GenericCrudController {
   };
 
   registrar = async (req, res) => {
-    if (AutorizacaoService.isReqNovoUsuario(req.body)) {
       try {
         const regDuplicado = await this.temDuplicado(
           req.body,
@@ -277,10 +276,16 @@ class UsuarioController extends GenericCrudController {
           cnst.TIPO_OPERACAO.INSERT
         );
 
-        if (!!regDuplicado) {
+        if (regDuplicado) {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
+        } else if (regDuplicado == null || regDuplicado == undefined) {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+            .json({
+              error: "Não foi possível verififcar se registro está duplicado",
+            });
         } else {
           const novoUsuario = this.createUsuarioCliente(req.body);
           const regAdicionado = await this.service.add(
@@ -288,18 +293,15 @@ class UsuarioController extends GenericCrudController {
             novoUsuario,
             undefined
           );
-          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
+          let regAdicSemSenha = regAdicionado.toObject();
+          delete regAdicSemSenha.senha;
+          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicSemSenha);
         }
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
           .json({ error: error.message });
       }
-    } else {
-      res
-        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Sem permissão para acessar o serviço." });
-    }
   };
 
   trocarsenha = async (req, res) => {

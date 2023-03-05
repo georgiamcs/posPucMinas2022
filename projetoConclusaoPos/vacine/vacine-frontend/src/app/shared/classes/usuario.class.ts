@@ -20,5 +20,4 @@ export class Usuario extends EntityNomeModel {
   tel_fixo?: string;
   senha?: string;
   perfil_acesso?: TipoPerfil;
-  autorizacoes?: ItemAutorizacaoUsuario[];
 }

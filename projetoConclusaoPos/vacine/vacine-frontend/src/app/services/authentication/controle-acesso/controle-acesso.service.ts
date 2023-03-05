@@ -1,10 +1,13 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TemaAcessoUsuario, TipoAcessoUsuario } from './../../../shared/classes/acesso.class';
+import {
+  TemaAcessoUsuario,
+  TipoAcessoUsuario
+} from './../../../shared/classes/acesso.class';
+import { UsuarioAutenticado } from './../../../shared/classes/usuario-autenticado.class';
 
 import { environment } from 'src/app/environment';
-import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { TokenPayload } from 'src/app/shared/interfaces/token-payload.interface';
 import { Acesso } from '../../../shared/classes/acesso.class';
 import { SecurityProvider } from './../../../providers/security.provider';
@@ -40,11 +43,11 @@ export class ControleAcessoService {
     return this.security.autenticado();
   }
 
-  getUsuario() {
+  getUsuario(): UsuarioAutenticado | null {
     return this.security.getUsuario();
   }
 
-  setUsuario(usuario: Usuario) {
+  setUsuario(usuario: UsuarioAutenticado) {
     this.security.armazenaUsuario(usuario);
   }
 
@@ -52,8 +55,17 @@ export class ControleAcessoService {
     this.security.armazenaTokenUsuario(tokenPayload);
   }
 
-  verificaExistePerfil(tema: TemaAcessoUsuario, tiposAcesso: TipoAcessoUsuario[]): boolean {
-    return this.isLogado() && Acesso.temAcessoFuncionalidade(tema, tiposAcesso, this.getUsuario()?.autorizacoes);
+  verificaExistePerfil(
+    tema: TemaAcessoUsuario,
+    tiposAcesso: TipoAcessoUsuario[]
+  ): boolean {
+    return (
+      this.isLogado() &&
+      Acesso.temAcessoFuncionalidade(
+        tema,
+        tiposAcesso,
+        this.getUsuario()?.autorizacoes
+      )
+    );
   }
-
 }

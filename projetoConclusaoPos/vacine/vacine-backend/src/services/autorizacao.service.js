@@ -28,12 +28,6 @@ class AutorizacaoService {
     return id == usuario._id;
   };
 
-  static isReqNovoUsuario = (body) => {
-    let tipoUser = body.tipo;
-
-    return tipoUser == cnst.TIPO_USUARIO.CLIENTE;
-  };
-
   static criptografar = (dado) => {
     return SHAJS("sha256").update(dado).digest("hex");
   };

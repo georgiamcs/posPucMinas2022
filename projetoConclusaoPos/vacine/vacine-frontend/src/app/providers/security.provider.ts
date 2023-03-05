@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TokenPayload } from '../shared/interfaces/token-payload.interface';
 import { Usuario } from '../shared/classes/usuario.class';
+import { UsuarioAutenticado } from '../shared/classes/usuario-autenticado.class';
 
 @Injectable()
 export class SecurityProvider {
@@ -14,7 +15,7 @@ export class SecurityProvider {
     return !!this.getToken();
   }
 
-  armazenaUsuario(u: Usuario) {
+  armazenaUsuario(u: UsuarioAutenticado) {
     window.sessionStorage.setItem(this.KEY_USER, JSON.stringify(u));
   }
 
@@ -27,7 +28,7 @@ export class SecurityProvider {
     return window.sessionStorage.getItem(this.KEY_TOKEN);
   }
 
-  getUsuario(): Usuario | null {
+  getUsuario(): UsuarioAutenticado | null {
     let usuario = window.sessionStorage.getItem(this.KEY_USER);
     if (usuario) {
       return JSON.parse(usuario);
