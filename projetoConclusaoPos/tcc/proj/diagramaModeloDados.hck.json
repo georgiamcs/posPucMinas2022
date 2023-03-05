@@ -1,0 +1,2687 @@
+{
+    "modelName": "New Model",
+    "collections": [
+        {
+            "collectionName": "compras_vacinas",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "3ecccc36-1592-49a5-81d9-74c04a171f8a",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "nota_fiscal",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "ee3211bd-3576-4c9a-95b9-55fb1c8c82f0",
+                    "required": true,
+                    "sample": "a",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "fornecedor",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "388d858a-b825-483d-8b7d-6e3df2723676",
+                            "required": true,
+                            "sample": "63e7de0d4f30e09b5a0ff5d3",
+                            "error": {},
+                            "relationshipType": "Foreign Key",
+                            "foreignCollection": "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+                            "foreignField": [
+                                "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+                                "2a91b644-a9ae-432d-b116-85b06a40ed8d"
+                            ],
+                            "parentRelationship": "0e22479f-ca09-4abb-97bb-5d8793f252e5"
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "b9113f9c-63d9-4b61-a6e8-c6fadbf45bc7",
+                            "required": true,
+                            "sample": "Pfizer",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cnpj",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "1b107b1a-994e-480c-bc94-2f470cc6c738",
+                            "required": true,
+                            "sample": "Invalid Date",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "93c97921-63dd-4fad-8584-5f06dd628058",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "data_compra",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "8529b876-e3c2-4ac3-a01c-5009c4a6a999",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "vl_total_compra",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "8da7637d-f2cb-492d-9c9e-2f51a12eace8",
+                    "required": true,
+                    "mode": "double",
+                    "sample": 2859.79,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "d514ca43-8f64-48f8-886f-0b240427ea06",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "itens_compra",
+                    "isActivated": true,
+                    "type": "array",
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "document",
+                            "properties": [
+                                {
+                                    "code": "",
+                                    "name": "vacina",
+                                    "isActivated": true,
+                                    "type": "document",
+                                    "properties": [
+                                        {
+                                            "code": "",
+                                            "name": "_id",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": true,
+                                            "GUID": "9cc8cd7c-045b-400b-aed9-0f5f0f150475",
+                                            "required": true,
+                                            "sample": "64028fd23ddab918837c1c61",
+                                            "error": {},
+                                            "childRelationships": [
+                                                "c2868e3c-7ba1-4208-bee5-556a6c8fc288"
+                                            ]
+                                        },
+                                        {
+                                            "code": "",
+                                            "name": "nome",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": false,
+                                            "GUID": "be8f751d-2daa-490f-948a-c94d94607c39",
+                                            "required": true,
+                                            "sample": "Hepatite B recombinante (2)",
+                                            "error": {}
+                                        },
+                                        {
+                                            "code": "",
+                                            "name": "protecao_contra",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": false,
+                                            "GUID": "29ae43af-7782-4014-a634-831a7efe54e8",
+                                            "required": true,
+                                            "sample": "Hepatite B",
+                                            "error": {}
+                                        }
+                                    ],
+                                    "additionalProperties": true,
+                                    "primaryKey": false,
+                                    "GUID": "3f42a9c4-c5d5-488d-b5aa-a7308e988660",
+                                    "required": true,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "lote",
+                                    "isActivated": true,
+                                    "type": "string",
+                                    "primaryKey": false,
+                                    "GUID": "3a302016-ac9e-4f24-b37b-7dd43a9e3b25",
+                                    "required": true,
+                                    "sample": "1",
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "qtd_frascos",
+                                    "isActivated": true,
+                                    "type": "numeric",
+                                    "primaryKey": false,
+                                    "GUID": "0338ab53-70ca-493c-8dae-fd6a1a5672db",
+                                    "required": true,
+                                    "mode": "integer32",
+                                    "sample": 1,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "qtd_doses",
+                                    "isActivated": true,
+                                    "type": "numeric",
+                                    "primaryKey": false,
+                                    "GUID": "11f7f501-1f03-42ff-ad7e-f62eb40351bb",
+                                    "required": true,
+                                    "mode": "integer32",
+                                    "sample": 10,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "data_validade",
+                                    "isActivated": true,
+                                    "type": "date",
+                                    "primaryKey": false,
+                                    "GUID": "cf1071d4-c510-4ba0-9456-9eefbccf4b00",
+                                    "required": true,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "vl_total_item_compra",
+                                    "isActivated": true,
+                                    "type": "numeric",
+                                    "primaryKey": false,
+                                    "GUID": "7ee06d02-1708-40d4-97e1-3e4f807d3740",
+                                    "required": true,
+                                    "mode": "double",
+                                    "sample": 2646.46,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "_id",
+                                    "isActivated": true,
+                                    "type": "objectId",
+                                    "primaryKey": true,
+                                    "GUID": "d398bc87-3400-4f35-bba1-192a9f7bb943",
+                                    "required": true,
+                                    "error": {}
+                                }
+                            ],
+                            "additionalProperties": true,
+                            "GUID": "225b4c6c-03ac-4460-a5b6-3641603c1fe3",
+                            "arrayItem": true,
+                            "arrayParentType": "array",
+                            "error": {}
+                        }
+                    ],
+                    "additionalItems": true,
+                    "primaryKey": false,
+                    "GUID": "05674d82-f350-4def-8b00-7595be381f2a",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "dc3fc9fe-ab19-4829-8bd3-75c58cb43f77",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_alteracao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "5b3e942b-7ba1-476f-9700-3124d4a9ebe1",
+                    "required": true,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "e045a62c-3729-4454-b7f1-b73e0104adeb",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "3ecccc36-1592-49a5-81d9-74c04a171f8a",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "b56e6cd5-027a-46d6-8a53-95b6c797effd"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "controle_estoque_vacinas",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "eefa5928-7a79-4609-ab65-49924f9aa13e",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "vacina",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "e79de059-4199-4062-87b0-745aec97e2f2",
+                            "required": true,
+                            "sample": "6402d9607740c6d70a29909c",
+                            "error": {},
+                            "relationshipType": "Foreign Key",
+                            "foreignCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                            "foreignField": [
+                                "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                                "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                            ],
+                            "parentRelationship": "c951aa9a-f6da-4429-9534-afce1b4de8d4"
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "d7c9fd9b-c74c-45d3-b5dc-41947f50b0c7",
+                            "required": true,
+                            "sample": "BCG (1)",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "5234f88c-6070-4333-84f1-5d91626881a8",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "usuario",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "dd6bf18d-bc34-4dee-9b05-26fb1fe4003a",
+                            "required": true,
+                            "sample": "63fff97668d074e98440447a",
+                            "error": {},
+                            "childRelationships": [
+                                "477e62cb-5d88-4533-9b91-2cbec576bc92"
+                            ]
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "8baf1403-d1a3-4a2b-a04d-1acee7631aeb",
+                            "required": true,
+                            "sample": "Georgia Maria Carvalho de Sousa",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "e11b5d61-8a2b-479b-bd46-1e54d1e0375f",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "data_evento",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "8f1a9228-e526-4f43-b1f8-8f11098943dd",
+                    "required": true,
+                    "sample": "Sat Mar 04 2023 02:38:40 GMT-0300 (Horário Padrão de Brasília)",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "tipo_evento",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "7f2d187a-07df-4f01-8923-45577eab5064",
+                    "required": true,
+                    "sample": "E",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "tipo_motivo",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "6ebbce41-44c7-4a53-9447-49ec67c57362",
+                    "required": true,
+                    "sample": "I",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "descricao_evento",
+                    "isActivated": true,
+                    "type": "multiple",
+                    "primaryKey": false,
+                    "multipleTypes": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "string",
+                            "GUID": "59dff53b-7960-42f7-984d-85c2487431f0",
+                            "primaryKey": false
+                        },
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "null",
+                            "GUID": "e45277e8-f8d2-4072-8f28-b94fe75f79a1",
+                            "primaryKey": false
+                        }
+                    ],
+                    "GUID": "4d70a659-272a-4a2d-afdd-9bc0203b48bf",
+                    "required": false,
+                    "sample": null,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "id_entidade_relac_evento",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "977a07e4-1d9f-4225-b426-75ceb208ea06",
+                    "required": true,
+                    "sample": "6402d9607740c6d70a29909c",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "qtd_estoque_antes",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "2e6b4e9f-a52a-4971-ad96-07c9e290cf26",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 101,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "qtd_estoque_depois",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "df5e4b8b-b832-43fd-87d9-ef969fcb90e7",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 101,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "c760cfc4-c640-4b93-861a-211047b11f23",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "1f2c2259-32ce-4713-894d-96db8ea3c87f",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "807552c9-037c-4e79-a738-e0a2961ac0d3",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "eefa5928-7a79-4609-ab65-49924f9aa13e",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "07404ef2-0d50-437c-8056-33368f500140"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "descarte-vacinas",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "444c8052-8cbc-4350-bd3c-63a55ddabf2e",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "codigo",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "2267d560-22ee-4c60-978d-a1cbb2d0eb2b",
+                    "required": true,
+                    "sample": "D25",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "usuario_resp_descarte",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "061bd7d9-1335-4740-9b97-5bd114dde65e",
+                            "required": true,
+                            "sample": "640000229ea89d7f82b756ec",
+                            "error": {},
+                            "relationshipType": "Foreign Key",
+                            "foreignCollection": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                            "foreignField": [
+                                "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                                "72d2d892-7c7f-41cd-b53d-965323d0afb6"
+                            ],
+                            "parentRelationship": "ac472fc1-ce55-410c-9866-9c232e14b609"
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "fed733f5-48b4-412c-bc50-7b745288c01e",
+                            "required": true,
+                            "sample": "Secretária Organizada",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cpf",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "45569811-348d-4083-b8f9-3b1a59b9f16b",
+                            "sample": null,
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "3b6e4ceb-9adb-47c4-94ba-29b64523321b",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "data_descarte",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "aa8fbcb9-1817-46c7-9338-f49236767c20",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "motivo_descarte",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "1f54d9c9-01d3-42cf-b558-228426eb6781",
+                    "required": true,
+                    "sample": "E",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "justificativa_descarte",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "cee0f616-2cfb-4995-a9df-26d33783210d",
+                    "required": true,
+                    "sample": "Prazo de validade ",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "local_descarte",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "94732b52-4cc7-4d13-9261-6b9c01f32b95",
+                    "required": true,
+                    "sample": "Lixo reciclável",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "737d0627-2931-40c8-b333-6c0523864ad8",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "itens_descarte",
+                    "isActivated": true,
+                    "type": "array",
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "document",
+                            "properties": [
+                                {
+                                    "code": "",
+                                    "name": "vacina",
+                                    "isActivated": true,
+                                    "type": "document",
+                                    "properties": [
+                                        {
+                                            "code": "",
+                                            "name": "_id",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": true,
+                                            "GUID": "ec02cf42-8d90-4e80-abce-06c372d9ad12",
+                                            "required": true,
+                                            "sample": "6400091a4390d93c928c494e",
+                                            "error": {},
+                                            "relationshipType": "Foreign Key",
+                                            "foreignCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                                            "foreignField": [
+                                                "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                                                "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                                            ],
+                                            "parentRelationship": "04016327-8520-41a5-a6f2-3da03928720e"
+                                        },
+                                        {
+                                            "code": "",
+                                            "name": "nome",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": false,
+                                            "GUID": "9ba910b3-a343-4727-86c4-34c2ea5b600a",
+                                            "required": true,
+                                            "sample": "Difteria e Tétano (dT)",
+                                            "error": {}
+                                        },
+                                        {
+                                            "code": "",
+                                            "name": "protecao_contra",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": false,
+                                            "GUID": "745f0b9f-3762-4fd4-bc6f-660fe85e3c25",
+                                            "required": true,
+                                            "sample": "Difteria e Tétano",
+                                            "error": {}
+                                        }
+                                    ],
+                                    "additionalProperties": true,
+                                    "primaryKey": false,
+                                    "GUID": "94eeca86-32f5-4246-b52c-c408660dedde",
+                                    "required": true,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "lote",
+                                    "isActivated": true,
+                                    "type": "string",
+                                    "primaryKey": false,
+                                    "GUID": "db31c1e1-021b-4ca0-b3e9-8e9a98e3ddc0",
+                                    "required": true,
+                                    "sample": "123",
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "qtd_doses_descarte",
+                                    "isActivated": true,
+                                    "type": "numeric",
+                                    "primaryKey": false,
+                                    "GUID": "ea2330c4-4ef5-459e-9811-1c0d9a1b7c0d",
+                                    "required": true,
+                                    "mode": "integer32",
+                                    "sample": 10,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "_id",
+                                    "isActivated": true,
+                                    "type": "objectId",
+                                    "primaryKey": true,
+                                    "GUID": "374a067d-3ded-4ba4-8b44-bf067ec2b85b",
+                                    "required": true,
+                                    "error": {}
+                                }
+                            ],
+                            "additionalProperties": true,
+                            "GUID": "14695952-3bdc-41c5-936e-840c3b8a1931",
+                            "arrayItem": true,
+                            "arrayParentType": "array",
+                            "error": {}
+                        }
+                    ],
+                    "additionalItems": true,
+                    "primaryKey": false,
+                    "GUID": "005931b1-b145-4798-9ff3-c46d68e3f053",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "b304d29c-fcfb-4fa1-91fd-74830d76ea85",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_alteracao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "4fd4f753-6eeb-445c-8472-d333827999a2",
+                    "required": false,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "51b3e372-4087-4004-923a-93dc5e1a9d78",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "444c8052-8cbc-4350-bd3c-63a55ddabf2e",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "4346ee18-c251-4a31-a1d9-e486d6ca8748"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "d24335f3-adff-432e-a4b0-c7fdd50320df",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "fornecedores",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "2a91b644-a9ae-432d-b116-85b06a40ed8d",
+                    "required": true,
+                    "error": {},
+                    "childRelationships": [
+                        "0e22479f-ca09-4abb-97bb-5d8793f252e5"
+                    ]
+                },
+                {
+                    "code": "",
+                    "name": "nome",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "0a05bdbe-ef43-401d-94bd-c8217e2e8e8f",
+                    "required": true,
+                    "sample": "Revenda Vacinas",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "email",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "42bfd36e-0cc2-4bd2-b5f7-a7cd6dcee617",
+                    "required": true,
+                    "sample": "reg@gmail.com",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "cnpj",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "0176d2a1-4784-4042-91a6-63f3aca07146",
+                    "required": true,
+                    "sample": "31432534647686",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "endereco",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "logradouro",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "dddba232-ca15-4bac-aa9b-5cbf2abff331",
+                            "required": true,
+                            "sample": "rua issac",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "numero",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "9ecc5bae-1244-44d4-b893-50b9a109be85",
+                            "required": true,
+                            "sample": "102",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "complemento",
+                            "isActivated": true,
+                            "type": "multiple",
+                            "primaryKey": false,
+                            "multipleTypes": [
+                                {
+                                    "hackoladeMeta": {},
+                                    "isActivated": true,
+                                    "type": "null",
+                                    "GUID": "6aa4d2e7-ce6d-476c-a034-d6fe0e031d2c",
+                                    "primaryKey": false
+                                },
+                                {
+                                    "hackoladeMeta": {},
+                                    "isActivated": true,
+                                    "type": "string",
+                                    "GUID": "1d5006ae-af92-4673-a1fe-c0a227dae199",
+                                    "primaryKey": false
+                                }
+                            ],
+                            "GUID": "d2e84b38-fb61-47d2-a796-766aefe8ee22",
+                            "required": false,
+                            "sample": null,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cidade",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "a59236d9-328e-49d5-b7b8-9d80a5e5a517",
+                            "required": true,
+                            "sample": "Recife",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "estado",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "cc855aa4-6f33-4421-893b-fc1ed609b65a",
+                            "required": true,
+                            "sample": "AP",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cep",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "53b2a68e-398f-4936-b173-9644f6e40804",
+                            "required": true,
+                            "sample": "52060105",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "72ff62f0-65e9-47e2-8efa-61da09acf171",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "tel_celular",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "9dffba70-998a-4dad-a87c-42c661468238",
+                    "required": true,
+                    "sample": "55819971942",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "tel_fixo",
+                    "isActivated": true,
+                    "type": "multiple",
+                    "primaryKey": false,
+                    "multipleTypes": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "string",
+                            "GUID": "64d29a9a-ef61-4c11-9504-e3b9280e7932",
+                            "primaryKey": false
+                        },
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "null",
+                            "GUID": "2da0b86a-2265-44a5-895d-c371f733028c",
+                            "primaryKey": false
+                        }
+                    ],
+                    "GUID": "e1e1b372-1d5a-49bb-ae3c-c72599b70610",
+                    "required": false,
+                    "sample": null,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "38b6a886-327e-48b4-bbd9-de523aa4a2b9",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "ef941cd6-af74-4496-89e3-eebe540412df",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_alteracao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "1d59dd3b-106f-4328-84ac-c98e791ac3d6",
+                    "required": false,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "6517af48-39a4-46a3-a4d1-6cac297382af",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "2a91b644-a9ae-432d-b116-85b06a40ed8d",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "b1870f63-980e-4ed6-8a90-36a2c005e688"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "usuarios",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "72d2d892-7c7f-41cd-b53d-965323d0afb6",
+                    "required": true,
+                    "error": {},
+                    "childRelationships": [
+                        "0861ab33-e45a-47a2-95c9-d50532186a0f",
+                        "ac472fc1-ce55-410c-9866-9c232e14b609"
+                    ],
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+                    "foreignField": [
+                        "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+                        "e11b5d61-8a2b-479b-bd46-1e54d1e0375f",
+                        "dd6bf18d-bc34-4dee-9b05-26fb1fe4003a"
+                    ],
+                    "parentRelationship": "477e62cb-5d88-4533-9b91-2cbec576bc92"
+                },
+                {
+                    "code": "",
+                    "name": "tipo",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "2be72eb1-95e5-4c74-b822-e859668480b2",
+                    "required": true,
+                    "sample": "C",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "nome",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "d3c29af5-8621-4794-95ec-8697ffddcbef",
+                    "required": true,
+                    "sample": "Adjamir de Moura Galvão",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "email",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "9a96e2f8-b291-4a59-a36b-21ff54865402",
+                    "required": true,
+                    "sample": "adjamir@gmail.com",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "senha",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "4cc0e98b-c579-46ca-8d1b-7cf30f61ca95",
+                    "required": true,
+                    "sample": "99521b265a87bcb7268fe25b206db3bf0ca95867f6e9a5746036db1b0a0975ca",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "perfil_acesso",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "8474d9d9-7b77-41dd-842b-7d90145d545b",
+                    "required": true,
+                    "sample": "CLIENTE",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "015dfd32-0717-4b11-a6b4-10231b85cf91",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "f5ced8a6-1783-43f3-b31a-c2fea235f0a0",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "cpf",
+                    "isActivated": true,
+                    "type": "null",
+                    "primaryKey": false,
+                    "GUID": "955906fc-9525-4a24-94c1-56d30cdd26d5",
+                    "sample": null,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "data_nascimento",
+                    "isActivated": true,
+                    "type": "null",
+                    "primaryKey": false,
+                    "GUID": "b27c4e94-f844-4517-afbe-d4702d4649d8",
+                    "sample": null,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_alteracao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "f01da104-56c3-4fc9-840d-5a9cd4cb094f",
+                    "required": false,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "endereco",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "logradouro",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "23446585-f77d-47c1-8f0d-60a050ba07d3",
+                            "sample": null,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "numero",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "35a7a320-7a61-4a5c-a748-b0923cbe18d8",
+                            "sample": null,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "complemento",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "7f18c259-e476-4a0a-85c2-16fa8f423b61",
+                            "sample": null,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cidade",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "11350649-5f82-434e-abf5-7dee79ac4c7d",
+                            "sample": null,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "estado",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "85c58ffc-8fa6-4530-8659-8c0a841be293",
+                            "sample": null,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cep",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "74fc705e-4c22-45b8-99ab-87edcda10547",
+                            "sample": null,
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "70a71820-0ba6-42d1-b8a5-34284637fae2",
+                    "required": false,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "tel_celular",
+                    "isActivated": true,
+                    "type": "null",
+                    "primaryKey": false,
+                    "GUID": "fcb640a5-f1f7-48b8-8ad0-ff6303afc2fa",
+                    "sample": null,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "tel_fixo",
+                    "isActivated": true,
+                    "type": "null",
+                    "primaryKey": false,
+                    "GUID": "01838ee6-58df-4027-be8c-f416eddc1a08",
+                    "sample": null,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "12be004e-179c-4cb2-82b0-19fd24ea9ecc",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "72d2d892-7c7f-41cd-b53d-965323d0afb6",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "39ec317e-5b69-4fc3-8e2f-5a0d155cafa1"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "vacinacoes",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "330aedef-7393-4238-aad9-c9bfebf2c3a0",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "codigo",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "a59af71a-6508-4a92-b891-86449647392b",
+                    "required": true,
+                    "sample": "1",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "usuario_resp_cadastro",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "49994fb5-210f-4cac-bdd4-7d3265d301eb",
+                            "required": true,
+                            "sample": "63fff97668d074e98440447a",
+                            "error": {},
+                            "relationshipType": "Foreign Key",
+                            "foreignCollection": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                            "foreignField": [
+                                "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                                "72d2d892-7c7f-41cd-b53d-965323d0afb6"
+                            ],
+                            "parentRelationship": "0861ab33-e45a-47a2-95c9-d50532186a0f"
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "45561b9d-3705-429d-b257-cb9b34a6a706",
+                            "required": true,
+                            "sample": "Georgia Maria Carvalho de Sousa",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cpf",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "763dd604-9ac0-44b7-9e14-5a4d60a6a635",
+                            "sample": null,
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "a6e0cdc4-6508-4a7c-864c-2552ef2db2a8",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "usuario_cliente",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "9e9979b9-6d50-4bed-a0f2-8f242c7a5e6b",
+                            "required": true,
+                            "sample": "63ffffb29ea89d7f82b756dc",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "0584db82-9f60-49eb-8bdf-b0fee6f701a7",
+                            "required": true,
+                            "sample": "Cliente Medroso",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cpf",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "604d1c41-223f-4e68-b35a-16d52af3fe47",
+                            "sample": null,
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "78d35548-96c6-4676-9ef8-a0e6dcc4e045",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "usuario_aplicador_vacina",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": true,
+                            "GUID": "df1db7bd-9719-4872-b99e-6f454e45f9cc",
+                            "required": true,
+                            "sample": "63ffffe79ea89d7f82b756e4",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "nome",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "715ccf0f-107c-4f4b-8766-0b89ca64b23e",
+                            "required": true,
+                            "sample": "Enfermeiro Bonzinho",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "cpf",
+                            "isActivated": true,
+                            "type": "null",
+                            "primaryKey": false,
+                            "GUID": "3758d2c5-58cb-46c4-9661-cc799e23ac81",
+                            "sample": null,
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "primaryKey": false,
+                    "GUID": "e5bc4762-cb5c-4ab2-818d-cc30937bb541",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "data_aplicacao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "b02f1ae4-d1ed-46dd-8707-e2a96c1af701",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "vl_total",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "356c7fac-07fa-4b41-8496-c7547008ca2e",
+                    "required": true,
+                    "mode": "double",
+                    "sample": 910.01,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "b63576cf-802d-466c-b0c3-0d3a294463b8",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "itens_vacinacao",
+                    "isActivated": true,
+                    "type": "array",
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "document",
+                            "properties": [
+                                {
+                                    "code": "",
+                                    "name": "vacina",
+                                    "isActivated": true,
+                                    "type": "document",
+                                    "properties": [
+                                        {
+                                            "code": "",
+                                            "name": "_id",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": true,
+                                            "GUID": "8fe3cf5b-222a-4835-86de-db7adb8f3d57",
+                                            "required": true,
+                                            "sample": "64028fd23ddab918837c1c61",
+                                            "error": {},
+                                            "relationshipType": "Foreign Key",
+                                            "foreignCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                                            "foreignField": [
+                                                "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                                                "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                                            ],
+                                            "parentRelationship": "68535bae-dc14-4ac1-892f-fe3859aefb98"
+                                        },
+                                        {
+                                            "code": "",
+                                            "name": "nome",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": false,
+                                            "GUID": "f7d659c7-2ac2-42e2-ac21-a9171893ace0",
+                                            "required": true,
+                                            "sample": "Hepatite B recombinante (2)",
+                                            "error": {}
+                                        },
+                                        {
+                                            "code": "",
+                                            "name": "protecao_contra",
+                                            "isActivated": true,
+                                            "type": "string",
+                                            "primaryKey": false,
+                                            "GUID": "3dc1a64b-66a0-47bc-8a96-cc17811f18f0",
+                                            "required": true,
+                                            "sample": "Hepatite B",
+                                            "error": {}
+                                        }
+                                    ],
+                                    "additionalProperties": true,
+                                    "primaryKey": false,
+                                    "GUID": "6b06eaf1-fe94-4522-844a-3fac7610f54c",
+                                    "required": true,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "lote",
+                                    "isActivated": true,
+                                    "type": "string",
+                                    "primaryKey": false,
+                                    "GUID": "5f8f42b8-34ed-4198-9fab-ef77b6d41b1b",
+                                    "required": true,
+                                    "sample": "ABC",
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "data_validade",
+                                    "isActivated": true,
+                                    "type": "date",
+                                    "primaryKey": false,
+                                    "GUID": "8a403c55-88f3-4197-bea9-cb302e85e523",
+                                    "required": true,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "qtd_doses",
+                                    "isActivated": true,
+                                    "type": "numeric",
+                                    "primaryKey": false,
+                                    "GUID": "22053e1f-4e6a-428c-8ce5-efb7bc237553",
+                                    "required": true,
+                                    "mode": "integer32",
+                                    "sample": 1,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "vl_item",
+                                    "isActivated": true,
+                                    "type": "numeric",
+                                    "primaryKey": false,
+                                    "GUID": "bfc400f6-296b-4acd-bbd4-5ca9be56c2e2",
+                                    "required": true,
+                                    "mode": "double",
+                                    "sample": 110.01,
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "_id",
+                                    "isActivated": true,
+                                    "type": "objectId",
+                                    "primaryKey": true,
+                                    "GUID": "d1878e2b-68a4-4d12-a336-228b506fa00c",
+                                    "required": true,
+                                    "error": {}
+                                }
+                            ],
+                            "additionalProperties": true,
+                            "GUID": "d5ccf99f-23d4-47b9-9671-05200b402b6a",
+                            "arrayItem": true,
+                            "arrayParentType": "array",
+                            "error": {}
+                        }
+                    ],
+                    "additionalItems": true,
+                    "primaryKey": false,
+                    "GUID": "00d8edc5-740e-4d19-a7b0-8e0bf43b9880",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "34b65022-5483-48bf-9a3b-636d4e0e2a63",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_alteracao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "d019b04a-3352-4ec7-b882-f62e1568c4d9",
+                    "required": true,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "889cfa8d-130d-4de9-933c-0176db07d893",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "330aedef-7393-4238-aad9-c9bfebf2c3a0",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "6bdca6b8-8374-4851-9298-0b8a3f249613"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "vacinas",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e",
+                    "required": true,
+                    "error": {},
+                    "childRelationships": [
+                        "68535bae-dc14-4ac1-892f-fe3859aefb98",
+                        "c951aa9a-f6da-4429-9534-afce1b4de8d4",
+                        "04016327-8520-41a5-a6f2-3da03928720e"
+                    ],
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+                    "foreignField": [
+                        "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+                        "05674d82-f350-4def-8b00-7595be381f2a",
+                        "225b4c6c-03ac-4460-a5b6-3641603c1fe3",
+                        "3f42a9c4-c5d5-488d-b5aa-a7308e988660",
+                        "9cc8cd7c-045b-400b-aed9-0f5f0f150475"
+                    ],
+                    "parentRelationship": "c2868e3c-7ba1-4208-bee5-556a6c8fc288"
+                },
+                {
+                    "code": "",
+                    "name": "nome",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "5184940f-f9e1-4dc4-9138-e3d16648ade5",
+                    "required": true,
+                    "sample": "BCG (1)",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "protecao_contra",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "16a6cf77-5eb6-4753-99b0-f235897a9cc0",
+                    "required": true,
+                    "sample": "2121",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "composicao",
+                    "isActivated": true,
+                    "type": "string",
+                    "primaryKey": false,
+                    "GUID": "fe0e1f0e-7f6b-47c7-a99f-4395642f4b30",
+                    "required": true,
+                    "sample": "2121",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "qtd_doses_estoque",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "e98bf110-6630-4dea-ac5b-7282977aea45",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 16,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "vl_atual_unit_dose",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "bf5ec65a-34b0-4129-ad2f-c41e4511edf9",
+                    "required": true,
+                    "mode": "double",
+                    "sample": 110.01,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_inclusao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "6acf9d84-9fb3-4011-be42-5a9f93d44a29",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "9c49e06a-ea47-44fa-9301-efefd6d95cea",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "dt_alteracao",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "GUID": "0507ee52-bb89-4bbc-bdd8-7ed90ee00847",
+                    "required": false,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "2c29d092-b503-4fe7-abb0-8b0f01b05eb6",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "d8b07b88-8082-4122-a835-ed8fc0590cf7"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+            "bucketId": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        }
+    ],
+    "buckets": [
+        {
+            "name": "vacine",
+            "type": "bucket",
+            "collectionIds": [
+                "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+                "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+                "d24335f3-adff-432e-a4b0-c7fdd50320df",
+                "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+                "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+                "8562ccfb-c090-4de7-94e3-1c91228e72e4"
+            ],
+            "backgroundColor": {
+                "r": 254,
+                "g": 193,
+                "b": 7,
+                "a": 1
+            },
+            "show": true,
+            "isActivated": true,
+            "GUID": "44ea47ad-1e69-484d-bccf-fe665b241da2",
+            "hackoladeMeta": {},
+            "code": ""
+        }
+    ],
+    "views": [],
+    "relationships": [
+        {
+            "name": "New Relationship",
+            "relationshipType": "Foreign Key",
+            "parentField": [],
+            "parentCardinality": "1",
+            "childField": [],
+            "childCardinality": "1",
+            "GUID": "f457b198-ec1b-48ec-9f4c-3b22722dd4a5",
+            "parentCollection": "d8cd057c-fbbc-462f-ae11-bda6275d76fd"
+        },
+        {
+            "name": "fk vacinacoes.itens_vacinacao.[0].vacina._id to vacinas._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                    "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+                    "00d8edc5-740e-4d19-a7b0-8e0bf43b9880",
+                    "d5ccf99f-23d4-47b9-9671-05200b402b6a",
+                    "6b06eaf1-fe94-4522-844a-3fac7610f54c",
+                    "8fe3cf5b-222a-4835-86de-db7adb8f3d57"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+            "childCollection": "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+            "GUID": "68535bae-dc14-4ac1-892f-fe3859aefb98",
+            "hackoladeStyles": {
+                "GUID": "8a2ef1ff-b8a9-47a6-9900-7a5c52c288a3",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 420,
+                        "y": 389.0000000000001
+                    },
+                    {
+                        "x": 519.8333333333335,
+                        "y": 389.0000000000001
+                    },
+                    {
+                        "x": 519.8333333333335,
+                        "y": 696.9999999999986
+                    },
+                    {
+                        "x": 595.6666666666669,
+                        "y": 696.9999999999986
+                    }
+                ],
+                "sides": [
+                    "right",
+                    "left"
+                ]
+            }
+        },
+        {
+            "name": "fk controle_estoque_vacinas.vacina._id to vacinas._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                    "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+                    "5234f88c-6070-4333-84f1-5d91626881a8",
+                    "e79de059-4199-4062-87b0-745aec97e2f2"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+            "childCollection": "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+            "GUID": "c951aa9a-f6da-4429-9534-afce1b4de8d4",
+            "hackoladeStyles": {
+                "GUID": "c86003ee-f9c9-44a4-82db-c3ed8ef5b7eb",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1008.0000000000034,
+                        "y": 368.33333333333337
+                    },
+                    {
+                        "x": 1008.0000000000034,
+                        "y": 717.3333333333322
+                    },
+                    {
+                        "x": 919.6666666666669,
+                        "y": 717.3333333333322
+                    }
+                ],
+                "sides": [
+                    "bottom",
+                    "top"
+                ]
+            }
+        },
+        {
+            "name": "fk vacinacoes.usuario_resp_cadastro._id to usuarios._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                    "72d2d892-7c7f-41cd-b53d-965323d0afb6"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+                    "a6e0cdc4-6508-4a7c-864c-2552ef2db2a8",
+                    "49994fb5-210f-4cac-bdd4-7d3265d301eb"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+            "childCollection": "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+            "GUID": "0861ab33-e45a-47a2-95c9-d50532186a0f",
+            "hackoladeStyles": {
+                "GUID": "dc6371f6-5a83-4fec-bc72-16ed971fbc7a",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 382.3333333333332,
+                        "y": 187.00000000000006
+                    },
+                    {
+                        "y": 145.33333333333343,
+                        "x": 382.3333333333332
+                    },
+                    {
+                        "y": 145.33333333333343,
+                        "x": 625.6666666666667
+                    },
+                    {
+                        "x": 625.6666666666667,
+                        "y": 284.9999999999999
+                    }
+                ],
+                "sides": [
+                    "right",
+                    "left"
+                ]
+            }
+        },
+        {
+            "name": "fk descarte-vacinas.itens_descarte.[0].vacina._id to vacinas._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                    "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "d24335f3-adff-432e-a4b0-c7fdd50320df",
+                    "005931b1-b145-4798-9ff3-c46d68e3f053",
+                    "14695952-3bdc-41c5-936e-840c3b8a1931",
+                    "94eeca86-32f5-4246-b52c-c408660dedde",
+                    "ec02cf42-8d90-4e80-abce-06c372d9ad12"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+            "childCollection": "d24335f3-adff-432e-a4b0-c7fdd50320df",
+            "GUID": "04016327-8520-41a5-a6f2-3da03928720e",
+            "hackoladeStyles": {
+                "GUID": "933dda71-eb26-4c49-98a4-dc86e781729e",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 766.6666666666661,
+                        "y": 970.666666666667
+                    },
+                    {
+                        "y": 907.999999999999,
+                        "x": 766.6666666666661
+                    },
+                    {
+                        "y": 907.999999999999,
+                        "x": 765.9999999999998
+                    },
+                    {
+                        "x": 765.9999999999998,
+                        "y": 860.9999999999987
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk descarte-vacinas.usuario_resp_descarte._id to usuarios._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                    "72d2d892-7c7f-41cd-b53d-965323d0afb6"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "d24335f3-adff-432e-a4b0-c7fdd50320df",
+                    "3b6e4ceb-9adb-47c4-94ba-29b64523321b",
+                    "061bd7d9-1335-4740-9b97-5bd114dde65e"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+            "childCollection": "d24335f3-adff-432e-a4b0-c7fdd50320df",
+            "GUID": "ac472fc1-ce55-410c-9866-9c232e14b609",
+            "hackoladeStyles": {
+                "GUID": "2dacf29d-4eb8-4548-950f-c9acefb63469",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1005.6666666666669,
+                        "y": 1139.1666666666672
+                    },
+                    {
+                        "x": 1064.666666666667,
+                        "y": 1139.1666666666672
+                    },
+                    {
+                        "x": 1064.666666666667,
+                        "y": 465.6666666666666
+                    },
+                    {
+                        "x": 704.4999999999999,
+                        "y": 465.6666666666666
+                    },
+                    {
+                        "x": 704.4999999999999,
+                        "y": 284.9999999999999
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk compras_vacinas.fornecedor._id to fornecedores._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+                    "2a91b644-a9ae-432d-b116-85b06a40ed8d"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+                    "93c97921-63dd-4fad-8584-5f06dd628058",
+                    "388d858a-b825-483d-8b7d-6e3df2723676"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+            "childCollection": "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+            "GUID": "0e22479f-ca09-4abb-97bb-5d8793f252e5",
+            "hackoladeStyles": {
+                "GUID": "94b582dc-bcbf-488a-af5e-5704dabc8969",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 256.3333333333333,
+                        "y": 930.3333333333335
+                    },
+                    {
+                        "x": 256.3333333333333,
+                        "y": 1027.666666666667
+                    }
+                ],
+                "sides": [
+                    "bottom",
+                    "top"
+                ]
+            }
+        },
+        {
+            "name": "fk vacinas._id to compras_vacinas.itens_compra.[0].vacina._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+                    "05674d82-f350-4def-8b00-7595be381f2a",
+                    "225b4c6c-03ac-4460-a5b6-3641603c1fe3",
+                    "3f42a9c4-c5d5-488d-b5aa-a7308e988660",
+                    "9cc8cd7c-045b-400b-aed9-0f5f0f150475"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                    "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+            "childCollection": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+            "GUID": "c2868e3c-7ba1-4208-bee5-556a6c8fc288",
+            "hackoladeStyles": {
+                "GUID": "31552f44-4e57-4635-b02e-960e5fdc5a51",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 595.6666666666669,
+                        "y": 764.9999999999983
+                    },
+                    {
+                        "x": 439,
+                        "y": 764.9999999999983
+                    }
+                ],
+                "sides": [
+                    "left",
+                    "right"
+                ]
+            }
+        },
+        {
+            "name": "fk usuarios._id to controle_estoque_vacinas.usuario._id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+                    "e11b5d61-8a2b-479b-bd46-1e54d1e0375f",
+                    "dd6bf18d-bc34-4dee-9b05-26fb1fe4003a"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                    "72d2d892-7c7f-41cd-b53d-965323d0afb6"
+                ]
+            ],
+            "childCardinality": "1",
+            "parentCollection": "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+            "childCollection": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+            "GUID": "477e62cb-5d88-4533-9b91-2cbec576bc92",
+            "hackoladeStyles": {
+                "GUID": "7922b380-d787-4b24-a670-ae748f19efd6",
+                "autoPositioning": false,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 704.4999999999999,
+                        "y": 284.9999999999999
+                    },
+                    {
+                        "x": 704.4999999999999,
+                        "y": 146.33333333333337
+                    },
+                    {
+                        "x": 877.3333333333336,
+                        "y": 146.33333333333337
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "left"
+                ]
+            }
+        }
+    ],
+    "users": [],
+    "diagramViews": [
+        {
+            "GUID": "8d6332d2-1802-4e26-a06c-1243c5927593",
+            "name": "New Diagram View",
+            "buckets": [],
+            "entities": []
+        }
+    ],
+    "idToNameHashTable": {
+        "44ea47ad-1e69-484d-bccf-fe665b241da2": "vacine",
+        "3ecccc36-1592-49a5-81d9-74c04a171f8a": "_id",
+        "ee3211bd-3576-4c9a-95b9-55fb1c8c82f0": "nota_fiscal",
+        "93c97921-63dd-4fad-8584-5f06dd628058": "fornecedor",
+        "388d858a-b825-483d-8b7d-6e3df2723676": "_id",
+        "b9113f9c-63d9-4b61-a6e8-c6fadbf45bc7": "nome",
+        "1b107b1a-994e-480c-bc94-2f470cc6c738": "cnpj",
+        "8529b876-e3c2-4ac3-a01c-5009c4a6a999": "data_compra",
+        "8da7637d-f2cb-492d-9c9e-2f51a12eace8": "vl_total_compra",
+        "d514ca43-8f64-48f8-886f-0b240427ea06": "dt_inclusao",
+        "05674d82-f350-4def-8b00-7595be381f2a": "itens_compra",
+        "3f42a9c4-c5d5-488d-b5aa-a7308e988660": "vacina",
+        "9cc8cd7c-045b-400b-aed9-0f5f0f150475": "_id",
+        "be8f751d-2daa-490f-948a-c94d94607c39": "nome",
+        "29ae43af-7782-4014-a634-831a7efe54e8": "protecao_contra",
+        "3a302016-ac9e-4f24-b37b-7dd43a9e3b25": "lote",
+        "0338ab53-70ca-493c-8dae-fd6a1a5672db": "qtd_frascos",
+        "11f7f501-1f03-42ff-ad7e-f62eb40351bb": "qtd_doses",
+        "cf1071d4-c510-4ba0-9456-9eefbccf4b00": "data_validade",
+        "7ee06d02-1708-40d4-97e1-3e4f807d3740": "vl_total_item_compra",
+        "d398bc87-3400-4f35-bba1-192a9f7bb943": "_id",
+        "dc3fc9fe-ab19-4829-8bd3-75c58cb43f77": "__v",
+        "5b3e942b-7ba1-476f-9700-3124d4a9ebe1": "dt_alteracao",
+        "d8cd057c-fbbc-462f-ae11-bda6275d76fd": "compras_vacinas",
+        "eefa5928-7a79-4609-ab65-49924f9aa13e": "_id",
+        "5234f88c-6070-4333-84f1-5d91626881a8": "vacina",
+        "e79de059-4199-4062-87b0-745aec97e2f2": "_id",
+        "d7c9fd9b-c74c-45d3-b5dc-41947f50b0c7": "nome",
+        "e11b5d61-8a2b-479b-bd46-1e54d1e0375f": "usuario",
+        "dd6bf18d-bc34-4dee-9b05-26fb1fe4003a": "_id",
+        "8baf1403-d1a3-4a2b-a04d-1acee7631aeb": "nome",
+        "8f1a9228-e526-4f43-b1f8-8f11098943dd": "data_evento",
+        "7f2d187a-07df-4f01-8923-45577eab5064": "tipo_evento",
+        "6ebbce41-44c7-4a53-9447-49ec67c57362": "tipo_motivo",
+        "4d70a659-272a-4a2d-afdd-9bc0203b48bf": "descricao_evento",
+        "977a07e4-1d9f-4225-b426-75ceb208ea06": "id_entidade_relac_evento",
+        "2e6b4e9f-a52a-4971-ad96-07c9e290cf26": "qtd_estoque_antes",
+        "df5e4b8b-b832-43fd-87d9-ef969fcb90e7": "qtd_estoque_depois",
+        "c760cfc4-c640-4b93-861a-211047b11f23": "dt_inclusao",
+        "1f2c2259-32ce-4713-894d-96db8ea3c87f": "__v",
+        "c5f577bb-3c4c-4eeb-9309-757ef8528e86": "controle_estoque_vacinas",
+        "444c8052-8cbc-4350-bd3c-63a55ddabf2e": "_id",
+        "2267d560-22ee-4c60-978d-a1cbb2d0eb2b": "codigo",
+        "3b6e4ceb-9adb-47c4-94ba-29b64523321b": "usuario_resp_descarte",
+        "061bd7d9-1335-4740-9b97-5bd114dde65e": "_id",
+        "fed733f5-48b4-412c-bc50-7b745288c01e": "nome",
+        "45569811-348d-4083-b8f9-3b1a59b9f16b": "cpf",
+        "aa8fbcb9-1817-46c7-9338-f49236767c20": "data_descarte",
+        "1f54d9c9-01d3-42cf-b558-228426eb6781": "motivo_descarte",
+        "cee0f616-2cfb-4995-a9df-26d33783210d": "justificativa_descarte",
+        "94732b52-4cc7-4d13-9261-6b9c01f32b95": "local_descarte",
+        "737d0627-2931-40c8-b333-6c0523864ad8": "dt_inclusao",
+        "005931b1-b145-4798-9ff3-c46d68e3f053": "itens_descarte",
+        "94eeca86-32f5-4246-b52c-c408660dedde": "vacina",
+        "ec02cf42-8d90-4e80-abce-06c372d9ad12": "_id",
+        "9ba910b3-a343-4727-86c4-34c2ea5b600a": "nome",
+        "745f0b9f-3762-4fd4-bc6f-660fe85e3c25": "protecao_contra",
+        "db31c1e1-021b-4ca0-b3e9-8e9a98e3ddc0": "lote",
+        "ea2330c4-4ef5-459e-9811-1c0d9a1b7c0d": "qtd_doses_descarte",
+        "374a067d-3ded-4ba4-8b44-bf067ec2b85b": "_id",
+        "b304d29c-fcfb-4fa1-91fd-74830d76ea85": "__v",
+        "4fd4f753-6eeb-445c-8472-d333827999a2": "dt_alteracao",
+        "d24335f3-adff-432e-a4b0-c7fdd50320df": "descarte-vacinas",
+        "2a91b644-a9ae-432d-b116-85b06a40ed8d": "_id",
+        "0a05bdbe-ef43-401d-94bd-c8217e2e8e8f": "nome",
+        "42bfd36e-0cc2-4bd2-b5f7-a7cd6dcee617": "email",
+        "0176d2a1-4784-4042-91a6-63f3aca07146": "cnpj",
+        "72ff62f0-65e9-47e2-8efa-61da09acf171": "endereco",
+        "dddba232-ca15-4bac-aa9b-5cbf2abff331": "logradouro",
+        "9ecc5bae-1244-44d4-b893-50b9a109be85": "numero",
+        "d2e84b38-fb61-47d2-a796-766aefe8ee22": "complemento",
+        "a59236d9-328e-49d5-b7b8-9d80a5e5a517": "cidade",
+        "cc855aa4-6f33-4421-893b-fc1ed609b65a": "estado",
+        "53b2a68e-398f-4936-b173-9644f6e40804": "cep",
+        "9dffba70-998a-4dad-a87c-42c661468238": "tel_celular",
+        "e1e1b372-1d5a-49bb-ae3c-c72599b70610": "tel_fixo",
+        "38b6a886-327e-48b4-bbd9-de523aa4a2b9": "dt_inclusao",
+        "ef941cd6-af74-4496-89e3-eebe540412df": "__v",
+        "1d59dd3b-106f-4328-84ac-c98e791ac3d6": "dt_alteracao",
+        "88339070-8911-4c2b-8c1f-c4788d1ad9e3": "fornecedores",
+        "72d2d892-7c7f-41cd-b53d-965323d0afb6": "_id",
+        "2be72eb1-95e5-4c74-b822-e859668480b2": "tipo",
+        "d3c29af5-8621-4794-95ec-8697ffddcbef": "nome",
+        "9a96e2f8-b291-4a59-a36b-21ff54865402": "email",
+        "4cc0e98b-c579-46ca-8d1b-7cf30f61ca95": "senha",
+        "8474d9d9-7b77-41dd-842b-7d90145d545b": "perfil_acesso",
+        "015dfd32-0717-4b11-a6b4-10231b85cf91": "dt_inclusao",
+        "f5ced8a6-1783-43f3-b31a-c2fea235f0a0": "__v",
+        "955906fc-9525-4a24-94c1-56d30cdd26d5": "cpf",
+        "b27c4e94-f844-4517-afbe-d4702d4649d8": "data_nascimento",
+        "f01da104-56c3-4fc9-840d-5a9cd4cb094f": "dt_alteracao",
+        "70a71820-0ba6-42d1-b8a5-34284637fae2": "endereco",
+        "23446585-f77d-47c1-8f0d-60a050ba07d3": "logradouro",
+        "35a7a320-7a61-4a5c-a748-b0923cbe18d8": "numero",
+        "7f18c259-e476-4a0a-85c2-16fa8f423b61": "complemento",
+        "11350649-5f82-434e-abf5-7dee79ac4c7d": "cidade",
+        "85c58ffc-8fa6-4530-8659-8c0a841be293": "estado",
+        "74fc705e-4c22-45b8-99ab-87edcda10547": "cep",
+        "fcb640a5-f1f7-48b8-8ad0-ff6303afc2fa": "tel_celular",
+        "01838ee6-58df-4027-be8c-f416eddc1a08": "tel_fixo",
+        "0444fcd4-afbc-4ff3-8c12-59711d492c61": "usuarios",
+        "330aedef-7393-4238-aad9-c9bfebf2c3a0": "_id",
+        "a59af71a-6508-4a92-b891-86449647392b": "codigo",
+        "a6e0cdc4-6508-4a7c-864c-2552ef2db2a8": "usuario_resp_cadastro",
+        "49994fb5-210f-4cac-bdd4-7d3265d301eb": "_id",
+        "45561b9d-3705-429d-b257-cb9b34a6a706": "nome",
+        "763dd604-9ac0-44b7-9e14-5a4d60a6a635": "cpf",
+        "78d35548-96c6-4676-9ef8-a0e6dcc4e045": "usuario_cliente",
+        "9e9979b9-6d50-4bed-a0f2-8f242c7a5e6b": "_id",
+        "0584db82-9f60-49eb-8bdf-b0fee6f701a7": "nome",
+        "604d1c41-223f-4e68-b35a-16d52af3fe47": "cpf",
+        "e5bc4762-cb5c-4ab2-818d-cc30937bb541": "usuario_aplicador_vacina",
+        "df1db7bd-9719-4872-b99e-6f454e45f9cc": "_id",
+        "715ccf0f-107c-4f4b-8766-0b89ca64b23e": "nome",
+        "3758d2c5-58cb-46c4-9661-cc799e23ac81": "cpf",
+        "b02f1ae4-d1ed-46dd-8707-e2a96c1af701": "data_aplicacao",
+        "356c7fac-07fa-4b41-8496-c7547008ca2e": "vl_total",
+        "b63576cf-802d-466c-b0c3-0d3a294463b8": "dt_inclusao",
+        "00d8edc5-740e-4d19-a7b0-8e0bf43b9880": "itens_vacinacao",
+        "6b06eaf1-fe94-4522-844a-3fac7610f54c": "vacina",
+        "8fe3cf5b-222a-4835-86de-db7adb8f3d57": "_id",
+        "f7d659c7-2ac2-42e2-ac21-a9171893ace0": "nome",
+        "3dc1a64b-66a0-47bc-8a96-cc17811f18f0": "protecao_contra",
+        "5f8f42b8-34ed-4198-9fab-ef77b6d41b1b": "lote",
+        "8a403c55-88f3-4197-bea9-cb302e85e523": "data_validade",
+        "22053e1f-4e6a-428c-8ce5-efb7bc237553": "qtd_doses",
+        "bfc400f6-296b-4acd-bbd4-5ca9be56c2e2": "vl_item",
+        "d1878e2b-68a4-4d12-a336-228b506fa00c": "_id",
+        "34b65022-5483-48bf-9a3b-636d4e0e2a63": "__v",
+        "d019b04a-3352-4ec7-b882-f62e1568c4d9": "dt_alteracao",
+        "b142c2cb-864f-4097-9b5d-f7a51dd5c562": "vacinacoes",
+        "40d73c72-6646-4c74-9a5c-4ff3f99a9d0e": "_id",
+        "5184940f-f9e1-4dc4-9138-e3d16648ade5": "nome",
+        "16a6cf77-5eb6-4753-99b0-f235897a9cc0": "protecao_contra",
+        "fe0e1f0e-7f6b-47c7-a99f-4395642f4b30": "composicao",
+        "e98bf110-6630-4dea-ac5b-7282977aea45": "qtd_doses_estoque",
+        "bf5ec65a-34b0-4129-ad2f-c41e4511edf9": "vl_atual_unit_dose",
+        "6acf9d84-9fb3-4011-be42-5a9f93d44a29": "dt_inclusao",
+        "9c49e06a-ea47-44fa-9301-efefd6d95cea": "__v",
+        "0507ee52-bb89-4bbc-bdd8-7ed90ee00847": "dt_alteracao",
+        "8562ccfb-c090-4de7-94e3-1c91228e72e4": "vacinas",
+        "f457b198-ec1b-48ec-9f4c-3b22722dd4a5": "New Relationship",
+        "8d6332d2-1802-4e26-a06c-1243c5927593": "New Diagram View",
+        "68535bae-dc14-4ac1-892f-fe3859aefb98": "fk vacinacoes.itens_vacinacao.[0].vacina._id to vacinas._id",
+        "c951aa9a-f6da-4429-9534-afce1b4de8d4": "fk controle_estoque_vacinas.vacina._id to vacinas._id",
+        "0861ab33-e45a-47a2-95c9-d50532186a0f": "fk vacinacoes.usuario_resp_cadastro._id to usuarios._id",
+        "04016327-8520-41a5-a6f2-3da03928720e": "fk descarte-vacinas.itens_descarte.[0].vacina._id to vacinas._id",
+        "ac472fc1-ce55-410c-9866-9c232e14b609": "fk descarte-vacinas.usuario_resp_descarte._id to usuarios._id",
+        "0e22479f-ca09-4abb-97bb-5d8793f252e5": "fk compras_vacinas.fornecedor._id to fornecedores._id",
+        "c2868e3c-7ba1-4208-bee5-556a6c8fc288": "fk vacinas._id to compras_vacinas.itens_compra.[0].vacina._id",
+        "477e62cb-5d88-4533-9b91-2cbec576bc92": "fk usuarios._id to controle_estoque_vacinas.usuario._id"
+    },
+    "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "0239994f-7ef2-4367-a4ad-ed4223b6c31d"
+    },
+    "polyglotDefinitions": {
+        "type": "polyglotDefinitions",
+        "properties": [],
+        "GUID": "9aee620a-5097-40ce-8f6e-71a28dc98ce4"
+    },
+    "externalDefinitions": {
+        "type": "externalDefinitions",
+        "properties": [],
+        "GUID": "d0ac8ba1-d1bf-4e63-a1f2-f7120e345b1f"
+    },
+    "sources": [],
+    "decorativeSymbols": [],
+    "dbVersion": "v5.0",
+    "dbVendor": "MongoDB",
+    "appTarget": "MONGODB",
+    "creationTS": "2023-03-04T07:41:17.351Z",
+    "GUID": "bd82a462-00cf-4356-a2ce-cb135916c6a9",
+    "isLineageEnabled": false,
+    "lastModifTS": "2023-03-04T08:13:11.661Z",
+    "persistenceSchemaVersion": "6",
+    "isCreatedByPlugin": true,
+    "pluginInformation": {
+        "pluginEngineVersion": "1.0.0"
+    },
+    "applicationInformation": {
+        "version": "6.9.4"
+    },
+    "settings": {
+        "centralPane": {
+            "dbLevel": {
+                "erd": [
+                    {
+                        "GUID": "d8cd057c-fbbc-462f-ae11-bda6275d76fd",
+                        "x": 80,
+                        "y": 595.3333333333335,
+                        "width": 359,
+                        "height": 339,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "c5f577bb-3c4c-4eeb-9309-757ef8528e86",
+                        "x": 877.3333333333336,
+                        "y": 119.33333333333334,
+                        "width": 331,
+                        "height": 249,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "d24335f3-adff-432e-a4b0-c7fdd50320df",
+                        "x": 666.6666666666669,
+                        "y": 970.666666666667,
+                        "width": 339,
+                        "height": 321,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "88339070-8911-4c2b-8c1f-c4788d1ad9e3",
+                        "x": 100.66666666666642,
+                        "y": 1027.666666666667,
+                        "width": 287,
+                        "height": 318,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "0444fcd4-afbc-4ff3-8c12-59711d492c61",
+                        "x": 553.9999999999999,
+                        "y": 284.9999999999999,
+                        "width": 301,
+                        "height": 285,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "b142c2cb-864f-4097-9b5d-f7a51dd5c562",
+                        "x": 80,
+                        "y": 187.00000000000006,
+                        "width": 340,
+                        "height": 357,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "8562ccfb-c090-4de7-94e3-1c91228e72e4",
+                        "x": 595.6666666666669,
+                        "y": 668.9999999999987,
+                        "width": 324,
+                        "height": 192,
+                        "color": {}
+                    }
+                ],
+                "erdDefinitions": {
+                    "erd": [],
+                    "rootPath": [],
+                    "entities": [],
+                    "decorativeSymbols": []
+                },
+                "buckets": [
+                    {
+                        "x": 40,
+                        "y": 79.33333333333334,
+                        "GUID": "44ea47ad-1e69-484d-bccf-fe665b241da2"
+                    }
+                ],
+                "collapsedNodes": [
+                    "b142c2cb-864f-4097-9b5d-f7a51dd5c562e5bc4762-cb5c-4ab2-818d-cc30937bb541",
+                    "b142c2cb-864f-4097-9b5d-f7a51dd5c56278d35548-96c6-4676-9ef8-a0e6dcc4e045",
+                    "c5f577bb-3c4c-4eeb-9309-757ef8528e865234f88c-6070-4333-84f1-5d91626881a8",
+                    "0444fcd4-afbc-4ff3-8c12-59711d492c6170a71820-0ba6-42d1-b8a5-34284637fae2",
+                    "d8cd057c-fbbc-462f-ae11-bda6275d76fd93c97921-63dd-4fad-8584-5f06dd628058",
+                    "d24335f3-adff-432e-a4b0-c7fdd50320df3b6e4ceb-9adb-47c4-94ba-29b64523321b",
+                    "d24335f3-adff-432e-a4b0-c7fdd50320df005931b1-b145-4798-9ff3-c46d68e3f05314695952-3bdc-41c5-936e-840c3b8a193194eeca86-32f5-4246-b52c-c408660dedde",
+                    "d8cd057c-fbbc-462f-ae11-bda6275d76fd05674d82-f350-4def-8b00-7595be381f2a225b4c6c-03ac-4460-a5b6-3641603c1fe33f42a9c4-c5d5-488d-b5aa-a7308e988660",
+                    "c5f577bb-3c4c-4eeb-9309-757ef8528e86e11b5d61-8a2b-479b-bd46-1e54d1e0375f",
+                    "b142c2cb-864f-4097-9b5d-f7a51dd5c562a6e0cdc4-6508-4a7c-864c-2552ef2db2a8",
+                    "b142c2cb-864f-4097-9b5d-f7a51dd5c56200d8edc5-740e-4d19-a7b0-8e0bf43b9880d5ccf99f-23d4-47b9-9671-05200b402b6a6b06eaf1-fe94-4522-844a-3fac7610f54c"
+                ],
+                "activeRelationship": "",
+                "activeRelationshipFields": {
+                    "childField": [],
+                    "parentField": []
+                },
+                "selectedCollections": [],
+                "displayColorPicker": false,
+                "graphView": {
+                    "erd": [],
+                    "buckets": [],
+                    "decorativeSymbols": [],
+                    "forceLayout": true,
+                    "defaultLinkLength": 300
+                },
+                "diagramViews": [
+                    {
+                        "GUID": "8d6332d2-1802-4e26-a06c-1243c5927593",
+                        "entities": [],
+                        "buckets": [
+                            {
+                                "x": 40,
+                                "y": 40,
+                                "GUID": "44ea47ad-1e69-484d-bccf-fe665b241da2"
+                            }
+                        ],
+                        "graphView": {
+                            "erd": [],
+                            "buckets": [],
+                            "decorativeSymbols": [],
+                            "forceLayout": true,
+                            "defaultLinkLength": 300
+                        }
+                    }
+                ],
+                "decorativeSymbols": [],
+                "nestedCollectionsLayout": "horizontal",
+                "options": [],
+                "relationshipUpdateDisabled": false,
+                "displayOptions": {}
+            },
+            "collectionLevel": {},
+            "changed": false
+        },
+        "dtDiagram": {
+            "collapsedNodes": [],
+            "shouldDistributeCollections": false
+        }
+    }
+}
