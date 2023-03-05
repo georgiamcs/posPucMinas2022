@@ -171,6 +171,7 @@ class GenericCrudController {
       try {
         const regDuplicado = await this.temDuplicado(
           req.body,
+          session,
           cnst.TIPO_OPERACAO.UPDATE
         );
 

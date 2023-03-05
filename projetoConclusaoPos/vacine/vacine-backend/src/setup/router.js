@@ -21,7 +21,7 @@ module.exports = {
       true
     );
 
-    app.use("/api/login", loginRouter);
+    app.use("/api/autenticacao", loginRouter);
     app.use("/api/vacinas", vacinaRouter);
     app.use("/api/fornecedores", fornecedorRouter);
     app.use("/api/usuarios", usuarioRouter);

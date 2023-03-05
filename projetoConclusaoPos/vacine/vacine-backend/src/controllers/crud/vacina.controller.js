@@ -44,19 +44,11 @@ class VacinaController extends GenericCrudController {
     if (!!obj.nome) {
       let searchTerm = obj.nome.trim();
 
-      // TENTATIVAS DE FAZER CASE INSENSITIVE
-      // regBase = await VacinaService.find(VacinaModel, {
-      //   nome: { $regex: `/${searchTerm}/i` }
-      // });
-      // regBase = await VacinaService.find(VacinaModel, {
-      //   nome: { $regex: new RegExp(searchTerm, "i") },
-      // });
       if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
         regBase = await GenericCrudService.find(
           VacinaModel,
           {
-            nome: searchTerm,
-            _id: { $ne: obj._id },
+            nome: { $regex: searchTerm, $options: "i" },
           },
           session,
           "_id"
@@ -65,7 +57,8 @@ class VacinaController extends GenericCrudController {
         regBase = await GenericCrudService.find(
           VacinaModel,
           {
-            nome: searchTerm,
+            nome: { $regex: searchTerm, $options: "i" },
+            _id: { $ne: obj._id },
           },
           session,
           "_id"

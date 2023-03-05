@@ -34,8 +34,7 @@ class VacinacaoController extends GenericCrudController {
       regBase = await genericService.find(
         VacinacaoModel,
         {
-          codigo: searchCodigo,
-          _id: { $ne: obj._id },
+          codigo: { $regex: searchCodigo, $options: "i" }
         },
         session,
         "_id"
@@ -44,7 +43,8 @@ class VacinacaoController extends GenericCrudController {
       regBase = await genericService.find(
         VacinacaoModel,
         {
-          codigo: searchCodigo,
+          codigo: { $regex: searchCodigo, $options: "i" },
+          _id: { $ne: obj._id },
         },
         session,
         "_id"

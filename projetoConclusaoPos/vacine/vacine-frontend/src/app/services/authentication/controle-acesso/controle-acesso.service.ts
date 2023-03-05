@@ -14,7 +14,7 @@ import { LoginUsuario } from './../../../shared/interfaces/login-usuario.interfa
   providedIn: 'root',
 })
 export class ControleAcessoService {
-  private readonly API_AUTENTICACAO = `${environment.API_URL_BASE}login/`;
+  private readonly API_AUTENTICACAO = `${environment.API_URL_BASE}autenticacao/`;
 
   constructor(private http: HttpClient, private security: SecurityProvider) {}
 

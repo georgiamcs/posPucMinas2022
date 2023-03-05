@@ -53,8 +53,10 @@ class UsuarioController extends GenericCrudController {
         regBase = await GenericService.find(
           UsuarioModel,
           {
-            $or: [{ nome: searchNome }, { email: searchEmail }],
-            _id: { $ne: obj._id },
+            $or: [
+              { nome: { $regex: searchNome, $options: "i" } },
+              { email: { $regex: searchEmail, $options: "i" } },
+            ],
           },
           session,
           "_id"
@@ -63,7 +65,11 @@ class UsuarioController extends GenericCrudController {
         regBase = await GenericService.find(
           UsuarioModel,
           {
-            $or: [{ nome: searchNome }, { email: searchEmail }],
+            $or: [
+              { nome: { $regex: searchNome, $options: "i" } },
+              { email: { $regex: searchEmail, $options: "i" } },
+            ],
+            _id: { $ne: obj._id },
           },
           session,
           "_id"
