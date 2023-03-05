@@ -21,7 +21,7 @@ export class PaginatorPortugues implements MatPaginatorIntl {
       footer = $localize`Página 1 de 1`;
     } else {
       const amountPages = Math.ceil(length / pageSize);
-      footer = $localize`Página ${page + 1} de ${amountPages} - Total de ${length} itens`;
+      footer = $localize`Página ${page + 1} de ${amountPages} - Total de ${length} registros`;
     }
     return footer;
   }
