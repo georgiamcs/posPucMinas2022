@@ -203,13 +203,15 @@ class VacinacaoController extends GenericCrudController {
   }
 
   getVacinacoesUsuario = async (req, res) => {
-    const id = req.params.id;
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
         Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
-        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
       ])
     ) {
+      const id = req.params.id;
+      this.verificaId(id, res);
+
       const registros = await this.service.getAll(this.objectModel, undefined, {
         "usuario_cliente._id": id,
       });
@@ -230,7 +232,7 @@ class VacinacaoController extends GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 }

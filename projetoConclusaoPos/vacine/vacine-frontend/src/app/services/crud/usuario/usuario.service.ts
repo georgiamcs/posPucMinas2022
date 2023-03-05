@@ -15,20 +15,20 @@ export class UsuarioService extends GenericCrudService<Usuario> {
     this.relativeApiURL = 'usuarios';
   }
 
-  public getAllByTipo(tipo: string): Observable<Usuario[]> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('tipo', tipo);
+  public getAllByTipo(tipos: string[]): Observable<Usuario[]> {
 
-    const url = `${this.fullApiURL}`;
+    // http param nao aceita array
+    const queryParams = new HttpParams().set('tipos', tipos.join(','));
+    const url = `${this.fullApiURL}getByTipos`;
 
     return this.http.get<Usuario[]>(url, { params: queryParams });
   }
 
   public getAllByTipoConverted<Type>(
-    tipo: string,
+    tipos: string[],
     fnTransformTipo: any
   ): Observable<Type[]> {
-    let ret = this.getAllByTipo(tipo).pipe(
+    let ret = this.getAllByTipo(tipos).pipe(
       map((ret) => this.toArrayNewType<Type>(ret, fnTransformTipo))
     );
     return ret;

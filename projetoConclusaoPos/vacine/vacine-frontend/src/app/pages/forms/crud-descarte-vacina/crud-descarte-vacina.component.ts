@@ -153,7 +153,8 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
 
   private setLookupResponsavel() {
     this.subscription = this.serviceUsuario
-      .getAllConverted<RelacionamentoUsuario>(
+      .getAllByTipoConverted<RelacionamentoUsuario>(
+        [TipoUsuario.TECNICO_ENFERMAGEM, TipoUsuario.ADMINISTRADOR],
         RelacionamentoUsuario.usuarioToRelacionamentoUsuario
       )
       .subscribe({

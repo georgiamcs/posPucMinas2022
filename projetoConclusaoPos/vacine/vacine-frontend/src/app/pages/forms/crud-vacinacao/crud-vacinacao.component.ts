@@ -161,7 +161,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
   private setLookupAplicador() {
     this.subscription = this.serviceUsuario
       .getAllByTipoConverted<RelacionamentoUsuario>(
-        TipoUsuario.TECNICO_ENFERMAGEM,
+        [TipoUsuario.TECNICO_ENFERMAGEM],
         RelacionamentoUsuario.usuarioToRelacionamentoUsuario
       )
       .subscribe({

@@ -26,7 +26,7 @@ class ControleEstoqueVacinaController extends GenericCrudController {
   }
 
   getByIdVacina = async (req, res) => {
-    const id = req.params.id;
+
 
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
@@ -34,6 +34,9 @@ class ControleEstoqueVacinaController extends GenericCrudController {
         Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
       ])
     ) {
+      const id = req.params.id;
+      this.verificaId(id, res);
+
       const registros = await this.service.getAll(this.objectModel, undefined, {
         "vacina._id": id,
       });
@@ -54,7 +57,7 @@ class ControleEstoqueVacinaController extends GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 

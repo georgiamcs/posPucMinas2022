@@ -34,6 +34,21 @@ class GenericCrudController {
     return null;
   }
 
+  verificaId(id, res) {
+    if (id === null || id === undefined) {
+      return res
+        .status(cnst.RETORNO_HTTP.HTTP_BAD_REQUEST)
+        .json("Id não informado.");
+    }
+
+    if (id.length !== 24) {
+      //tamanho do campo id no mongodb
+      return res
+        .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+        .json({ error: `Registro com Id ${id} não encontrado.` });
+    }    
+  }
+
   getById = async (req, res) => {
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
@@ -43,6 +58,7 @@ class GenericCrudController {
       ])
     ) {
       const id = req.params.id;
+      this.verificaId(id, res);
 
       try {
         const registro = await this.service.getById(this.objectModel, id);
@@ -61,17 +77,17 @@ class GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
-  getAll = async (req, res) => { 
+  getAll = async (req, res) => {
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
         Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
         Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
       ])
-    ) {  
+    ) {
       const registros = await this.service.getAll(this.objectModel);
 
       try {
@@ -79,7 +95,7 @@ class GenericCrudController {
           return res
             .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
             .json("Não existem registros cadastrados!");
-        } 
+        }
         res.json(registros);
       } catch (err) {
         return res
@@ -89,7 +105,7 @@ class GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
@@ -136,7 +152,7 @@ class GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
@@ -147,6 +163,7 @@ class GenericCrudController {
       ])
     ) {
       let id = req.params.id;
+      this.verificaId(id, res);
 
       const session = await mongoose.startSession();
       session.startTransaction();
@@ -202,7 +219,7 @@ class GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
@@ -213,6 +230,7 @@ class GenericCrudController {
       ])
     ) {
       let id = req.params.id;
+      this.verificaId(id, res);
 
       const session = await mongoose.startSession();
       session.startTransaction();
@@ -257,7 +275,7 @@ class GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 }

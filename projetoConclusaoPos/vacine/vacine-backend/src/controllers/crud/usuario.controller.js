@@ -99,8 +99,7 @@ class UsuarioController extends GenericCrudController {
     return regVacinacao.length === 0 && regDescarte.length === 0;
   }
 
-  getNomeById = async (req, res) => {
-    const id = req.params.id;
+  getByTipos = async (req, res) => {
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
         Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
@@ -108,6 +107,54 @@ class UsuarioController extends GenericCrudController {
         Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
       ])
     ) {
+      //parametro é passado como string separada por virgulas, precisa transformar em array
+      const tipos = req.query.tipos.split(",");
+      let registros;
+
+      if (tipos) {
+        registros = await this.service.find(
+          this.objectModel,
+          { tipo: { $in: tipos } },
+          null,
+          "_id nome cpf"
+        );
+      } else {
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_BAD_REQUEST)
+          .json("Tipo não informado.");
+      }
+
+      try {
+        if (!registros) {
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json("Não existem usuários cadastrados.");
+        }
+
+        res.json(registros);
+      } catch (err) {
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error: err.message });
+      }
+    } else {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+        .json({ error: "Sem permissão para acessar o serviço." });
+    }
+  };
+
+  getNomeById = async (req, res) => {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
+    ) {
+      const id = req.params.id;
+      this.verificaId(id, res);
+
       try {
         const registro = await this.service.getById(
           this.objectModel,
@@ -124,7 +171,41 @@ class UsuarioController extends GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
+    }
+  };
+
+  getById = async (req, res) => {
+    if (
+      AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
+        Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
+        Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
+      ])
+    ) {
+      const id = req.params.id;
+      this.verificaId(id, res);
+
+      try {
+        const registro = await this.service.getById(this.objectModel, id);
+        if (registro) {
+          let retorno = registro.toObject();
+          delete retorno.senha;
+          res.json(retorno);
+        } else {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json({ error: `Registro com Id ${id} não encontrado.` });
+        }
+      } catch (error) {
+        res
+          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+          .json({ error: error.message });
+      }
+    } else {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
@@ -156,8 +237,19 @@ class UsuarioController extends GenericCrudController {
             .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
             .json("Não existem registros cadastrados!");
         }
+        let retorno;
+        //removendo a senha do retorno
+        if (Array.isArray(registros)) {
+          retorno = registros.map((item) => {
+            const { senha, ...dataWithoutSenha } = item.toObject();
+            return { ...dataWithoutSenha };
+          });
+        } else {
+          const { senha, ...dataWithoutSenha } = registros.toObject();
+          retorno = dataWithoutSenha;
+        }
 
-        res.json(registros);
+        res.json(retorno);
       } catch (err) {
         return res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -166,7 +258,7 @@ class UsuarioController extends GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
@@ -200,13 +292,15 @@ class UsuarioController extends GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 
   trocarsenha = async (req, res) => {
     if (AutorizacaoService.temAlgumPerfil(req)) {
       let id = req.params.id;
+      this.verificaId(id, res);
+
       try {
         let regAlterado = this.createObjSenhaUsuario(req.body);
         const regAtualizado = await this.service.update(
@@ -230,7 +324,7 @@ class UsuarioController extends GenericCrudController {
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_FORBIDEN)
-        .json({ error: "Acesso negado" });
+        .json({ error: "Sem permissão para acessar o serviço." });
     }
   };
 }

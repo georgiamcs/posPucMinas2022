@@ -2,6 +2,7 @@ export enum RetornoHttp {
   HTTP_UNKNOW = 0,
   HTTP_OK = 200, // requisição foi bem sucedida.
   HTTP_CREATED = 201, // A requisição foi bem sucedida e um novo recurso foi criado como resultado.
+  HTTP_BAD_REQUEST = 400, // significa que o servidor não entendeu a requisição pois está com uma sintaxe inválida.
   HTTP_UNAUTHORIZED = 401, // Embora o padrão HTTP especifique "unauthorized", semanticamente, essa resposta significa "unauthenticated". Ou seja, o cliente deve se autenticar para obter a resposta solicitada.
   HTTP_FORBIDEN = 403, // O cliente não tem direitos de acesso ao conteúdo portanto o servidor está rejeitando dar a resposta.
   HTTP_NOT_FOUND = 404, // O servidor não pode encontrar o recurso solicitado.

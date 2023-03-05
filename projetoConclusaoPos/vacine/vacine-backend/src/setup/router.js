@@ -1,20 +1,19 @@
 module.exports = {
   init: (app) => {
     const FornecedorController = require("../controllers/crud/fornecedor.controller");
-    const UsuarioController = require("../controllers/crud/usuario.controller");
     const CompraVacinaController = require("../controllers/crud/compra-vacina.controller");
     const VacinacaoController = require("../controllers/crud/vacinacao.controller");
     const DescarteVacinaController = require("../controllers/crud/descarte-vacina.controller");
     const express = require("express");
     const path = require("path");
 
-    const createCrudRouter = require("../routers/generic-crud.router");
+    const createCrudRouter = require("../routers/create-generic-crud-router.util");
 
     const loginRouter = require("../routers/autenticacao.router");
     const clienteRouter = require("../routers/cliente.router");
     const vacinaRouter = require("../routers/vacina.router");
+    const usuarioRouter = require("../routers/usuario.router");    
     const fornecedorRouter = createCrudRouter(FornecedorController, true);
-    const usuarioRouter = createCrudRouter(UsuarioController, true);
     const compraVacinaRouter = createCrudRouter(CompraVacinaController, true);
     const vacinacaoRouter = createCrudRouter(VacinacaoController, true);
     const descarteVacinaRouter = createCrudRouter(
