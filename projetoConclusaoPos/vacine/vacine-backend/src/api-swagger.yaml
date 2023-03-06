@@ -44,7 +44,7 @@ tags:
   - name: Autorização
     description: API relativa a autorização de acesso a API
   - name: Clientes
-    description: API relativa a serviços para clientes      
+    description: API relativa a serviços para usuários do tipo clientes      
   - name: Usuários
     description: API relativa a gestão de usuários  
   - name: Vacinas
@@ -337,7 +337,7 @@ paths:
           type: string  
     put:
       tags:
-        - Clientes
+        - Usuários
       summary: Altera a senha do usuário
       operationId: trocarSenha
       requestBody:
