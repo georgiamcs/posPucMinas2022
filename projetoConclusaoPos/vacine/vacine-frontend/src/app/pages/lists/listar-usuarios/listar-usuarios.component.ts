@@ -7,7 +7,6 @@ import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-col
 import { Usuario } from 'src/app/shared/classes/usuario.class';
 import { TelefonePipe } from 'src/app/shared/pipes/telefone/telefone.pipe';
 import { Util } from 'src/app/shared/utils/util.util';
-import { ClienteService } from './../../../services/crud/cliente/cliente.service';
 import { MensagemFeedback } from './../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from './../../../shared/enums/tipo-mensagem-feedback.enum';
 import { CpfPipe } from './../../../shared/pipes/cpf/cpf.pipe';
@@ -25,8 +24,7 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     protected override media: MediaMatcher,
     protected override router: Router,
     protected override serviceAcesso: ControleAcessoService,
-    protected override service: UsuarioService,
-    private clienteService: ClienteService
+    protected override service: UsuarioService
   ) {
     super(changeDetectorRef, media, router, serviceAcesso, service);
   }
@@ -73,7 +71,7 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
 
   protected async exportarVacinacao(idCliente: string) {
     let dados = [];
-    await this.clienteService.getVacinacoes(idCliente).subscribe({
+    await this.service.getVacinacoes(idCliente).subscribe({
       next: (r) => {
         dados = r.flatMap((v) => {
           return v.itens_vacinacao.map((item) => {

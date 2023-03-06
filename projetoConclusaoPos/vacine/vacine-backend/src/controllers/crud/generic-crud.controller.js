@@ -34,21 +34,6 @@ class GenericCrudController {
     return null;
   }
 
-  verificaId(id, res) {
-    if (id === null || id === undefined) {
-      return res
-        .status(cnst.RETORNO_HTTP.HTTP_BAD_REQUEST)
-        .json("Id não informado.");
-    }
-
-    if (id.length !== 24) {
-      //tamanho do campo id no mongodb
-      return res
-        .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-        .json({ error: `Registro com Id ${id} não encontrado.` });
-    }    
-  }
-
   getById = async (req, res) => {
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
@@ -58,7 +43,13 @@ class GenericCrudController {
       ])
     ) {
       const id = req.params.id;
-      this.verificaId(id, res);
+
+      if (id.length !== 24) {
+        //tamanho do campo id no mongodb
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error: `Registro com Id ${id} não encontrado.` });
+      }
 
       try {
         const registro = await this.service.getById(this.objectModel, id);
@@ -88,14 +79,8 @@ class GenericCrudController {
         Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
       ])
     ) {
-      const registros = await this.service.getAll(this.objectModel);
-
       try {
-        if (!registros) {
-          return res
-            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json("Não existem registros cadastrados!");
-        }
+        const registros = await this.service.getAll(this.objectModel);
         res.json(registros);
       } catch (err) {
         return res
@@ -128,10 +113,10 @@ class GenericCrudController {
           res
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
-        } else if (regDuplicado == null || regDuplicado == undefined){
-        res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error:"Não foi possível verififcar se registro está duplicado"});
+        } else if (regDuplicado == null || regDuplicado == undefined) {
+          res.status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO).json({
+            error: "Não foi possível verififcar se registro está duplicado",
+          });
         } else {
           const novoRegistro = this.createObj(req.body, req.user);
           const regAdicionado = await this.service.add(
@@ -144,7 +129,6 @@ class GenericCrudController {
 
           await session.commitTransaction();
           res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicionado);
-
         }
       } catch (error) {
         await session.abortTransaction();
@@ -168,14 +152,20 @@ class GenericCrudController {
       ])
     ) {
       let id = req.params.id;
-      this.verificaId(id, res);
+
+      if (id.length !== 24) {
+        //tamanho do campo id no mongodb
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error: `Registro com Id ${id} não encontrado.` });
+      }
 
       const session = await mongoose.startSession();
       session.startTransaction();
 
       try {
         const regDuplicado = await this.temDuplicado(
-          req.body,
+          { _id: id, ...req.body },
           session,
           cnst.TIPO_OPERACAO.UPDATE
         );
@@ -185,11 +175,9 @@ class GenericCrudController {
             .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
             .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
         } else if (regDuplicado == null || regDuplicado == undefined) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-            .json({
-              error: "Não foi possível verififcar se registro está duplicado",
-            });
+          res.status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO).json({
+            error: "Não foi possível verififcar se registro está duplicado",
+          });
         } else {
           const objBeforeUpdate = await this.service.getById(
             this.objectModel,
@@ -217,7 +205,7 @@ class GenericCrudController {
             );
 
             await session.commitTransaction();
-            res.status(cnst.RETORNO_HTTP.HTTP_OK).json(objUpdated);
+            res.status(cnst.RETORNO_HTTP.HTTP_OK).json();
           }
         }
       } catch (error) {
@@ -242,7 +230,13 @@ class GenericCrudController {
       ])
     ) {
       let id = req.params.id;
-      this.verificaId(id, res);
+      
+      if (id.length !== 24) {
+        //tamanho do campo id no mongodb
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error: `Registro com Id ${id} não encontrado.` });
+      }
 
       const session = await mongoose.startSession();
       session.startTransaction();

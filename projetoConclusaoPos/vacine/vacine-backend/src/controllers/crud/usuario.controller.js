@@ -74,7 +74,6 @@ class UsuarioController extends GenericCrudController {
           "_id"
         );
       }
-      console.log('regBase', regBase);
       return regBase.length > 0;
     } else {
       return false;
@@ -113,30 +112,23 @@ class UsuarioController extends GenericCrudController {
         Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
       ])
     ) {
-      //parametro é passado como string separada por virgulas, precisa transformar em array
-      const tipos = req.query.tipos.split(",");
-      let registros;
-
-      if (tipos) {
-        registros = await this.service.find(
-          this.objectModel,
-          { tipo: { $in: tipos } },
-          null,
-          "_id nome cpf"
-        );
-      } else {
-        return res
-          .status(cnst.RETORNO_HTTP.HTTP_BAD_REQUEST)
-          .json("Tipo não informado.");
-      }
-
       try {
-        if (!registros) {
-          return res
-            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json("Não existem usuários cadastrados.");
-        }
+        //parametro é passado como string separada por virgulas, precisa transformar em array
+        const tipos = req.query.tipos.split(",");   
+        let registros;
 
+        if (tipos) {
+          registros = await this.service.find(
+            this.objectModel,
+            { tipo: { $in: tipos } },
+            null,
+            "_id nome cpf"
+          );
+        } else {
+          return res
+            .status(cnst.RETORNO_HTTP.HTTP_BAD_REQUEST)
+            .json("Tipo não informado.");
+        }
         res.json(registros);
       } catch (err) {
         return res
@@ -159,7 +151,13 @@ class UsuarioController extends GenericCrudController {
       ])
     ) {
       const id = req.params.id;
-      this.verificaId(id, res);
+
+      if (id.length !== 24) {
+        //tamanho do campo id no mongodb
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error: `Registro com Id ${id} não encontrado.` });
+      }
 
       try {
         const registro = await this.service.getById(
@@ -168,7 +166,13 @@ class UsuarioController extends GenericCrudController {
           undefined,
           "nome"
         );
-        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro.nome);
+        if (registro) {
+          res.status(cnst.RETORNO_HTTP.HTTP_OK).json(registro.nome);
+        } else {
+          res
+            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+            .json({ error: `Registro com Id ${id} não encontrado.` });
+        }
       } catch (error) {
         res
           .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
@@ -190,7 +194,13 @@ class UsuarioController extends GenericCrudController {
       ])
     ) {
       const id = req.params.id;
-      this.verificaId(id, res);
+
+      if (id.length !== 24) {
+        //tamanho do campo id no mongodb
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error: `Registro com Id ${id} não encontrado.` });
+      }
 
       try {
         const registro = await this.service.getById(this.objectModel, id);
@@ -223,26 +233,8 @@ class UsuarioController extends GenericCrudController {
         Acesso.TIPO_ACESSO_USUARIO.SELECIONAR,
       ])
     ) {
-      const tipo = req.query.tipo;
-      let registros;
-
-      if (!!tipo) {
-        registros = await this.service.find(
-          this.objectModel,
-          { tipo: tipo },
-          null,
-          "_id nome cpf"
-        );
-      } else {
-        registros = await this.service.getAll(this.objectModel);
-      }
-
       try {
-        if (!registros) {
-          return res
-            .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json("Não existem registros cadastrados!");
-        }
+        let registros = await this.service.getAll(this.objectModel);
         let retorno;
         //removendo a senha do retorno
         if (Array.isArray(registros)) {
@@ -269,45 +261,49 @@ class UsuarioController extends GenericCrudController {
   };
 
   registrar = async (req, res) => {
-      try {
-        const regDuplicado = await this.temDuplicado(
-          req.body,
-          undefined,
-          cnst.TIPO_OPERACAO.INSERT
-        );
+    try {
+      const regDuplicado = await this.temDuplicado(
+        req.body,
+        undefined,
+        cnst.TIPO_OPERACAO.INSERT
+      );
 
-        if (regDuplicado) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
-            .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
-        } else if (regDuplicado == null || regDuplicado == undefined) {
-          res
-            .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-            .json({
-              error: "Não foi possível verififcar se registro está duplicado",
-            });
-        } else {
-          const novoUsuario = this.createUsuarioCliente(req.body);
-          const regAdicionado = await this.service.add(
-            this.objectModel,
-            novoUsuario,
-            undefined
-          );
-          let regAdicSemSenha = regAdicionado.toObject();
-          delete regAdicSemSenha.senha;
-          res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicSemSenha);
-        }
-      } catch (error) {
+      if (regDuplicado) {
         res
-          .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
-          .json({ error: error.message });
+          .status(cnst.RETORNO_HTTP.HTTP_CONFLIT)
+          .json({ error: cnst.MENSAGEM.REGISTRO_DUPLICADO });
+      } else if (regDuplicado == null || regDuplicado == undefined) {
+        res.status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO).json({
+          error: "Não foi possível verififcar se registro está duplicado",
+        });
+      } else {
+        const novoUsuario = this.createUsuarioCliente(req.body);
+        const regAdicionado = await this.service.add(
+          this.objectModel,
+          novoUsuario,
+          undefined
+        );
+        let regAdicSemSenha = regAdicionado.toObject();
+        delete regAdicSemSenha.senha;
+        res.status(cnst.RETORNO_HTTP.HTTP_CREATED).json(regAdicSemSenha);
       }
+    } catch (error) {
+      res
+        .status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO)
+        .json({ error: error.message });
+    }
   };
 
   trocarsenha = async (req, res) => {
     if (AutorizacaoService.temAlgumPerfil(req)) {
       let id = req.params.id;
-      this.verificaId(id, res);
+
+      if (id.length !== 24) {
+        //tamanho do campo id no mongodb
+        return res
+          .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+          .json({ error: `Registro com Id ${id} não encontrado.` });
+      }
 
       try {
         let regAlterado = this.createObjSenhaUsuario(req.body);
@@ -323,7 +319,7 @@ class UsuarioController extends GenericCrudController {
           });
         }
 
-        res.status(cnst.RETORNO_HTTP.HTTP_OK).json(regAtualizado);
+        res.status(cnst.RETORNO_HTTP.HTTP_OK).json();
       } catch (error) {
         res.status(cnst.RETORNO_HTTP.HTTP_INTERNAL_SERVER_ERRO).json({
           error: `Senha do usuário com id ${id} não foi atualizada. Erro => ${error.message}`,

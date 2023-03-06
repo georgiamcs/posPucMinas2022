@@ -2,7 +2,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
-  FormBuilder, Validators
+  FormBuilder,
+  Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,12 +11,12 @@ import { DialogoConfirmacaoComponent } from 'src/app/components/dialogo-confirma
 import { GenericPageFormComponent } from 'src/app/components/generic-page-form/generic-page-form.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
+import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { Util } from 'src/app/shared/utils/util.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import { MensagemFeedback } from '../../../shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from '../../../shared/enums/tipo-mensagem-feedback.enum';
 import { UsuarioTrocaSenha } from '../../../shared/models/usuario-troca-senha.model';
@@ -41,7 +42,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
     protected override formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
 
-    private serviceCliente: ClienteService,
+    private service: UsuarioService,
     private securityProvider: SecurityProvider,
     public dialogoConf: MatDialog
   ) {
@@ -57,7 +58,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
   }
 
   private preencherNomeUsuario() {
-    this.subscription = this.serviceCliente.getNome(this.id!).subscribe({
+    this.subscription = this.service.getNome(this.id!).subscribe({
       next: (nome) => (this.nomeUsuario = nome),
       error: (e) =>
         this.tratarErro(
@@ -135,7 +136,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
   protected trocarSenha() {
     let state = {};
 
-    this.subscription = this.serviceCliente
+    this.subscription = this.service
       .trocarSenha(this.id, this.form.value)
       .subscribe({
         next: () => {

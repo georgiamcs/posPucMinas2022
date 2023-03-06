@@ -34,7 +34,7 @@ class VacinacaoController extends GenericCrudController {
       regBase = await genericService.find(
         VacinacaoModel,
         {
-          codigo: { $regex: searchCodigo, $options: "i" }
+          codigo: { $regex: searchCodigo, $options: "i" },
         },
         session,
         "_id"
@@ -209,20 +209,23 @@ class VacinacaoController extends GenericCrudController {
         Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_PROPRIO,
       ])
     ) {
-      const id = req.params.id;
-      this.verificaId(id, res);
-
-      const registros = await this.service.getAll(this.objectModel, undefined, {
-        "usuario_cliente._id": id,
-      });
-
       try {
-        if (!registros) {
+        const id = req.params.id;
+        
+        if (id.length !== 24) {
+          //tamanho do campo id no mongodb
           return res
             .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json("Não existem registros cadastrados!");
+            .json({ error: `Registro com Id ${id} não encontrado.` });
         }
 
+        const registros = await this.service.getAll(
+          this.objectModel,
+          undefined,
+          {
+            "usuario_cliente._id": id,
+          }
+        );
         res.json(registros);
       } catch (err) {
         return res

@@ -26,8 +26,6 @@ class ControleEstoqueVacinaController extends GenericCrudController {
   }
 
   getByIdVacina = async (req, res) => {
-
-
     if (
       AutorizacaoService.checarTemPerfil(req, this.temaAcesso, [
         Acesso.TIPO_ACESSO_USUARIO.VISUALIZAR_TODOS,
@@ -35,14 +33,20 @@ class ControleEstoqueVacinaController extends GenericCrudController {
       ])
     ) {
       const id = req.params.id;
-      this.verificaId(id, res);
+
+    if (id.length !== 24) {
+      //tamanho do campo id no mongodb
+      return res
+        .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
+        .json({ error: `Registro com Id ${id} não encontrado.` });
+    }         
 
       const registros = await this.service.getAll(this.objectModel, undefined, {
         "vacina._id": id,
       });
 
       try {
-        if (!registros) {
+        if (!registros || registros.length == 0) {
           return res
             .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
             .json("Não existem registros cadastrados!");

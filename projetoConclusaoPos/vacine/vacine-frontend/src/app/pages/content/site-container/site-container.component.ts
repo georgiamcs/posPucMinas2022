@@ -1,23 +1,18 @@
-import {
-  Acesso,
-  TemaAcessoUsuario,
-  TipoAcessoUsuario,
-} from './../../../shared/classes/acesso.class';
 import { MediaMatcher } from '@angular/cdk/layout';
-import {
-  AfterContentInit,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { GenericPageComponent } from 'src/app/components/generic-page/generic-page.component';
 import { SecurityProvider } from 'src/app/providers/security.provider';
 import { ControleAcessoService } from 'src/app/services/authentication/controle-acesso/controle-acesso.service';
-import { ClienteService } from 'src/app/services/crud/cliente/cliente.service';
+import { UsuarioService } from 'src/app/services/crud/usuario/usuario.service';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
 import { Util } from 'src/app/shared/utils/util.util';
+import {
+  Acesso,
+  TemaAcessoUsuario,
+  TipoAcessoUsuario
+} from './../../../shared/classes/acesso.class';
 
 @Component({
   selector: 'vacine-site-container',
@@ -36,7 +31,7 @@ export class PageContainerComponent
     protected override serviceAcesso: ControleAcessoService,
     protected servicoAcesso: ControleAcessoService,
     protected securityProvider: SecurityProvider,
-    private clienteService: ClienteService
+    private service: UsuarioService
   ) {
     super(changeDetectorRef, media, router, serviceAcesso);
   }
@@ -116,7 +111,7 @@ export class PageContainerComponent
     let dados = [];
     const idCliente = this.securityProvider.getUsuario()?._id;
 
-    await this.clienteService.getVacinacoes(idCliente).subscribe({
+    await this.service.getVacinacoes(idCliente).subscribe({
       next: (r) => {
         dados = r.flatMap((v) => {
           return v.itens_vacinacao.map((item) => {
@@ -157,5 +152,4 @@ export class PageContainerComponent
       },
     });
   }
-
 }
