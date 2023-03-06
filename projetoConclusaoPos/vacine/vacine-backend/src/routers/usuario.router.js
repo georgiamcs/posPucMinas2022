@@ -20,13 +20,13 @@ const fnMinhasVacinacoes = controllerVac.getVacinacoesUsuario;
 
 
 router.get("/getByTipos", autentRota, fnGetdByTipos); // tem que estar primeiro  para nao entrar na rota de id
+router.get("/vacinacoes/:id", autentRota, fnMinhasVacinacoes); // tem que estar primeiro  para nao entrar na rota de id
 router.post("/", autentRota, fnAdd);
 router.get("/:id", autentRota, fnGetById);
 router.put("/:id", autentRota, fnUpdate);
 router.delete("/:id", autentRota, fnDelete);
 router.put("/trocarsenha/:id", autentRota, fnTrocarSenha);
 router.get("/nome/:id", autentRota, fnNomeById);
-router.get("/vacinacoes/:id", autentRota, fnMinhasVacinacoes);
 router.get("/", autentRota, fnGetAll);
 
 

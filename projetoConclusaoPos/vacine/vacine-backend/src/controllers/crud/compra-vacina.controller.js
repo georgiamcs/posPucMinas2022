@@ -33,7 +33,7 @@ class CompraVacinaController extends GenericCrudController {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
-          nota_fiscal: { $regex: searchNotaFiscal, $options: "i" }
+          nota_fiscal: searchNotaFiscal
         },
         session,
         "_id"
@@ -42,7 +42,7 @@ class CompraVacinaController extends GenericCrudController {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
-          nota_fiscal: { $regex: searchNotaFiscal, $options: "i" },
+          nota_fiscal: searchNotaFiscal,
           _id: { $ne: obj._id },
         },
         session,

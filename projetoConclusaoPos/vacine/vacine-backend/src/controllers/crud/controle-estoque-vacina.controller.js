@@ -3,6 +3,7 @@ const GenericCrudController = require("./generic-crud.controller");
 const Service = require("../../services/generic-crud.service");
 const Model = require("../../models/controle-estoque-vacina.model");
 const Acesso = require("../../setup/acesso");
+const cnst = require("../../constantes");
 
 class ControleEstoqueVacinaController extends GenericCrudController {
   constructor() {
@@ -49,7 +50,7 @@ class ControleEstoqueVacinaController extends GenericCrudController {
         if (!registros || registros.length == 0) {
           return res
             .status(cnst.RETORNO_HTTP.HTTP_NOT_FOUND)
-            .json("Não existem registros cadastrados!");
+            .json(`Não existem registros cadastrados para vacina ${id}`);
         }
 
         res.json(registros);

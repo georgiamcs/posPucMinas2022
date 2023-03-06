@@ -41,14 +41,15 @@ class VacinaController extends GenericCrudController {
   async temDuplicado(obj, session, tipoOperacao) {
     let regBase = [];
 
-    if (!!obj.nome) {
+    if (obj.nome) {
       let searchTerm = obj.nome.trim();
 
       if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
+
         regBase = await GenericCrudService.find(
           VacinaModel,
           {
-            nome: { $regex: searchTerm, $options: "i" },
+            nome: searchTerm
           },
           session,
           "_id"
@@ -57,7 +58,7 @@ class VacinaController extends GenericCrudController {
         regBase = await GenericCrudService.find(
           VacinaModel,
           {
-            nome: { $regex: searchTerm, $options: "i" },
+            nome: searchTerm,
             _id: { $ne: obj._id },
           },
           session,

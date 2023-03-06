@@ -29,6 +29,7 @@ info:
     name: desenvolvedor
     email: georgiamcs@gmail.com
   version: 1.0.0
+
 externalDocs:
   description: Saiba mais sobre o projeto.
   url: https://github.com/georgiamcs/posPucMinas2022/blob/abdcee239d33c44189abade76db177e53b86597d/projetoConclusaoPos/tcc/TCC-Pos-GeorgiaMaria.docx
@@ -42,6 +43,8 @@ servers:
 tags:
   - name: Autorização
     description: API relativa a autorização de acesso a API
+  - name: Clientes
+    description: API relativa a serviços para clientes      
   - name: Usuários
     description: API relativa a gestão de usuários  
   - name: Vacinas
@@ -77,7 +80,7 @@ paths:
                 senha:
                   type: string
                   description: senha do usuário
-                  example: 123456    
+                  example: georgiamcs@gmail.com    
               required:
                   - email
                   - senha
@@ -92,7 +95,7 @@ paths:
                   - type: object
                     properties:
                       usuario:
-                        $ref: '#/components/schemas/Usuario'
+                        $ref: '#/components/schemas/UsuarioAutenticado'
                     description: Dados do usuário autenticado  
                   - type: object
                     properties:
@@ -104,15 +107,18 @@ paths:
                       - token
         '406':
           description: Usuário ou senha inválidos
-  /autenticacao/registrar:
+        '500':
+          description: Erro no processamento da requisição no servidor.            
+          
+  /clientes/registrar:
     post:
       tags:
-        - Autorização
-      summary: Faz o registro de um usuário com perfil de cliente
+        - Clientes
+      summary: Faz o registro de um usuário com perfil de cliente sem precisar estar logado no sistema
       operationId: registrarUsuario
       requestBody:
         required: true
-        description: Dados do usuário para ser criado
+        description: Dados do usuário a ser registrado
         content:
           application/json:
             schema:
@@ -120,33 +126,59 @@ paths:
                   nome:
                     type: string
                     description: Nome do usuário
-                    example: "Paulo da Silva"
-                  login:
-                    type: string
-                    description: Login do usuário
-                    example: "paulo"
+                    example: "Geórgia Maria Carvalho de Sousa Galvão"
                   email:
                     type: string
-                    description: E-Mail do usuário
-                    example: "paulo@gmail.com"
+                    description: Email do usuário
+                    example: "georgiamcs@gmail.com"
                   senha:
                     type: string
                     description: Senha do usuário
-                    example: "1234"
+                    example: "1234"                  
+                  cpf:
+                    type: string
+                    description: CPF do usuário
+                    example: "12345678911"  
+                  data_nascimento:
+                    type: string
+                    format: date-time
+                    description: Data de nascimento do usuário
+                  endereco:
+                    type: object
+                    properties:
+                      logradouro:
+                        type: string
+                        example: "Rua dos usuários"
+                      numero:
+                        type: string
+                        example: "S/N"
+                      complemento:
+                        type: string
+                        example: "Apto 501"
+                  tel_celular: 
+                    type: 'string'
+                    description: Telefone do celular do usuário com DDD
+                    example: "81999194259"
+                  tel_fixo: 
+                    type: 'string'
+                    description: Telefone fixo do usuário com DDD
+                    example: "8133695461"          
                 required:
                   - nome,
-                  - login,
                   - email,
-                  - senha
+                  - senha                  
       responses:
         '201':
-          description: Usuário criado com sucesso
+          description: Registro criado com sucesso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Usuario'          
-        '400':
-          description: Usuário não pode ser criado. Ver mensagem de erro
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor.           
+          
   /usuarios:
     get:
       tags:
@@ -155,17 +187,19 @@ paths:
       operationId: gettAllUsuarios
       responses:
         '200':
-          description: Consulta com sucesso
+          description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Usuario'         
+                  $ref: '#/components/schemas/Usuario'          
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço.
+        '500':
+          description: Erro no processamento da requisição no servidor.       
       security:
         - api_key:
             - write:usuario
@@ -181,32 +215,28 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/Usuario'
-                - type: object
-                  properties:
-                    senha:
-                      type: string                      
-                      description: Senha do usuário
-                      example: "1234"
-                  required:
-                    - senha
+              $ref: '#/components/schemas/Usuario'
+
       responses:
         '201':
-          description: Usuário criado com sucesso
+          description: Registro criado com sucesso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Usuario'          
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
+        '409':
+          description: Já existe registro com as mesmas características na base
+        '500':
+          description: Erro no processamento da requisição no servidor           
       security:
         - api_key:
             - write:usuario
             - read:usuario
-  /usuarios/{id}:            
+  /usuarios/{id}:  
     parameters:
       - name: id
         in: path
@@ -221,19 +251,21 @@ paths:
       operationId: getUsuario
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'           
+                $ref: '#/components/schemas/Usuario'   
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido            
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Usuário não encontrado
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor  
       security:
         - api_key:
             - write:usuarios
@@ -248,26 +280,23 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/Usuario'
-                - type: object
-                  properties:
-                    senha:
-                      type: string                  
-                      description: Senha do usuário
-                      example: "1234"
+              schema:
+                $ref: '#/components/schemas/Usuario'  
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação realizada com sucesso
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido. 
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Usuário não encontrado
+          description: Registro não localizado    
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor. 
       security:
         - api_key:
             - write:usuarios
@@ -279,70 +308,707 @@ paths:
       operationId: deleteUsuario
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Usuario'           
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido            
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Usuário não encontrado
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor    
       security:
         - api_key:
             - write:usuarios
             - read:usuarios    
-  
-  /fornecedores:
-    get:
+  /usuarios/trocarsenha/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Id do usuário
+        required: true
+        schema:
+          type: string  
+    put:
       tags:
-        - Fornecedores
-      summary: Retorna a lista de todos os fornecedores
-      operationId: gettAllFornecedores
+        - Clientes
+      summary: Altera a senha do usuário
+      operationId: trocarSenha
+      requestBody:
+        required: true
+        description: Senha alterada
+        content:
+          application/json:
+            schema:
+                properties:
+                  senha:
+                    type: string
+                    description: Senha alterada do usuário
+                    example: "georgiamcs@gmail.com"                  
+                required:
+                  - senha   
       responses:
         '200':
-          description: Consulta com sucesso
+          description: Operação realizada com sucesso
+        '400':
+          description: Id inválido.            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado       
+        '500':
+          description: Erro no processamento da requisição no servidor.              
+      security:
+        - api_key:
+            - write:usuarios
+            - read:usuarios
+  /usuarios/nome/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Id do usuário
+        required: true
+        schema:
+          type: string  
+    get:
+      tags:
+        - Usuários
+      summary: Consulta o nome de um usuário pelo id
+      operationId: getNomeUsuario
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: string             
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor  
+      security:
+        - api_key:
+            - write:usuarios
+            - read:usuarios                    
+  /usuarios/getByTipos:
+    parameters:
+      - name: tipos
+        in: query
+        description: Tipos de usuário a serem recuperados. 
+          Colocar os tipos separados por vírgula. 
+          Tipos possíveis ADMINISTRADOR = A, ANALISTA_COMPRAS = L, CLIENTE = C, SECRETARIA = S, TECNICO_ENFERMAGEM = T
+        example: C, T
+        required: true
+        schema:
+          type: string
+
+    get:
+      tags:
+        - Usuários
+      summary: Retorna a lista de todos os usuários que são dos tipos informados apenas como nome, id e CPF
+      operationId: gettAllUsuariosPorTipo   
+      responses:
+        '200':
+          description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Fornecedor'         
+                  $ref: '#/components/schemas/UsuarioRelacionamento'          
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço  
+        '500':
+          description: Erro no processamento da requisição no servidor        
+      security:
+        - api_key:
+            - write:usuario
+            - read:usuario              
+  /usuarios/vacinacoes/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Id do usuário
+        required: true
+        schema:
+          type: string  
+    get:
+      tags:
+        - Usuários
+      summary: Retorna a lista de vacinacoes de um usuário por id
+      operationId: getVacinacoesUsuario
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Vacinacao'            
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor 
+      security:
+        - api_key:
+            - write:usuarios
+            - read:usuarios                                
+            
+  /vacinas:
+    get:
+      tags:
+        - Vacinas
+      summary: Retorna a lista de todas as vacinas
+      operationId: gettAllVacinas
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vacina'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço  
+        '500':
+          description: Erro no processamento da requisição no servidor        
+      security:
+        - api_key:
+            - write:vacina
+            - read:vacina  
+    post:
+      tags:
+        - Vacinas
+      summary: Adiciona uma nova vacina
+      operationId: addVacina
+      requestBody:
+        description: Dados da vacina a ser incluída
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+
+      responses:
+        '201':
+          description: Registro criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço        
+        '409':
+          description: Já existe registro com as mesmas características na base        
+        '500':
+          description: Erro no processamento da requisição no servidor   
+      security:
+        - api_key:
+            - write:vacina
+            - read:vacina
+  /vacinas/{id}: 
+    parameters:
+      - name: id
+        in: path
+        description: Id da vacina
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Vacinas
+      summary: Consulta uma vacina pelo id
+      operationId: getVacina
+      responses:
+        '200':
+          description: Operação com realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'   
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor   
+      security:
+        - api_key:
+            - write:vacina
+            - read:vacina               
+    put:
+      tags:
+        - Vacinas
+      summary: Atualiza a vacina informada pelo id
+      operationId: updateVacina
+      requestBody:
+        description: Dados da vacina para ser atualizada
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'  
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+        '400':
+          description: Id inválido. 
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado    
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor. 
+      security:
+        - api_key:
+            - write:vacina
+            - read:vacina
+    delete:
+      tags:
+        - Vacinas
+      summary: Exclui uma vacina pelo id
+      operationId: deleteVacina
+      responses:
+        '200':
+          description: Operação realizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'           
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor    
+      security:
+        - api_key:
+            - write:vacina
+            - read:vacina             
+  /vacinas/controle-estoque/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Id da vacina
+        required: true
+        schema:
+          type: string  
+    get:
+      tags:
+        - Vacinas
+      summary: Retorna o histórico do controle de estoque da vacina informada
+      operationId: getContEstoqueVacina
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ControleEstoqueVacina'            
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor 
+      security:
+        - api_key:
+            - write:estoque
+            - read:estoque                                
+                       
+  /vacinacoes:
+    get:
+      tags:
+        - Vacinações
+      summary: Retorna a lista de todas as vacinações
+      operationId: gettAllVacinacoes
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vacinacao'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço  
+        '500':
+          description: Erro no processamento da requisição no servidor       
+      security:
+        - api_key:
+            - write:vacinacao
+            - read:vacinacao  
+    post:
+      tags:
+        - Vacinações
+      summary: Adiciona uma nova vacinação
+      operationId: addVacinacao
+      requestBody:
+        description: Dados da vacinação a ser incluída
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vacinacao'
+
+      responses:
+        '201':
+          description: Registro criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacinacao'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço        
+        '409':
+          description: Já existe registro com as mesmas características na base        
+        '500':
+          description: Erro no processamento da requisição no servidor  
+      security:
+        - api_key:
+            - write:vacinacao
+            - read:vacinacao 
+  /vacinacoes/{id}: 
+    parameters:
+      - name: id
+        in: path
+        description: Id da vacinacao
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Vacinações
+      summary: Consulta uma vacinação pelo id
+      operationId: getVacinacao
+      responses:
+        '200':
+          description: Operação com realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacinacao'   
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor      
+      security:
+        - api_key:
+            - write:vacinacoes
+            - read:vacinacoes               
+    put:
+      tags:
+        - Vacinações
+      summary: Atualiza a vacinação informada pelo id
+      operationId: updateVacinacao
+      requestBody:
+        description: Dados da vacinação para ser atualizada
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Vacinacao'  
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+        '400':
+          description: Id inválido. 
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado    
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor. 
+      security:
+        - api_key:
+            - write:vacinacao
+            - read:vacinacao
+    delete:
+      tags:
+        - Vacinações
+      summary: Exclui uma vacinação pelo id
+      operationId: deleteVacinacao
+      responses:
+        '200':
+          description: Operação realizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacinacao'           
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor    
+      security:
+        - api_key:
+            - write:vacinacoes
+            - read:vacinacoes    
+   
+  /descarte-vacinas:
+    get:
+      tags:
+        - Descartes de vacinas
+      summary: Retorna a lista de todos os descartes de vacinas
+      operationId: gettAllDescartesVacinas
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DescarteVacina'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço  
+        '500':
+          description: Erro no processamento da requisição no servidor       
+      security:
+        - api_key:
+            - write:descartes
+            - read:descartes
+    post:
+      tags:
+        - Descartes de vacinas
+      summary: Adiciona um novo descarte de vacina
+      operationId: addDescarteVacina
+      requestBody:
+        description: Dados do descarte de vacina a ser incluído
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescarteVacina'
+
+      responses:
+        '201':
+          description: Registro criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescarteVacina'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço        
+        '409':
+          description: Já existe registro com as mesmas características na base        
+        '500':
+          description: Erro no processamento da requisição no servidor  
+      security:
+        - api_key:
+            - write:descartes
+            - read:descartes 
+  /descarte-vacinas/{id}: 
+    parameters:
+      - name: id
+        in: path
+        description: Id do descarte de vacina
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Descartes de vacinas
+      summary: Consulta um descarte de vacina pelo id
+      operationId: getDescarteVacina
+      responses:
+        '200':
+          description: Operação com realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescarteVacina'   
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor      
+      security:
+        - api_key:
+            - write:descartes
+            - read:descartes               
+    put:
+      tags:
+        - Descartes de vacinas
+      summary: Atualiza um descarte de vacina informado pelo id
+      operationId: updateDescarteVacina
+      requestBody:
+        description: Dados do descarte de vacina para ser atualizada
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/DescarteVacina'  
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+        '400':
+          description: Id inválido. 
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado    
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor. 
+      security:
+        - api_key:
+            - write:descartes
+            - read:descartes
+    delete:
+      tags:
+        - Descartes de vacinas
+      summary: Exclui um descarte de vacina pelo id
+      operationId: deleteDescarteVacina
+      responses:
+        '200':
+          description: Operação realizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescarteVacina'           
+        '400':
+          description: Id inválido            
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço
+        '404':
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor    
+      security:
+        - api_key:
+            - write:descartes
+            - read:descartes    
+   
+  /fornecedores:
+    get:
+      tags:
+        - Fornecedores de vacinas
+      summary: Retorna a lista de todos os fornecedores
+      operationId: gettAllFornecedores
+      responses:
+        '200':
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fornecedor'          
+        '401':
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
+        '403':
+          description: Sem permissão para acessar o serviço  
+        '500':
+          description: Erro no processamento da requisição no servidor        
       security:
         - api_key:
             - write:fornecedor
             - read:fornecedor  
     post:
       tags:
-        - Fornecedores
+        - Fornecedores de vacinas
       summary: Adiciona um novo fornecedor
       operationId: addFornecedor
       requestBody:
+        description: Dados do fornecedor a ser incluído
         required: true
-        description: Dados do fornecedor para ser criado
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Fornecedor'
+
       responses:
         '201':
-          description: Fornecedor criado com sucesso
+          description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Fornecedor'          
+                $ref: '#/components/schemas/Vacina'          
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço        
+        '409':
+          description: Já existe registro com as mesmas características na base        
+        '500':
+          description: Erro no processamento da requisição no servidor   
       security:
         - api_key:
             - write:fornecedor
@@ -357,31 +1023,33 @@ paths:
           type: string
     get:
       tags:
-        - Fornecedores
+        - Fornecedores de vacinas
       summary: Consulta um fornecedor pelo id
       operationId: getFornecedor
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Fornecedor'           
+                $ref: '#/components/schemas/Fornecedor'   
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido            
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Fornecedor não encontrado
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor   
       security:
         - api_key:
-            - write:fornecedores
-            - read:fornecedores     
+            - write:fornecedor
+            - read:fornecedor               
     put:
       tags:
-        - Fornecedores
+        - Fornecedores de vacinas
       summary: Atualiza o fornecedor informado pelo id
       operationId: updateFornecedor
       requestBody:
@@ -389,1400 +1057,215 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/Fornecedor'
+              schema:
+                $ref: '#/components/schemas/Fornecedor'  
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação realizada com sucesso
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido. 
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Fornecedor não encontrado
+          description: Registro não localizado    
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor. 
       security:
         - api_key:
-            - write:fornecedores
-            - read:fornecedores
+            - write:fornecedor
+            - read:fornecedor
     delete:
       tags:
-        - Fornecedores
+        - Fornecedores de vacinas
       summary: Exclui um fornecedor pelo id
       operationId: deleteFornecedor
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Fornecedor'           
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido            
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Fornecedor não encontrado
-      security:
-        - api_key:
-            - write:fornecedores
-            - read:fornecedores   
-  /fornecedores/relatorios/listagem:
-    get:
-      tags:
-        - Fornecedores
-      summary: Recupera PDF com a lista de fornecedores
-      operationId: getRelatorioListagemFornecedores
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary      
-          headers:
-            Content-Disposition:
-              schema:
-                type: string
-                format: string             
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor    
       security:
         - api_key:
             - write:fornecedor
-            - read:fornecedor  
-  /fornecedores/exportar/listagem:
+            - read:fornecedor               
+            
+  /compras-vacinas:
     get:
       tags:
-        - Fornecedores
-      summary: Recupera planilha Excel com a lista de fornecedores
-      operationId: getExportarListagemFornecedores
+        - Compras de vacinas
+      summary: Retorna a lista de todas as compras de vacinas
+      operationId: gettAllCompraVacina
       responses:
         '200':
-          description: Consulta com sucesso
-          content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:fornecedor
-            - read:fornecedor  
-  /produtos:
-    get:
-      tags:
-        - Produtos
-      summary: Retorna a lista de todos os produtos
-      operationId: gettAllProdutos
-      parameters:
-      - name: saldo
-        in: query
-        description: Se deve recuperar apenas os produtos com estoque
-        schema:
-          type: boolean      
-      responses:
-        '200':
-          description: Consulta com sucesso
+          description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Produto'         
+                  $ref: '#/components/schemas/CompraVacina'          
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:produto
-            - read:produto  
-    post:
-      tags:
-        - Produtos
-      summary: Adiciona um novo produto
-      operationId: addProduto
-      requestBody:
-        required: true
-        description: Dados do produto para ser criado
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Produto'
-      responses:
-        '201':
-          description: Produto criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Produto'          
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:produto
-            - read:produto
-  /produtos/{id}: 
-    parameters:
-      - name: id
-        in: path
-        description: Id do produto
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Produtos
-      summary: Consulta um produto pelo id
-      operationId: getProduto
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Produto'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Produto não encontrado
-      security:
-        - api_key:
-            - write:produtos
-            - read:produtos     
-    put:
-      tags:
-        - Produtos
-      summary: Atualiza o produto informado pelo id
-      operationId: updateProduto
-      requestBody:
-        description: Dados do produto para ser atualizado
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Produto'
-      responses:
-        '200':
-          description: Operação com sucesso
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Produto não encontrado
-      security:
-        - api_key:
-            - write:produtos
-            - read:produtos
-    delete:
-      tags:
-        - Produtos
-      summary: Exclui um produto pelo id
-      operationId: deleteProduto
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Produto'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Usuário não encontrado
-      security:
-        - api_key:
-            - write:produtos
-            - read:produtos   
-  /produtos/{id}/listarItensCompras: 
-    parameters:
-      - name: id
-        in: path
-        description: Id do produto
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Produtos
-      summary: Consulta os itens de compra que contem o produto
-      operationId: getItensComprasProduto
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                allOf: 
-                  - $ref: '#/components/schemas/ItemCompra'
-                  - type: object
-                    properties:
-                      compra:
-                        $ref: '#/components/schemas/Compra'
-                    required: 
-                      - compra
-
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Usuário não encontrado
-      security:
-        - api_key:
-            - write:produtos
-            - read:produtos                
-  /produtos/{id}/indicadoresCompras: 
-    parameters:
-      - name: id
-        in: path
-        description: Id do produto para consultar
-        required: true
-        schema:
-          type: string
-      - name: ano
-        in: query
-        description: ano da consulta
-        required: true
-        schema:
-          type: integer          
-    get:
-      tags:
-        - Produtos
-      summary: Consulta os indicadores de compras do produto para um determinado ano
-      operationId: getindicadoresComprasProduto
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    _id:
-                      type: integer
-                      description: mês da resposta
-                      example: 1
-                    custototal:
-                      type: number
-                      description: custo total das compras
-                      example: 100
-                    quantidadeTotalCompras:
-                      type: number
-                      description: quantidade total das compras  
-                      example: 2                      
-                    numeroCompras:
-                      type: integer
-                      description: quantas compras foram feitas
-                      example: 1      
-                    custoMedio:
-                      type: number
-                      description: custo médio das compras
-                      example: 50
-                    quantidadeTotalVendas:
-                      type: number
-                      description: quantidade total de vendas  
-                      example: 2                             
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:produtos
-            - read:produtos                
-  /produtos/relatorios/listagem:
-    get:
-      tags:
-        - Produtos
-      summary: Recupera PDF com a lista de produtos
-      operationId: getRelatorioListagemProdutos
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary      
-          headers:
-            Content-Disposition:
-              schema:
-                type: string
-                format: string             
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:produto
-            - read:produto  
-  /produtos/exportar/listagem:
-    get:
-      tags:
-        - Produtos
-      summary: Recupera planilha Excel com a lista de produtos
-      operationId: getExportarListagemProdutos
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:produto
-            - read:produto              
-  /vendedores:
-    get:
-      tags:
-        - Vendedores
-      summary: Retorna a lista de todos os vendedores
-      operationId: gettAllVendedores
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Vendedor'         
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:vendedor
-            - read:vendedor  
-    post:
-      tags:
-        - Vendedores
-      summary: Adiciona um novo vendedor
-      operationId: addVendedor
-      requestBody:
-        required: true
-        description: Dados do vendedor para ser criado
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Vendedor'
-      responses:
-        '201':
-          description: Vendedor criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vendedor'          
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:vendedor
-            - read:vendedor
-  /vendedores/{id}:            
-    parameters:
-      - name: id
-        in: path
-        description: Id do vendedor
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Vendedores
-      summary: Consulta um vendedor pelo id
-      operationId: getVendedor
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vendedor'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Vendedor não encontrado
+          description: Sem permissão para acessar o serviço  
         '500':
-          description: Foi fornecido um ID inválido
-      security:
-        - api_key:
-            - write:vendedores
-            - read:vendedores   
-    put:
-      tags:
-        - Vendedores
-      summary: Atualiza o vendedor informado pelo id
-      operationId: updateVendedor
-      requestBody:
-        description: Dados do vendedor para ser atualizado
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Vendedor'
-      responses:
-        '200':
-          description: Operação com sucesso
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Vendedor não encontrado
-      security:
-        - api_key:
-            - write:vendedores
-            - read:vendedores
-    delete:
-      tags:
-        - Vendedores
-      summary: Exclui um vendedor pelo id
-      operationId: deleteVendedor
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Vendedor'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Vendedor não encontrado
-        '500':
-          description: Foi fornecido um ID inválido
-      security:
-        - api_key:
-            - write:vendedores
-            - read:vendedores   
-  /vendedores/relatorios/listagem:
-    get:
-      tags:
-        - Vendedores
-      summary: Recupera PDF com a lista de vendedores
-      operationId: getRelatorioListagemVendedores
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:vendedor
-            - read:vendedor  
-  /vendedores/exportar/listagem:
-    get:
-      tags:
-        - Vendedores
-      summary: Recupera planilha Excel com a lista de vendedores
-      operationId: getExportarListagemVendedores
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:vendedor
-            - read:vendedor   
-
-  /clientes:
-    get:
-      tags:
-        - Clientes
-      summary: Retorna a lista de todos os clientes
-      operationId: gettAllClientes
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Cliente'         
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:cliente
-            - read:cliente  
-    post:
-      tags:
-        - Clientes
-      summary: Adiciona um novo cliente
-      operationId: addCliente
-      requestBody:
-        required: true
-        description: Dados do cliente para ser criado
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Cliente'
-      responses:
-        '201':
-          description: Cliente criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cliente'          
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:cliente
-            - read:cliente
-  /clientes/{id}:  
-    parameters:
-      - name: id
-        in: path
-        description: Id do cliente
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Clientes
-      summary: Consulta um cliente pelo id
-      operationId: getCliente
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cliente'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Cliente não encontrado
-      security:
-        - api_key:
-            - write:clientes
-            - read:clientes   
-    put:
-      tags:
-        - Clientes
-      summary: Atualiza o cliente informado pelo id
-      operationId: updateCliente
-      requestBody:
-        description: Dados do cliente para ser atualizado
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Cliente'
-      responses:
-        '200':
-          description: Operação com sucesso
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Cliente não encontrado
-      security:
-        - api_key:
-            - write:clientes
-            - read:clientes
-    delete:
-      tags:
-        - Clientes
-      summary: Exclui um cliente pelo id
-      operationId: deleteCliente
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cliente'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Cliente não encontrado
-      security:
-        - api_key:
-            - write:clientes
-            - read:clientes   
-  /clientes/relatorios/listagem:
-    get:
-      tags:
-        - Clientes
-      summary: Recupera PDF com a lista de clientes
-      operationId: getRelatorioListagemClientes
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:cliente
-            - read:cliente  
-  /clientes/exportar/listagem:
-    get:
-      tags:
-        - Clientes
-      summary: Recupera planilha Excel com a lista de clientes
-      operationId: getExportarListagemClientes
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:cliente
-            - read:cliente  
-  /compras:
-    get:
-      tags:
-        - Compras
-      summary: Retorna a lista de todas as compras
-      operationId: gettAllCompras
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                    allOf: 
-                      - $ref: '#/components/schemas/Compra'
-                      - type: object
-                        properties:
-                          total:
-                            type: number   
-                            description: Preço total da compra
-                            example: 100                      
-                      - type: object
-                        properties:
-                          fornecedor:
-                            $ref: '#/components/schemas/Fornecedor'
-                      - type: object
-                        properties:
-                          itensCompra:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/ItemCompra'
-                        required: 
-                          - itensCompra
-                          - total
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:compra
-            - read:compra  
-    post:
-      tags:
-        - Compras
-      summary: Adiciona uma nova compra
-      operationId: addCompra
-      requestBody:
-        description: Dados da compra para ser criada
-        required: true
-        content:
-          application/json:
-            schema:
-                allOf: 
-                  - $ref: '#/components/schemas/Compra'
-                  - type: object
-                    properties:
-                      itensCompra:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ItemCompra'
-                    required: 
-                        - itensCompra
-      responses:
-        '201':
-          description: Compra criada com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Compra'          
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:compra
-            - read:compra
-  /compras/{id}:  
-    parameters:
-      - name: id
-        in: path
-        description: Id da compra
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Compras
-      summary: Consulta uma compra pelo id
-      operationId: getCompra
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                  allOf: 
-                    - $ref: '#/components/schemas/Compra'
-                    - type: object
-                      properties:
-                        fornecedor:
-                          $ref: '#/components/schemas/Fornecedor'
-                    - type: object
-                      properties:
-                        itensCompra:
-                          type: array
-                          items:
-                              allOf:
-                                - $ref: '#/components/schemas/ItemCompra'
-                                - type: object
-                                  properties:
-                                    produto:
-                                      $ref: '#/components/schemas/Produto'
-                                  required:
-                                    - produto
-                                
-                      required: 
-                        - itensCompra
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Compra não encontrada
-      security:
-        - api_key:
-            - write:compras
-            - read:compras   
-    put:
-      tags:
-        - Compras
-      summary: Atualiza a compra informada pelo id
-      operationId: updateCompra
-      requestBody:
-        description: Dados da compra para ser atualizada
-        required: true
-        content:
-          application/json:
-            schema:
-                allOf: 
-                  - $ref: '#/components/schemas/Compra'
-                  - type: object
-                    properties:
-                      itensCompra:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ItemCompra'
-                    required: 
-                        - itensCompra
-      responses:
-        '200':
-          description: Operação com sucesso
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Compra não encontrada
-      security:
-        - api_key:
-            - write:compras
-            - read:compras        
-    delete:
-      tags:
-        - Compras
-      summary: Exclui uma compra pelo id
-      operationId: deleteCompra
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Compra'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Compra não encontrada
-      security:
-        - api_key:
-            - write:compras
-            - read:compras   
-  /compras/{idCompra}/itensCompra/{id}:  
-    parameters:
-      - name: idCompra
-        in: path
-        description: Id da compra
-        required: true
-        schema:
-          type: string       
-      - name: id
-        in: path
-        description: Id do item da compra
-        required: true
-        schema:
-          type: string   
-    delete:
-      tags:
-        - Compras
-      summary: Exclui um item da compra pelo id
-      operationId: deleteItemCompra
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ItemCompra'           
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-        '404':
-          description: Compra não encontrada
-      security:
-        - api_key:
-            - write:compras
-            - read:compras            
-  /compras/relatorios/listagem:
-    get:
-      tags:
-        - Compras
-      summary: Recupera PDF com a lista de compras
-      operationId: getRelatorioListagemCompras
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
+          description: Erro no processamento da requisição no servidor       
       security:
         - api_key:
             - write:compras
             - read:compras  
-  /compras/exportar/listagem:
-    get:
-      tags:
-        - Compras
-      summary: Recupera planilha Excel com a lista de compras
-      operationId: getExportarListagemCompras
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:compras
-            - read:compras        
-  /vendas:
-    get:
-      tags:
-        - Vendas
-      summary: Retorna a lista de todas as vendas
-      operationId: gettAllVendas
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                    allOf: 
-                      - $ref: '#/components/schemas/Venda'
-                      - type: object
-                        properties:
-                          custoTotal:
-                            type: number
-                            description: Custo total de todos os produtos comprados
-                            example: 10.2
-                          total:
-                            type: number
-                            description: Preço total pago por todos os produtos comprados
-                            example: 20.4
-                      - type: object
-                        properties:
-                          cliente:
-                            $ref: '#/components/schemas/Cliente'
-                      - type: object
-                        properties:
-                          vendedor:
-                            $ref: '#/components/schemas/Vendedor'
-                      - type: object
-                        properties:
-                          itensVenda:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/ItemVenda'
-                        required: 
-                          - itensVenda
-                          - custoTotal
-                          - total
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:venda
-            - read:venda  
     post:
       tags:
-        - Vendas
-      summary: Adiciona uma nova venda
-      operationId: addVenda
+        - Compras de vacinas
+      summary: Adiciona uma nova compra de vacina
+      operationId: addVacinacaoCompraVacina
       requestBody:
-        description: Dados da venda para ser criada
+        description: Dados da compra da vacina a ser incluída
         required: true
         content:
           application/json:
             schema:
-                allOf: 
-                  - $ref: '#/components/schemas/Venda'
-                  - type: object
-                    properties:
-                      itensVenda:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ItemVenda'
-                    required: 
-                        - itensVenda
+              $ref: '#/components/schemas/CompraVacina'
+
       responses:
         '201':
-          description: Venda criada com sucesso
+          description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Venda'          
+                $ref: '#/components/schemas/CompraVacina'          
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço        
+        '409':
+          description: Já existe registro com as mesmas características na base        
+        '500':
+          description: Erro no processamento da requisição no servidor  
       security:
         - api_key:
-            - write:venda
-            - read:venda
-  /vendas/{id}:  
+            - write:compras
+            - read:compras 
+  /compras-vacinas/{id}: 
     parameters:
       - name: id
         in: path
-        description: Id da venda
+        description: Id da compra da vacina
         required: true
         schema:
           type: string
     get:
       tags:
-        - Vendas
-      summary: Consulta uma venda pelo id
-      operationId: getVenda
+        - Compras de vacinas
+      summary: Consulta uma compra de vacina pelo id
+      operationId: getCompraVacina
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                  allOf: 
-                    - $ref: '#/components/schemas/Venda'
-                    - type: object
-                      properties:
-                        vendedor:
-                          $ref: '#/components/schemas/Vendedor'
-                    - type: object
-                      properties:
-                        cliente:
-                          $ref: '#/components/schemas/Cliente'         
-                    - type: object
-                      properties:
-                        itensVenda:
-                          type: array
-                          items:
-                              allOf:
-                                - $ref: '#/components/schemas/ItemVenda'
-                                - type: object
-                                  properties:
-                                    produto:
-                                      $ref: '#/components/schemas/Produto'
-                                  required:
-                                    - produto
-                                
-                      required: 
-                        - itensCompra       
+                $ref: '#/components/schemas/CompraVacina'   
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido            
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Venda não encontrada
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor      
       security:
         - api_key:
-            - write:vendas
-            - read:vendas   
+            - write:compras
+            - read:compras               
     put:
       tags:
-        - Vendas
-      summary: Atualiza a venda informada pelo id
-      operationId: updateVenda
+        - Compras de vacinas
+      summary: Atualiza a compra de vacina informada pelo id
+      operationId: updateCompraVacina
       requestBody:
-        description: Dados da venda para ser atualizada
+        description: Dados da compra da vacina para ser atualizada
         required: true
         content:
           application/json:
-            schema:
-                allOf: 
-                  - $ref: '#/components/schemas/Venda'
-                  - type: object
-                    properties:
-                      itensVenda:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ItemVenda'
-                    required: 
-                        - itensVenda
+              schema:
+                $ref: '#/components/schemas/CompraVacina'  
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação realizada com sucesso
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido. 
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Venda não encontrada
+          description: Registro não localizado    
+        '409':
+          description: Já existe registro com as mesmas características na base       
+        '500':
+          description: Erro no processamento da requisição no servidor. 
       security:
         - api_key:
-            - write:vendas
-            - read:vendas                 
+            - write:compras
+            - read:compras
     delete:
       tags:
-        - Vendas
-      summary: Exclui uma venda pelo id
-      operationId: deleteVenda
+        - Compras de vacinas
+      summary: Exclui uma compra de vacina pelo id
+      operationId: deleteCompraVacina
       responses:
         '200':
-          description: Operação com sucesso
+          description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Venda'           
+                $ref: '#/components/schemas/Vacinacao'           
         '400':
-          description: Foi fornecido um ID inválido
+          description: Id inválido            
         '401':
-          description: Usuário não está logado
+          description: Acesso não autorizado. Token de autorização não informado ou inválido       
         '403':
-          description: Acesso negado ao usuário
+          description: Sem permissão para acessar o serviço
         '404':
-          description: Venda não encontrada
+          description: Registro não localizado          
+        '500':
+          description: Erro no processamento da requisição no servidor    
       security:
         - api_key:
-            - write:vendas
-            - read:vendas   
-  /vendas/consultas/indicadoresVendas: 
-    parameters:
-      - name: ano
-        in: query
-        description: ano da consulta
-        required: true
-        schema:
-          type: integer      
-      - name: id_vendedor
-        in: query
-        description: Id do vendedor 
-        schema:
-          type: string           
-    get:
-      tags:
-        - Vendas
-      summary: Consulta os indicadores de vendas para um determinado ano
-      operationId: getindicadoresVendas
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    _id:
-                      type: integer
-                      description: Mês da resposta
-                      example: 1
-                    custototal:
-                      type: number
-                      description: Custo total dos produtos das vendas
-                      example: 1019.51
-                    lucroTotal:
-                      type: number
-                      description: Lucro total dos produtos da venda
-                      example: -497.21                     
-                    numeroVendas:
-                      type: integer
-                      description: Quantas vendas foram feitas
-                      example: 5      
-                    ticketMedio:
-                      type: number
-                      description: Ticket médio das vendas
-                      example: 104.46
-                    vendasTotal:
-                      type: number
-                      description: Valor total das vendas
-                      example: 522.3                      
-        '400':
-          description: Foi fornecido um ID inválido
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:vendas
-            - read:vendas   
-  /vendas/consultas/produtosMaisVendidos: 
-    parameters:
-      - name: ano
-        in: query
-        description: ano da consulta
-        required: true
-        schema:
-          type: integer  
-      - name: id_cliente
-        in: query
-        description: Id do cliente
-        schema:
-          type: string               
-    get:
-      tags:
-        - Vendas
-      summary: Consulta os produtos mais vendidos para um determinado ano e, opcionalmente, para um cliente em particular.
-      operationId: getProdutosMaisVendidos
-      responses:
-        '200':
-          description: Operação com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                    allOf: 
-                      - type: object
-                        properties:
-                          _id: 
-                            type: string
-                            description: Id do produto
-                            example: "63cf0cc478fa75fe3c95ecfb"
-                          descontoTotal:
-                            type: number
-                            description: Desconto total todos os produtos vendidos
-                            example: 0.2
-                          precoTotal:
-                            type: number
-                            description: Preço total pago por todos os produtos vendidos
-                            example: 20.4
-                          quantidade:
-                            type: number
-                            description: Quantidade total de produtos vendidos
-                            example: 1
-                      - type: object
-                        properties:
-                          produto:
-                            $ref: '#/components/schemas/Produto'                            
-        '400':
-          description: Foi fornecido um ID inválido     
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado ao usuário
-      security:
-        - api_key:
-            - write:vendas
-            - read:vendas               
-  /vendas/relatorios/listagem:
-    get:
-      tags:
-        - Vendas
-      summary: Recupera PDF com a lista de vendas
-      operationId: getRelatorioListagemVendas
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:venda
-            - read:venda  
-  /vendas/exportar/listagem:
-    get:
-      tags:
-        - Vendas
-      summary: Recupera planilha Excel com a lista de vendas
-      operationId: getExportarListagemVendas
-      responses:
-        '200':
-          description: Consulta com sucesso
-          content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-              schema:
-                type: string
-                format: binary      
-        '401':
-          description: Usuário não está logado
-        '403':
-          description: Acesso negado
-      security:
-        - api_key:
-            - write:venda
-            - read:venda              
+            - write:compras
+            - read:compras    
+              
+            
 components:
+
   schemas:
+            
     Usuario:
       required:
         - _id
         - tipo
         - nome
         - email
+        - senha        
         - perfil_acesso
         - dt_inclusao
         - __v
@@ -1805,15 +1288,18 @@ components:
           type: string
           description: Email do usuário
           example: "georgiamcs@gmail.com"
+        senha:
+          type: string
+          description: Senha do usuário
+          example: "123456"          
         cpf:
           type: string
           description: CPF do usuário
           example: "12345678911"  
         data_nascimento:
           type: string
-          format: date
+          format: date-time
           description: Data de nascimento do usuário
-          example: "01/01/2022"            
         endereco:
           type: object
           properties:
@@ -1826,6 +1312,15 @@ components:
             complemento:
               type: string
               example: "Apto 501"
+            cidade:
+              type: string
+              example: "Recife"   
+            estado:
+              type: string
+              example: "PE"     
+            cep:
+              type: string
+              example: "52060123"                 
         tel_celular: 
           type: 'string'
           description: Telefone do celular do usuário com DDD
@@ -1838,363 +1333,584 @@ components:
           type: string
           description: Nome do perfil de acesso do usuário
           example: "SECRETARIA"
+          readOnly: true          
         dt_inclusao:
           type: string
-          format: date
+          format: date-time
           description: Data da inclusão do registro
-          example: "04/03/2022"     
+          readOnly: true  
         dt_alteracao:
           type: string
-          format: date
-          description: Data da inclusão do registro
-          example: "04/03/2022"             
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true  
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true                    
+          readOnly: true                                
+    
+    UsuarioAutenticado:
+      required:
+        - _id
+        - nome
+        - email
+        - perfil_acesso
+        - autorizacoes
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do usuário
+          example: "37dc9c85fd018a07bd7eec24"
+          readOnly: true
+        nome:
+          type: string
+          description: Nome do usuário
+          example: "Geórgia Maria Carvalho de Sousa Galvão"
+          readOnly: true          
+        email:
+          type: string
+          description: Email do usuário
+          example: "georgiamcs@gmail.com"
+          readOnly: true          
+        perfil_acesso:
+          type: string
+          description: Nome do perfil de acesso do usuário
+          example: "SECRETARIA"
+          readOnly: true
+        autorizacoes: 
+          type: array
+          description: "Autorizações do usuário aos temas da aplicação"
+          items:
+            $ref: '#/components/schemas/ItemAutorizacaoUsuario' 
+          readOnly: true
+          
+    UsuarioRelacionamento:
+      required:
+        - _id
+        - nome
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do usuário
+          example: "37dc9c85fd018a07bd7eec24"
+        nome:
+          type: string
+          description: Nome do usuário
+          example: "Geórgia Maria Carvalho de Sousa Galvão"
+        cpf:
+          type: string
+          description: CPF do usuário
+          example: "12345678911" 
+
+    ItemAutorizacaoUsuario:
+      required:   
+        - tema
+        - tiposAcesso
+      type: object        
+      properties:
+        tema: 
+          type: string
+          description: Identificador do  tema relacionado ao acesso do usuário
+          example: "V"
+        tiposAcesso:
+          type: array
+          description: Array com os tipos de acesso do usuário em relação ao tema
+          items:
+            type: string          
+            
+    Vacina:
+      required:
+        - _id
+        - nome
+        - protecao_contra
+        - composicao
+        - qtd_doses_estoque
+        - vl_atual_unit_dose   
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do usuário
+          example: "6400091a4390d93c928c494e"
+          readOnly: true
+        nome:
+          type: string
+          description: Nome da vacina
+          example: "Gripe (4)" 
+        protecao_contra:
+          type: string
+          description: Para que a vacina protege
+          example: "Gripe"     
+        composicao:
+          type: string
+          description: Composição da vacina
+          example: "Vírus inativado"    
+        qtd_doses_estoque:
+          type: number
+          description: Quatidade de doses atualmente em estoque
+          example: 20    
+        vl_atual_unit_dose:
+          type: number
+          description: Valor unitário da dose
+          example: 500.40     
+        dt_inclusao:
+          type: string
+          format: date-time
+          description: Data da inclusão do registro
+          readOnly: true  
+        dt_alteracao:
+          type: string
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true           
+          
+    ControleEstoqueVacina: 
+      required:
+        - _id
+        - vacina
+        - usuario
+        - data_evento
+        - tipo_evento
+        - tipo_motivo 
+        - id_entidade_relac_evento
+        - qtd_estoque_antes
+        - qtd_estoque_depois
+        - dt_inclusao
+        - __v        
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do regstro do controle de estoque
+          example: "6400091a4390d93c928c494e"
+          readOnly: true
+        vacina: 
+          $ref: '#/components/schemas/VacinaRelacionamento' 
+          readOnly: true
+        usuario:
+          $ref: '#/components/schemas/UsuarioRelacionamento'   
+          readOnly: true          
+        data_evento:
+          type: string
+          format: date-time
+          description: Data do evento 
+          readOnly: true          
+        tipo_evento:
+          type: string
+          description: Tipo do evento no estoque. Entrada = E, Saída = S
+          example: "E"    
+          readOnly: true             
+        tipo_motivo:
+          type: string
+          description: Tipo que motivou a alteração do estoque. CADASTRO_INICIAL = I,DESCARTE = D,VACINACAO = V,COMPRA = C,AJUSTE_ESTOQUE = A,ALTERACAO_COMPRA = AC,ALTERACAO_VACINACAO = AV,ALTERACAO_DESCARTE = AD,EXCLUSAO_COMPRA = EC,EXCLUSAO_VACINACAO = EV,EXCLUSAO_DESCARTE = ED,
+          example: "I" 
+          readOnly: true             
+        descricao_evento:
+          type: string
+          description: TDescrição do evento que motivou a alteração do estoque
+          example: "Compra nota fiscal 123"      
+          readOnly: true   
+        id_entidade_relac_evento:
+          type: string
+          description: Id da entidade que motivou a alteração do estoque
+          example: "6400091a4390d93c928c494e"
+          readOnly: true    
+        qtd_estoque_antes:
+          type: number
+          description: Quantidade do estoque antes do evento
+          example: 100    
+          readOnly: true  
+        qtd_estoque_depois:
+          type: number
+          description: Quantidade do estoque depois do evento
+          example: 150    
+          readOnly: true  
+        dt_inclusao:
+          type: string
+          format: date-time
+          description: Data da inclusão do registro
+          readOnly: true  
+        dt_alteracao:
+          type: string
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true  
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true           
+          
+    Vacinacao: 
+      required:
+        - _id
+        - codigo
+        - usuario_resp_cadastro
+        - usuario_cliente
+        - usuario_aplicador_vacina
+        - data_aplicacao
+        - vl_total
+        - dt_inclusao
+        - itens_vacinacao
+        - __v  
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id da vacinação
+          example: "37dc9c85fd018a07bd7eec24"
+          readOnly: true
+        codigo:
+          type: string
+          description: Código da vacinação
+          example: "V2345"
+        usuario_resp_cadastro:
+          $ref: '#/components/schemas/UsuarioRelacionamento'   
+        usuario_cliente:
+          $ref: '#/components/schemas/UsuarioRelacionamento' 
+        usuario_aplicador_vacina:
+          $ref: '#/components/schemas/UsuarioRelacionamento'  
+        data_aplicacao:
+          type: string
+          format: date-time
+          description: Data da aplicação da vacina
+        vl_total: 
+          type: 'number'
+          description: Valor total cobrado pela vacinação
+          example: 1410.01
+        itens_vacinacao: 
+          type: 'array'
+          items: 
+            $ref: '#/components/schemas/ItemVacinacao' 
+        dt_inclusao:
+          type: string
+          format: date-time
+          description: Data da inclusão do registro
+          readOnly: true  
+        dt_alteracao:
+          type: string
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true  
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true     
+          
+    VacinaRelacionamento:
+      required:
+        - _id
+        - nome
+        - protecao_contra
+      type: object          
+      properties:
+        _id:
+          type: string
+          description: Id da vacina
+          example: "6400091a4390d93c928c494e"
+        nome:
+          type: string
+          description: Nome da vacina
+          example: "Difteria e Tétano (dT)"
+        protecao_contra:
+          type: string
+          description: Descrição de para quais doenças a vacina protege
+          example: "Difteria e Tétano" 
+
+    ItemVacinacao:
+      required:   
+        - vacina
+        - lote
+        - data_validade
+        - qtd_doses
+        - vl_item
+      type: object          
+      properties:
+        vacina: 
+          $ref: '#/components/schemas/VacinaRelacionamento' 
+        lote:
+          type: string
+          description: Lote da vacina
+          example: "L2365" 
+        data_validade:
+          type: string
+          format: date-time
+          description: Data de validade da vacina
+        qtd_doses:
+          type: number
+          description: Quantidade de doses aplicadas
+          example: 1   
+        vl_item:
+          type: number
+          description: Valor da vacina aplicada
+          example: 100           
+          
+    ItemDescarte:
+      required:   
+        - vacina
+        - lote
+        - qtd_doses_descarte
+      type: object          
+      properties:
+        vacina: 
+          $ref: '#/components/schemas/VacinaRelacionamento' 
+        lote:
+          type: string
+          description: Lote da vacina
+          example: "L2365" 
+        qtd_doses_descarte:
+          type: number
+          description: Quantidade de doses descartadas
+          example: 10   
+          
+    ItemCompra:
+      required:   
+        - vacina
+        - lote
+        - qtd_frascos        
+        - qtd_doses
+        - data_validade        
+        - vl_total_item_compra
+      type: object          
+      properties:
+        vacina: 
+          $ref: '#/components/schemas/VacinaRelacionamento' 
+        lote:
+          type: string
+          description: Lote da vacina
+          example: "L2365" 
+        qtd_frascos:
+          type: number
+          description: Quantidade de frascos comprados
+          example: 1           
+        qtd_doses:
+          type: number
+          description: Quantidade de doses compradas
+          example: 10   
+        data_validade:
+          type: string
+          format: date-time
+          description: Data de validade da vacina          
+        vl_total_item_compra:
+          type: number
+          description: Valor da vacina aplicada
+          example: 100           
+               
+    DescarteVacina: 
+      required:
+        - _id
+        - codigo
+        - usuario_resp_descarte
+        - data_descarte
+        - motivo_descarte
+        - justificativa_descarte
+        - local_descarte
+        - itens_descarte        
+        - dt_inclusao
+        - __v  
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do descarte de vacina
+          example: "37dc9c85fd018a07bd7eec24"
+          readOnly: true
+        codigo:
+          type: string
+          description: Código do descarte de vacina
+          example: "D2345"
+        usuario_resp_descarte:
+          $ref: '#/components/schemas/UsuarioRelacionamento'   
+        data_descarte:
+          type: string
+          format: date-time
+          description: Data do descarte da vacina
+        motivo_descarte:
+          type: string
+          description: Motivo do descarte de vacina. EXPIRACAO = E, ARMAZENAMENTO = A, CONTAMINACAO = C, DANO_FISICO = F, USO_IMPROPRIO = U, DESPERDICIO = D, RECUSA_PACIENTE = R, OUTRO = O,
+          example: "E"
+        justificativa_descarte:
+          type: string
+          description: Justificativa do descarte de vacina
+          example: "Prazo de validade próximo"
+        local_descarte:
+          type: string
+          description: Local do descarte de vacina
+          example: "Lixo hospitalar"          
+        itens_descarte: 
+          type: 'array'
+          items: 
+            $ref: '#/components/schemas/ItemDescarte' 
+        dt_inclusao:
+          type: string
+          format: date-time
+          description: Data da inclusão do registro
+          readOnly: true  
+        dt_alteracao:
+          type: string
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true  
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true     
+            
     Fornecedor:
       required:
         - _id
         - nome
-        - tipo
-        - identificacao
-        - endereco
+        - email
+        - cnpj    
+        - endereco.logradouro        
+        - endereco.numero
+        - endereco.cidade
+        - endereco.estado
+        - endereco.cep        
+        - tel_celular
+        - dt_inclusao
         - __v
       type: object
       properties:
         _id:
           type: string
           description: Id do fornecedor
-          example: "63cf180478fa75fe3c95ed48"
+          example: "37dc9c85fd018a07bd7eec24"
           readOnly: true
         nome:
           type: string
           description: Nome do fornecedor
-          example: "Lojão do Condomínio"
-        tipo:
-          type: string
-          description: Tipo do fornecedor
-          enum:
-            - pf
-            - pj
-          example: "pf"
-        identificacao:
-          type: string
-          description: CPF/CNPJ do Fornecedor
-          example: "39629415500" 
-        endereco:
-          type: object
-          properties:
-            rua:
-              type: string
-              example: "Rua dos pedestres"
-            numero:
-              type: string
-              example: "S/N"
-            complemento:
-              type: string
-              example: "Apto 1000"
-          required:
-            - rua
-            - numero  
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
-          readOnly: true                  
-    Cliente:
-      required:
-        - _id
-        - nome
-        - email
-        - cpf
-        - dataNascimento
-        - endereco
-        - __v
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Id do cliente
-          example: "63d863b8e4d71610ad716f0c"
-          readOnly: true
-        nome:
-          type: string
-          description: Nome do cliente
-          example: "José da Silva Santos"
+          example: "Pfizer"
         email:
           type: string
-          description: E-Mail do cliente
-          example: "josesilva@gmail.com"
-        cpf:
+          description: Email do fornecedor
+          example: "pfizer@gmail.com"
+        cnpj:
           type: string
-          description: CPF do cliente
-          example: "39629415500" 
-        dataNascimento:
-          type: string
-          format: date
-          description: Data de nascimento do cliente
-          example: "26/04/2000" 
+          description: CNPJ do fornecedor
+          example: "12345678911123"          
         endereco:
           type: object
           properties:
-            rua:
+            logradouro:
               type: string
-              example: "Rua dos poucos números"
+              example: "Rua dos fornecedores"
             numero:
               type: string
               example: "S/N"
             complemento:
               type: string
-              example: "0"
-          required:
-            - rua
-            - numero   
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
-          readOnly: true                  
-    Vendedor:
-      required:
-        - _id
-        - nome
-        - email
-        - cpf
-        - salario
-        - endereco
-        - __v
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Id do vendedor
-          example: "63d9228d1153582852931d63"
-          readOnly: true
-        nome:
-          type: string
-          description: Nome do vendedor
-          example: "Antôno dos Santos"
-        email:
-          type: string
-          description: E-Mail do vendedor
-          example: "antonio@gmail.com"
-        cpf:
-          type: string
-          description: CPF do vendedor
-          example: "39629415501" 
-        salario:
-          type: number
-          description: Salário do vendedor
-          example: 5000 
-        endereco:
-          type: object
-          properties:
-            rua:
+              example: "Apto 501"
+            cidade:
               type: string
-              example: "Rua dos vendedores"
-            numero:
+              example: "Recife"   
+            estado:
               type: string
-              example: "S/N"
-            complemento:
+              example: "PE"     
+            cep:
               type: string
-              example: "0"
-          required:
-            - rua
-            - numero    
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
-          readOnly: true                  
-    Produto:
-      required:
-        - _id
-        - nome
-        - quantidade
-        - preco
-        - precoCusto
-        - precoCustoInicial
-        - __v
-      type: object
-      properties:
-        _id:
+              example: "52060123"                   
+        tel_celular: 
+          type: 'string'
+          description: Telefone do celular do fornecedor com DDD
+          example: "81999194259"
+        tel_fixo: 
+          type: 'string'
+          description: Telefone fixo do fornecedor com DDD
+          example: "8133695461"          
+        dt_inclusao:
           type: string
-          description: Id do produto
-          example: "63cf0c3978fa75fe3c95ecf5"
-          readOnly: true
-        nome:
-          type: string
-          description: Nome do produto
-          example: "Vara de pescar"
-        preco:
-          type: number
-          description: Preço unitário do produto
-          example: 20
-        precoCusto:
-          type: number
-          description: Preço de custo do produto
-          example: 5
-        precoCustoInicial:
-          type: number
-          description: Preço de custo inicíal do produto
-          example: 5
-          readOnly: true
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
+          format: date-time
+          description: Data da inclusão do registro
           readOnly: true  
-    Compra:
+        dt_alteracao:
+          type: string
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true  
+        __v:
+          type: integer
+          description: Código de controle de versão do banco de dados
+          example: 0
+          readOnly: true                                
+          
+    FornecedorRelacionamento:
       required:
         - _id
-        - data
-        - __v
+        - nome
+        - cnpj
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id do fornecedor
+          example: "37dc9c85fd018a07bd7eec24"
+        nome:
+          type: string
+          description: Nome do fornecedor
+          example: "Pfizer Boa Demais"
+        cnpj:
+          type: string
+          description: CNPJ do fornecedor
+          example: "12345678911245" 
+
+    CompraVacina: 
+      required:
+        - _id
+        - nota_fiscal
+        - fornecedor
+        - data_compra
+        - vl_total_compra
+        - itens_compra        
+        - dt_inclusao
+        - __v  
       type: object
       properties:
         _id:
           type: string
           description: Id da compra
-          example: "63db23e9c408a7530247aa88"
+          example: "37dc9c85fd018a07bd7eec24"
           readOnly: true
-        numero:
+        nota_fiscal:
           type: string
-          description: Número da nota fiscal da compra
-          example: "ZYZ 672"
-        data:
+          description: Nota fiscal da compra
+          example: "V2345"
+        fornecedor:
+          $ref: '#/components/schemas/FornecedorRelacionamento'   
+        data_compra:
           type: string
-          format: date
-          description: Data da compra
-          example: "13/12/2022" 
-        id_fornecedor:
+          format: date-time
+          description: Data da compra da vacina
+        vl_total_compra: 
+          type: 'number'
+          description: Valor total cobrado pela compra
+          example: 1410.01
+        itens_compra: 
+          type: 'array'
+          items: 
+            $ref: '#/components/schemas/ItemCompra' 
+        dt_inclusao:
           type: string
-          description: Id do fornecedor da compra
-          example: "63cf180478fa75fe3c95ed48" 
+          format: date-time
+          description: Data da inclusão do registro
+          readOnly: true  
+        dt_alteracao:
+          type: string
+          format: date-time
+          description: Data da alteração do registro
+          readOnly: true  
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true                
-    ItemCompra:
-      required:
-        - _id
-        - id_produto
-        - id_compra
-        - quantidade
-        - preco
-        - __v
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Id do item da compra
-          example: "63cf180478fa75fe3c95gd47"
-          readOnly: true
-        id_produto:
-          type: string
-          description: Id do produto da compra
-          example: "63cf0c3978fa75fe3c95ecf5"
-        id_compra:
-          type: string
-          description: Id da compra
-          example: "63db23e9c408a7530247aa88"
-          readOnly: true
-        quantidade:
-          type: number
-          description: Quantidade de itens comprados
-          example: 10 
-        preco:
-          type: number
-          description: Preço pago pelo total de itens comprados
-          example: 100
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
-          readOnly: true                
-    Venda:
-      required:
-        - _id
-        - data
-        - __v
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Id da venda
-          example: "63cf180478fa75fe3c95gd47"
-          readOnly: true
-        data:
-          type: string
-          format: date
-          description: Data da venda
-          example: "13/12/2022" 
-        id_vendedor:
-          type: string
-          description: Id do vendedor
-          example: "63d9228d1153582852931d63"   
-        id_cliente:
-          type: string
-          description: Id do cliente
-          example: "63d863b8e4d71610ad716f0c"       
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
-          readOnly: true               
-    ItemVenda:
-      required:
-        - _id
-        - id_produto
-        - id_venda
-        - quantidade
-        - precoCusto
-        - precoUnitario
-        - desconto
-        - preco
-        - __v
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Id do item da compra
-          example: "63cf180478fa75fe3c95gd47"
-          readOnly: true
-        id_produto:
-          type: string
-          description: Id do produto da compra
-          example: "63cf0c3978fa75fe3c95ecf5"
-        id_venda:
-          type: string
-          description: Id da venda
-          example: "63cf180478fa75fe3c95gd47"
-          readOnly: true
-        quantidade:
-          type: number
-          description: Quantidade de itens comprados
-          example: 10 
-        precoCusto:
-          type: number
-          description: Preço de custo unitário do produto no momento da compra
-          example: 90          
-        precoUnitario:
-          type: number
-          description: Preço unitário do produto no momento da compra
-          example: 100     
-        desconto:
-          type: number
-          description: Desconto que foi aplicado no momento da compra
-          example: 100               
-        preco:
-          type: number
-          description: Preço final (já aplicado o desconto) pago pela quantidade comprada
-          example: 500
-        __v:
-          type: integer
-          description: Código de controle de versão do banco de dados
-          example: 0
-          readOnly: true      
+          readOnly: true     
+        
+
   securitySchemes:
     api_key:
       type: http

@@ -39,8 +39,8 @@ class FornecedorController extends GenericCrudController {
         FornecedorModel,
         {
           $or: [
-            { nome: { $regex: searchNome, $options: "i" } },
-            { email: { $regex: searchEmail, $options: "i" } },
+            { nome: searchNome },
+            { email: searchEmail },
             { cnpj: searchCNPJ },
           ],
         },
@@ -52,8 +52,8 @@ class FornecedorController extends GenericCrudController {
         FornecedorModel,
         {
           $or: [
-            { nome: { $regex: searchNome, $options: "i" } },
-            { email: { $regex: searchEmail, $options: "i" } },
+            { nome: searchNome },
+            { email: searchEmail },
             { cnpj: searchCNPJ },
           ],
           _id: { $ne: obj._id },

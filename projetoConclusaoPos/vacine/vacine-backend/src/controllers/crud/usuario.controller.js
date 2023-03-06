@@ -52,10 +52,7 @@ class UsuarioController extends GenericCrudController {
         regBase = await GenericService.find(
           UsuarioModel,
           {
-            $or: [
-              { nome: { $regex: searchNome, $options: "i" } },
-              { email: { $regex: searchEmail, $options: "i" } },
-            ],
+            $or: [{ nome: searchNome }, { email: searchEmail }],
           },
           session,
           "_id"
@@ -64,10 +61,7 @@ class UsuarioController extends GenericCrudController {
         regBase = await GenericService.find(
           UsuarioModel,
           {
-            $or: [
-              { nome: { $regex: searchNome, $options: "i" } },
-              { email: { $regex: searchEmail, $options: "i" } },
-            ],
+            $or: [{ nome: searchNome }, { email: searchEmail }],
             _id: { $ne: obj._id },
           },
           session,
@@ -114,7 +108,7 @@ class UsuarioController extends GenericCrudController {
     ) {
       try {
         //parametro é passado como string separada por virgulas, precisa transformar em array
-        const tipos = req.query.tipos.split(",");   
+        const tipos = req.query.tipos.split(",");
         let registros;
 
         if (tipos) {
