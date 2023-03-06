@@ -83,8 +83,8 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
     this.subscriptions.push(
       this.service.getAll().subscribe({
         next: (listaReg) => {
-          // this.registros = listaReg;
-          // this.dataSourceMatTable.data = this.registros;
+          this.registros = listaReg;
+          this.dataSourceMatTable.data = this.registros;
           this.carregado = true;
         },
         error: (erro) => {
