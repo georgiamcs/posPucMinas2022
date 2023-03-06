@@ -1,3 +1,4 @@
+import { SecurityProvider } from 'src/app/providers/security.provider';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
@@ -28,7 +29,8 @@ export class LoginComponent extends GenericPageFormComponent {
     protected override router: Router,
     protected override serviceAcesso: ControleAcessoService,
     protected override formBuilder: FormBuilder,
-    private serviceAutRedeSocial: SocialAuthService
+    private serviceAutRedeSocial: SocialAuthService,
+    private securityProvider: SecurityProvider
   ) {
     super(changeDetectorRef, media, router, serviceAcesso, formBuilder);
   }
@@ -40,14 +42,15 @@ export class LoginComponent extends GenericPageFormComponent {
   override ngOnInit(): void {
     super.ngOnInit();
     this.buildForm();
+    this.securityProvider.removeTokenUsuario();
 
-    this.subscription = this.serviceAutRedeSocial.authState.subscribe(
-      (user) => {
+    this.subscriptions.push(
+      this.serviceAutRedeSocial.authState.subscribe((user) => {
         if (user && !this.logado) {
           this.logandoFormulario(true);
           this.logarGoogle(user);
         }
-      }
+      })
     );
   }
 
@@ -70,29 +73,33 @@ export class LoginComponent extends GenericPageFormComponent {
   }
 
   private logarJwt(loginUsuario: LoginUsuario) {
-    this.subscription = this.serviceAcesso.loginJwt(loginUsuario).subscribe({
-      next: (result) => {
-        this.serviceAcesso.setTokenUsuario(result);
-        this.irParaPagina('/home');
-      },
-      error: (err) => {
-        this.logandoFormulario(false);
-        this.tratarErroLogin(err);
-      },
-    });
+    this.subscriptions.push(
+      this.serviceAcesso.loginJwt(loginUsuario).subscribe({
+        next: (result) => {
+          this.serviceAcesso.setTokenUsuario(result);
+          this.irParaPagina('/home');
+        },
+        error: (err) => {
+          this.logandoFormulario(false);
+          this.tratarErroLogin(err);
+        },
+      })
+    );
   }
 
   private logarGoogle(usuario: SocialUser) {
-    this.subscription = this.serviceAcesso.loginGoogle(usuario).subscribe({
-      next: (result) => {
-        this.serviceAcesso.setTokenUsuario(result);
-        this.irParaPagina('/home');
-      },
-      error: (err) => {
-        this.logandoFormulario(false);
-        this.tratarErroLogin(err);
-      },
-    });
+    this.subscriptions.push(
+      this.serviceAcesso.loginGoogle(usuario).subscribe({
+        next: (result) => {
+          this.serviceAcesso.setTokenUsuario(result);
+          this.irParaPagina('/home');
+        },
+        error: (err) => {
+          this.logandoFormulario(false);
+          this.tratarErroLogin(err);
+        },
+      })
+    );
   }
 
   private tratarErroLogin(error: any) {

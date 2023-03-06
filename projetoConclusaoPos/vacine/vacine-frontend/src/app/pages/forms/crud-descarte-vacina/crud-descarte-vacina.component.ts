@@ -152,43 +152,47 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
   }
 
   private setLookupResponsavel() {
-    this.subscription = this.serviceUsuario
-      .getAllByTipoConverted<RelacionamentoUsuario>(
-        [TipoUsuario.TECNICO_ENFERMAGEM, TipoUsuario.ADMINISTRADOR],
-        RelacionamentoUsuario.usuarioToRelacionamentoUsuario
-      )
-      .subscribe({
-        next: (lista) => {
-          this.responsaveis = lista;
-          this.responsaveis = lista.filter(
-            (e) => e.tipo != TipoUsuario.CLIENTE
-          );
-          this.ordenarLookup(this.responsaveis);
-          this.responsaveis.sort((a, b) => a.nome.localeCompare(b.nome));
-          this.setChangeRespParaFiltrarValores();
-        },
-        error: (e) => {
-          this.tratarErroCarregarLookup(e, this.nomeCtrlResponsavel);
-        },
-      });
+    this.subscriptions.push(
+      this.serviceUsuario
+        .getAllByTipoConverted<RelacionamentoUsuario>(
+          [TipoUsuario.TECNICO_ENFERMAGEM, TipoUsuario.ADMINISTRADOR],
+          RelacionamentoUsuario.usuarioToRelacionamentoUsuario
+        )
+        .subscribe({
+          next: (lista) => {
+            this.responsaveis = lista;
+            this.responsaveis = lista.filter(
+              (e) => e.tipo != TipoUsuario.CLIENTE
+            );
+            this.ordenarLookup(this.responsaveis);
+            this.responsaveis.sort((a, b) => a.nome.localeCompare(b.nome));
+            this.setChangeRespParaFiltrarValores();
+          },
+          error: (e) => {
+            this.tratarErroCarregarLookup(e, this.nomeCtrlResponsavel);
+          },
+        })
+    );
   }
 
   private setLookupVacina() {
-    this.subscription = this.serviceVacina
-      .getAllConverted<RelacionamentoVacina>(
-        RelacionamentoVacina.vacinaToRelacionamentoVacina
-      )
-      .subscribe({
-        next: (listaVacina) => {
-          this.vacinas = listaVacina;
-          this.vacinas = this.vacinas.filter((e) => e.qtd_doses_estoque > 0);
-          this.ordenarLookup(this.vacinas);
-          this.setChangeVacinaParaFiltrarValores();
-        },
-        error: (e) => {
-          this.tratarErroCarregarLookup(e, this.nomeCtrlVacina);
-        },
-      });
+    this.subscriptions.push(
+      this.serviceVacina
+        .getAllConverted<RelacionamentoVacina>(
+          RelacionamentoVacina.vacinaToRelacionamentoVacina
+        )
+        .subscribe({
+          next: (listaVacina) => {
+            this.vacinas = listaVacina;
+            this.vacinas = this.vacinas.filter((e) => e.qtd_doses_estoque > 0);
+            this.ordenarLookup(this.vacinas);
+            this.setChangeVacinaParaFiltrarValores();
+          },
+          error: (e) => {
+            this.tratarErroCarregarLookup(e, this.nomeCtrlVacina);
+          },
+        })
+    );
   }
 
   protected filtrarResponsavel(value: any) {
@@ -236,34 +240,36 @@ export class CrudDescarteVacinaComponent extends GenericCrudMestreDetalheCompone
       )
     );
 
-    this.subscription = this.formItem.valueChanges.subscribe((value) => {
-      const ctrlDoseDescarte = this.getFormControl(
-        this.formItem,
-        'qtd_doses_descarte'
-      );
-      if (this.getFormControl(this.formItem, 'vacina').valid) {
-        this.qtdMaxDoseDescartar = value.vacina.qtd_doses_estoque;
-        this.atualizarValidadores(
-          ctrlDoseDescarte,
-          Validators.compose([
-            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-            Validators.pattern('^[0-9]*$'),
-            Validators.min(1),
-            Validators.max(this.qtdMaxDoseDescartar!),
-          ])
+    this.subscriptions.push(
+      this.formItem.valueChanges.subscribe((value) => {
+        const ctrlDoseDescarte = this.getFormControl(
+          this.formItem,
+          'qtd_doses_descarte'
         );
-      } else {
-        this.qtdMaxDoseDescartar = undefined;
-        this.atualizarValidadores(
-          ctrlDoseDescarte,
-          Validators.compose([
-            ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
-            Validators.pattern('^[0-9]*$'),
-            Validators.min(1),
-          ])
-        );
-      }
-    });
+        if (this.getFormControl(this.formItem, 'vacina').valid) {
+          this.qtdMaxDoseDescartar = value.vacina.qtd_doses_estoque;
+          this.atualizarValidadores(
+            ctrlDoseDescarte,
+            Validators.compose([
+              ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+              Validators.pattern('^[0-9]*$'),
+              Validators.min(1),
+              Validators.max(this.qtdMaxDoseDescartar!),
+            ])
+          );
+        } else {
+          this.qtdMaxDoseDescartar = undefined;
+          this.atualizarValidadores(
+            ctrlDoseDescarte,
+            Validators.compose([
+              ValidatorsUtil.getValidadorObrigatorioSemEspacos(),
+              Validators.pattern('^[0-9]*$'),
+              Validators.min(1),
+            ])
+          );
+        }
+      })
+    );
   }
 
   protected getItemDetalheForm() {

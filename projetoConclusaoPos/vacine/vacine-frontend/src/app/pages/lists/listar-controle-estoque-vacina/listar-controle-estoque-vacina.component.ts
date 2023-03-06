@@ -7,7 +7,7 @@ import { ListaControleEstoqueVacinaService } from 'src/app/services/lists/lista-
 import { TemaAcessoUsuario } from 'src/app/shared/classes/acesso.class';
 import {
   getDescTipoEventoContEstoque,
-  getDescTpMotivoControleEstVacina
+  getDescTpMotivoControleEstVacina,
 } from 'src/app/shared/enums/estoque.enum';
 import { DefinicaoColunasExibidas } from 'src/app/shared/interfaces/defincao-colunas-exibidas.interface';
 import { ControleEstoqueVacina } from './../../../shared/models/controle-estoque-vacina.model';
@@ -109,22 +109,24 @@ export class ListarControleEstoqueVacinaComponent extends GenericListarRegistros
   }
 
   protected override carregarRegistros() {
-    this.subscription = this.service.getByIdVacina(this.idVacina!).subscribe({
-      next: (listaReg) => {
-        if (listaReg.length > 0 && !!listaReg[0].vacina.nome) {
-          this.nomeVacina = listaReg[0].vacina.nome;
-        }
-        this.registros = this.convertListaControleEstoque(listaReg);
-        this.dataSourceMatTable.data = this.registros;
-        this.carregado = true;
-      },
-      error: (erro) => {
-        this.carregado = false;
-        this.tratarErro(
-          `Erro ao carregar registros => ${erro.message}. Tente acessar novamente em alguns minutos. Caso o erro persista, contacte o suporte.`
-        );
-      },
-    });
+    this.subscriptions.push(
+      this.service.getByIdVacina(this.idVacina!).subscribe({
+        next: (listaReg) => {
+          if (listaReg.length > 0 && !!listaReg[0].vacina.nome) {
+            this.nomeVacina = listaReg[0].vacina.nome;
+          }
+          this.registros = this.convertListaControleEstoque(listaReg);
+          this.dataSourceMatTable.data = this.registros;
+          this.carregado = true;
+        },
+        error: (erro) => {
+          this.carregado = false;
+          this.tratarErro(
+            `Erro ao carregar registros => ${erro.message}. Tente acessar novamente em alguns minutos. Caso o erro persista, contacte o suporte.`
+          );
+        },
+      })
+    );
   }
 
   protected voltar() {

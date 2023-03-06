@@ -6,7 +6,7 @@ import { ControleAcessoService } from 'src/app/services/authentication/controle-
 import {
   Acesso,
   TemaAcessoUsuario,
-  TipoAcessoUsuario
+  TipoAcessoUsuario,
 } from 'src/app/shared/classes/acesso.class';
 import { MensagemFeedback } from 'src/app/shared/classes/mensagem-feedback.class';
 import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedback.enum';
@@ -21,7 +21,7 @@ import { UtilRota } from './../../shared/utils/rota.util';
   styleUrls: ['./generic-page.component.scss'],
 })
 export abstract class GenericPageComponent implements OnInit, OnDestroy {
-  protected subscription: Subscription;
+  protected subscriptions: Subscription[] = [];
   protected mensagens: MensagemFeedback[] = [];
 
   private mobileResolutionQuery: MediaQueryList;
@@ -66,13 +66,15 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
     this.desktopResolutionQuery.addListener(this._mediaQueryListener);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    if (!!this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach((s) => {
+      if (!!s) {
+        s.unsubscribe();
+      }
+    });
+
     this.mobileResolutionQuery.removeListener(this._mediaQueryListener);
     this.tabletLowResolutionQuery.removeListener(this._mediaQueryListener);
     this.desktopResolutionQuery.removeListener(this._mediaQueryListener);

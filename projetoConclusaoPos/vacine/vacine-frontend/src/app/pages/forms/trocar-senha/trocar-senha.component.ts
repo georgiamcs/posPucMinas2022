@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   AbstractControlOptions,
   FormBuilder,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,13 +58,15 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
   }
 
   private preencherNomeUsuario() {
-    this.subscription = this.service.getNome(this.id!).subscribe({
-      next: (nome) => (this.nomeUsuario = nome),
-      error: (e) =>
-        this.tratarErro(
-          `Não foi possível recuperar os dados do usuário. Erro => ${e.message}`
-        ),
-    });
+    this.subscriptions.push(
+      this.service.getNome(this.id!).subscribe({
+        next: (nome) => (this.nomeUsuario = nome),
+        error: (e) =>
+          this.tratarErro(
+            `Não foi possível recuperar os dados do usuário. Erro => ${e.message}`
+          ),
+      })
+    );
   }
 
   override ngOnInit(): void {
@@ -119,7 +121,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
         dataModal
       );
 
-      this.subscription = modalRef.afterClosed().subscribe({
+      this.subscriptions.push(modalRef.afterClosed().subscribe({
         next: (result) => {
           if (result == this.ROTULO_BOTAO_ACEITAR) {
             this.trocarSenha();
@@ -129,14 +131,14 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
           this.tratarErro(
             `Erro ao fechar janela de confirmação de exclusão: ${erro}`
           ),
-      });
+      }));
     }
   }
 
   protected trocarSenha() {
     let state = {};
 
-    this.subscription = this.service
+    this.subscriptions.push(this.service
       .trocarSenha(this.id, this.form.value)
       .subscribe({
         next: () => {
@@ -149,7 +151,7 @@ export class TrocarSenhaComponent extends GenericPageFormComponent {
         },
         error: (erro) =>
           this.tratarErro(`Não foi possível alterar a senha. Erro: ${erro}`),
-      });
+      }));
   }
 
   private voltarParaJanelaAnterior(state: Object) {

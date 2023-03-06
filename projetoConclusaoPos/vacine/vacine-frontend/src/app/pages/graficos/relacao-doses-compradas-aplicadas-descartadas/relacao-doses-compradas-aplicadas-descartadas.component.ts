@@ -132,29 +132,29 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
   }
 
   private carregarTodosDescartes() {
-    this.subscription = this.serviceDescarte.getAll().subscribe({
+    this.subscriptions.push( this.serviceDescarte.getAll().subscribe({
       next: (lista) => {
         this.todosDescartes = lista;
         this.carregarTodasCompras();
       },
       error: (erro) =>
         this.tratarErro(`Erro ao carregar descartes => ${erro.message}`, false),
-    });
+    }));
   }
 
   private carregarTodasCompras() {
-    this.subscription = this.serviceCompra.getAll().subscribe({
+    this.subscriptions.push(this.serviceCompra.getAll().subscribe({
       next: (lista) => {
         this.todasCompras = lista;
         this.carregarTodasVacinacoes();
       },
       error: (erro) =>
         this.tratarErro(`Erro ao carregar compras => ${erro.message}`, false),
-    });
+    }));
   }
 
   private carregarTodasVacinacoes() {
-    this.subscription = this.serviceVacinacao.getAll().subscribe({
+    this.subscriptions.push(this.serviceVacinacao.getAll().subscribe({
       next: (lista) => {
         this.todasVacinacoes = lista;
         this.carregarAnos();
@@ -164,7 +164,7 @@ export class RelacaoDosesCompradasAplicadasDescartadasComponent extends GenericP
           `Erro ao carregar vacinações => ${erro.message}`,
           false
         ),
-    });
+    }));
   }
 
   protected carregarAnos() {

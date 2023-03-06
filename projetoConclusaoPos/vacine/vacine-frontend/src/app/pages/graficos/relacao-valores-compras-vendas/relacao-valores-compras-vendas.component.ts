@@ -117,28 +117,32 @@ export class RelacaoValoresComprasVendasComponent extends GenericPageFormCompone
   }
 
   private carregarTodasCompras() {
-    this.subscription = this.serviceCompra.getAll().subscribe({
-      next: (lista) => {
-        this.todasCompras = lista;
-        this.carregarTodasVacinacoes();
-      },
-      error: (erro) =>
-        this.tratarErro(`Erro ao carregar compras => ${erro.message}`, false),
-    });
+    this.subscriptions.push(
+      this.serviceCompra.getAll().subscribe({
+        next: (lista) => {
+          this.todasCompras = lista;
+          this.carregarTodasVacinacoes();
+        },
+        error: (erro) =>
+          this.tratarErro(`Erro ao carregar compras => ${erro.message}`, false),
+      })
+    );
   }
 
   private carregarTodasVacinacoes() {
-    this.subscription = this.serviceVacinacao.getAll().subscribe({
-      next: (lista) => {
-        this.todasVacinacoes = lista;
-        this.carregarAnos();
-      },
-      error: (erro) =>
-        this.tratarErro(
-          `Erro ao carregar vacinações => ${erro.message}`,
-          false
-        ),
-    });
+    this.subscriptions.push(
+      this.serviceVacinacao.getAll().subscribe({
+        next: (lista) => {
+          this.todasVacinacoes = lista;
+          this.carregarAnos();
+        },
+        error: (erro) =>
+          this.tratarErro(
+            `Erro ao carregar vacinações => ${erro.message}`,
+            false
+          ),
+      })
+    );
   }
 
   protected carregarAnos() {

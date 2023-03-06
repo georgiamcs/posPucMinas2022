@@ -19,7 +19,10 @@ import { TipoMensagemFeedback } from 'src/app/shared/enums/tipo-mensagem-feedbac
 import { UtilRota } from 'src/app/shared/utils/rota.util';
 import { ValidatorsUtil } from 'src/app/shared/utils/validators-util.util';
 import { UtilValidators } from 'src/app/validators/util-validators';
-import { ESTADOS, MENSAGEM_REGISTRO_DUPLICADO } from 'src/app/variables/constantes';
+import {
+  ESTADOS,
+  MENSAGEM_REGISTRO_DUPLICADO,
+} from 'src/app/variables/constantes';
 import { ClienteService } from '../../../services/crud/cliente/cliente.service';
 import {
   TIPOS_USUARIOS,
@@ -90,28 +93,30 @@ export class CrudUsuarioComponent extends GenericCrudComponent<Usuario> {
   protected override registrar() {
     const novoRegistro = this.getRegistroForm();
 
-    this.subscription = this.serviceCliente.registrar(novoRegistro).subscribe({
-      next: () => {
-        this.registroComSucesso();
-      },
-      error: (erro) => {
-        let msgErro: string;
+    this.subscriptions.push(
+      this.serviceCliente.registrar(novoRegistro).subscribe({
+        next: () => {
+          this.registroComSucesso();
+        },
+        error: (erro) => {
+          let msgErro: string;
 
-        if (erro.status === RetornoHttp.HTTP_CONFLIT) {
-          msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
-        } else {
-          const textoErro = !!erro.error?.error
-            ? erro.error.error
-            : erro.message;
-          msgErro = `Erro ao registrar usuário => ${textoErro}`;
-        }
-        const msgFeedbackErro = new MensagemFeedback(
-          TipoMensagemFeedback.ERRO,
-          msgErro
-        );
-        this.addMensagem(msgFeedbackErro);
-      },
-    });
+          if (erro.status === RetornoHttp.HTTP_CONFLIT) {
+            msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
+          } else {
+            const textoErro = !!erro.error?.error
+              ? erro.error.error
+              : erro.message;
+            msgErro = `Erro ao registrar usuário => ${textoErro}`;
+          }
+          const msgFeedbackErro = new MensagemFeedback(
+            TipoMensagemFeedback.ERRO,
+            msgErro
+          );
+          this.addMensagem(msgFeedbackErro);
+        },
+      })
+    );
   }
 
   private registroComSucesso() {

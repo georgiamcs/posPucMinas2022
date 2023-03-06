@@ -80,19 +80,21 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
   }
 
   protected carregarRegistros() {
-    this.subscription = this.service.getAll().subscribe({
-      next: (listaReg) => {
-        this.registros = listaReg;
-        this.dataSourceMatTable.data = this.registros;
-        this.carregado = true;
-      },
-      error: (erro) => {
-        this.carregado = false;
-        this.tratarErro(
-          `Erro ao carregar registros => ${erro.message}. Tente acessar novamente em alguns minutos. Caso o erro persista, contacte o suporte.`
-        );
-      },
-    });
+    this.subscriptions.push(
+      this.service.getAll().subscribe({
+        next: (listaReg) => {
+          // this.registros = listaReg;
+          // this.dataSourceMatTable.data = this.registros;
+          this.carregado = true;
+        },
+        error: (erro) => {
+          this.carregado = false;
+          this.tratarErro(
+            `Erro ao carregar registros => ${erro.message}. Tente acessar novamente em alguns minutos. Caso o erro persista, contacte o suporte.`
+          );
+        },
+      })
+    );
   }
 
   protected getDisplayedColumnsMediaType(): string[] {

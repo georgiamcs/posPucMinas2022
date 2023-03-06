@@ -155,7 +155,7 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
   }
 
   private setLookupFornecedor() {
-    this.subscription = this.serviceFornecedor
+    this.subscriptions.push(this.serviceFornecedor
       .getAllConverted<RelacionamentoFornecedor>(
         RelacionamentoFornecedor.fornecedorToRelacionamentoFornecedor
       )
@@ -168,11 +168,11 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
         error: (e) => {
           this.tratarErroCarregarLookup(e, this.nomeCtrlFornecedor);
         },
-      });
+      }));
   }
 
   private setLookupVacina() {
-    this.subscription = this.serviceVacina
+    this.subscriptions.push(this.serviceVacina
       .getAllConverted<RelacionamentoVacina>(
         RelacionamentoVacina.vacinaToRelacionamentoVacina
       )
@@ -185,7 +185,7 @@ export class CrudCompraVacinaComponent extends GenericCrudMestreDetalheComponent
         error: (e) => {
           this.tratarErroCarregarLookup(e, this.nomeCtrlVacina);
         },
-      });
+      }));
   }
 
   private setChangeFornecedorParaFiltrarValores() {

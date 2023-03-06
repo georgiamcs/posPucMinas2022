@@ -128,13 +128,6 @@ body {
   }
 }
 
-.semregistros {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-content: center;
-}
-
 .tabpag {
   width: 100%;
 }
@@ -144,4 +137,11 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.semregistros {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
 }

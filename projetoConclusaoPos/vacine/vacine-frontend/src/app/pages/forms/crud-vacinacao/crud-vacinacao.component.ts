@@ -142,42 +142,46 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
   }
 
   private setLookupCliente() {
-    this.subscription = this.serviceUsuario
-      .getAllConverted<RelacionamentoUsuario>(
-        RelacionamentoUsuario.usuarioToRelacionamentoUsuario
-      )
-      .subscribe({
-        next: (lista) => {
-          this.clientes = lista;
-          this.ordenarLookup(this.clientes);
-          this.setChangeClienteParaFiltrarValores();
-        },
-        error: (e) => {
-          this.tratarErroCarregarLookup(e, this.nomeCtrlCliente);
-        },
-      });
+    this.subscriptions.push(
+      this.serviceUsuario
+        .getAllConverted<RelacionamentoUsuario>(
+          RelacionamentoUsuario.usuarioToRelacionamentoUsuario
+        )
+        .subscribe({
+          next: (lista) => {
+            this.clientes = lista;
+            this.ordenarLookup(this.clientes);
+            this.setChangeClienteParaFiltrarValores();
+          },
+          error: (e) => {
+            this.tratarErroCarregarLookup(e, this.nomeCtrlCliente);
+          },
+        })
+    );
   }
 
   private setLookupAplicador() {
-    this.subscription = this.serviceUsuario
-      .getAllByTipoConverted<RelacionamentoUsuario>(
-        [TipoUsuario.TECNICO_ENFERMAGEM],
-        RelacionamentoUsuario.usuarioToRelacionamentoUsuario
-      )
-      .subscribe({
-        next: (lista) => {
-          this.aplicadores = lista;
-          this.ordenarLookup(this.aplicadores);
-          this.setChangeAplicadorParaFiltrarValores();
-        },
-        error: (e) => {
-          this.tratarErroCarregarLookup(e, this.nomeCtrlAplicador);
-        },
-      });
+    this.subscriptions.push(
+      this.serviceUsuario
+        .getAllByTipoConverted<RelacionamentoUsuario>(
+          [TipoUsuario.TECNICO_ENFERMAGEM],
+          RelacionamentoUsuario.usuarioToRelacionamentoUsuario
+        )
+        .subscribe({
+          next: (lista) => {
+            this.aplicadores = lista;
+            this.ordenarLookup(this.aplicadores);
+            this.setChangeAplicadorParaFiltrarValores();
+          },
+          error: (e) => {
+            this.tratarErroCarregarLookup(e, this.nomeCtrlAplicador);
+          },
+        })
+    );
   }
 
   private setLookupVacina() {
-    this.subscription = this.serviceVacina
+    this.subscriptions.push(this.serviceVacina
       .getAllConverted<RelacionamentoVacina>(
         RelacionamentoVacina.vacinaToRelacionamentoVacina
       )
@@ -191,7 +195,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
         error: (e) => {
           this.tratarErroCarregarLookup(e, this.nomeCtrlVacina);
         },
-      });
+      }));
   }
 
   private setChangeClienteParaFiltrarValores() {
@@ -267,7 +271,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
       )
     );
 
-    this.subscription = this.formItem.valueChanges.subscribe((value) => {
+    this.subscriptions.push(this.formItem.valueChanges.subscribe((value) => {
       if (this.getFormControl(this.formItem, 'vacina').valid) {
         this.getFormControl(this.formItem, 'vl_item')?.patchValue(
           value.vacina.vl_atual_unit_dose,
@@ -280,7 +284,7 @@ export class CrudVacinacaoComponent extends GenericCrudMestreDetalheComponent<
           emitEvent: false,
         });
       }
-    });
+    }));
   }
 
   protected getItemDetalheForm(): ItemVacinacao {

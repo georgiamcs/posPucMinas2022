@@ -31,14 +31,17 @@ export class LogoutComponent extends GenericPageComponent implements OnInit {
   override ngOnInit(): void {
     super.ngOnInit();
 
-    this.subscription = this.serviceAutRedeSocial.authState.subscribe({
-      next: (user) => (this.logadoGoogle = user != null),
-      error: (e) => this.tratarErro(e),
-    });
-
-    if (this.logadoGoogle) {
-      this.serviceAutRedeSocial.signOut();
-    }
+    this.subscriptions.push(
+      this.serviceAutRedeSocial.authState.subscribe({
+        next: (user) => {
+          this.logadoGoogle = user != null;
+          if (this.logadoGoogle) {
+            this.serviceAutRedeSocial.signOut();
+          }
+        },
+        error: (e) => this.tratarErro(e),
+      })
+    );
 
     this.serviceAcesso.logout();
     this.irParaPagina('/home');

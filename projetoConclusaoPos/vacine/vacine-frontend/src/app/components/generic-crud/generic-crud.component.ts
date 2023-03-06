@@ -137,11 +137,13 @@ export abstract class GenericCrudComponent<
   protected carregarDadosId() {
     if (this.modoFormulario != ModoFormulario.INCLUSAO) {
       if (this.id) {
-        this.subscription = this.service.getById(this.id).subscribe({
-          next: (regBusca) => this.preencherFormComRegistroId(regBusca),
-          error: (erro) =>
-            this.tratarErro(`Erro ao carregar dados => ${erro.message}`),
-        });
+        this.subscriptions.push(
+          this.service.getById(this.id).subscribe({
+            next: (regBusca) => this.preencherFormComRegistroId(regBusca),
+            error: (erro) =>
+              this.tratarErro(`Erro ao carregar dados => ${erro.message}`),
+          })
+        );
       }
     }
   }
@@ -160,32 +162,34 @@ export abstract class GenericCrudComponent<
   protected incluirRegistro() {
     const novoRegistro = this.getRegistroForm();
 
-    this.subscription = this.service.add(novoRegistro).subscribe({
-      next: () => {
-        const msgFeedbackSucesso = this.getMsgFeedBackIncluidoSucesso(
-          this.nomeCampoFormIdentificaEntidade
-        );
-        this.addMensagem(msgFeedbackSucesso);
-        this.limparFormulario();
-      },
-      error: (erro) => {
-        let msgErro: string;
+    this.subscriptions.push(
+      this.service.add(novoRegistro).subscribe({
+        next: () => {
+          const msgFeedbackSucesso = this.getMsgFeedBackIncluidoSucesso(
+            this.nomeCampoFormIdentificaEntidade
+          );
+          this.addMensagem(msgFeedbackSucesso);
+          this.limparFormulario();
+        },
+        error: (erro) => {
+          let msgErro: string;
 
-        if (erro.status === RetornoHttp.HTTP_CONFLIT) {
-          msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
-        } else {
-          const textoErro = !!erro.error?.error
-            ? erro.error.error
-            : erro.message;
-          msgErro = `Erro ao incluir registro => ${textoErro}`;
-        }
-        const msgFeedbackErro = new MensagemFeedback(
-          TipoMensagemFeedback.ERRO,
-          msgErro
-        );
-        this.addMensagem(msgFeedbackErro);
-      },
-    });
+          if (erro.status === RetornoHttp.HTTP_CONFLIT) {
+            msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
+          } else {
+            const textoErro = !!erro.error?.error
+              ? erro.error.error
+              : erro.message;
+            msgErro = `Erro ao incluir registro => ${textoErro}`;
+          }
+          const msgFeedbackErro = new MensagemFeedback(
+            TipoMensagemFeedback.ERRO,
+            msgErro
+          );
+          this.addMensagem(msgFeedbackErro);
+        },
+      })
+    );
   }
 
   protected registrar() {
@@ -195,35 +199,37 @@ export abstract class GenericCrudComponent<
   protected alterarRegistro() {
     const regAlterado = this.getRegistroForm();
 
-    this.subscription = this.service.update(regAlterado).subscribe({
-      next: () => {
-        const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
-          this.nomeCampoFormIdentificaEntidade
-        );
-        this.carregarRegistros(msgFeedback);
-      },
-      error: (erro) => {
-        let msgErro: string;
+    this.subscriptions.push(
+      this.service.update(regAlterado).subscribe({
+        next: () => {
+          const msgFeedback = this.getMsgFeedBackAlteradoSucesso(
+            this.nomeCampoFormIdentificaEntidade
+          );
+          this.carregarRegistros(msgFeedback);
+        },
+        error: (erro) => {
+          let msgErro: string;
 
-        if (erro.status === RetornoHttp.HTTP_CONFLIT) {
-          msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
-        } else {
-          const textoErro = !!erro.error?.error
-            ? erro.error.error
-            : erro.message;
-          msgErro = `Erro ao alterar registro => ${textoErro}`;
-        }
-        const msgFeedbackErro = new MensagemFeedback(
-          TipoMensagemFeedback.ERRO,
-          msgErro
-        );
-        this.addMensagem(msgFeedbackErro);
-      },
-    });
+          if (erro.status === RetornoHttp.HTTP_CONFLIT) {
+            msgErro = `Operação não pode ser realizada. ${MENSAGEM_REGISTRO_DUPLICADO}`;
+          } else {
+            const textoErro = !!erro.error?.error
+              ? erro.error.error
+              : erro.message;
+            msgErro = `Erro ao alterar registro => ${textoErro}`;
+          }
+          const msgFeedbackErro = new MensagemFeedback(
+            TipoMensagemFeedback.ERRO,
+            msgErro
+          );
+          this.addMensagem(msgFeedbackErro);
+        },
+      })
+    );
   }
 
   protected excluirRegistro(id: string) {
-    this.subscription = this.service.delete(id).subscribe({
+    this.subscriptions.push(this.service.delete(id).subscribe({
       next: () => {
         const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
           this.nomeCampoFormIdentificaEntidade
@@ -239,7 +245,7 @@ export abstract class GenericCrudComponent<
         );
         this.addMensagem(msgFeedbackErro);
       },
-    });
+    }));
   }
 
   protected confirmarExclusaoRegistro(registro: EntityModel) {
@@ -248,7 +254,7 @@ export abstract class GenericCrudComponent<
       this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
     );
 
-    this.subscription = modalRef.afterClosed().subscribe({
+    this.subscriptions.push(modalRef.afterClosed().subscribe({
       next: (result) => {
         if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
           this.excluirRegistro(registro._id);
@@ -258,7 +264,7 @@ export abstract class GenericCrudComponent<
         this.tratarErro(
           `Erro ao fechar janela de confirmação de exclusão => ${erro}`
         ),
-    });
+    }));
   }
 
   protected salvar() {

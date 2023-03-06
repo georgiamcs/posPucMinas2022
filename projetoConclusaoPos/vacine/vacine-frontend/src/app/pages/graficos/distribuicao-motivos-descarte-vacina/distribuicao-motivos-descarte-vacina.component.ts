@@ -1,9 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import {
-  ChangeDetectorRef,
-  Component, OnInit,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
@@ -83,15 +79,17 @@ export class DistribuicaoMotivosDescarteVacinaComponent
   }
 
   private carregarTodosRegistros() {
-    this.subscription = this.service.getAll().subscribe({
-      next: (lista) => {
-        this.todosRegistros = lista;
-        this.carregarAnos();
-        this.gerarGrafico();
-      },
-      error: (erro) =>
-        this.tratarErro(`Erro ao carregar dados => ${erro.message}`, false),
-    });
+    this.subscriptions.push(
+      this.service.getAll().subscribe({
+        next: (lista) => {
+          this.todosRegistros = lista;
+          this.carregarAnos();
+          this.gerarGrafico();
+        },
+        error: (erro) =>
+          this.tratarErro(`Erro ao carregar dados => ${erro.message}`, false),
+      })
+    );
   }
 
   protected carregarAnos() {
