@@ -4,6 +4,7 @@ const GenericService = require("../../services/generic-crud.service");
 const FornecedorModel = require("../../models/fornecedor.model");
 const CompraVacinaModel = require("../../models/compra-vacina.model");
 const Acesso = require("../../setup/acesso");
+const utl = require("../../utils/util");
 
 class FornecedorController extends GenericCrudController {
   constructor() {
@@ -28,9 +29,9 @@ class FornecedorController extends GenericCrudController {
   }
 
   async temDuplicado(obj, session, tipoOperacao) {
-    let searchNome = obj.nome.trim();
-    let searchEmail = obj.email.trim();
-    let searchCNPJ = obj.cnpj.trim();
+    const searchNome = utl.putEscapeCaracEsp(obj.nome.trim());
+    const searchEmail = utl.putEscapeCaracEsp(obj.email.trim());
+    const searchCNPJ = utl.putEscapeCaracEsp(obj.cnpj.trim());
 
     let regBase = [];
 
@@ -39,9 +40,9 @@ class FornecedorController extends GenericCrudController {
         FornecedorModel,
         {
           $or: [
-            { nome: searchNome },
-            { email: searchEmail },
-            { cnpj: searchCNPJ },
+            { nome: { $regex: searchNome, $options: "i" } },
+            { email: { $regex: searchEmail, $options: "i" } },
+            { cnpj: { $regex: searchCNPJ, $options: "i" } },
           ],
         },
         session,
@@ -52,9 +53,9 @@ class FornecedorController extends GenericCrudController {
         FornecedorModel,
         {
           $or: [
-            { nome: searchNome },
-            { email: searchEmail },
-            { cnpj: searchCNPJ },
+            { nome: { $regex: searchNome, $options: "i" } },
+            { email: { $regex: searchEmail, $options: "i" } },
+            { cnpj: { $regex: searchCNPJ, $options: "i" } },
           ],
           _id: { $ne: obj._id },
         },

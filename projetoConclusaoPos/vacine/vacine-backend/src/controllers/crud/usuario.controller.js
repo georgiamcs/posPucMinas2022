@@ -6,6 +6,7 @@ const VacinacaoModel = require("../../models/vacinacao.model");
 const DescarteVacinaModel = require("../../models/descarte-vacina.model");
 const Acesso = require("../../setup/acesso");
 const cnst = require("../../constantes");
+const utl = require("../../utils/util");
 
 class UsuarioController extends GenericCrudController {
   constructor() {
@@ -44,15 +45,19 @@ class UsuarioController extends GenericCrudController {
 
   async temDuplicado(obj, session, tipoOperacao) {
     if (!!obj.nome && !!obj.email) {
-      const searchNome = obj.nome.trim();
-      const searchEmail = obj.email.trim();
+      const searchNome = utl.putEscapeCaracEsp(obj.nome.trim());
+      const searchEmail = utl.putEscapeCaracEsp(obj.email.trim());
+
       let regBase = [];
 
       if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
         regBase = await GenericService.find(
           UsuarioModel,
           {
-            $or: [{ nome: searchNome }, { email: searchEmail }],
+            $or: [
+              { nome: { $regex: searchNome, $options: "i" } },
+              { email: { $regex: searchEmail, $options: "i" } },
+            ],
           },
           session,
           "_id"
@@ -61,7 +66,10 @@ class UsuarioController extends GenericCrudController {
         regBase = await GenericService.find(
           UsuarioModel,
           {
-            $or: [{ nome: searchNome }, { email: searchEmail }],
+            $or: [
+              { nome: { $regex: searchNome, $options: "i" } },
+              { email: { $regex: searchEmail, $options: "i" } },
+            ],
             _id: { $ne: obj._id },
           },
           session,

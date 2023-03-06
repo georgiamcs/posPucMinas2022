@@ -8,6 +8,7 @@ const ControleEstoqueVacinaController = require("../../controllers/crud/controle
 const Acesso = require("../../setup/acesso");
 const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
 const cnst = require("../../constantes");
+const utl = require("../../utils/util");
 
 class VacinaController extends GenericCrudController {
   constructor() {
@@ -42,14 +43,14 @@ class VacinaController extends GenericCrudController {
     let regBase = [];
 
     if (obj.nome) {
-      let searchTerm = obj.nome.trim();
+      const searchTerm = utl.putEscapeCaracEsp(obj.nome.trim());
 
       if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
 
         regBase = await GenericCrudService.find(
           VacinaModel,
           {
-            nome: searchTerm
+            nome: { $regex: searchTerm, $options: "i" },
           },
           session,
           "_id"
@@ -58,7 +59,7 @@ class VacinaController extends GenericCrudController {
         regBase = await GenericCrudService.find(
           VacinaModel,
           {
-            nome: searchTerm,
+            nome: { $regex: searchTerm, $options: "i" },
             _id: { $ne: obj._id },
           },
           session,

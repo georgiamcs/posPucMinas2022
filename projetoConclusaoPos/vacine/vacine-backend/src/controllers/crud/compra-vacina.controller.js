@@ -7,6 +7,7 @@ const AutorizacaoService = require("../../services/autorizacao.service");
 const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
 const modelVacina = require("../../models/vacina.model");
 const cnst = require("../../constantes");
+const utl = require("../../utils/util");
 
 class CompraVacinaController extends GenericCrudController {
   constructor() {
@@ -26,14 +27,14 @@ class CompraVacinaController extends GenericCrudController {
   }
 
   async temDuplicado(obj, session, tipoOperacao) {
-    let searchNotaFiscal = obj.nota_fiscal.trim();
+    const searchNotaFiscal = utl.putEscapeCaracEsp(obj.nota_fiscal.trim());
     let regBase = [];
 
     if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
-          nota_fiscal: searchNotaFiscal
+          nota_fiscal: { $regex: searchNotaFiscal, $options: "i" },
         },
         session,
         "_id"
@@ -42,7 +43,7 @@ class CompraVacinaController extends GenericCrudController {
       regBase = await genericService.find(
         CompraVacinaModel,
         {
-          nota_fiscal: searchNotaFiscal,
+          nota_fiscal: { $regex: searchNotaFiscal, $options: "i" },
           _id: { $ne: obj._id },
         },
         session,

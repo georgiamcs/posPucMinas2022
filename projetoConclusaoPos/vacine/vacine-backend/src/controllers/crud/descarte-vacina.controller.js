@@ -6,7 +6,7 @@ const Acesso = require("../../setup/acesso");
 const ControleEstoqueVacina = require("../../classes/controle-estoque-vacina.class");
 const modelVacina = require("../../models/vacina.model");
 const cnst = require("../../constantes");
-
+const utl = require("../../utils/util");
 class DescarteVacinaController extends GenericCrudController {
   constructor() {
 
@@ -32,14 +32,14 @@ class DescarteVacinaController extends GenericCrudController {
   }
 
   async temDuplicado(obj, session, tipoOperacao) {
-    let searchCodigo = obj.codigo;
+    const searchCodigo = utl.putEscapeCaracEsp(obj.codigo.trim());
     let regBase = [];
 
     if (tipoOperacao === cnst.TIPO_OPERACAO.INSERT) {
       regBase = await genericService.find(
         DescarteVacinaModel,
         {
-          codigo: searchCodigo
+          codigo: { $regex: searchCodigo, $options: "i" },
         },
         session,
         "_id"
@@ -48,7 +48,7 @@ class DescarteVacinaController extends GenericCrudController {
       regBase = await genericService.find(
         DescarteVacinaModel,
         {
-          codigo: searchCodigo,
+          codigo: { $regex: searchCodigo, $options: 'i'},
           _id: { $ne: obj._id },
         },
         session,
