@@ -74,8 +74,15 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
     ];
   }
 
-  protected async exportarVacinacao(idCliente: string) {
+  protected async exportarVacinacao(idCliente: string, nomeCliente: string) {
     let dados = [];
+
+    const dataFormatada =Util.getDataHoraAtualFormatAnoMesDiaHoraMinutoSegundo();
+    const primeiroNomeCliente = nomeCliente?.split(' ')[0];
+    const nomeArquivo = `${dataFormatada}-Vacinacoes-${primeiroNomeCliente}`;
+
+    this.deleteAllMensagens();
+
     await this.service.getVacinacoes(idCliente).subscribe({
       next: (r) => {
         dados = r.flatMap((v) => {
@@ -96,7 +103,7 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
         });
 
         if (dados.length > 0) {
-          Util.exportToExcel(dados, 'VacinacoesUsuario', 'VacinacoesUsuario');
+          Util.exportToExcel(dados, 'Vacinações', nomeArquivo);
           const msgFeedback = new MensagemFeedback(
             TipoMensagemFeedback.SUCESSO,
             'Arquivo gerado com sucesso.'

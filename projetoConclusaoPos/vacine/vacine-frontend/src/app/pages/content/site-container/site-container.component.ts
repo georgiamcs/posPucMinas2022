@@ -110,6 +110,10 @@ export class PageContainerComponent
     this.deleteAllMensagens();
     let dados = [];
     const idCliente = this.securityProvider.getUsuario()?._id;
+    const dataFormatada = Util.getDataHoraAtualFormatAnoMesDiaHoraMinutoSegundo();
+    const nomeCliente = this.securityProvider.getUsuario()?.nome;
+    const primeiroNomeCliente = nomeCliente?.split(' ')[0];
+    const nomeArquivo = `${dataFormatada}-Vacinacoes-${primeiroNomeCliente}`;
 
     await this.service.getVacinacoes(idCliente).subscribe({
       next: (r) => {
@@ -131,7 +135,7 @@ export class PageContainerComponent
         });
 
         if (dados.length > 0) {
-          Util.exportToExcel(dados, 'VacinacoesUsuario', 'VacinacoesUsuario');
+          Util.exportToExcel(dados, 'Vacinações', nomeArquivo);
           const msgFeedback = new MensagemFeedback(
             TipoMensagemFeedback.SUCESSO,
             'Arquivo gerado com sucesso.'

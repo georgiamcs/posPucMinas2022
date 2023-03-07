@@ -103,7 +103,7 @@
               </button>
               <button
                 mat-icon-button
-                (click)="exportarVacinacao(registro._id)"
+                (click)="exportarVacinacao(registro._id, registro.nome)"
                 matTooltip="Vacinações"
                 *ngIf="!isMobileResolution()"
               >

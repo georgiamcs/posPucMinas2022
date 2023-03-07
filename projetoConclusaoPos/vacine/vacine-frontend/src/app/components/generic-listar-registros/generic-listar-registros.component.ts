@@ -168,14 +168,8 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
   }
 
   protected exportarParaExcel() {
-    const dataAtual = new Date();
-    const ano = dataAtual.getFullYear().toString();
-    const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
-    const dia = dataAtual.getDate().toString().padStart(2, '0');
-    const hora = dataAtual.getHours().toString().padStart(2, '0');
-    const minuto = dataAtual.getMinutes().toString().padStart(2, '0');
-    const segundo = dataAtual.getSeconds().toString().padStart(2, '0');
-    const dataFormatada = `${ano}${mes}${dia}-${hora}${minuto}${segundo}`;
+
+    const dataFormatada = Util.getDataHoraAtualFormatAnoMesDiaHoraMinutoSegundo();
 
     const titulo = this.getTituloPagina()
       .trim() // Remove espaços em branco do início e fim da string
