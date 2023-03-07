@@ -135,7 +135,6 @@ export abstract class GenericPageComponent implements OnInit, OnDestroy {
   protected addMensagem(msg: MensagemFeedback) {
     this.mensagens.push(msg);
     this.mensagens = [...this.mensagens];
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   protected deleteAllMensagens() {
