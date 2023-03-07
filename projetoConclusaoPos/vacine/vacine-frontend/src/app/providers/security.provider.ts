@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
-import { TokenPayload } from '../shared/interfaces/token-payload.interface';
-import { Usuario } from '../shared/classes/usuario.class';
 import { UsuarioAutenticado } from '../shared/classes/usuario-autenticado.class';
+import jwt_decode from 'jwt-decode';
+import { TokenPayload } from '../shared/interfaces/token-payload.interface';
 
 @Injectable()
 export class SecurityProvider {
-
   private readonly KEY_TOKEN = 'vacine-authToken';
-  private readonly KEY_USER = 'vacine-user';
 
   constructor() {}
+
+  decodeToken(token: string): any {
+    return jwt_decode(token);
+  }
 
   autenticado() {
     return !!this.getToken();
   }
 
-  armazenaUsuario(u: UsuarioAutenticado) {
-    window.sessionStorage.setItem(this.KEY_USER, JSON.stringify(u));
-  }
-
   armazenaTokenUsuario(tokenPayload: TokenPayload) {
     window.sessionStorage.setItem(this.KEY_TOKEN, tokenPayload.token);
-    this.armazenaUsuario(tokenPayload.usuario);
   }
 
   getToken() {
@@ -29,9 +26,10 @@ export class SecurityProvider {
   }
 
   getUsuario(): UsuarioAutenticado | null {
-    let usuario = window.sessionStorage.getItem(this.KEY_USER);
-    if (usuario) {
-      return JSON.parse(usuario);
+    let token = this.getToken();
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      return decodedToken.usuario;
     } else {
       return null;
     }
@@ -39,6 +37,5 @@ export class SecurityProvider {
 
   removeTokenUsuario() {
     window.sessionStorage.removeItem(this.KEY_TOKEN);
-    window.sessionStorage.removeItem(this.KEY_USER);
   }
 }

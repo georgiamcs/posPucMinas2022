@@ -2,11 +2,11 @@ openapi: 3.0.3
 info:
   title: API para Clínica de Imunizacação - Vacine
   description: |-
-    
+
     API para clínica de imunização Vacine.
-    
+
      Faz autenticação, autorização e registro de usuários. Além disso, ainda possibilita a gestão de usuários, vacinas, fornecedores, vacinacões, compras e descartes de vacinas. 
-    
+
     Esta API foi criada via Swagger com base na especificação OpenAPI 3.0. 
 
     Instruções:
@@ -23,7 +23,6 @@ info:
        
     Links úteis:
     - [Repositório do projeto](https://github.com/georgiamcs/posPucMinas2022)
-    
 
   contact:
     name: desenvolvedor
@@ -37,27 +36,27 @@ servers:
   - url: https://georgia2344.c42.integrator.host/mock/api
     description: API Mock
   - url: https://georgia2344.c42.integrator.host/api
-    description: API Servidor    
+    description: API Servidor
   - url: http://localhost:3005/api
-    description: API Desenvolvimento  
+    description: API Desenvolvimento
 tags:
   - name: Autorização
     description: API relativa a autorização de acesso a API
   - name: Clientes
-    description: API relativa a serviços para usuários do tipo clientes      
+    description: API relativa a serviços para usuários do tipo clientes
   - name: Usuários
-    description: API relativa a gestão de usuários  
+    description: API relativa a gestão de usuários
   - name: Vacinas
     description: API relativa a gestão de vacinas
   - name: Vacinações
     description: API relativa a gestão de vacinações
   - name: Descartes de vacinas
-    description: API relativa a gestão de descartes de vacinas 
+    description: API relativa a gestão de descartes de vacinas
   - name: Fornecedores de vacinas
-    description: API relativa a gestão de fornecedores de vacinas 
+    description: API relativa a gestão de fornecedores de vacinas
   - name: Compras de vacinas
-    description: API relativa a gestão de compras de vacinas     
-  
+    description: API relativa a gestão de compras de vacinas
+
 paths:
   /autenticacao/jwt:
     post:
@@ -67,8 +66,7 @@ paths:
       operationId: jwt
       requestBody:
         description: login e senha
-        required:
-            true
+        required: true
         content:
           application/json:
             schema:
@@ -80,36 +78,28 @@ paths:
                 senha:
                   type: string
                   description: senha do usuário
-                  example: georgiamcs@gmail.com    
+                  example: georgiamcs@gmail.com
               required:
-                  - email
-                  - senha
+                - email
+                - senha
 
       responses:
-        '200':
+        "200":
           description: Autenticação com sucesso
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      usuario:
-                        $ref: '#/components/schemas/UsuarioAutenticado'
-                    description: Dados do usuário autenticado  
-                  - type: object
-                    properties:
-                      token: 
-                        type: string
-                    description: Token JWT gerado na autorização 
-                    required: 
-                      - usuario
-                      - token
-        '406':
+                properties:
+                  token:
+                    type: string
+                description: Token JWT gerado na autorização
+                required:
+                  - token
+        "406":
           description: Usuário ou senha inválidos
-        '500':
-          description: Erro no processamento da requisição no servidor.            
-          
+        "500":
+          description: Erro no processamento da requisição no servidor.
+
   /clientes/registrar:
     post:
       tags:
@@ -122,63 +112,63 @@ paths:
         content:
           application/json:
             schema:
-                properties:
-                  nome:
-                    type: string
-                    description: Nome do usuário
-                    example: "Geórgia Maria Carvalho de Sousa Galvão"
-                  email:
-                    type: string
-                    description: Email do usuário
-                    example: "georgiamcs@gmail.com"
-                  senha:
-                    type: string
-                    description: Senha do usuário
-                    example: "1234"                  
-                  cpf:
-                    type: string
-                    description: CPF do usuário
-                    example: "12345678911"  
-                  data_nascimento:
-                    type: string
-                    format: date-time
-                    description: Data de nascimento do usuário
-                  endereco:
-                    type: object
-                    properties:
-                      logradouro:
-                        type: string
-                        example: "Rua dos usuários"
-                      numero:
-                        type: string
-                        example: "S/N"
-                      complemento:
-                        type: string
-                        example: "Apto 501"
-                  tel_celular: 
-                    type: 'string'
-                    description: Telefone do celular do usuário com DDD
-                    example: "81999194259"
-                  tel_fixo: 
-                    type: 'string'
-                    description: Telefone fixo do usuário com DDD
-                    example: "8133695461"          
-                required:
-                  - nome,
-                  - email,
-                  - senha                  
+              properties:
+                nome:
+                  type: string
+                  description: Nome do usuário
+                  example: "Geórgia Maria Carvalho de Sousa Galvão"
+                email:
+                  type: string
+                  description: Email do usuário
+                  example: "georgiamcs@gmail.com"
+                senha:
+                  type: string
+                  description: Senha do usuário
+                  example: "1234"
+                cpf:
+                  type: string
+                  description: CPF do usuário
+                  example: "12345678911"
+                data_nascimento:
+                  type: string
+                  format: date-time
+                  description: Data de nascimento do usuário
+                endereco:
+                  type: object
+                  properties:
+                    logradouro:
+                      type: string
+                      example: "Rua dos usuários"
+                    numero:
+                      type: string
+                      example: "S/N"
+                    complemento:
+                      type: string
+                      example: "Apto 501"
+                tel_celular:
+                  type: "string"
+                  description: Telefone do celular do usuário com DDD
+                  example: "81999194259"
+                tel_fixo:
+                  type: "string"
+                  description: Telefone fixo do usuário com DDD
+                  example: "8133695461"
+              required:
+                - nome,
+                - email,
+                - senha
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'          
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor.           
-          
+                $ref: "#/components/schemas/Usuario"
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
+
   /usuarios:
     get:
       tags:
@@ -186,24 +176,24 @@ paths:
       summary: Retorna a lista de todos os usuários
       operationId: gettAllUsuarios
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Usuario'          
-        '401':
+                  $ref: "#/components/schemas/Usuario"
+        "401":
           description: Acesso não autorizado. Token de autorização não informado ou inválido.
-        '403':
+        "403":
           description: Sem permissão para acessar o serviço.
-        '500':
-          description: Erro no processamento da requisição no servidor.       
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:usuario
-            - read:usuario  
+            - read:usuario
     post:
       tags:
         - Usuários
@@ -215,28 +205,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Usuario'
+              $ref: "#/components/schemas/Usuario"
 
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'          
-        '401':
+                $ref: "#/components/schemas/Usuario"
+        "401":
           description: Acesso não autorizado. Token de autorização não informado ou inválido
-        '403':
+        "403":
           description: Sem permissão para acessar o serviço
-        '409':
+        "409":
           description: Já existe registro com as mesmas características na base
-        '500':
-          description: Erro no processamento da requisição no servidor           
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:usuario
             - read:usuario
-  /usuarios/{id}:  
+  /usuarios/{id}:
     parameters:
       - name: id
         in: path
@@ -250,26 +240,26 @@ paths:
       summary: Consulta um usuário pelo id
       operationId: getUsuario
       responses:
-        '200':
+        "200":
           description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'   
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Usuario"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor  
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:usuarios
-            - read:usuarios               
+            - read:usuarios
     put:
       tags:
         - Usuários
@@ -280,23 +270,23 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'  
+            schema:
+              $ref: "#/components/schemas/Usuario"
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido. 
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado    
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor. 
+        "404":
+          description: Registro não localizado
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:usuarios
@@ -307,26 +297,26 @@ paths:
       summary: Exclui um usuário pelo id
       operationId: deleteUsuario
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'           
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Usuario"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor    
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:usuarios
-            - read:usuarios    
+            - read:usuarios
   /usuarios/trocarsenha/{id}:
     parameters:
       - name: id
@@ -334,7 +324,7 @@ paths:
         description: Id do usuário
         required: true
         schema:
-          type: string  
+          type: string
     put:
       tags:
         - Usuários
@@ -346,26 +336,26 @@ paths:
         content:
           application/json:
             schema:
-                properties:
-                  senha:
-                    type: string
-                    description: Senha alterada do usuário
-                    example: "georgiamcs@gmail.com"                  
-                required:
-                  - senha   
+              properties:
+                senha:
+                  type: string
+                  description: Senha alterada do usuário
+                  example: "georgiamcs@gmail.com"
+              required:
+                - senha
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido.            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido.       
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado       
-        '500':
-          description: Erro no processamento da requisição no servidor.              
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:usuarios
@@ -377,39 +367,39 @@ paths:
         description: Id do usuário
         required: true
         schema:
-          type: string  
+          type: string
     get:
       tags:
         - Usuários
       summary: Consulta o nome de um usuário pelo id
       operationId: getNomeUsuario
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
-                type: string             
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                type: string
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor  
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:usuarios
-            - read:usuarios                    
+            - read:usuarios
   /usuarios/getByTipos:
     parameters:
       - name: tipos
         in: query
-        description: Tipos de usuário a serem recuperados. 
-          Colocar os tipos separados por vírgula. 
+        description: Tipos de usuário a serem recuperados.
+          Colocar os tipos separados por vírgula.
           Tipos possíveis ADMINISTRADOR = A, ANALISTA_COMPRAS = L, CLIENTE = C, SECRETARIA = S, TECNICO_ENFERMAGEM = T
         example: C, T
         required: true
@@ -420,26 +410,26 @@ paths:
       tags:
         - Usuários
       summary: Retorna a lista de todos os usuários que são dos tipos informados apenas como nome, id e CPF
-      operationId: gettAllUsuariosPorTipo   
+      operationId: gettAllUsuariosPorTipo
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UsuarioRelacionamento'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço  
-        '500':
-          description: Erro no processamento da requisição no servidor        
+                  $ref: "#/components/schemas/UsuarioRelacionamento"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:usuario
-            - read:usuario              
+            - read:usuario
   /usuarios/vacinacoes/{id}:
     parameters:
       - name: id
@@ -447,34 +437,34 @@ paths:
         description: Id do usuário
         required: true
         schema:
-          type: string  
+          type: string
     get:
       tags:
         - Usuários
       summary: Retorna a lista de vacinacoes de um usuário por id
       operationId: getVacinacoesUsuario
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/Vacinacao'            
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Vacinacao"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor 
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:usuarios
-            - read:usuarios                                
-            
+            - read:usuarios
+
   /vacinas:
     get:
       tags:
@@ -482,24 +472,24 @@ paths:
       summary: Retorna a lista de todas as vacinas
       operationId: gettAllVacinas
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Vacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço  
-        '500':
-          description: Erro no processamento da requisição no servidor        
+                  $ref: "#/components/schemas/Vacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacina
-            - read:vacina  
+            - read:vacina
     post:
       tags:
         - Vacinas
@@ -511,28 +501,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: "#/components/schemas/Vacina"
 
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço        
-        '409':
-          description: Já existe registro com as mesmas características na base        
-        '500':
-          description: Erro no processamento da requisição no servidor   
+                $ref: "#/components/schemas/Vacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacina
             - read:vacina
-  /vacinas/{id}: 
+  /vacinas/{id}:
     parameters:
       - name: id
         in: path
@@ -546,26 +536,26 @@ paths:
       summary: Consulta uma vacina pelo id
       operationId: getVacina
       responses:
-        '200':
+        "200":
           description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacina'   
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Vacina"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor   
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacina
-            - read:vacina               
+            - read:vacina
     put:
       tags:
         - Vacinas
@@ -576,23 +566,23 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Vacina'  
+            schema:
+              $ref: "#/components/schemas/Vacina"
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido. 
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado    
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor. 
+        "404":
+          description: Registro não localizado
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:vacina
@@ -603,26 +593,26 @@ paths:
       summary: Exclui uma vacina pelo id
       operationId: deleteVacina
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacina'           
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Vacina"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor    
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacina
-            - read:vacina             
+            - read:vacina
   /vacinas/controle-estoque/{id}:
     parameters:
       - name: id
@@ -630,34 +620,34 @@ paths:
         description: Id da vacina
         required: true
         schema:
-          type: string  
+          type: string
     get:
       tags:
         - Vacinas
       summary: Retorna o histórico do controle de estoque da vacina informada
       operationId: getContEstoqueVacina
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ControleEstoqueVacina'            
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/ControleEstoqueVacina"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor 
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:estoque
-            - read:estoque                                
-                       
+            - read:estoque
+
   /vacinacoes:
     get:
       tags:
@@ -665,24 +655,24 @@ paths:
       summary: Retorna a lista de todas as vacinações
       operationId: gettAllVacinacoes
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Vacinacao'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço  
-        '500':
-          description: Erro no processamento da requisição no servidor       
+                  $ref: "#/components/schemas/Vacinacao"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacinacao
-            - read:vacinacao  
+            - read:vacinacao
     post:
       tags:
         - Vacinações
@@ -694,28 +684,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Vacinacao'
+              $ref: "#/components/schemas/Vacinacao"
 
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacinacao'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço        
-        '409':
-          description: Já existe registro com as mesmas características na base        
-        '500':
-          description: Erro no processamento da requisição no servidor  
+                $ref: "#/components/schemas/Vacinacao"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacinacao
-            - read:vacinacao 
-  /vacinacoes/{id}: 
+            - read:vacinacao
+  /vacinacoes/{id}:
     parameters:
       - name: id
         in: path
@@ -729,26 +719,26 @@ paths:
       summary: Consulta uma vacinação pelo id
       operationId: getVacinacao
       responses:
-        '200':
+        "200":
           description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacinacao'   
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Vacinacao"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor      
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacinacoes
-            - read:vacinacoes               
+            - read:vacinacoes
     put:
       tags:
         - Vacinações
@@ -759,23 +749,23 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Vacinacao'  
+            schema:
+              $ref: "#/components/schemas/Vacinacao"
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido. 
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado    
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor. 
+        "404":
+          description: Registro não localizado
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:vacinacao
@@ -786,27 +776,27 @@ paths:
       summary: Exclui uma vacinação pelo id
       operationId: deleteVacinacao
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacinacao'           
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Vacinacao"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor    
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:vacinacoes
-            - read:vacinacoes    
-   
+            - read:vacinacoes
+
   /descarte-vacinas:
     get:
       tags:
@@ -814,20 +804,20 @@ paths:
       summary: Retorna a lista de todos os descartes de vacinas
       operationId: gettAllDescartesVacinas
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DescarteVacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço  
-        '500':
-          description: Erro no processamento da requisição no servidor       
+                  $ref: "#/components/schemas/DescarteVacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:descartes
@@ -843,28 +833,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DescarteVacina'
+              $ref: "#/components/schemas/DescarteVacina"
 
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DescarteVacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço        
-        '409':
-          description: Já existe registro com as mesmas características na base        
-        '500':
-          description: Erro no processamento da requisição no servidor  
+                $ref: "#/components/schemas/DescarteVacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:descartes
-            - read:descartes 
-  /descarte-vacinas/{id}: 
+            - read:descartes
+  /descarte-vacinas/{id}:
     parameters:
       - name: id
         in: path
@@ -878,26 +868,26 @@ paths:
       summary: Consulta um descarte de vacina pelo id
       operationId: getDescarteVacina
       responses:
-        '200':
+        "200":
           description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DescarteVacina'   
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/DescarteVacina"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor      
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:descartes
-            - read:descartes               
+            - read:descartes
     put:
       tags:
         - Descartes de vacinas
@@ -908,23 +898,23 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/DescarteVacina'  
+            schema:
+              $ref: "#/components/schemas/DescarteVacina"
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido. 
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado    
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor. 
+        "404":
+          description: Registro não localizado
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:descartes
@@ -935,27 +925,27 @@ paths:
       summary: Exclui um descarte de vacina pelo id
       operationId: deleteDescarteVacina
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DescarteVacina'           
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/DescarteVacina"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor    
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:descartes
-            - read:descartes    
-   
+            - read:descartes
+
   /fornecedores:
     get:
       tags:
@@ -963,24 +953,24 @@ paths:
       summary: Retorna a lista de todos os fornecedores
       operationId: gettAllFornecedores
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Fornecedor'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço  
-        '500':
-          description: Erro no processamento da requisição no servidor        
+                  $ref: "#/components/schemas/Fornecedor"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:fornecedor
-            - read:fornecedor  
+            - read:fornecedor
     post:
       tags:
         - Fornecedores de vacinas
@@ -992,28 +982,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Fornecedor'
+              $ref: "#/components/schemas/Fornecedor"
 
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço        
-        '409':
-          description: Já existe registro com as mesmas características na base        
-        '500':
-          description: Erro no processamento da requisição no servidor   
+                $ref: "#/components/schemas/Vacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:fornecedor
             - read:fornecedor
-  /fornecedores/{id}: 
+  /fornecedores/{id}:
     parameters:
       - name: id
         in: path
@@ -1027,26 +1017,26 @@ paths:
       summary: Consulta um fornecedor pelo id
       operationId: getFornecedor
       responses:
-        '200':
+        "200":
           description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Fornecedor'   
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Fornecedor"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor   
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:fornecedor
-            - read:fornecedor               
+            - read:fornecedor
     put:
       tags:
         - Fornecedores de vacinas
@@ -1057,23 +1047,23 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Fornecedor'  
+            schema:
+              $ref: "#/components/schemas/Fornecedor"
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido. 
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado    
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor. 
+        "404":
+          description: Registro não localizado
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:fornecedor
@@ -1084,27 +1074,27 @@ paths:
       summary: Exclui um fornecedor pelo id
       operationId: deleteFornecedor
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Fornecedor'           
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Fornecedor"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor    
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:fornecedor
-            - read:fornecedor               
-            
+            - read:fornecedor
+
   /compras-vacinas:
     get:
       tags:
@@ -1112,24 +1102,24 @@ paths:
       summary: Retorna a lista de todas as compras de vacinas
       operationId: gettAllCompraVacina
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CompraVacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço  
-        '500':
-          description: Erro no processamento da requisição no servidor       
+                  $ref: "#/components/schemas/CompraVacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:compras
-            - read:compras  
+            - read:compras
     post:
       tags:
         - Compras de vacinas
@@ -1141,28 +1131,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CompraVacina'
+              $ref: "#/components/schemas/CompraVacina"
 
       responses:
-        '201':
+        "201":
           description: Registro criado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompraVacina'          
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
-          description: Sem permissão para acessar o serviço        
-        '409':
-          description: Já existe registro com as mesmas características na base        
-        '500':
-          description: Erro no processamento da requisição no servidor  
+                $ref: "#/components/schemas/CompraVacina"
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
+          description: Sem permissão para acessar o serviço
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:compras
-            - read:compras 
-  /compras-vacinas/{id}: 
+            - read:compras
+  /compras-vacinas/{id}:
     parameters:
       - name: id
         in: path
@@ -1176,26 +1166,26 @@ paths:
       summary: Consulta uma compra de vacina pelo id
       operationId: getCompraVacina
       responses:
-        '200':
+        "200":
           description: Operação com realizada com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompraVacina'   
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/CompraVacina"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor      
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:compras
-            - read:compras               
+            - read:compras
     put:
       tags:
         - Compras de vacinas
@@ -1206,23 +1196,23 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/CompraVacina'  
+            schema:
+              $ref: "#/components/schemas/CompraVacina"
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso
-        '400':
-          description: Id inválido. 
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido. 
-        '403':
+        "400":
+          description: Id inválido.
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido.
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado    
-        '409':
-          description: Já existe registro com as mesmas características na base       
-        '500':
-          description: Erro no processamento da requisição no servidor. 
+        "404":
+          description: Registro não localizado
+        "409":
+          description: Já existe registro com as mesmas características na base
+        "500":
+          description: Erro no processamento da requisição no servidor.
       security:
         - api_key:
             - write:compras
@@ -1233,39 +1223,36 @@ paths:
       summary: Exclui uma compra de vacina pelo id
       operationId: deleteCompraVacina
       responses:
-        '200':
+        "200":
           description: Operação realizada com sucesso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vacinacao'           
-        '400':
-          description: Id inválido            
-        '401':
-          description: Acesso não autorizado. Token de autorização não informado ou inválido       
-        '403':
+                $ref: "#/components/schemas/Vacinacao"
+        "400":
+          description: Id inválido
+        "401":
+          description: Acesso não autorizado. Token de autorização não informado ou inválido
+        "403":
           description: Sem permissão para acessar o serviço
-        '404':
-          description: Registro não localizado          
-        '500':
-          description: Erro no processamento da requisição no servidor    
+        "404":
+          description: Registro não localizado
+        "500":
+          description: Erro no processamento da requisição no servidor
       security:
         - api_key:
             - write:compras
-            - read:compras    
-              
-            
-components:
+            - read:compras
 
+components:
   schemas:
-            
     Usuario:
       required:
         - _id
         - tipo
         - nome
         - email
-        - senha        
+        - senha
         - perfil_acesso
         - dt_inclusao
         - __v
@@ -1279,7 +1266,7 @@ components:
         tipo:
           type: string
           description: Código do tipo do usuário. Domínio => ADMINISTRADOR = A, ANALISTA_COMPRAS = L, CLIENTE = C, SECRETARIA = S, TECNICO_ENFERMAGEM = T,
-          example: "S"         
+          example: "S"
         nome:
           type: string
           description: Nome do usuário
@@ -1291,11 +1278,11 @@ components:
         senha:
           type: string
           description: Senha do usuário
-          example: "123456"          
+          example: "123456"
         cpf:
           type: string
           description: CPF do usuário
-          example: "12345678911"  
+          example: "12345678911"
         data_nascimento:
           type: string
           format: date-time
@@ -1314,42 +1301,42 @@ components:
               example: "Apto 501"
             cidade:
               type: string
-              example: "Recife"   
+              example: "Recife"
             estado:
               type: string
-              example: "PE"     
+              example: "PE"
             cep:
               type: string
-              example: "52060123"                 
-        tel_celular: 
-          type: 'string'
+              example: "52060123"
+        tel_celular:
+          type: "string"
           description: Telefone do celular do usuário com DDD
           example: "81999194259"
-        tel_fixo: 
-          type: 'string'
+        tel_fixo:
+          type: "string"
           description: Telefone fixo do usuário com DDD
-          example: "8133695461"          
+          example: "8133695461"
         perfil_acesso:
           type: string
           description: Nome do perfil de acesso do usuário
           example: "SECRETARIA"
-          readOnly: true          
+          readOnly: true
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true  
+          readOnly: true
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true                                
-    
+          readOnly: true
+
     UsuarioAutenticado:
       required:
         - _id
@@ -1368,24 +1355,24 @@ components:
           type: string
           description: Nome do usuário
           example: "Geórgia Maria Carvalho de Sousa Galvão"
-          readOnly: true          
+          readOnly: true
         email:
           type: string
           description: Email do usuário
           example: "georgiamcs@gmail.com"
-          readOnly: true          
+          readOnly: true
         perfil_acesso:
           type: string
           description: Nome do perfil de acesso do usuário
           example: "SECRETARIA"
           readOnly: true
-        autorizacoes: 
+        autorizacoes:
           type: array
           description: "Autorizações do usuário aos temas da aplicação"
           items:
-            $ref: '#/components/schemas/ItemAutorizacaoUsuario' 
+            $ref: "#/components/schemas/ItemAutorizacaoUsuario"
           readOnly: true
-          
+
     UsuarioRelacionamento:
       required:
         - _id
@@ -1403,15 +1390,15 @@ components:
         cpf:
           type: string
           description: CPF do usuário
-          example: "12345678911" 
+          example: "12345678911"
 
     ItemAutorizacaoUsuario:
-      required:   
+      required:
         - tema
         - tiposAcesso
-      type: object        
+      type: object
       properties:
-        tema: 
+        tema:
           type: string
           description: Identificador do  tema relacionado ao acesso do usuário
           example: "V"
@@ -1419,8 +1406,8 @@ components:
           type: array
           description: Array com os tipos de acesso do usuário em relação ao tema
           items:
-            type: string          
-            
+            type: string
+
     Vacina:
       required:
         - _id
@@ -1428,7 +1415,7 @@ components:
         - protecao_contra
         - composicao
         - qtd_doses_estoque
-        - vl_atual_unit_dose   
+        - vl_atual_unit_dose
       type: object
       properties:
         _id:
@@ -1439,47 +1426,47 @@ components:
         nome:
           type: string
           description: Nome da vacina
-          example: "Gripe (4)" 
+          example: "Gripe (4)"
         protecao_contra:
           type: string
           description: Para que a vacina protege
-          example: "Gripe"     
+          example: "Gripe"
         composicao:
           type: string
           description: Composição da vacina
-          example: "Vírus inativado"    
+          example: "Vírus inativado"
         qtd_doses_estoque:
           type: number
           description: Quatidade de doses atualmente em estoque
-          example: 20    
+          example: 20
         vl_atual_unit_dose:
           type: number
           description: Valor unitário da dose
-          example: 500.40     
+          example: 500.40
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true           
-          
-    ControleEstoqueVacina: 
+          readOnly: true
+
+    ControleEstoqueVacina:
       required:
         - _id
         - vacina
         - usuario
         - data_evento
         - tipo_evento
-        - tipo_motivo 
+        - tipo_motivo
         - id_entidade_relac_evento
         - qtd_estoque_antes
         - qtd_estoque_depois
         - dt_inclusao
-        - __v        
+        - __v
       type: object
       properties:
         _id:
@@ -1487,64 +1474,64 @@ components:
           description: Id do regstro do controle de estoque
           example: "6400091a4390d93c928c494e"
           readOnly: true
-        vacina: 
-          $ref: '#/components/schemas/VacinaRelacionamento' 
+        vacina:
+          $ref: "#/components/schemas/VacinaRelacionamento"
           readOnly: true
         usuario:
-          $ref: '#/components/schemas/UsuarioRelacionamento'   
-          readOnly: true          
+          $ref: "#/components/schemas/UsuarioRelacionamento"
+          readOnly: true
         data_evento:
           type: string
           format: date-time
-          description: Data do evento 
-          readOnly: true          
+          description: Data do evento
+          readOnly: true
         tipo_evento:
           type: string
           description: Tipo do evento no estoque. Entrada = E, Saída = S
-          example: "E"    
-          readOnly: true             
+          example: "E"
+          readOnly: true
         tipo_motivo:
           type: string
           description: Tipo que motivou a alteração do estoque. CADASTRO_INICIAL = I,DESCARTE = D,VACINACAO = V,COMPRA = C,AJUSTE_ESTOQUE = A,ALTERACAO_COMPRA = AC,ALTERACAO_VACINACAO = AV,ALTERACAO_DESCARTE = AD,EXCLUSAO_COMPRA = EC,EXCLUSAO_VACINACAO = EV,EXCLUSAO_DESCARTE = ED,
-          example: "I" 
-          readOnly: true             
+          example: "I"
+          readOnly: true
         descricao_evento:
           type: string
           description: TDescrição do evento que motivou a alteração do estoque
-          example: "Compra nota fiscal 123"      
-          readOnly: true   
+          example: "Compra nota fiscal 123"
+          readOnly: true
         id_entidade_relac_evento:
           type: string
           description: Id da entidade que motivou a alteração do estoque
           example: "6400091a4390d93c928c494e"
-          readOnly: true    
+          readOnly: true
         qtd_estoque_antes:
           type: number
           description: Quantidade do estoque antes do evento
-          example: 100    
-          readOnly: true  
+          example: 100
+          readOnly: true
         qtd_estoque_depois:
           type: number
           description: Quantidade do estoque depois do evento
-          example: 150    
-          readOnly: true  
+          example: 150
+          readOnly: true
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true  
+          readOnly: true
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true           
-          
-    Vacinacao: 
+          readOnly: true
+
+    Vacinacao:
       required:
         - _id
         - codigo
@@ -1555,7 +1542,7 @@ components:
         - vl_total
         - dt_inclusao
         - itens_vacinacao
-        - __v  
+        - __v
       type: object
       properties:
         _id:
@@ -1568,45 +1555,45 @@ components:
           description: Código da vacinação
           example: "V2345"
         usuario_resp_cadastro:
-          $ref: '#/components/schemas/UsuarioRelacionamento'   
+          $ref: "#/components/schemas/UsuarioRelacionamento"
         usuario_cliente:
-          $ref: '#/components/schemas/UsuarioRelacionamento' 
+          $ref: "#/components/schemas/UsuarioRelacionamento"
         usuario_aplicador_vacina:
-          $ref: '#/components/schemas/UsuarioRelacionamento'  
+          $ref: "#/components/schemas/UsuarioRelacionamento"
         data_aplicacao:
           type: string
           format: date-time
           description: Data da aplicação da vacina
-        vl_total: 
-          type: 'number'
+        vl_total:
+          type: "number"
           description: Valor total cobrado pela vacinação
           example: 1410.01
-        itens_vacinacao: 
-          type: 'array'
-          items: 
-            $ref: '#/components/schemas/ItemVacinacao' 
+        itens_vacinacao:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ItemVacinacao"
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true  
+          readOnly: true
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true     
-          
+          readOnly: true
+
     VacinaRelacionamento:
       required:
         - _id
         - nome
         - protecao_contra
-      type: object          
+      type: object
       properties:
         _id:
           type: string
@@ -1619,23 +1606,23 @@ components:
         protecao_contra:
           type: string
           description: Descrição de para quais doenças a vacina protege
-          example: "Difteria e Tétano" 
+          example: "Difteria e Tétano"
 
     ItemVacinacao:
-      required:   
+      required:
         - vacina
         - lote
         - data_validade
         - qtd_doses
         - vl_item
-      type: object          
+      type: object
       properties:
-        vacina: 
-          $ref: '#/components/schemas/VacinaRelacionamento' 
+        vacina:
+          $ref: "#/components/schemas/VacinaRelacionamento"
         lote:
           type: string
           description: Lote da vacina
-          example: "L2365" 
+          example: "L2365"
         data_validade:
           type: string
           format: date-time
@@ -1643,64 +1630,64 @@ components:
         qtd_doses:
           type: number
           description: Quantidade de doses aplicadas
-          example: 1   
+          example: 1
         vl_item:
           type: number
           description: Valor da vacina aplicada
-          example: 100           
-          
+          example: 100
+
     ItemDescarte:
-      required:   
+      required:
         - vacina
         - lote
         - qtd_doses_descarte
-      type: object          
+      type: object
       properties:
-        vacina: 
-          $ref: '#/components/schemas/VacinaRelacionamento' 
+        vacina:
+          $ref: "#/components/schemas/VacinaRelacionamento"
         lote:
           type: string
           description: Lote da vacina
-          example: "L2365" 
+          example: "L2365"
         qtd_doses_descarte:
           type: number
           description: Quantidade de doses descartadas
-          example: 10   
-          
+          example: 10
+
     ItemCompra:
-      required:   
+      required:
         - vacina
         - lote
-        - qtd_frascos        
+        - qtd_frascos
         - qtd_doses
-        - data_validade        
+        - data_validade
         - vl_total_item_compra
-      type: object          
+      type: object
       properties:
-        vacina: 
-          $ref: '#/components/schemas/VacinaRelacionamento' 
+        vacina:
+          $ref: "#/components/schemas/VacinaRelacionamento"
         lote:
           type: string
           description: Lote da vacina
-          example: "L2365" 
+          example: "L2365"
         qtd_frascos:
           type: number
           description: Quantidade de frascos comprados
-          example: 1           
+          example: 1
         qtd_doses:
           type: number
           description: Quantidade de doses compradas
-          example: 10   
+          example: 10
         data_validade:
           type: string
           format: date-time
-          description: Data de validade da vacina          
+          description: Data de validade da vacina
         vl_total_item_compra:
           type: number
           description: Valor da vacina aplicada
-          example: 100           
-               
-    DescarteVacina: 
+          example: 100
+
+    DescarteVacina:
       required:
         - _id
         - codigo
@@ -1709,9 +1696,9 @@ components:
         - motivo_descarte
         - justificativa_descarte
         - local_descarte
-        - itens_descarte        
+        - itens_descarte
         - dt_inclusao
-        - __v  
+        - __v
       type: object
       properties:
         _id:
@@ -1724,7 +1711,7 @@ components:
           description: Código do descarte de vacina
           example: "D2345"
         usuario_resp_descarte:
-          $ref: '#/components/schemas/UsuarioRelacionamento'   
+          $ref: "#/components/schemas/UsuarioRelacionamento"
         data_descarte:
           type: string
           format: date-time
@@ -1740,38 +1727,38 @@ components:
         local_descarte:
           type: string
           description: Local do descarte de vacina
-          example: "Lixo hospitalar"          
-        itens_descarte: 
-          type: 'array'
-          items: 
-            $ref: '#/components/schemas/ItemDescarte' 
+          example: "Lixo hospitalar"
+        itens_descarte:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ItemDescarte"
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true  
+          readOnly: true
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true     
-            
+          readOnly: true
+
     Fornecedor:
       required:
         - _id
         - nome
         - email
-        - cnpj    
-        - endereco.logradouro        
+        - cnpj
+        - endereco.logradouro
         - endereco.numero
         - endereco.cidade
         - endereco.estado
-        - endereco.cep        
+        - endereco.cep
         - tel_celular
         - dt_inclusao
         - __v
@@ -1793,7 +1780,7 @@ components:
         cnpj:
           type: string
           description: CNPJ do fornecedor
-          example: "12345678911123"          
+          example: "12345678911123"
         endereco:
           type: object
           properties:
@@ -1808,37 +1795,37 @@ components:
               example: "Apto 501"
             cidade:
               type: string
-              example: "Recife"   
+              example: "Recife"
             estado:
               type: string
-              example: "PE"     
+              example: "PE"
             cep:
               type: string
-              example: "52060123"                   
-        tel_celular: 
-          type: 'string'
+              example: "52060123"
+        tel_celular:
+          type: "string"
           description: Telefone do celular do fornecedor com DDD
           example: "81999194259"
-        tel_fixo: 
-          type: 'string'
+        tel_fixo:
+          type: "string"
           description: Telefone fixo do fornecedor com DDD
-          example: "8133695461"          
+          example: "8133695461"
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true  
+          readOnly: true
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true                                
-          
+          readOnly: true
+
     FornecedorRelacionamento:
       required:
         - _id
@@ -1857,18 +1844,18 @@ components:
         cnpj:
           type: string
           description: CNPJ do fornecedor
-          example: "12345678911245" 
+          example: "12345678911245"
 
-    CompraVacina: 
+    CompraVacina:
       required:
         - _id
         - nota_fiscal
         - fornecedor
         - data_compra
         - vl_total_compra
-        - itens_compra        
+        - itens_compra
         - dt_inclusao
-        - __v  
+        - __v
       type: object
       properties:
         _id:
@@ -1881,38 +1868,37 @@ components:
           description: Nota fiscal da compra
           example: "V2345"
         fornecedor:
-          $ref: '#/components/schemas/FornecedorRelacionamento'   
+          $ref: "#/components/schemas/FornecedorRelacionamento"
         data_compra:
           type: string
           format: date-time
           description: Data da compra da vacina
-        vl_total_compra: 
-          type: 'number'
+        vl_total_compra:
+          type: "number"
           description: Valor total cobrado pela compra
           example: 1410.01
-        itens_compra: 
-          type: 'array'
-          items: 
-            $ref: '#/components/schemas/ItemCompra' 
+        itens_compra:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ItemCompra"
         dt_inclusao:
           type: string
           format: date-time
           description: Data da inclusão do registro
-          readOnly: true  
+          readOnly: true
         dt_alteracao:
           type: string
           format: date-time
           description: Data da alteração do registro
-          readOnly: true  
+          readOnly: true
         __v:
           type: integer
           description: Código de controle de versão do banco de dados
           example: 0
-          readOnly: true     
-        
+          readOnly: true
 
   securitySchemes:
     api_key:
       type: http
-      scheme: bearer    
+      scheme: bearer
       bearerFormat: JWT

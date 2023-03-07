@@ -9,7 +9,7 @@ exports.applyPassportStrategy = (passport) => {
   passport.use(
     new Strategy(options, (payload, done) => {
 
-      UsuarioModel.findOne({ email: payload.email }, (err, user) => {
+      UsuarioModel.findOne({ email: payload.usuario.email }, (err, user) => {
         if (err) return done(err, false);
         if (user) {
           return done(null, {

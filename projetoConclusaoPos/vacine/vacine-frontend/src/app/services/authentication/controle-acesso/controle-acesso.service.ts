@@ -47,10 +47,6 @@ export class ControleAcessoService {
     return this.security.getUsuario();
   }
 
-  setUsuario(usuario: UsuarioAutenticado) {
-    this.security.armazenaUsuario(usuario);
-  }
-
   setTokenUsuario(tokenPayload: TokenPayload) {
     this.security.armazenaTokenUsuario(tokenPayload);
   }

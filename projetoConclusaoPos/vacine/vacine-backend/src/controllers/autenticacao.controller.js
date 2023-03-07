@@ -9,8 +9,8 @@ const Acesso = require("../setup/acesso");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 
-function gerarToken(login) {
-  return jwt.sign({ email: login }, config.PASSPORT.SECRET, {
+function gerarToken(usuario) {
+  return jwt.sign({ usuario }, config.PASSPORT.SECRET, {
     expiresIn: config.PASSPORT.EXPIRESIN,
   });
 }
@@ -27,9 +27,9 @@ exports.loginJwt = async (req, res) => {
       usuario &&
       usuario.senha == AutorizacaoService.criptografar(senha)
     ) {
-      // Sign token
-      const token = gerarToken(email);
-      const autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
+      const autorizacoes = Acesso.getAutorizacoesPorPerfil(
+        usuario.perfil_acesso
+      );
       const usuarioObj = usuario.toObject();
       usuario = {
         _id: usuarioObj._id,
@@ -38,10 +38,9 @@ exports.loginJwt = async (req, res) => {
         perfil_acesso: usuarioObj.perfil_acesso,
         autorizacoes: autorizacoes,
       };
-
-      let retorno = { usuario };
-      retorno.token = token;
-      res.status(cnst.RETORNO_HTTP.HTTP_OK).json(retorno);
+      // Sign token
+      const token = gerarToken(usuario);
+      res.status(cnst.RETORNO_HTTP.HTTP_OK).json({ token: token });
     } else {
       res
         .status(cnst.RETORNO_HTTP.HTTP_NOT_ACCEPTED)
@@ -86,7 +85,6 @@ exports.loginGoogle = async (req, res) => {
       const novo = criarUsuarioGoogle(payload);
       usuario = await UsuarioService.add(UsuarioModel, novo, undefined);
     }
-    token = gerarToken(usuario.email);
     let autorizacoes = Acesso.getAutorizacoesPorPerfil(usuario.perfil_acesso);
 
     const usuarioObj = usuario.toObject();
@@ -97,10 +95,8 @@ exports.loginGoogle = async (req, res) => {
       perfil_acesso: usuarioObj.perfil_acesso,
       autorizacoes: autorizacoes,
     };
-
-    let retorno = { usuario };
-    retorno.token = token;
-    res.status(200).json(retorno);
+    token = gerarToken(usuario);
+    res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json({
       error: `Não foi possível efetuar o login pelo Google: ${error.message}`,
