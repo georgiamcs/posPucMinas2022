@@ -187,4 +187,20 @@ export abstract class GenericListarRegistrosComponent<T extends EntityModel>
       `${dataFormatada}-${titulo}`
     );
   }
+
+  getPageSizeByResolution(): number[] {
+
+    let ret: number[] = [];
+
+    if (this.isDesktopResolution()) {
+      ret = [10, 20, 50, 100];
+    } else if (this.isTabletHighResolution()) {
+      ret = [6, 15, 30, 50];
+    } else if (this.isTabletLowResolution()) {
+      ret = [3, 10, 20,];
+    } else {
+      ret = [6, 15, 30];
+    }
+    return ret;
+  }
 }

@@ -63,8 +63,13 @@ export class ListarUsuariosComponent extends GenericListarRegistrosComponent<Usu
         def: 'email',
         showMobileResolution: false,
         showTabletLowResolution: false,
+        showTabletHighResolution: false,
       },
-      { def: 'tel_celular', showMobileResolution: false },
+      {
+        def: 'tel_celular',
+        showMobileResolution: false,
+        showTabletLowResolution: false,
+      },
       { def: 'acoes' },
     ];
   }

@@ -1,4 +1,4 @@
-<div class="container centralizado">
+<div class="container">
   <vacine-mensagem-feedback [mensagens]="mensagens"></vacine-mensagem-feedback>
   <h1 class="titpage">{{ getTituloPagina() }}</h1>
   <mat-progress-bar *ngIf="!carregado" mode="indeterminate"></mat-progress-bar>
@@ -122,7 +122,7 @@
         </table>
         <mat-paginator
           class="tabpag"
-          [pageSizeOptions]="[10, 25, 50, 100]"
+          [pageSizeOptions]="getPageSizeByResolution()"
           aria-label="Selecione a página"
         ></mat-paginator>
       </div>
