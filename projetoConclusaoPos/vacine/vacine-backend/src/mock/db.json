@@ -1,188 +1,136 @@
 {
-  "usuarios": [
+  "vacinas": [
     {
-      "endereco": {
-        "logradouro": "meu endereco",
-        "numero": null,
-        "complemento": null,
-        "cep": "52060105"
-      },
-      "_id": "63e5b84e8350f6954abdd414",
-      "id": "63e5b84e8350f6954abdd414",
-      "tipo": "A",
-      "nome": "Geórgia Maria",
-      "email": "georgiamcs2@gmail.com",
-      "cpf": null,
-      "tel_celular": "55819971942",
-      "tel_fixo": null,
-      "senha": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
-      "perfis": [
-        "CAD-COMPRA",
-        "CAD-USUÁRIO",
-        "CAD-VACINACAO",
-        "SECRET"
-      ],
-      "dt_inclusao": "2023-02-10T01:30:44.993Z",
+      "id": "6400091a4390d93c928c494e",
+      "nome": "Difteria e Tétano (dT)",
+      "protecao_contra": "Difteria e Tétano",
+      "composicao": "Bactéria viva atenuada",
+      "qtd_doses_estoque": 0,
+      "vl_atual_unit_dose": 800,
+      "dt_inclusao": "2023-03-02T02:24:35.487Z",
       "__v": 0,
-      "dt_alteracao": "2023-02-11T13:23:09.162Z"
+      "dt_alteracao": "2023-03-08T02:37:28.326Z"
     },
     {
-      "endereco": {
-        "logradouro": null,
-        "numero": null,
-        "complemento": null,
-        "cep": "52060105"
-      },
-      "_id": "63e6587191c47851ecdad782",
-      "id": "63e6587191c47851ecdad782",
-      "tipo": "A",
-      "nome": "Geórgia Novo",
-      "email": "georgiamcs@gmail.com",
-      "cpf": null,
-      "tel_celular": "55819971942",
-      "tel_fixo": null,
-      "senha": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
-      "perfis": [
-        "ADMIN",
-        "CAD-COMPRA",
-        "CAD-FORNECEDOR",
-        "CAD-USUÁRIO",
-        "CAD-VACINA",
-        "CAD-VACINACAO",
-        "CLIENTE"
-      ],
-      "dt_inclusao": "2023-02-10T13:00:46.909Z",
+      "id": "640013a1a45ecb4e3c7e5689",
+      "nome": "Varicela",
+      "protecao_contra": "Varicela",
+      "composicao": "Vírus vivo atenuado tipos 1 e 3",
+      "qtd_doses_estoque": 26,
+      "vl_atual_unit_dose": 500,
+      "dt_inclusao": "2023-03-02T02:59:53.113Z",
       "__v": 0,
-      "dt_alteracao": "2023-02-11T13:23:50.459Z"
+      "dt_alteracao": "2023-03-08T01:12:55.421Z"
     },
     {
-      "endereco": {
-        "logradouro": "Av. Vital Brasil",
-        "numero": "1500",
-        "cep": "05503900"
-      },
-      "_id": "63e7f3bb83f632062209ca48",
-      "id": "63e7f3bb83f632062209ca48",
-      "tipo": "A",
-      "nome": "admin",
-      "email": "admin@gmail.com",
-      "tel_celular": "81997194253",
-      "tel_fixo": "8132695061",
-      "senha": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-      "perfis": [
-        "ADMIN"
-      ],
-      "dt_inclusao": "2023-02-11T19:50:30.692Z",
-      "__v": 0
-    }
-  ],  
-  "vacinas":
-   [
-    {
-      "_id": "63dbc4f134a23c8fb80e2b19",
-      "id": "63dbc4f134a23c8fb80e2b19",
-      "nome": "Meningogocitaa",
-      "protecao_contra": "meningited",
-      "composicao": "composicao",
-      "in_idade_recomendada": true,
-      "nr_idade_recomendada": 10,
-      "dt_inclusao": "2023-02-02T13:12:16.177Z",
-      "__v": 0,
-      "dt_alteracao": "2023-02-08T05:21:03.364Z",
-      "tp_idade_recomendada": "A"
-    },
-    {
-      "_id": "63dd9d833181df6936943a85",
-      "id": "63dd9d833181df6936943a85",
-      "nome": "BCG",
-      "protecao_contra": "catapora",
-      "composicao": "nao sei",
-      "in_idade_recomendada": true,
-      "nr_idade_recomendada": 4,
-      "dt_inclusao": "2023-02-03T23:32:21.264Z",
-      "__v": 0,
-      "dt_alteracao": "2023-02-08T06:07:40.928Z",
-      "tp_idade_recomendada": "A"
-    },
-    {
-      "_id": "63ddc61c1ce3d2ebbea25d31",
-      "id": "63ddc61c1ce3d2ebbea25d31",
-      "nome": "COVID",
-      "protecao_contra": "contra COVID",
-      "composicao": "composicao",
-      "in_idade_recomendada": true,
-      "tp_idade_recomendada": "A",
-      "nr_idade_recomendada": 1,
-      "dt_inclusao": "2023-02-04T02:32:56.652Z",
-      "__v": 0,
-      "dt_alteracao": "2023-02-04T03:37:34.207Z"
-    },
-    {
-      "_id": "63dddda66354e1ed4219effa",
-      "id": "63dddda66354e1ed4219effa",
-      "nome": "sem idade ",
-      "protecao_contra": "ada",
-      "composicao": "ad",
-      "in_idade_recomendada": true,
-      "tp_idade_recomendada": "M",
-      "nr_idade_recomendada": 3,
-      "dt_inclusao": "2023-02-04T03:35:13.377Z",
-      "__v": 0,
-      "dt_alteracao": "2023-02-08T03:08:14.198Z"
-    },
-    {
-      "_id": "63e33a174093b91d6626e09a",
-      "id": "63e33a174093b91d6626e09a",
-      "nome": "generica",
-      "protecao_contra": "generics",
-      "composicao": "composicao generica",
-      "in_idade_recomendada": true,
-      "tp_idade_recomendada": "A",
-      "nr_idade_recomendada": 43,
-      "dt_inclusao": "2023-02-08T05:19:46.683Z",
-      "__v": 0,
-      "dt_alteracao": "2023-02-09T22:37:14.012Z"
-    },
-    {
-      "nome": "COVID",
-      "protecao_contra": "NOVA protecao_contra",
-      "composicao": "NOVA composicao",
-      "in_idade_recomendada": false,
-      "tp_idade_recomendada": "A",
-      "nr_idade_recomendada": 3,
-      "id": "63e33c454093b91d6626e0bf"
-    },
-    {
-      "_id": "63e7f4c383f632062209ca61",
-      "id": "63e7f4c383f632062209ca61",
-      "nome": "Minha BCG",
-      "protecao_contra": "NOVA protecao_contra",
-      "composicao": "NOVA composicao",
-      "in_idade_recomendada": false,
-      "tp_idade_recomendada": "A",
-      "nr_idade_recomendada": 30,
-      "dt_inclusao": "2023-02-11T19:50:30.779Z",
-      "__v": 0
-    },
-    {
-      "nome": "Vacina JSON Server",
-      "protecao_contra": "NOVA protecao_contra",
-      "composicao": "NOVA composicao",
-      "in_idade_recomendada": false,
-      "tp_idade_recomendada": "A",
-      "nr_idade_recomendada": 30,
-      "id": "DHUE8Cf",
-      "_id": "DHUE8Cf"
-    },
-    {
-      "_id": "jgbB4Th",
-      "nome": "Vacina Json Server",
-      "protecao_contra": "Moquisto",
+      "id": "64028fd23ddab918837c1c61",
+      "nome": "Hepatite B recombinante (2)",
+      "protecao_contra": "Hepatite B",
       "composicao": "virus inativado",
-      "in_idade_recomendada": false,
-      "tp_idade_recomendada": null,
-      "nr_idade_recomendada": null,
-      "qtd_doses_estoque": 100
+      "qtd_doses_estoque": 16,
+      "vl_atual_unit_dose": 110.01,
+      "dt_inclusao": "2023-03-04T00:21:57.803Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-06T05:47:15.940Z"
+    },
+    {
+      "id": "6402d9607740c6d70a29909c",
+      "nome": "BCG (1)",
+      "protecao_contra": "Formas graves de tuberculose, meníngea e miliar",
+      "composicao": "Bactéria viva atenuada",
+      "qtd_doses_estoque": 11,
+      "vl_atual_unit_dose": 100.99,
+      "dt_inclusao": "2023-03-04T04:33:04.227Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T19:50:23.668Z"
+    },
+    {
+      "id": "6405858b4125ff95df7faaaa",
+      "nome": "Meningite B (9)",
+      "protecao_contra": "Meningite B",
+      "composicao": "Vírus inativado",
+      "qtd_doses_estoque": 78,
+      "vl_atual_unit_dose": 500.4,
+      "dt_inclusao": "2023-03-06T06:15:58.398Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T23:17:49.699Z"
+    },
+    {
+      "id": "640586bc4125ff95df7faaba",
+      "nome": "Gripe (4)",
+      "protecao_contra": "Gripe",
+      "composicao": "Vírus inativado",
+      "qtd_doses_estoque": 15,
+      "vl_atual_unit_dose": 500.4,
+      "dt_inclusao": "2023-03-06T06:15:58.398Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T02:43:45.116Z"
+    },
+    {
+      "id": "6406af07cc8bd7cdd8949bb6",
+      "nome": "Pneumocócica 10-valente (PCV 10) (4)",
+      "protecao_contra": "Pneumonias, Meningites, Otites,Sinusites pelos sorotipos que compõem a vacina",
+      "composicao": "Polissacarídeo capsularde 10 sorotipos pneumococos",
+      "qtd_doses_estoque": 55,
+      "vl_atual_unit_dose": 357.25,
+      "dt_inclusao": "2023-03-06T19:28:35.509Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T02:40:06.609Z"
+    },
+    {
+      "id": "64079c1589e39e719ff00c4d",
+      "nome": "Rotavírus humano G1P1 (VRH) (3)",
+      "protecao_contra": "Diarreia porRotavírus",
+      "composicao": "Vírus vivo atenuado",
+      "qtd_doses_estoque": 65,
+      "vl_atual_unit_dose": 423.54,
+      "dt_inclusao": "2023-03-07T19:46:16.778Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T01:12:54.565Z"
+    },
+    {
+      "id": "64079caa89e39e719ff00c62",
+      "nome": "Papilomavírus humano (HPV)",
+      "protecao_contra": "Papilomavírus Humano 6, 11, 16 e 18 (recombinante)",
+      "composicao": "Partícula da cápsula dovírus antígeno de superfície",
+      "qtd_doses_estoque": 20,
+      "vl_atual_unit_dose": 425.25,
+      "dt_inclusao": "2023-03-07T19:46:16.778Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T23:29:26.651Z"
+    },
+    {
+      "id": "6407a04d89e39e719ff00d71",
+      "nome": "Difteria, Tétano e Pertussis (DTP)",
+      "protecao_contra": "Toxoides diftérico e tetânico purificados e bactéria da coqueluche, inativada",
+      "composicao": "Considerar doses anteriores com penta e DTP",
+      "qtd_doses_estoque": 8,
+      "vl_atual_unit_dose": 44.24,
+      "dt_inclusao": "2023-03-07T19:46:16.778Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T01:12:55.731Z"
+    },
+    {
+      "id": "6407c0db9ea4dde46e668f90",
+      "nome": "Meningocócica C (Conjugada) (4)",
+      "protecao_contra": "Meningite meningocócica tipo C",
+      "composicao": "Polissacarídeos capsulares purificadosda Neisseria meningitidis do sorogrupo C",
+      "qtd_doses_estoque": 90,
+      "vl_atual_unit_dose": 536.35,
+      "dt_inclusao": "2023-03-07T22:45:26.912Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T23:29:27.013Z"
+    },
+    {
+      "id": "6407c7119ea4dde46e669092",
+      "nome": "Sarampo, Caxumba e Rubéola (SCR) (6)",
+      "protecao_contra": "Sarampo, Caxumba e Rubéola",
+      "composicao": "Vírus vivos atenuado",
+      "qtd_doses_estoque": 20,
+      "vl_atual_unit_dose": 435.66,
+      "dt_inclusao": "2023-03-07T22:45:26.912Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T23:27:15.460Z"
     }
   ],
   "fornecedores": [
@@ -191,76 +139,78 @@
         "logradouro": "Av. Vital Brasil",
         "numero": "1500",
         "complemento": null,
+        "cidade": "São Paulo",
+        "estado": "SP",
         "cep": "05503901"
       },
-      "_id": "63e2fe167365ff6ed62bad2b",
       "id": "63e2fe167365ff6ed62bad2b",
-      "nome": "Butata",
+      "nome": "Butantan",
       "email": "butata@gmail.com",
       "cnpj": "61821344000156",
       "tel_celular": "81997194259",
       "tel_fixo": "8132695061",
       "dt_inclusao": "2023-02-08T01:36:12.496Z",
       "__v": 0,
-      "dt_alteracao": "2023-02-09T22:37:38.790Z"
+      "dt_alteracao": "2023-02-20T21:41:22.098Z"
     },
     {
       "endereco": {
         "logradouro": "rua issac",
         "numero": "102",
         "complemento": "apto501",
+        "cidade": "Recife",
+        "estado": "PE",
         "cep": "52060105"
       },
-      "_id": "63e5040682d7d688a969ccd1",
       "id": "63e5040682d7d688a969ccd1",
-      "nome": "Geórgia Maria Carvalho De Sousa Galvão",
-      "email": "georgiamcs@gmail.com",
+      "nome": "GSK BR",
+      "email": "gsk@gmail.com",
       "cnpj": "12345678911111",
       "dt_inclusao": "2023-02-09T14:19:50.688Z",
       "__v": 0,
-      "dt_alteracao": "2023-02-09T15:29:09.604Z",
+      "dt_alteracao": "2023-02-20T21:44:26.679Z",
       "tel_celular": "55819971942",
       "tel_fixo": "5581997194"
     },
     {
       "endereco": {
-        "logradouro": "Av. Vital Brasil",
-        "numero": "1500",
-        "cep": "05503900"
+        "logradouro": "Rua do lago",
+        "numero": "1",
+        "complemento": "abcde",
+        "cidade": "Recife",
+        "estado": "PE",
+        "cep": "52060105"
       },
-      "_id": "63e7de0d4f30e09b5a0ff5d3",
-      "id": "63e7de0d4f30e09b5a0ff5d3",
-      "nome": "Novissima Pfizer",
-      "email": "Pfizer@gmail.com",
-      "cnpj": "61821344000156",
-      "tel_celular": "81997194253",
-      "tel_fixo": "8132695061",
-      "dt_inclusao": "2023-02-11T18:27:15.512Z",
-      "__v": 0
+      "id": "63e58562ea86251c4e43be6e",
+      "nome": "Prescrita",
+      "email": "prescrita@m.com",
+      "cnpj": "31432534647685",
+      "tel_celular": "55819971942",
+      "tel_fixo": null,
+      "dt_inclusao": "2023-02-09T22:42:24.559Z",
+      "__v": 0,
+      "dt_alteracao": "2023-02-17T02:00:07.244Z"
     },
     {
       "endereco": {
-        "logradouro": "Av. Vital Brasil - Novo",
-        "numero": "1500 novo",
-        "cep": "95503900",
-        "complemento": "sala A"
+        "logradouro": "Av. Vital Brasil",
+        "numero": "1500",
+        "complemento": null,
+        "cidade": "Garanhuns",
+        "estado": "PE",
+        "cep": "52060105"
       },
-      "_id": "63e7e375b5174e45a4461972",
-      "id": "63e7e375b5174e45a4461972",
-      "nome": "Butata Novo Demais",
-      "email": "butata_novo@gmail.com",
-      "cnpj": "91821344000156",
-      "tel_celular": "83997194253",
-      "tel_fixo": "8332695061",
-      "dt_inclusao": "2023-02-11T18:50:03.875Z",
+      "id": "63e7de0d4f30e09b5a0ff5d3",
+      "nome": "Pfizer",
+      "email": "pfizer@gmail.com.br",
+      "cnpj": "61821344000156",
+      "tel_celular": "55819971942",
+      "tel_fixo": "8132695061",
+      "dt_inclusao": "2023-02-11T18:27:15.512Z",
       "__v": 0,
-      "dt_alteracao": "2023-02-11T19:20:13.768Z"
+      "dt_alteracao": "2023-03-02T03:19:38.113Z"
     },
     {
-      "_id": "J4lzoEB",
-      "cnpj": "31432534647685",
-      "nome": "Fornecedor Json Server",
-      "email": "georgiamcs@gmail.com",
       "endereco": {
         "logradouro": "rua issac",
         "numero": "102",
@@ -269,8 +219,846 @@
         "estado": "AP",
         "cep": "52060105"
       },
+      "id": "640015f957c20031b01c0931",
+      "nome": "Revenda Vacinas",
+      "email": "reg@gmail.com",
+      "cnpj": "31432534647686",
+      "tel_celular": "55819971942",
       "tel_fixo": null,
-      "tel_celular": "55819971942"
+      "dt_inclusao": "2023-03-02T03:19:34.321Z",
+      "__v": 0
+    },
+    {
+      "endereco": {
+        "logradouro": "Rua dos fornecedores",
+        "numero": "174",
+        "complemento": "Sala 405",
+        "cidade": "Perdizes",
+        "estado": "CE",
+        "cep": "78461616"
+      },
+      "id": "64067afecc8bd7cdd8949ac3",
+      "nome": "Experience",
+      "email": "experience@mail.com",
+      "cnpj": "74432534647688",
+      "tel_celular": "85987431543",
+      "tel_fixo": "7856494313",
+      "dt_inclusao": "2023-03-06T19:28:35.491Z",
+      "__v": 0
+    },
+    {
+      "endereco": {
+        "logradouro": "Rua dos ricos",
+        "numero": "345",
+        "complemento": null,
+        "cidade": "Natal",
+        "estado": "RN",
+        "cep": "54131154"
+      },
+      "id": "64067d7ccc8bd7cdd8949acd",
+      "nome": "Vacinar",
+      "email": "vendas@vacinar.com",
+      "cnpj": "11111111111111",
+      "tel_celular": "84759070975",
+      "tel_fixo": "",
+      "dt_inclusao": "2023-03-06T19:28:35.491Z",
+      "__v": 0
+    }
+  ],
+  "usuarios": [
+    {
+      "endereco": {
+        "logradouro": "Rua dos usuários",
+        "numero": "S/N",
+        "complemento": "Apto 501"
+      },
+      "id": "63fff97668d074e98440447a",
+      "tipo": "A",
+      "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+      "email": "georgiamcs@gmail.com",
+      "perfil_acesso": "ADMINISTRADOR",
+      "dt_inclusao": "2023-03-02T01:18:35.347Z",
+      "__v": 0,
+      "cpf": "12345678911",
+      "data_nascimento": "2022-01-01T03:00:00.000Z",
+      "dt_alteracao": "2023-03-06T02:20:11.972Z",
+      "tel_celular": "81999194259",
+      "tel_fixo": "8133695461"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "63ffff729ea89d7f82b756d8",
+      "tipo": "L",
+      "nome": "Analista de Compras Esperto",
+      "email": "compras@gmail.com",
+      "cpf": null,
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "ANALISTA_COMPRA",
+      "dt_inclusao": "2023-03-02T01:44:14.435Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T03:16:25.973Z"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "63ffffb29ea89d7f82b756dc",
+      "tipo": "C",
+      "nome": "Cliente Medroso",
+      "email": "cliente@gmail.com",
+      "cpf": null,
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "CLIENTE",
+      "dt_inclusao": "2023-03-02T01:44:14.435Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T03:14:22.095Z"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "63ffffe79ea89d7f82b756e4",
+      "tipo": "T",
+      "nome": "Enfermeiro Bonzinho",
+      "email": "enfermeiro@gmail.com",
+      "cpf": null,
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "TECNICO_ENFERMAGEM",
+      "dt_inclusao": "2023-03-02T01:44:14.435Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T03:14:45.884Z"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "640000229ea89d7f82b756ec",
+      "tipo": "S",
+      "nome": "Secretária Organizada",
+      "email": "secretaria@gmail.com",
+      "cpf": "45879612132",
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "SECRETARIA",
+      "dt_inclusao": "2023-03-02T01:44:14.435Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T03:15:35.553Z"
+    },
+    {
+      "tipo": "A",
+      "nome": "Administrador Arretado MOCKADO",
+      "email": "admin@gmail.com",
+      "senha": "admin@gmail.com",
+      "id": "64020ce1b29f10d4f145c385"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "640236dbb29f10d4f145c564",
+      "tipo": "A",
+      "nome": "Adriano Sabido",
+      "email": "sabido@gmail.com",
+      "cpf": null,
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "ADMINISTRADOR",
+      "dt_inclusao": "2023-03-02T12:10:56.911Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T15:30:22.852Z"
+    },
+    {
+      "endereco": {
+        "logradouro": "Rua dos usuários",
+        "numero": "S/N",
+        "complemento": "Apto 501",
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "64055561658924951b54d807",
+      "tipo": "S",
+      "nome": "Nova secretária",
+      "email": "secreta@gmail.com",
+      "cpf": "12345678911",
+      "data_nascimento": "2022-01-01T03:00:00.000Z",
+      "tel_celular": "83999194259",
+      "tel_fixo": "8133695461",
+      "perfil_acesso": "SECRETARIA",
+      "dt_inclusao": "2023-03-06T02:43:29.711Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-06T23:26:23.984Z"
+    },
+    {
+      "id": "64056ee1f4f80f8981635079",
+      "tipo": "C",
+      "nome": "Novo Cliente Swagger",
+      "email": "swaggernovo@gmail.com",
+      "perfil_acesso": "CLIENTE",
+      "dt_inclusao": "2023-03-06T04:40:33.073Z",
+      "__v": 0
+    },
+    {
+      "endereco": {
+        "logradouro": "Rua dos clientes",
+        "numero": "102",
+        "complemento": "Apto 304",
+        "cidade": "Recife",
+        "estado": "PE",
+        "cep": "52069105"
+      },
+      "id": "64060fb1de27dbe639d56e30",
+      "tipo": "C",
+      "nome": "Cliente registrado autonomamente",
+      "email": "auto@gmail.com",
+      "cpf": "12345678910",
+      "data_nascimento": "1980-03-01T03:00:00.000Z",
+      "tel_celular": "81997194999",
+      "tel_fixo": "8132695598",
+      "perfil_acesso": "CLIENTE",
+      "dt_inclusao": "2023-03-06T15:37:57.216Z",
+      "__v": 0
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "64061312de27dbe639d56e3d",
+      "tipo": "C",
+      "nome": "Cliente autônomo só campos obrigatórios",
+      "email": "auto2@gmail.com",
+      "cpf": null,
+      "data_nascimento": "1989-04-05T03:00:00.000Z",
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "CLIENTE",
+      "dt_inclusao": "2023-03-06T15:37:57.216Z",
+      "__v": 0
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "64074e4b48268199673d9cd1",
+      "tipo": "C",
+      "nome": "Cliente Amigo",
+      "email": "ada@email.com",
+      "cpf": "12345678910",
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "CLIENTE",
+      "dt_inclusao": "2023-03-07T14:46:30.269Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T15:31:32.796Z"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": "Recife",
+        "estado": null,
+        "cep": "52060105"
+      },
+      "id": "6407582648268199673d9d82",
+      "tipo": "T",
+      "nome": "Enfermeiro Bravo",
+      "email": "bravo@gmail.com",
+      "cpf": "44962631215",
+      "data_nascimento": null,
+      "tel_celular": "81995194898",
+      "tel_fixo": null,
+      "perfil_acesso": "TECNICO_ENFERMAGEM",
+      "dt_inclusao": "2023-03-07T14:46:30.269Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T15:29:22.672Z"
+    },
+    {
+      "endereco": {
+        "logradouro": null,
+        "numero": null,
+        "complemento": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null
+      },
+      "id": "6407588048268199673d9d9b",
+      "tipo": "T",
+      "nome": "Enfermeiro Chato",
+      "email": "chato@gmail.com",
+      "cpf": "88888888888",
+      "data_nascimento": null,
+      "tel_celular": null,
+      "tel_fixo": null,
+      "perfil_acesso": "TECNICO_ENFERMAGEM",
+      "dt_inclusao": "2023-03-07T14:46:30.269Z",
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T15:31:41.597Z"
+    },
+    {
+      "tipo": "A",
+      "nome": "USUARIO INSERIDO PELO SWAGGER",
+      "email": "swagger@gmail.com",
+      "senha": "123456",
+      "id": "fEBlJsA"
+    }
+  ],
+  "vacinacoes": [
+    {
+      "usuario_resp_cadastro": {
+        "id": "63fff97668d074e98440447a",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "cpf": "12345678911"
+      },
+      "usuario_cliente": {
+        "id": "64074e4b48268199673d9cd1",
+        "nome": "Cliente Amigo",
+        "cpf": "12345678910"
+      },
+      "usuario_aplicador_vacina": {
+        "id": "63ffffe79ea89d7f82b756e4",
+        "nome": "Enfermeiro Bonzinho",
+        "cpf": null
+      },
+      "id": "640575d38babacef4935886a",
+      "codigo": "V123",
+      "data_aplicacao": "2023-03-08T03:00:00.000Z",
+      "vl_total": 800,
+      "dt_inclusao": "2023-03-06T04:41:18.237Z",
+      "itens_vacinacao": [
+        {
+          "vacina": {
+            "id": "6400091a4390d93c928c494e",
+            "nome": "Difteria e Tétano (dT)",
+            "protecao_contra": "Difteria e Tétano"
+          },
+          "lote": "5",
+          "data_validade": "2023-03-14T03:00:00.000Z",
+          "qtd_doses": 1,
+          "vl_item": 800,
+          "id": "640575d38babacef4935886b"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T20:13:08.052Z"
+    },
+    {
+      "usuario_resp_cadastro": {
+        "id": "63fff97668d074e98440447a",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "cpf": "12345678911"
+      },
+      "usuario_cliente": {
+        "id": "63fff97668d074e98440447a",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "cpf": "12345678911"
+      },
+      "usuario_aplicador_vacina": {
+        "id": "6407588048268199673d9d9b",
+        "nome": "Enfermeiro Chato",
+        "cpf": "88888888888"
+      },
+      "id": "64057d128babacef49358909",
+      "codigo": "V4578",
+      "data_aplicacao": "2021-12-06T03:00:00.000Z",
+      "vl_total": 100,
+      "dt_inclusao": "2023-03-06T04:41:18.237Z",
+      "itens_vacinacao": [
+        {
+          "vacina": {
+            "id": "6400091a4390d93c928c494e",
+            "nome": "Difteria e Tétano (dT)",
+            "protecao_contra": "Difteria e Tétano"
+          },
+          "lote": "L2365",
+          "data_validade": "2023-03-06T05:40:52.173Z",
+          "qtd_doses": 1,
+          "vl_item": 100,
+          "id": "64057d128babacef4935890a"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T01:47:25.717Z"
+    },
+    {
+      "usuario_resp_cadastro": {
+        "id": "63fff97668d074e98440447a",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "cpf": "12345678911"
+      },
+      "usuario_cliente": {
+        "id": "64056ee1f4f80f8981635079",
+        "nome": "Novo Cliente Swagger"
+      },
+      "usuario_aplicador_vacina": {
+        "id": "6407588048268199673d9d9b",
+        "nome": "Enfermeiro Chato",
+        "cpf": "88888888888"
+      },
+      "id": "64057d868babacef49358932",
+      "codigo": "V23452",
+      "data_aplicacao": "2023-03-06T05:40:52.173Z",
+      "vl_total": 100,
+      "dt_inclusao": "2023-03-06T04:41:18.237Z",
+      "itens_vacinacao": [
+        {
+          "vacina": {
+            "id": "6400091a4390d93c928c494e",
+            "nome": "Difteria e Tétano (dT)",
+            "protecao_contra": "Difteria e Tétano"
+          },
+          "lote": "L2365",
+          "data_validade": "2023-03-06T05:40:52.173Z",
+          "qtd_doses": 1,
+          "vl_item": 100,
+          "id": "64057d868babacef49358933"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T20:13:20.107Z"
+    },
+    {
+      "usuario_resp_cadastro": {
+        "id": "63fff97668d074e98440447a",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "cpf": "12345678911"
+      },
+      "usuario_cliente": {
+        "id": "63ffffb29ea89d7f82b756dc",
+        "nome": "Cliente Medroso",
+        "cpf": null
+      },
+      "usuario_aplicador_vacina": {
+        "id": "6407582648268199673d9d82",
+        "nome": "Enfermeiro Bravo",
+        "cpf": "44962631215"
+      },
+      "id": "64075b1848268199673d9e07",
+      "codigo": "V123456",
+      "data_aplicacao": "2021-01-01T03:00:00.000Z",
+      "vl_total": 357.25,
+      "dt_inclusao": "2023-03-07T14:46:30.335Z",
+      "itens_vacinacao": [
+        {
+          "vacina": {
+            "id": "6406af07cc8bd7cdd8949bb6",
+            "nome": "Pneumocócica 10-valente (PCV 10) (4)",
+            "protecao_contra": "Pneumonias, Meningites, Otites,Sinusites pelos sorotipos que compõem a vacina"
+          },
+          "lote": "L2345",
+          "data_validade": "2023-03-09T03:00:00.000Z",
+          "qtd_doses": 1,
+          "vl_item": 357.25,
+          "id": "64075b1848268199673d9e08"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T20:15:52.188Z"
+    },
+    {
+      "usuario_resp_cadastro": {
+        "id": "63fff97668d074e98440447a",
+        "nome": "Geórgia Maria Carvalho de Sousa Galvão",
+        "cpf": "12345678911"
+      },
+      "usuario_cliente": {
+        "id": "64020ce1b29f10d4f145c385",
+        "nome": "Administrador Arretado",
+        "cpf": null
+      },
+      "usuario_aplicador_vacina": {
+        "id": "63ffffe79ea89d7f82b756e4",
+        "nome": "Enfermeiro Bonzinho",
+        "cpf": null
+      },
+      "id": "64079ffd89e39e719ff00d50",
+      "codigo": "V4574",
+      "data_aplicacao": "2022-12-01T03:00:00.000Z",
+      "vl_total": 544.24,
+      "dt_inclusao": "2023-03-07T19:46:16.783Z",
+      "itens_vacinacao": [
+        {
+          "vacina": {
+            "id": "640013a1a45ecb4e3c7e5689",
+            "nome": "Varicela",
+            "protecao_contra": "Varicela"
+          },
+          "lote": "456",
+          "data_validade": "2023-05-12T03:00:00.000Z",
+          "qtd_doses": 1,
+          "vl_item": 500,
+          "id": "64079ffd89e39e719ff00d52"
+        },
+        {
+          "vacina": {
+            "id": "6407a04d89e39e719ff00d71",
+            "nome": "Difteria, Tétano e Pertussis (DTP)",
+            "protecao_contra": "Toxoides diftérico e tetânico purificados e bactéria da coqueluche, inativada"
+          },
+          "lote": "3534r",
+          "data_validade": "2023-05-18T03:00:00.000Z",
+          "qtd_doses": 1,
+          "vl_item": 44.24,
+          "id": "6407a0dd89e39e719ff00da4"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T01:12:54.330Z"
+    }
+  ],
+  "descarte-vacinas": [
+    {
+      "usuario_resp_descarte": {
+        "id": "63ffffe79ea89d7f82b756e4",
+        "nome": "Enfermeiro Bonzinho",
+        "cpf": null
+      },
+      "id": "64028fa43ddab918837c1c46",
+      "codigo": "D13",
+      "data_descarte": "2023-03-07T03:00:00.000Z",
+      "motivo_descarte": "F",
+      "justificativa_descarte": "acza",
+      "local_descarte": "Lixo reciclável",
+      "dt_inclusao": "2023-03-04T00:21:57.785Z",
+      "itens_descarte": [
+        {
+          "vacina": {
+            "id": "640013a1a45ecb4e3c7e5689",
+            "nome": "Varicela",
+            "protecao_contra": "Varicela"
+          },
+          "lote": "1",
+          "qtd_doses_descarte": 1,
+          "id": "64028fa43ddab918837c1c47"
+        },
+        {
+          "vacina": {
+            "id": "6400091a4390d93c928c494e",
+            "nome": "Difteria e Tétano (dT)",
+            "protecao_contra": "Difteria e Tétano"
+          },
+          "lote": "123",
+          "qtd_doses_descarte": 10,
+          "id": "64029ae73ddab918837c1cde"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T18:04:37.735Z"
+    },
+    {
+      "usuario_resp_descarte": {
+        "id": "640236dbb29f10d4f145c564",
+        "nome": "Adriano Sabido",
+        "cpf": null
+      },
+      "id": "64029abb3ddab918837c1cb0",
+      "codigo": "D123",
+      "data_descarte": "2023-03-30T03:00:00.000Z",
+      "motivo_descarte": "R",
+      "justificativa_descarte": "Paciente estava com medo",
+      "local_descarte": "Sala de vacina",
+      "dt_inclusao": "2023-03-04T00:21:57.785Z",
+      "itens_descarte": [
+        {
+          "vacina": {
+            "id": "640013a1a45ecb4e3c7e5689",
+            "nome": "Varicela",
+            "protecao_contra": "Varicela"
+          },
+          "lote": "1",
+          "qtd_doses_descarte": 20,
+          "id": "64029abb3ddab918837c1cb1"
+        },
+        {
+          "vacina": {
+            "id": "640013a1a45ecb4e3c7e5689",
+            "nome": "Varicela",
+            "protecao_contra": "Varicela"
+          },
+          "lote": "2",
+          "qtd_doses_descarte": 5,
+          "id": "64029abb3ddab918837c1cb2"
+        },
+        {
+          "vacina": {
+            "id": "64028fd23ddab918837c1c61",
+            "nome": "Hepatite B recombinante (2)",
+            "protecao_contra": "Hepatite B"
+          },
+          "lote": "12",
+          "qtd_doses_descarte": 4,
+          "id": "64029abb3ddab918837c1cb3"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-08T01:49:00.389Z"
+    },
+    {
+      "usuario_resp_descarte": {
+        "id": "640000229ea89d7f82b756ec",
+        "nome": "Secretária Organizada",
+        "cpf": null
+      },
+      "id": "64029d6a3ddab918837c1d07",
+      "codigo": "D25",
+      "data_descarte": "2023-05-18T03:00:00.000Z",
+      "motivo_descarte": "E",
+      "justificativa_descarte": "Prazo de validade ",
+      "local_descarte": "Lixo reciclável",
+      "dt_inclusao": "2023-03-04T00:21:57.785Z",
+      "itens_descarte": [
+        {
+          "vacina": {
+            "id": "640013a1a45ecb4e3c7e5689",
+            "nome": "Varicela",
+            "protecao_contra": "Varicela"
+          },
+          "lote": "45",
+          "qtd_doses_descarte": 60,
+          "id": "64029d6a3ddab918837c1d08"
+        }
+      ],
+      "__v": 0
+    },
+    {
+      "usuario_resp_descarte": {
+        "id": "6407588048268199673d9d9b",
+        "nome": "Enfermeiro Chato",
+        "cpf": "88888888888"
+      },
+      "id": "6407c1c39ea4dde46e668fbf",
+      "codigo": "D7564",
+      "data_descarte": "2022-03-10T03:00:00.000Z",
+      "motivo_descarte": "D",
+      "justificativa_descarte": "Foi utilizada maior quantidade do que a devida ",
+      "local_descarte": "Lixo hospitalar da clínica",
+      "dt_inclusao": "2023-03-07T22:45:26.920Z",
+      "itens_descarte": [
+        {
+          "vacina": {
+            "id": "6405858b4125ff95df7faaaa",
+            "nome": "Meningite B (9)",
+            "protecao_contra": "Meningite B"
+          },
+          "lote": "K453r5",
+          "qtd_doses_descarte": 2,
+          "id": "6407c1c39ea4dde46e668fc1"
+        },
+        {
+          "vacina": {
+            "id": "640586bc4125ff95df7faaba",
+            "nome": "Gripe (4)",
+            "protecao_contra": "Gripe"
+          },
+          "lote": "12",
+          "qtd_doses_descarte": 10,
+          "id": "6407c61d9ea4dde46e669067"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T23:17:49.046Z"
+    }
+  ],
+  "compras_vacinas": [
+    {
+      "fornecedor": {
+        "id": "63e7de0d4f30e09b5a0ff5d3",
+        "nome": "Pfizer",
+        "cnpj": "Invalid Date"
+      },
+      "id": "6400170c57c20031b01c09c0",
+      "nota_fiscal": "NF123",
+      "data_compra": "2023-03-15T03:00:00.000Z",
+      "vl_total_compra": 2859.79,
+      "dt_inclusao": "2023-03-02T03:19:34.324Z",
+      "itens_compra": [
+        {
+          "vacina": {
+            "id": "6400091a4390d93c928c494e",
+            "nome": "Difteria e Tétano (dT)",
+            "protecao_contra": "Difteria e Tétano"
+          },
+          "lote": "a",
+          "qtd_frascos": 1,
+          "qtd_doses": 2,
+          "data_validade": "2023-03-05T03:00:00.000Z",
+          "vl_total_item_compra": 213.33,
+          "id": "6400170c57c20031b01c09c1"
+        },
+        {
+          "vacina": {
+            "id": "64028fd23ddab918837c1c61",
+            "nome": "Hepatite B recombinante (2)",
+            "protecao_contra": "Hepatite B"
+          },
+          "lote": "1",
+          "qtd_frascos": 1,
+          "qtd_doses": 10,
+          "data_validade": "2023-03-20T03:00:00.000Z",
+          "vl_total_item_compra": 2646.46,
+          "id": "64028ff53ddab918837c1c78"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T20:21:23.380Z"
+    },
+    {
+      "fornecedor": {
+        "id": "63e5040682d7d688a969ccd1",
+        "nome": "GSK BR",
+        "cnpj": "Invalid Date"
+      },
+      "id": "64076a9848268199673d9e90",
+      "nota_fiscal": "NF999",
+      "data_compra": "2021-05-05T03:00:00.000Z",
+      "vl_total_compra": 914.64,
+      "dt_inclusao": "2023-03-07T14:46:30.319Z",
+      "itens_compra": [
+        {
+          "vacina": {
+            "id": "640013a1a45ecb4e3c7e5689",
+            "nome": "Varicela",
+            "protecao_contra": "Varicela"
+          },
+          "lote": "5",
+          "qtd_frascos": 1,
+          "qtd_doses": 12,
+          "data_validade": "2023-03-14T03:00:00.000Z",
+          "vl_total_item_compra": 664.64,
+          "id": "64076a9848268199673d9e91"
+        },
+        {
+          "vacina": {
+            "id": "640586bc4125ff95df7faaba",
+            "nome": "Gripe (4)",
+            "protecao_contra": "Gripe"
+          },
+          "lote": "45",
+          "qtd_frascos": 5,
+          "qtd_doses": 5,
+          "data_validade": "2023-12-31T03:00:00.000Z",
+          "vl_total_item_compra": 250,
+          "id": "64076a9848268199673d9e92"
+        }
+      ],
+      "__v": 0
+    },
+    {
+      "fornecedor": {
+        "id": "640015f957c20031b01c0931",
+        "nome": "Revenda Vacinas",
+        "cnpj": "Invalid Date"
+      },
+      "id": "64079d5589e39e719ff00c95",
+      "nota_fiscal": "NF5335",
+      "data_compra": "2021-03-01T03:00:00.000Z",
+      "vl_total_compra": 4364.53,
+      "dt_inclusao": "2023-03-07T19:46:16.759Z",
+      "itens_compra": [
+        {
+          "vacina": {
+            "id": "64079c1589e39e719ff00c4d",
+            "nome": "Rotavírus humano G1P1 (VRH) (3)",
+            "protecao_contra": "Diarreia porRotavírus"
+          },
+          "lote": "6",
+          "qtd_frascos": 2,
+          "qtd_doses": 20,
+          "data_validade": "2023-03-31T03:00:00.000Z",
+          "vl_total_item_compra": 4364.53,
+          "id": "64079d5589e39e719ff00c97"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T20:26:50.432Z"
+    },
+    {
+      "fornecedor": {
+        "id": "63e7de0d4f30e09b5a0ff5d3",
+        "nome": "Pfizer",
+        "cnpj": "Invalid Date"
+      },
+      "id": "6407c7939ea4dde46e6690a6",
+      "nota_fiscal": "NF 3564",
+      "data_compra": "2022-07-01T03:00:00.000Z",
+      "vl_total_compra": 10907.810000000001,
+      "dt_inclusao": "2023-03-07T22:45:26.901Z",
+      "itens_compra": [
+        {
+          "vacina": {
+            "id": "64079caa89e39e719ff00c62",
+            "nome": "Papilomavírus humano (HPV)",
+            "protecao_contra": "Papilomavírus Humano 6, 11, 16 e 18 (recombinante)"
+          },
+          "lote": "1",
+          "qtd_frascos": 1,
+          "qtd_doses": 20,
+          "data_validade": "2023-03-30T03:00:00.000Z",
+          "vl_total_item_compra": 5353.25,
+          "id": "6407c7939ea4dde46e6690a8"
+        },
+        {
+          "vacina": {
+            "id": "6407c0db9ea4dde46e668f90",
+            "nome": "Meningocócica C (Conjugada) (4)",
+            "protecao_contra": "Meningite meningocócica tipo C"
+          },
+          "lote": "6",
+          "qtd_frascos": 4,
+          "qtd_doses": 50,
+          "data_validade": "2023-03-21T03:00:00.000Z",
+          "vl_total_item_compra": 5554.56,
+          "id": "6407c8d59ea4dde46e6690f6"
+        }
+      ],
+      "__v": 0,
+      "dt_alteracao": "2023-03-07T23:29:25.838Z"
     }
   ]
 }

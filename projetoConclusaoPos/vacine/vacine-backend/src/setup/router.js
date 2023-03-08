@@ -12,6 +12,7 @@ module.exports = {
 
     const createCrudRouter = require("../routers/create-generic-crud-router.util");
 
+    const jsonServerRouter = require("../routers/mock.router");
     const loginRouter = require("../routers/autenticacao.router");
     const clienteRouter = require("../routers/cliente.router");
     const vacinaRouter = require("../routers/vacina.router");
@@ -23,7 +24,8 @@ module.exports = {
       DescarteVacinaController,
       true
     );
-
+    
+    app.use("/mock/api", jsonServerRouter);
     app.use("/api/autenticacao", loginRouter);
     app.use("/api/vacinas", vacinaRouter);
     app.use("/api/fornecedores", fornecedorRouter);

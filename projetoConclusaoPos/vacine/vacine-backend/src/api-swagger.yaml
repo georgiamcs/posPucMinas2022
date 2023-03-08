@@ -41,7 +41,7 @@ servers:
     description: API Desenvolvimento
 tags:
   - name: Autorização
-    description: API relativa a autorização de acesso a API
+    description: API relativa a autorização de acesso a API (Não funciona com o servidor API Mock)
   - name: Clientes
     description: API relativa a serviços para usuários do tipo clientes
   - name: Usuários
