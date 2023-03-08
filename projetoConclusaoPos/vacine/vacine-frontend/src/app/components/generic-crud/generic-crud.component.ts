@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -32,9 +32,9 @@ import { TipoOrigemRota } from './../../shared/enums/tipo-rota.enum';
   templateUrl: './generic-crud.component.html',
   styleUrls: ['./generic-crud.component.scss'],
 })
-export abstract class GenericCrudComponent<
-  T extends EntityModel
-> extends GenericPageFormComponent {
+export abstract class GenericCrudComponent<T extends EntityModel>
+  extends GenericPageFormComponent
+{
   protected readonly ROTULO_BOTAO_ACEITAR = 'Sim';
   protected readonly ROTULO_BOTAO_REJEITAR = 'Não';
 
@@ -70,6 +70,7 @@ export abstract class GenericCrudComponent<
     this.carregarDadosId();
     this.definirHabilitacaoFormulario();
   }
+
   protected abstract definirIdentificadoresEntidade(): void;
 
   protected verificarAcessoModoFormulario() {
@@ -229,23 +230,27 @@ export abstract class GenericCrudComponent<
   }
 
   protected excluirRegistro(id: string) {
-    this.subscriptions.push(this.service.delete(id).subscribe({
-      next: () => {
-        const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
-          this.nomeCampoFormIdentificaEntidade
-        );
-        this.carregarRegistros(msgFeedback);
-      },
-      error: (erro) => {
-        const textoErro = !!erro.error?.error ? erro.error.error : erro.message;
-        const msgErro = `Erro ao excluir registro => ${textoErro}`;
-        const msgFeedbackErro = new MensagemFeedback(
-          TipoMensagemFeedback.ERRO,
-          msgErro
-        );
-        this.addMensagem(msgFeedbackErro);
-      },
-    }));
+    this.subscriptions.push(
+      this.service.delete(id).subscribe({
+        next: () => {
+          const msgFeedback = this.getMsgFeedBackExcluidoSucesso(
+            this.nomeCampoFormIdentificaEntidade
+          );
+          this.carregarRegistros(msgFeedback);
+        },
+        error: (erro) => {
+          const textoErro = !!erro.error?.error
+            ? erro.error.error
+            : erro.message;
+          const msgErro = `Erro ao excluir registro => ${textoErro}`;
+          const msgFeedbackErro = new MensagemFeedback(
+            TipoMensagemFeedback.ERRO,
+            msgErro
+          );
+          this.addMensagem(msgFeedbackErro);
+        },
+      })
+    );
   }
 
   protected confirmarExclusaoRegistro(registro: EntityModel) {
@@ -254,17 +259,19 @@ export abstract class GenericCrudComponent<
       this.getDataConfirmaExclusaoModal(this.nomeCampoFormIdentificaEntidade)
     );
 
-    this.subscriptions.push(modalRef.afterClosed().subscribe({
-      next: (result) => {
-        if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
-          this.excluirRegistro(registro._id);
-        }
-      },
-      error: (erro) =>
-        this.tratarErro(
-          `Erro ao fechar janela de confirmação de exclusão => ${erro}`
-        ),
-    }));
+    this.subscriptions.push(
+      modalRef.afterClosed().subscribe({
+        next: (result) => {
+          if (result == this.ROTULO_BOTAO_ACEITAR && registro._id) {
+            this.excluirRegistro(registro._id);
+          }
+        },
+        error: (erro) =>
+          this.tratarErro(
+            `Erro ao fechar janela de confirmação de exclusão => ${erro}`
+          ),
+      })
+    );
   }
 
   protected salvar() {
@@ -301,6 +308,7 @@ export abstract class GenericCrudComponent<
   }
 
   protected fechar() {
+    this.dialogoConf.closeAll();
     if (this.modoFormulario == ModoFormulario.REGISTRAR) {
       this.irParaPagina('/login');
     } else if (this.origemRotaNavegacao == TipoOrigemRota.LISTAGEM) {
